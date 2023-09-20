@@ -27,19 +27,19 @@ NOTE: up to the time of writing this mod does not warrantee any type of compatib
 - To use Polycosmos execute the HadesClient.py in your Archipelago folder. If everything is working correctly this should open a window to search for your Hades base folder (the standard steam path C:\Program Files (x86)\Steam\steamapps\common\Hades ). Select that folder and this should open Hades, the Archipelago client plus a command terminal. This terminal is communicate Hades and the Client, SO DO NOT CLOSE IT!
 - Connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
 
-#Credits
+# Credits
 
 Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior.
 
 The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, DoesBoKnow for proposing this for the multiworld and providing a ton of resources and Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable).
 
-#Bugs 
+# Bugs 
 
 A known issue is that some changes in heat level only take effect when starting the next room, biome or run starts. That is how Hades work and not much we can do about that.
 
 Any other bug is not expected and reporting helps a ton :).
 
-#Incoming features
+# Incoming features
 
 This is a list of features that are planned for this mod.
 
@@ -48,7 +48,7 @@ This is a list of features that are planned for this mod.
 -Choose how many runs victories are required to beat the mod.
 -Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
-#How this mod works
+# How this mod works
 
 There might be the case in which you want to collaborate to improve this multiworld or want to adapt this to bring other game to Archipelago.
 If that is the case; great! You can always put in contact with me at my discord. In any case, here is a broad overview of how this mod is set up.
