@@ -44,8 +44,11 @@ Any other bug is not expected and reporting helps a ton :).
 This is a list of features that are planned for this mod.
 
 -Make choosing a particular boon a check. Swap Boon traits into the item pool and allow a menu that gives them to the player. (Similar to CodexMenu mod)
+
 -Choose starting weapon and make other unlockable
+
 -Choose how many runs victories are required to beat the mod.
+
 -Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
 # How this mod works
