@@ -22,7 +22,7 @@ Locations:
 
 NOTE: up to the time of writing this mod does not warrantee any type of compatibility with other Hades mods.
 
-#How to use Polycosmos
+# How to use Polycosmos
 
 - To use Polycosmos execute the HadesClient.py in your Archipelago folder. If everything is working correctly this should open a window to search for your Hades base folder (the standard steam path C:\Program Files (x86)\Steam\steamapps\common\Hades ). Select that folder and this should open Hades, the Archipelago client plus a command terminal. This terminal is communicate Hades and the Client, SO DO NOT CLOSE IT!
 - Connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
@@ -43,13 +43,13 @@ Any other bug is not expected and reporting helps a ton :).
 
 This is a list of features that are planned for this mod.
 
--Make choosing a particular boon a check. Swap Boon traits into the item pool and allow a menu that gives them to the player. (Similar to CodexMenu mod)
+- Make choosing a particular boon a check. Swap Boon traits into the item pool and allow a menu that gives them to the player. (Similar to CodexMenu mod)
 
--Choose starting weapon and make other unlockable
+- Choose starting weapon and make other unlockable
 
--Choose how many runs victories are required to beat the mod.
+- Choose how many runs victories are required to beat the mod.
 
--Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
+- Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
 # How this mod works
 
