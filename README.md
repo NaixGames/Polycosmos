@@ -13,7 +13,7 @@ Locations:
 - Rooms: Beating any room counts as a location for the AP.
 
 # Requirements
-- Have Hades installed (duh!) and [ModImporter] (https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2), put modimporter.exe in your Hades/Content folder.
+- Have Hades installed (duh!) and [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2), put modimporter.exe in your Hades/Content folder.
 - Have [ModUtils](https://github.com/SGG-Modding/ModUtil) and [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed. Make sure this works in your computer (by executing SubsumeHades.py in Hades content folder). (To install ModUtils put the contents on Hades/Content/Mods/ModsUtils and open modimporter.exe. For StyxScribe follow the instructions in the repo). 
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository (put the Polycosmos folder in Content/Mods folder and open modimporter.exe).
 - On your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago), copy HadesClient.py on the base folder (where all the clients are) and copy the hades folder in the worlds folder. After doing this you should be able to generate a local multiword with Hades! To start you can use the template yaml in the hades world folder.
