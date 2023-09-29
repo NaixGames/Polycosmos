@@ -47,7 +47,7 @@ class HadesWorld(World):
                 pool.append(item)
 
         #Fill filler items (idkw this is not happening automatically)
-        for amount in range(1, len(self.location_name_to_id)-len(pool)):
+        for amount in range(0, len(self.location_name_to_id)-len(pool)):
             item = HadesItem(self.get_filler_item_name(), self.player)
             pool.append(item)
         
