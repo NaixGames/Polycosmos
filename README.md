@@ -1,8 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.0.0 
-
-and up to this version it posses the feature detailed below:
+0.0.0 and up to this version it posses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with maxed pacts of punishments. The goal is to beat Hades one time.
@@ -16,20 +14,20 @@ Locations:
 
 # Requirements
 - Have Hades installed (duh!)
-- Have [ModUtils](https://github.com/SGG-Modding/ModUtil) and [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed. Make sure this works in your computer (normally by executing SubsumeHades.py in Hades content folder).
-- Now you can use the mod loader to install Polycosmos mod folder.
-- On your Archipelago folder, copy HadesClient.py on the base folder (where all the clients are) and copy the hadesworld folder in the worlds folder. After doing this you should be able to generate a local multiword with Hades!
+- Have [ModUtils](https://github.com/SGG-Modding/ModUtil) and [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed. Make sure this works in your computer (by executing SubsumeHades.py in Hades content folder).
+- Now you can use the mod loader to install the Polycosmos mod folder in this repository.
+- On your Archipelago folder, copy HadesClient.py on the base folder (where all the clients are) and copy the hades folder in the worlds folder. After doing this you should be able to generate a local multiword with Hades!
 
 NOTE: up to the time of writing this mod does not warrantee any type of compatibility with other Hades mods.
 
 # How to use Polycosmos
 
-- To use Polycosmos execute the HadesClient.py in your Archipelago folder. If everything is working correctly this should open a window to search for your Hades base folder (the standard steam path C:\Program Files (x86)\Steam\steamapps\common\Hades ). Select that folder and this should open Hades, the Archipelago client plus a command terminal. This terminal is communicate Hades and the Client, SO DO NOT CLOSE IT!
-- Connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
+- To use Polycosmos execute the HadesClient.py in your Archipelago folder. If everything is working correctly this should open a window to search for your Hades base folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that folder and this should open Hades, the Archipelago client plus a command terminal. This terminal is what communicates Hades and the Client, SO DO NOT CLOSE IT!
+- Before starting a file, connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
 
 # Credits
 
-Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior.
+Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarriorfor answering my pestering questions.
 
 The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, DoesBoKnow for proposing this for the multiworld and providing a ton of resources and Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable).
 
@@ -43,7 +41,7 @@ Any other bug is not expected and reporting helps a ton :).
 
 This is a list of features that are planned for this mod.
 
-- Make choosing a particular boon a check. Swap Boon traits into the item pool and allow a menu that gives them to the player. (Similar to CodexMenu mod)
+- Make the ability of choosing a particular boon a check. Put this Boon traits into the item pool and allow a menu that gives them to the player (Similar to CodexMenu mod)
 
 - Choose starting weapon and make other unlockable
 
