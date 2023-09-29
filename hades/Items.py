@@ -63,10 +63,10 @@ item_pool_pacts: Dict[str, int] = {
     'PersonalLiabilityPactLevel': 1,
 }
 
-#Here we have 66 items
+#Here we have 11 items
 item_pool_fillers: Dict[str, int] = {
-    'Darkness': 6,
-    'Keys': 5,
+    'Darkness': 1,
+    'Keys': 1,
 }
 
 event_item_pairs: Dict[str, str] = {
@@ -79,6 +79,7 @@ event_item_pairs: Dict[str, str] = {
 item_table = {
     **item_table_pacts,
     **items_table_event,
+    **item_table_filler,
 }
 
 class HadesItem(Item):

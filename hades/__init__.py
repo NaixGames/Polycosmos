@@ -46,6 +46,11 @@ class HadesWorld(World):
                 item = HadesItem(name, self.player)
                 pool.append(item)
 
+        #Fill filler items (idkw this is not happening automatically)
+        for amount in range(1, len(self.location_name_to_id)-len(pool)):
+            item = HadesItem(self.get_filler_item_name(), self.player)
+            pool.append(item)
+        
         self.multiworld.itempool += pool
 
         # Pair up our event locations with our event items
