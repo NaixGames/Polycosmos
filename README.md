@@ -16,7 +16,7 @@ Locations:
 - Have Hades installed (duh!)
 - Have [ModUtils](https://github.com/SGG-Modding/ModUtil) and [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed. Make sure this works in your computer (by executing SubsumeHades.py in Hades content folder).
 - Now you can use the mod loader to install the Polycosmos mod folder in this repository.
-- On your Archipelago folder, copy HadesClient.py on the base folder (where all the clients are) and copy the hades folder in the worlds folder. After doing this you should be able to generate a local multiword with Hades!
+- On your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago), copy HadesClient.py on the base folder (where all the clients are) and copy the hades folder in the worlds folder. After doing this you should be able to generate a local multiword with Hades!
 
 NOTE: up to the time of writing this mod does not warrantee any type of compatibility with other Hades mods.
 
