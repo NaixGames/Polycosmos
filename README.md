@@ -74,8 +74,8 @@ Is that by using this hooks that can communicate between Polycosmos and the Arch
 
 As a side note, you might be considering why we even use StyxScribe and not import a .dll to use for the APClient (which already
 exists for game running in .lua). The reason is simple: Hades run on a lua compiler that does not allow manul import of external files.
-It is the same reason why StyxScribe was created; this bypass this limitation as painlessly as possible. If other ways are found to also
-bypass this, another implementation of this mod might be possible.
+It why we use StyxScribe; to bypass this limitation as painlessly as possible. If other ways are found to also
+overcome this, another implementation of this mod might be possible.
 
 - Archipelago Client is a .py app that can communicate with an Archipelago server to send and recieve items. This server also
 deals with game randomization (ie, what item correspond to which other player item).
