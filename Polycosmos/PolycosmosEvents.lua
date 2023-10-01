@@ -9,18 +9,24 @@ styx_scribe_recieve_prefix = "Client to Polycosmos:"
 
 function PolycosmosEvents.ProcessLocationCheck(checkName)
     PolycosmosEvents.LoadData() 
-    wait( 1.5 ) -- This is the wait to make sure all the elements we need area loaded in StyxScribe
-    --If the location is already visited, we ignore adding the check
-    if not PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) then
-        if not StyxScribeShared.Root.LocationToItemMap[checkName] then --if nothing tangible is in this room, just return
-            PolycosmosMessages.PrintToPlayer("Obtained Nothing")
-            return
-        end
-        table.insert(StyxScribeShared.Root.LocationsUnlocked, checkName)
-        StyxScribe.Send(styx_scribe_send_prefix.."Locations updated")
-        itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
-        PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
+    wait( 1 ) -- This is the wait to make sure all the elements we need area loaded in StyxScribe
+    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
+    if not StyxScribeShared.Root.LocationsUnlocked then
+        PolycosmosMessages.PrintToPlayer("Exited while loading leaving StyxScribe in a corrupted state, exit save file and load again")
+        return
     end
+    --If the location is already visited, we ignore adding the check ... Although this if is not working sometimes and idkw!
+    if PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) then
+        return
+    end
+    if not StyxScribeShared.Root.LocationToItemMap[checkName] then --if nothing tangible is in this room, just return
+        PolycosmosMessages.PrintToPlayer("Obtained Nothing")
+        return
+    end
+    table.insert(StyxScribeShared.Root.LocationsUnlocked, checkName)
+    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated")
+    itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
+    PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
 end
 
 ------------ On room completed, give Room check
@@ -99,7 +105,6 @@ function PolycosmosEvents.LoadData()
         loaded=true
     end
     StyxScribe.Send(styx_scribe_send_prefix.."Data requested")
-    --wait( 1 ) -- This is the wait to make sure all the elements we need area loaded in StyxScribe!
 end
 
 
@@ -128,9 +133,11 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
 -- Auxiliary function to check if an array has a value
 function PolycosmosEvents.HasValue (tab, val)
     for index, value in ipairs(tab) do
+        print(value)
         if value == val then
             return true
         end
     end
     return false
 end
+

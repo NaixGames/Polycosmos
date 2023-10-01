@@ -41,7 +41,7 @@ local PactDataTable =
     },
     MiddleManagement = {
         Name = "MinibossCountShrineUpgrade",
-        MaxLevel = 2,
+        MaxLevel = 1,
         ObtainedPactItems = 0,
     },
     UnderworldCustoms = {
@@ -127,7 +127,6 @@ end
 
 -------------------- Auxiliary function for checking if a item is a pact level
 function PolycosmosHeatManager.IsHeatLevel(string)
-    PolycosmosHeatManager.PactDataTableTestPrint()
     if (PactDataTable[string]==nil) then
         return false
     end

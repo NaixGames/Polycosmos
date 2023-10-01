@@ -52,7 +52,7 @@ item_pool_pacts: Dict[str, int] = {
     'ExtremeMeasuresPactLevel': 4,
     'CalisthenicsProgramPactLevel': 2,
     'BenefitsPackagePactLevel': 2,
-    'MiddleManagementPactLevel': 2,
+    'MiddleManagementPactLevel': 1,
     'UnderworldCustomsPactLevel': 1,
     'ForcedOvertimePactLevel': 2,
     'HeightenedSecurityPactLevel': 1,
