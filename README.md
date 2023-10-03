@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.0.1 and up to this version it posses the feature detailed below:
+0.0.2 and up to this version it posses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with maxed pacts of punishments. The goal is to beat Hades one time.
@@ -36,8 +36,6 @@ The AP discord and all the people in the Hades subthread which have pitch in wit
 A known issue is that some changes in heat level only take effect when starting the next room, biome or run starts. That is how Hades work and not much we can do about that.
 
 Room rewards messages may be displayed again when going through rooms you already completed. 
-
-When exiting from Zag's room and loading the game again the items may fail to load. Go to Skelly's room, exit and come back to fix it. (A more permanent fix will come later!).
 
 Any other bug is not expected and reporting helps a ton :).
 

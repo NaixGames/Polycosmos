@@ -122,7 +122,9 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
         end
         pactSettingLoader[pactData.Name] = calculatedLevel
     end
-    GameState.MetaUpgrades = pactSettingLoader 
+    for pactName, pactLevel in pairs (pactSettingLoader) do
+        GameState.MetaUpgrades[pactName] = pactLevel
+    end
 end
 
 -------------------- Auxiliary function for checking if a item is a pact level

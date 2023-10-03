@@ -2,19 +2,36 @@ ModUtil.Mod.Register( "PolycosmosEvents" )
 
 loaded = false
 
+local checksToProcess = {}
+
 styx_scribe_send_prefix  = "Polycosmos to Client:"
 styx_scribe_recieve_prefix = "Client to Polycosmos:"
 
 ------------ General function to process location checks
 
-function PolycosmosEvents.ProcessLocationCheck(checkName)
-    PolycosmosEvents.LoadData() 
-    wait( 1 ) -- This is the wait to make sure all the elements we need area loaded in StyxScribe
+function PolycosmosEvents.RequestLocationCheck(checkName)
+    table.insert(checksToProcess,checkName) 
+    PolycosmosEvents.LoadData() --with this we request the data, and when we know we recieve it we can send the location package.
+end
+
+-----
+
+function PolycosmosEvents.ProcessCachedLocationCheck( message )
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
-    if not StyxScribeShared.Root.LocationsUnlocked then
+    if not StyxScribeShared.Root.LocationToItemMap then
         PolycosmosMessages.PrintToPlayer("Exited while loading leaving StyxScribe in a corrupted state, exit save file and load again")
         return
     end
+    for index, checkName in ipairs(checksToProcess) do
+        PolycosmosEvents.ProcessLocationCheck(checkName) 
+    end
+end
+
+StyxScribe.AddHook( PolycosmosEvents.ProcessCachedLocationCheck, styx_scribe_recieve_prefix.."Data package finished", PolycosmosEvents )
+
+-----
+
+function PolycosmosEvents.ProcessLocationCheck(checkName)
     --If the location is already visited, we ignore adding the check ... Although this if is not working sometimes and idkw!
     if PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) then
         return
@@ -29,10 +46,10 @@ function PolycosmosEvents.ProcessLocationCheck(checkName)
     PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
 end
 
------------- On room completed, give Room check
+------------ On room completed, request processing the Room check
 
 function PolycosmosEvents.GiveRoomCheck(roomNumber)
-    PolycosmosEvents.ProcessLocationCheck("Clear Room"..roomNumber)
+    PolycosmosEvents.RequestLocationCheck("Clear Room"..roomNumber)
 end
 
 
@@ -49,6 +66,8 @@ function PolycosmosEvents.UpdateItemsRun( message )
         local parsedName = (itemName):gsub("PactLevel", "")
         if (PolycosmosHeatManager.IsHeatLevel(parsedName)) then
             table.insert(pactList, parsedName)
+        elseif (PolycosmosItemManager.IsFillerItem(parsedName)) then
+            PolycosmosItemManager.GiveFillerItem(parsedName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
@@ -132,12 +151,16 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
 
 -- Auxiliary function to check if an array has a value
 function PolycosmosEvents.HasValue (tab, val)
+    print("This is a call of HasValue")
     for index, value in ipairs(tab) do
         print(value)
+        print(val)
         if value == val then
+            print("This gave true")
             return true
         end
     end
+    print("This have false")
     return false
 end
 

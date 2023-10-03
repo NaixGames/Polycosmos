@@ -174,13 +174,13 @@ class HadesContext(CommonContext):
         #First we do a sleep to avoid send information while reading locations/mappings set up
         
         subsume.Modules.StyxScribeShared.Root["ItemsUnlocked"] = self.cache_items_received_names
-        await asyncio.sleep(0.5) #I need to have this big wait for when the Root is created so it loads into Lua.
+        
         subsume.Send(styx_scribe_send_prefix+"Items Updated")
 
     async def send_location_check_to_server(self, message):
        #First we wait to avoid desync from happening
        sendingLocationsId = []
-       await asyncio.sleep(0.15) #I need to have this to wait for lua to finish writting
+       
        sendingLocationsNames = subsume.Modules.StyxScribeShared.Root["LocationsUnlocked"]
        for location in sendingLocationsNames:
             sendingLocationsId += [self.location_name_to_id[location]]
@@ -213,6 +213,7 @@ class HadesContext(CommonContext):
             itemmap[self.location_names[networkitem.location]] =  self.player_names[networkitem.player] + "-" + self.item_names[networkitem.item]
         subsume.Modules.StyxScribeShared.Root["LocationToItemMap"] = itemmap
         self.creating_location_to_item_dictionary = False
+        subsume.Send(styx_scribe_send_prefix + "Data package finished")
 
     # ----------------- Package Management section ends --------------------------------
 
