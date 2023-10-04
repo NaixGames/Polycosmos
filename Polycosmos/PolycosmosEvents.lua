@@ -141,7 +141,9 @@ end
 
 -- Wrapper for room completion
 ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
-    PolycosmosEvents.GiveRoomCheck(run.RunDepthCache)
+    if (run and run.RunDepthCache) then
+        PolycosmosEvents.GiveRoomCheck(run.RunDepthCache)
+    end
     return baseFunc(run, room)
 end)
 
