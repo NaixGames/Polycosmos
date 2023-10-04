@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.0.2 and up to this version it posses the feature detailed below:
+0.0.3 and up to this version it posses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with maxed pacts of punishments. The goal is to beat Hades one time.

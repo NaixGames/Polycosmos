@@ -4,6 +4,9 @@ loaded = false
 
 local checksToProcess = {}
 
+--Sadly I need to put this buffer in some places to avoid grabbing the Shared state before lua updates it.
+local bufferTime = 0.15
+
 styx_scribe_send_prefix  = "Polycosmos to Client:"
 styx_scribe_recieve_prefix = "Client to Polycosmos:"
 
@@ -17,21 +20,25 @@ end
 -----
 
 function PolycosmosEvents.ProcessCachedLocationCheck( message )
+    wait( bufferTime )
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
         PolycosmosMessages.PrintToPlayer("Exited while loading leaving StyxScribe in a corrupted state, exit save file and load again")
         return
     end
+    printToPlayer = true
     for index, checkName in ipairs(checksToProcess) do
-        PolycosmosEvents.ProcessLocationCheck(checkName) 
+        PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
+        printToPlayer = false
     end
+    checksToProcess = {}
 end
 
 StyxScribe.AddHook( PolycosmosEvents.ProcessCachedLocationCheck, styx_scribe_recieve_prefix.."Data package finished", PolycosmosEvents )
 
 -----
 
-function PolycosmosEvents.ProcessLocationCheck(checkName)
+function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
     --If the location is already visited, we ignore adding the check ... Although this if is not working sometimes and idkw!
     if PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) then
         return
@@ -43,7 +50,9 @@ function PolycosmosEvents.ProcessLocationCheck(checkName)
     table.insert(StyxScribeShared.Root.LocationsUnlocked, checkName)
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated")
     itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
-    PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
+    if  printToPlayer then  --This is to avoid overflowing the print stack
+        PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
+    end
 end
 
 ------------ On room completed, request processing the Room check
@@ -59,6 +68,7 @@ end
 
 --When more features are added this is the function we need to extend!
 function PolycosmosEvents.UpdateItemsRun( message )
+    wait( bufferTime )
     local itemList = StyxScribeShared.Root.ItemsUnlocked
     local pactList = {}
     for i=1,#itemList do
@@ -151,16 +161,11 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
 
 -- Auxiliary function to check if an array has a value
 function PolycosmosEvents.HasValue (tab, val)
-    print("This is a call of HasValue")
     for index, value in ipairs(tab) do
-        print(value)
-        print(val)
         if value == val then
-            print("This gave true")
             return true
         end
     end
-    print("This have false")
     return false
 end
 
