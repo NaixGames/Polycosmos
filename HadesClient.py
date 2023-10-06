@@ -85,6 +85,8 @@ class HadesContext(CommonContext):
     is_connected = False
     is_receiving_items_from_connect_package = False
 
+    bufferTime = 0.15 #This is a buffer to stop StyxScribe getting access when we are writting on it. Hopefully can erase in the future.
+
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
         self.send_index: int = 0
@@ -96,6 +98,8 @@ class HadesContext(CommonContext):
         subsume.AddHook(self.send_location_check_to_server, styx_scribe_recieve_prefix + "Locations updated", "HadesClient" )
         subsume.AddHook(self.on_game_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient" )
         subsume.AddHook(self.check_connection_and_send_items_and_request_location_dictionary, styx_scribe_recieve_prefix + "Data requested", "HadesClient" )
+        #Add hook to delete filler items once obtained so they are not triggered more than once
+        subsume.AddHook(self.on_filler_item_recieved_signal, styx_scribe_recieve_prefix + "Got filler item:", "HadesClient")
         #hook to send deathlink to other player when Zag dies
         subsume.AddHook(self.send_death, styx_scribe_recieve_prefix + "Zag died", "HadesClient" )
 
@@ -111,6 +115,7 @@ class HadesContext(CommonContext):
         #This will send the message always, but only process by Styx scribe if actually in game
         subsume.Send(styx_scribe_send_prefix+"Connection Error")
         self.is_connected=False
+        self.is_receiving_items_from_connect_package=False
         await super(HadesContext, self).connection_closed()
         
 
@@ -133,7 +138,7 @@ class HadesContext(CommonContext):
     # ----------------- Package Management section starts --------------------------------
     
     def on_package(self, cmd: str, args: dict):
-        #This is what is done when a package arrives. This are NOT up to date at all with what we need
+        #This is what is done when a package arrives. 
         if cmd in {"Connected"}:
             #What should be done in a connection package
             self.missing_locations_cache = args['missing_locations']
@@ -172,15 +177,16 @@ class HadesContext(CommonContext):
         #This should send to StyxScribe all the items acquired. 
         #This will resync if sending any item to the game failed before.
         #First we do a sleep to avoid send information while reading locations/mappings set up
-        
+        await asyncio.sleep(self.bufferTime)
+
         subsume.Modules.StyxScribeShared.Root["ItemsUnlocked"] = self.cache_items_received_names
-        
+
         subsume.Send(styx_scribe_send_prefix+"Items Updated")
 
     async def send_location_check_to_server(self, message):
        #First we wait to avoid desync from happening
        sendingLocationsId = []
-       
+       await asyncio.sleep(self.bufferTime)
        sendingLocationsNames = subsume.Modules.StyxScribeShared.Root["LocationsUnlocked"]
        for location in sendingLocationsNames:
             sendingLocationsId += [self.location_name_to_id[location]]
@@ -217,6 +223,16 @@ class HadesContext(CommonContext):
 
     # ----------------- Package Management section ends --------------------------------
 
+    # ------------------ Section for dealing with filler items not getting obtianed more than once ------------
+
+    async def on_filler_item_recieved_signal(self, message):
+        print("Filler item support comming soon!")
+        #print("THIS IS A TEST " + str(self.slot)+":items")
+        #if (self.cache_items_received_names.count(message) > 0):
+            #self.cache_items_received_names.remove(message)
+        #await self.send_msgs([{"cmd": "Set", "key": "slot:"+str(self.slot)+":items","want_reply": False, "operations": [{"operation": "remove","value": message}]}])
+
+    # ----------------- Filler items section ended --------------------------------
     
 
     #-------------deathlink section started --------------------------------

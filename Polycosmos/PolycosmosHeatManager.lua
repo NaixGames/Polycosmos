@@ -108,9 +108,17 @@ end
 ---if we eventually want to do other heat settings, this is the function we should modify
 function PolycosmosHeatManager.UpdatePactsLevel()
 	PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
+    local oldGameStateMetaUpgrades = GameState.MetaUpgrades 
     BuildMetaupgradeCache()
     GameState.SpentShrinePointsCache = GetTotalSpentShrinePoints()
     UpdateActiveShrinePoints()
+    GameState.MetaUpgrades = oldGameStateMetaUpgrades
+
+    --[[The use of oldGameStateMetaUpgrades is a really dumb thing, but only way to
+    1.- Save the players upgrades in the mirror
+    2.- Avoid the upgrades from the mirror that are blocked due to pacts to suddendly get unblocked
+    3.- Showing the correct heat level to the player.
+    ]]--
 end
 
 function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()

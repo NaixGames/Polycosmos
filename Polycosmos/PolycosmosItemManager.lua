@@ -15,8 +15,12 @@ end
 --------------------
 
 function PolycosmosItemManager.GiveFillerItem(item)
-    --Give item
-    --Tell Client that we dont need those items anymore! To avoid gaining them multiple times
-    print("this should give "..item.." :)")
-    --We should also, somehow avoid getting the item multiple times.
+    --[[if (item == "Keys") then
+        GameState.Resources.LockKeys = GameState.Resources.LockKeys + 15
+        print("THIS SHOULD GIVE 15 KEYS")
+    end
+    if (item == "Darkness") then
+        GameState.Resources.MetaPoints = GameState.Resources.MetaPoints + 500
+        print("THIS SHOULD GIVE 500 Darkness")
+    end ]]--
 end

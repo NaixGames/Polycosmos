@@ -2,7 +2,9 @@ ModUtil.Mod.Register( "PolycosmosEvents" )
 
 loaded = false
 
-local checksToProcess = {}
+local checkToProcess = ""
+
+local locationsCheckedThisPlay = {} --Had to add this to have a stable way of avoinding printing already checked locations
 
 --Sadly I need to put this buffer in some places to avoid grabbing the Shared state before lua updates it.
 local bufferTime = 0.15
@@ -13,25 +15,24 @@ styx_scribe_recieve_prefix = "Client to Polycosmos:"
 ------------ General function to process location checks
 
 function PolycosmosEvents.RequestLocationCheck(checkName)
-    table.insert(checksToProcess,checkName) 
+    checkToProcess = checkName
     PolycosmosEvents.LoadData() --with this we request the data, and when we know we recieve it we can send the location package.
 end
 
 -----
 
 function PolycosmosEvents.ProcessCachedLocationCheck( message )
+    if (checkToProcess == "") then
+        return
+    end
     wait( bufferTime )
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
         PolycosmosMessages.PrintToPlayer("Exited while loading leaving StyxScribe in a corrupted state, exit save file and load again")
         return
     end
-    printToPlayer = true
-    for index, checkName in ipairs(checksToProcess) do
-        PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
-        printToPlayer = false
-    end
-    checksToProcess = {}
+    PolycosmosEvents.ProcessLocationCheck(checkToProcess, true)
+    checksToProcess = ""
 end
 
 StyxScribe.AddHook( PolycosmosEvents.ProcessCachedLocationCheck, styx_scribe_recieve_prefix.."Data package finished", PolycosmosEvents )
@@ -40,17 +41,18 @@ StyxScribe.AddHook( PolycosmosEvents.ProcessCachedLocationCheck, styx_scribe_rec
 
 function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
     --If the location is already visited, we ignore adding the check ... Although this if is not working sometimes and idkw!
-    if PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) then
+    if (PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosEvents.HasValue(locationsCheckedThisPlay, checkName)) then
         return
     end
     if not StyxScribeShared.Root.LocationToItemMap[checkName] then --if nothing tangible is in this room, just return
         PolycosmosMessages.PrintToPlayer("Obtained Nothing")
         return
     end
-    table.insert(StyxScribeShared.Root.LocationsUnlocked, checkName)
-    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated")
     itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
-    if  printToPlayer then  --This is to avoid overflowing the print stack
+    table.insert(StyxScribeShared.Root.LocationsUnlocked, checkName)
+    table.insert(locationsCheckedThisPlay, checkName)
+    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated")
+    if  printToPlayer then  --This is to avoid overflowing the print stack if by any chance we print a set of locations in the future
         PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
     end
 end
@@ -78,6 +80,7 @@ function PolycosmosEvents.UpdateItemsRun( message )
             table.insert(pactList, parsedName)
         elseif (PolycosmosItemManager.IsFillerItem(parsedName)) then
             PolycosmosItemManager.GiveFillerItem(parsedName)
+            StyxScribe.Send(styx_scribe_send_prefix.."Got filler item:"..parsedName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
@@ -119,7 +122,7 @@ end)
 
 ------------ On connection error, send warning to player to reconnect
 
-function PolycosmosEvents.ConnectionError()
+function PolycosmosEvents.ConnectionError( message )
     PolycosmosMessages.PrintErrorMessage("Connection error detected. Go back to menu and reconnect the Client!", 9)
     PolycosmosMessages.PrintErrorMessage("Connection error detected. Go back to menu and reconnect the Client!", 9)
     PolycosmosMessages.PrintErrorMessage("Connection error detected. Go back to menu and reconnect the Client!", 9)
