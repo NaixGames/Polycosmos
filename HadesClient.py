@@ -87,6 +87,11 @@ class HadesContext(CommonContext):
 
     bufferTime = 0.15 #This is a buffer to stop StyxScribe getting access when we are writting on it. Hopefully can erase in the future.
 
+    dictionary_filler_items = {
+        "Darkness": 0,
+        "Keys": 0,
+    }
+
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
         self.send_index: int = 0
@@ -150,6 +155,8 @@ class HadesContext(CommonContext):
                 self.deathlink_enabled = True
             self.is_connected=True
             self.is_receiving_items_from_connect_package=True
+            asyncio.create_task(self.send_msgs([{"cmd": "Get", "keys": ["hades:"+str(self.slot)+":filler:Darkness",
+                                                     "hades:"+str(self.slot)+":filler:Keys"]}]))
 
         if cmd in {"RoomInfo"}:
             #What should be done when room info is sent. 
@@ -173,11 +180,23 @@ class HadesContext(CommonContext):
                 return
             super().on_package(cmd, args)
 
+        if cmd in {"Retrieved"}:
+            if "hades:"+str(self.slot)+":filler:Darkness" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:Darkness"] is not None:
+                    self.dictionary_filler_items["Darkness"] = args["keys"]["hades:"+str(self.slot)+":filler:Darkness"]
+            if "hades:"+str(self.slot)+":filler:Keys" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:Keys"] is not None:
+                    self.dictionary_filler_items["Keys"] = args["keys"]["hades:"+str(self.slot)+":filler:Keys"]
+    
+
     async def send_items(self):
         #This should send to StyxScribe all the items acquired. 
         #This will resync if sending any item to the game failed before.
         #First we do a sleep to avoid send information while reading locations/mappings set up
         await asyncio.sleep(self.bufferTime)
+
+        #we filter the filler items according to how many we have recieved
+        self.filter_filler_items_from_cache()
 
         subsume.Modules.StyxScribeShared.Root["ItemsUnlocked"] = self.cache_items_received_names
 
@@ -226,12 +245,15 @@ class HadesContext(CommonContext):
     # ------------------ Section for dealing with filler items not getting obtianed more than once ------------
 
     async def on_filler_item_recieved_signal(self, message):
-        print("Filler item support comming soon!")
-        #print("THIS IS A TEST " + str(self.slot)+":items")
-        #if (self.cache_items_received_names.count(message) > 0):
-            #self.cache_items_received_names.remove(message)
-        #await self.send_msgs([{"cmd": "Set", "key": "slot:"+str(self.slot)+":items","want_reply": False, "operations": [{"operation": "remove","value": message}]}])
+        self.dictionary_filler_items[message] = self.dictionary_filler_items[message]+1
+        await self.send_msgs([{"cmd": "Set", "key": "hades:"+str(self.slot)+":filler:"+message,"want_reply": False, "default": 1, "operations": [{"operation": "add","value": 1}]}])
 
+    def filter_filler_items_from_cache(self):
+        for key in self.dictionary_filler_items:
+            for i in range(0,self.dictionary_filler_items[key]):
+                if key in self.cache_items_received_names:
+                    self.cache_items_received_names.remove(key)
+                
     # ----------------- Filler items section ended --------------------------------
     
 

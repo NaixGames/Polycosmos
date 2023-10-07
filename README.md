@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.0.4 and up to this version it posses the feature detailed below:
+0.1.0 and up to this version it posses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with maxed pacts of punishments. The goal is to beat Hades one time.
@@ -8,6 +8,8 @@ Modes:
 Items:
 - Pact of Punishment down: an item that turns down the level of pact of punishment. Note the game may load this effect
 on the run room, biome or run.
+
+-Keys and Darkness as filler items.
 
 Locations:
 - Rooms: Beating any room counts as a location for the AP.
@@ -35,7 +37,7 @@ The AP discord and all the people in the Hades subthread which have pitch in wit
 
 A known issue is that some changes in heat level only take effect when starting the next room, biome or run starts. That is how Hades work and not much we can do about that.
 
-Room rewards messages may be displayed again when going through rooms you already completed. 
+You see some weird debug messages while playing with keyboard and mouse. To avoid this go to your main Hades folder, and in there open StyxScribe.py. Go to line 26 and in there change "DebugDraw=true" to "DebugDraw=false"
 
 Any other bug is not expected and reporting helps a ton :).
 
