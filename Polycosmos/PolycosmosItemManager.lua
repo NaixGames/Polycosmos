@@ -16,8 +16,6 @@ end
 
 function PolycosmosItemManager.GiveFillerItem(item)
     if (item == "Keys") then
-        GameState.Resources.LockKeys = GameState.Resources.LockKeys + 15
-        print("THIS SHOULD GIVE 15 KEYS")
         if (GameState.Resources.LockKeys) then
             GameState.Resources.LockKeys = GameState.Resources.LockKeys + 15
         else
@@ -30,6 +28,5 @@ function PolycosmosItemManager.GiveFillerItem(item)
         else
             GameState.Resources.MetaPoints = 500
         end
-        print("THIS SHOULD GIVE 500 Darkness")
     end
 end

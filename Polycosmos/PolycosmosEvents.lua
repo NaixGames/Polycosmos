@@ -7,7 +7,7 @@ local checkToProcess = ""
 local locationsCheckedThisPlay = {} --Had to add this to have a stable way of avoinding printing already checked locations
 
 --Sadly I need to put this buffer in some places to avoid grabbing the Shared state before lua updates it.
-local bufferTime = 0.15
+local bufferTime = 0.25
 
 styx_scribe_send_prefix  = "Polycosmos to Client:"
 styx_scribe_recieve_prefix = "Client to Polycosmos:"

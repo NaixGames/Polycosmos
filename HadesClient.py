@@ -85,7 +85,7 @@ class HadesContext(CommonContext):
     is_connected = False
     is_receiving_items_from_connect_package = False
 
-    bufferTime = 0.15 #This is a buffer to stop StyxScribe getting access when we are writting on it. Hopefully can erase in the future.
+    bufferTime = 0.25 #This is a buffer to stop StyxScribe getting access when we are writting on it. Hopefully can erase in the future.
 
     dictionary_filler_items = {
         "Darkness": 0,
