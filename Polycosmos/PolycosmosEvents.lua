@@ -2,46 +2,56 @@ ModUtil.Mod.Register( "PolycosmosEvents" )
 
 loaded = false
 
-local checkToProcess = ""
+local checkToProcess = "" --TODO: Change this for array and process the whole array. This to help with desyncs.
 
-local locationsCheckedThisPlay = {} --Had to add this to have a stable way of avoinding printing already checked locations
+local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
+
+
+--[[
+
+Important note:
+
+To avoid inconsistency during play the Root object should ONLY be used at the start to set data such at settings,
+locations already checked in server and to build the location to item mapping. Any other communication
+between hades and client should be done by sending messages by the StyxScribe hook message.
+
+This is far more nuanced, but should be more stable during runtime for any user that does not run a SSD.
+
+]]--
+
 
 --Sadly I need to put this buffer in some places to avoid grabbing the Shared state before lua updates it.
-local bufferTime = 0.25
+local bufferTime = 1
 
 styx_scribe_send_prefix  = "Polycosmos to Client:"
 styx_scribe_recieve_prefix = "Client to Polycosmos:"
 
 ------------ General function to process location checks
 
-function PolycosmosEvents.RequestLocationCheck(checkName)
+function PolycosmosEvents.UnlockLocationCheck(checkName)
     checkToProcess = checkName
-    PolycosmosEvents.LoadData() --with this we request the data, and when we know we recieve it we can send the location package.
-end
-
------
-
-function PolycosmosEvents.ProcessCachedLocationCheck( message )
     if (checkToProcess == "") then
         return
     end
     wait( bufferTime )
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
-        PolycosmosMessages.PrintToPlayer("Exited while loading leaving StyxScribe in a corrupted state, exit save file and load again")
-        return
+        PolycosmosEvents.LoadData()
+        wait( bufferTime )
+        if not StyxScribeShared.Root.LocationToItemMap then
+            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
+            return
+        end
     end
     PolycosmosEvents.ProcessLocationCheck(checkToProcess, true)
-    checksToProcess = ""
+    checkToProcess = ""
 end
-
-StyxScribe.AddHook( PolycosmosEvents.ProcessCachedLocationCheck, styx_scribe_recieve_prefix.."Data package finished", PolycosmosEvents )
 
 -----
 
 function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
-    --If the location is already visited, we ignore adding the check ... Although this if is not working sometimes and idkw!
-    if (PolycosmosEvents.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosEvents.HasValue(locationsCheckedThisPlay, checkName)) then
+    --If the location is already visited, we ignore adding the check
+    if (PolycosmosUtils.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosUtils.HasValue(locationsCheckedThisPlay, checkName)) then
         return
     end
     if not StyxScribeShared.Root.LocationToItemMap[checkName] then --if nothing tangible is in this room, just return
@@ -49,9 +59,8 @@ function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
         return
     end
     itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
-    table.insert(StyxScribeShared.Root.LocationsUnlocked, checkName)
     table.insert(locationsCheckedThisPlay, checkName)
-    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated")
+    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..checkName)
     if  printToPlayer then  --This is to avoid overflowing the print stack if by any chance we print a set of locations in the future
         PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
     end
@@ -60,7 +69,7 @@ end
 ------------ On room completed, request processing the Room check
 
 function PolycosmosEvents.GiveRoomCheck(roomNumber)
-    PolycosmosEvents.RequestLocationCheck("Clear Room"..roomNumber)
+    PolycosmosEvents.UnlockLocationCheck("Clear Room"..roomNumber)
 end
 
 
@@ -70,8 +79,7 @@ end
 
 --When more features are added this is the function we need to extend!
 function PolycosmosEvents.UpdateItemsRun( message )
-    wait( bufferTime )
-    local itemList = StyxScribeShared.Root.ItemsUnlocked
+    local itemList = PolycosmosUtils.ParseStringToArray(message)
     local pactList = {}
     for i=1,#itemList do
         local itemName = itemList[i]
@@ -86,7 +94,7 @@ function PolycosmosEvents.UpdateItemsRun( message )
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
 end
 
-StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.."Items Updated", PolycosmosEvents )
+StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.."Items Updated:", PolycosmosEvents )
 
 
 ------------ On Hades killed, send victory signal to Client
@@ -162,15 +170,4 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
             PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
             return baseFunc(prevRun, args)
         end)
-
-
--- Auxiliary function to check if an array has a value
-function PolycosmosEvents.HasValue (tab, val)
-    for index, value in ipairs(tab) do
-        if value == val then
-            return true
-        end
-    end
-    return false
-end
 

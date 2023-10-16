@@ -9,7 +9,7 @@ local ItemsDataArray=
 
 -------------------- Auxiliary function for checking if a item is a filler item
 function PolycosmosItemManager.IsFillerItem(string)
-    return PolycosmosEvents.HasValue(ItemsDataArray, string)
+    return PolycosmosUtils.HasValue(ItemsDataArray, string)
 end
 
 --------------------

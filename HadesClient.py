@@ -85,8 +85,6 @@ class HadesContext(CommonContext):
     is_connected = False
     is_receiving_items_from_connect_package = False
 
-    bufferTime = 0.25 #This is a buffer to stop StyxScribe getting access when we are writting on it. Hopefully can erase in the future.
-
     dictionary_filler_items = {
         "Darkness": 0,
         "Keys": 0,
@@ -100,7 +98,7 @@ class HadesContext(CommonContext):
         #Load here any data you might need the client to know about
 
         #Add hook to comunicate with StyxScribe
-        subsume.AddHook(self.send_location_check_to_server, styx_scribe_recieve_prefix + "Locations updated", "HadesClient" )
+        subsume.AddHook(self.send_location_check_to_server, styx_scribe_recieve_prefix + "Locations updated:", "HadesClient" )
         subsume.AddHook(self.on_game_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient" )
         subsume.AddHook(self.check_connection_and_send_items_and_request_location_dictionary, styx_scribe_recieve_prefix + "Data requested", "HadesClient" )
         #Add hook to delete filler items once obtained so they are not triggered more than once
@@ -171,7 +169,7 @@ class HadesContext(CommonContext):
             #We ignore sending the package to hades if just connected, since the game it not ready for it (and will request it itself later)
             if (self.is_receiving_items_from_connect_package):
                 return;
-            asyncio.create_task(self.send_items())
+            self.send_items()
 
         if cmd in {"LocationInfo"}:
             if self.creating_location_to_item_mapping:
@@ -189,28 +187,31 @@ class HadesContext(CommonContext):
                     self.dictionary_filler_items["Keys"] = args["keys"]["hades:"+str(self.slot)+":filler:Keys"]
     
 
-    async def send_items(self):
-        #This should send to StyxScribe all the items acquired. 
-        #This will resync if sending any item to the game failed before.
-        #First we do a sleep to avoid send information while reading locations/mappings set up
-        await asyncio.sleep(self.bufferTime)
-
+    def send_items(self):
         #we filter the filler items according to how many we have recieved
         self.filter_filler_items_from_cache()
 
-        subsume.Modules.StyxScribeShared.Root["ItemsUnlocked"] = self.cache_items_received_names
+        payload_message = self.parse_array_to_string(self.cache_items_received_names)
+        subsume.Send(styx_scribe_send_prefix+"Items Updated:" + payload_message)
 
-        subsume.Send(styx_scribe_send_prefix+"Items Updated")
+
+    def parse_array_to_string(self, array_of_items):
+        message = ""
+        for itemname in array_of_items:
+            message += itemname
+            message += ","
+        return message
 
     async def send_location_check_to_server(self, message):
        #First we wait to avoid desync from happening
        sendingLocationsId = []
-       await asyncio.sleep(self.bufferTime)
-       sendingLocationsNames = subsume.Modules.StyxScribeShared.Root["LocationsUnlocked"]
-       for location in sendingLocationsNames:
-            sendingLocationsId += [self.location_name_to_id[location]]
-       message = [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
-       await self.send_msgs(message)
+    
+       #TODO: make this support an array and not only one location
+       sendingLocationsName = message
+       sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
+
+       payload_message = [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
+       await self.send_msgs(payload_message)
 
     async def check_connection_and_send_items_and_request_location_dictionary(self, message):
         if (self.check_for_connection()):
@@ -219,7 +220,7 @@ class HadesContext(CommonContext):
 
     async def send_items_and_request_location_dictionary(self, message):
         #send items that were already cached in connect
-        await self.send_items()
+        self.send_items()
         #Construct location to item mapping
         self.locations_received_names = []
         for location in self.checked_locations_cache:
