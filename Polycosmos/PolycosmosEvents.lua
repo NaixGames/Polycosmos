@@ -33,7 +33,6 @@ function PolycosmosEvents.UnlockLocationCheck(checkName)
     if (checkToProcess == "") then
         return
     end
-    wait( bufferTime )
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
         PolycosmosEvents.LoadData()
