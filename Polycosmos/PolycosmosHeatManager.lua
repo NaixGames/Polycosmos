@@ -108,11 +108,11 @@ end
 ---if we eventually want to do other heat settings, this is the function we should modify
 function PolycosmosHeatManager.UpdatePactsLevel()
 	PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-    local oldGameStateMetaUpgrades = GameState.MetaUpgrades  -- this should be not a deep copy!
-    BuildMetaupgradeCache() --  I think this is unlocking by accident things in the mirror that should not be unlocked
+    local oldGameStateMetaUpgrades = DeepCopyTable(GameState.MetaUpgrades)
+    BuildMetaupgradeCache() 
     GameState.SpentShrinePointsCache = GetTotalSpentShrinePoints()
     UpdateActiveShrinePoints()
-    GameState.MetaUpgrades = oldGameStateMetaUpgrades -- this should be not a deep copy!
+    GameState.MetaUpgrades = DeepCopyTable(oldGameStateMetaUpgrades)
 
     --[[The use of oldGameStateMetaUpgrades is a really dumb thing, but only way to
     1.- Save the players upgrades in the mirror

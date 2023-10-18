@@ -26,3 +26,4 @@ function PolycosmosUtils.ParseStringToArray( message )
     end
     return resultTable
 end
+
