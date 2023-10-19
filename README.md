@@ -9,7 +9,7 @@ Items:
 - Pact of Punishment down: an item that turns down the level of pact of punishment. Note the game may load this effect
 on the run room, biome or run.
 
--Keys and Darkness as filler items.
+- Keys and Darkness as filler items.
 
 Locations:
 - Rooms: Beating any room counts as a location for the AP.
@@ -47,9 +47,9 @@ This is a list of features that are planned for this mod.
 
 - Make the ability of choosing a particular boon a check. Put this Boon traits into the item pool and allow a menu that gives them to the player (Similar to CodexMenu mod)
 
-- Choose starting weapon and make other unlockable
+- Choosing a starting weapon and make other unlockable
 
-- Choose how many runs victories are required to beat the mod.
+- Choosing how many runs victories are required to beat the mod.
 
 - Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
@@ -64,11 +64,13 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.0.0 it is compromised of the following modules:
+"require" or related commands). Up to the time of 0.1.2 it is compromised of the following modules:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it recieves
+PolycosmosItemManager: manages the reception of filler items
 PolycosmosMessages: It is the module that prints messages to the player.
+PolycosmosUtils: Contains functions that are useful to manage or parse data, but are all purpose so do not fit in any other library.
 
 Note that while some modules could be mashed together, this different functionalities have been split to be able to growth this in the most modular way possible.
 
