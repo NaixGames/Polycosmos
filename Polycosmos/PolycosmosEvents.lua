@@ -2,7 +2,7 @@ ModUtil.Mod.Register( "PolycosmosEvents" )
 
 loaded = false
 
-local checkToProcess = "" --TODO: Change this for array and process the whole array. This to help with desyncs.
+local checkToProcess = "" --TODO: Change this for array and process the whole array. This could help with desyncs.
 
 local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
 
@@ -20,7 +20,7 @@ This is far more nuanced, but should be more stable during runtime for any user 
 ]]--
 
 
---Sadly I need to put this buffer in some places to avoid grabbing the Shared state before lua updates it.
+--Sadly I need to put this buffer in case hades request some data before the Shared state is updated.
 local bufferTime = 1
 
 styx_scribe_send_prefix  = "Polycosmos to Client:"
@@ -33,7 +33,7 @@ function PolycosmosEvents.UnlockLocationCheck(checkName)
     if (checkToProcess == "") then
         return
     end
-    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), abort and send an error message
+    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
@@ -54,7 +54,6 @@ function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
         return
     end
     if not StyxScribeShared.Root.LocationToItemMap[checkName] then --if nothing tangible is in this room, just return
-        PolycosmosMessages.PrintToPlayer("Obtained Nothing")
         return
     end
     itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
@@ -68,9 +67,11 @@ end
 ------------ On room completed, request processing the Room check
 
 function PolycosmosEvents.GiveRoomCheck(roomNumber)
+    if (roomNumber == nil) then
+        return
+    end
     PolycosmosEvents.UnlockLocationCheck("Clear Room"..roomNumber)
 end
-
 
 --Here we should put other methods to process checks. Let it be boon/NPC related or whatever.
 

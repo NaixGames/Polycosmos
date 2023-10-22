@@ -138,6 +138,9 @@ class HadesContext(CommonContext):
     # ----------------- Client start up and ending section end  --------------------------------
 
 
+    ## TODO: IMPLEMENT OPTIONS. NOTE THOSE ARE ALL CONTAINED IN hades_slot_data AS PART OF THE DICTIONARY DATA
+
+
     # ----------------- Package Management section starts --------------------------------
     
     def on_package(self, cmd: str, args: dict):
@@ -146,7 +149,7 @@ class HadesContext(CommonContext):
             #What should be done in a connection package
             self.missing_locations_cache = args['missing_locations']
             self.checked_locations_cache = args['checked_locations']
-            self.hades_slot_data = args['slot_data']
+            self.hades_slot_data = args['slot_data']  
             self.location_name_to_id = {name: idnumber for idnumber, name, in self.location_names.items()}
             if 'death_link' in self.hades_slot_data and self.hades_slot_data['death_link']:
                 self.set_deathlink = True

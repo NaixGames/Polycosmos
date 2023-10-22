@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.1.2 and up to this version it posses the feature detailed below:
+0.1.3 and up to this version it posses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with maxed pacts of punishments. The goal is to beat Hades one time.
@@ -64,7 +64,7 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.1.2 it is compromised of the following modules:
+"require" or related commands). Up to the time of 0.1.3 it is compromised of the following modules:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it recieves
