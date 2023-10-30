@@ -12,7 +12,7 @@ import ModuleUpdate
 ModuleUpdate.update()
 
 import websockets
-
+import copy
 import Utils
 import json
 import logging
@@ -100,7 +100,7 @@ class HadesContext(CommonContext):
         #Add hook to comunicate with StyxScribe
         subsume.AddHook(self.send_location_check_to_server, styx_scribe_recieve_prefix + "Locations updated:", "HadesClient" )
         subsume.AddHook(self.on_game_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient" )
-        subsume.AddHook(self.check_connection_and_send_items_and_request_location_dictionary, styx_scribe_recieve_prefix + "Data requested", "HadesClient" )
+        subsume.AddHook(self.check_connection_and_send_items_and_request_starting_info, styx_scribe_recieve_prefix + "Data requested", "HadesClient" )
         #Add hook to delete filler items once obtained so they are not triggered more than once
         subsume.AddHook(self.on_filler_item_recieved_signal, styx_scribe_recieve_prefix + "Got filler item:", "HadesClient")
         #hook to send deathlink to other player when Zag dies
@@ -137,8 +137,6 @@ class HadesContext(CommonContext):
     
     # ----------------- Client start up and ending section end  --------------------------------
 
-
-    ## TODO: IMPLEMENT OPTIONS. NOTE THOSE ARE ALL CONTAINED IN hades_slot_data AS PART OF THE DICTIONARY DATA
 
 
     # ----------------- Package Management section starts --------------------------------
@@ -191,10 +189,8 @@ class HadesContext(CommonContext):
     
 
     def send_items(self):
-        #we filter the filler items according to how many we have recieved
-        self.filter_filler_items_from_cache()
-
-        payload_message = self.parse_array_to_string(self.cache_items_received_names)
+        #we filter the filler items according to how many we have recieved and send that payload
+        payload_message = self.parse_array_to_string(self.filter_filler_items_from_cache())
         subsume.Send(styx_scribe_send_prefix+"Items Updated:" + payload_message)
 
 
@@ -206,7 +202,6 @@ class HadesContext(CommonContext):
         return message
 
     async def send_location_check_to_server(self, message):
-       #First we wait to avoid desync from happening
        sendingLocationsId = []
     
        #TODO: make this support an array and not only one location
@@ -216,20 +211,51 @@ class HadesContext(CommonContext):
        payload_message = [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
        await self.send_msgs(payload_message)
 
-    async def check_connection_and_send_items_and_request_location_dictionary(self, message):
+    async def check_connection_and_send_items_and_request_starting_info(self, message):
         if (self.check_for_connection()):
             self.is_receiving_items_from_connect_package=False
-            await self.send_items_and_request_location_dictionary(message)
+            await self.send_items_and_request_starting_info(message)
 
-    async def send_items_and_request_location_dictionary(self, message):
-        #send items that were already cached in connect
-        self.send_items()
+    async def send_items_and_request_starting_info(self, message):
         #Construct location to item mapping
         self.locations_received_names = []
         for location in self.checked_locations_cache:
            self.locations_received_names += [self.location_names[location]]
         subsume.Modules.StyxScribeShared.Root["LocationsUnlocked"] = self.locations_received_names
+        
+        self.store_settings_data()
         self.request_location_to_item_dictionary()
+        #send items that were already cached in connect
+        self.send_items()
+
+    def store_settings_data(self):
+        heat_dictionary = {
+            'HardLaborPactLevel': self.hades_slot_data['hard_labor_pact_ammount'],
+            'LastingConsequencesPactLevel': self.hades_slot_data['lasting_consequences_pact_ammount'],
+            'ConvenienceFeePactLevel': self.hades_slot_data['convenience_fee_pact_ammount'],
+            'JurySummonsPactLevel': self.hades_slot_data['jury_summons_pact_ammount'],
+            'ExtremeMeasuresPactLevel': self.hades_slot_data['extreme_measures_pact_ammount'],
+            'CalisthenicsProgramPactLevel': self.hades_slot_data['calisthenics_program_pact_ammount'],
+            'BenefitsPackagePactLevel': self.hades_slot_data['benefits_package_pact_ammount'],
+            'MiddleManagementPactLevel': self.hades_slot_data['middle_management_pact_ammount'],
+            'UnderworldCustomsPactLevel': self.hades_slot_data['underworld_customs_pact_ammount'],
+            'ForcedOvertimePactLevel': self.hades_slot_data['forced_overtime_pact_ammount'],
+            'HeightenedSecurityPactLevel': self.hades_slot_data['heightened_security_pact_ammount'],
+            'RoutineInspectionPactLevel': self.hades_slot_data['routine_inspection_pact_ammount'],
+            'DamageControlPactLevel': self.hades_slot_data['damage_control_pact_ammount'],
+            'ApprovalProcessPactLevel': self.hades_slot_data['approval_process_pact_ammount'],
+            'TightDeadlinePactLevel': self.hades_slot_data['tight_deadline_pact_ammount'],
+            'PersonalLiabilityPactLevel': self.hades_slot_data['personal_liability_pact_ammount'],
+        }
+        subsume.Modules.StyxScribeShared.Root["HeatSettings"] = heat_dictionary
+        filler_dictionary = {
+            'DarknessPackValue': self.hades_slot_data['darkness_pack_value'],
+            'KeysPackValue': self.hades_slot_data['keys_pack_value'],
+        }
+        subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
+
+        #construct here any other dictionary with settings the main game should know about
+
 
     def request_location_to_item_dictionary(self):
         self.creating_location_to_item_mapping = True
@@ -250,13 +276,15 @@ class HadesContext(CommonContext):
 
     async def on_filler_item_recieved_signal(self, message):
         self.dictionary_filler_items[message] = self.dictionary_filler_items[message]+1
-        await self.send_msgs([{"cmd": "Set", "key": "hades:"+str(self.slot)+":filler:"+message,"want_reply": False, "default": 1, "operations": [{"operation": "add","value": 1}]}])
+        await self.send_msgs([{"cmd": "Set", "key": "hades:"+str(self.slot)+":filler:"+message,"want_reply": False, "default": 0, "operations": [{"operation": "add","value": 1}]}])
 
     def filter_filler_items_from_cache(self):
+        filtered_cache = copy.deepcopy(self.cache_items_received_names)
         for key in self.dictionary_filler_items:
             for i in range(0,self.dictionary_filler_items[key]):
-                if key in self.cache_items_received_names:
-                    self.cache_items_received_names.remove(key)
+                if key in filtered_cache:
+                    filtered_cache.remove(key)
+        return filtered_cache
                 
     # ----------------- Filler items section ended --------------------------------
     

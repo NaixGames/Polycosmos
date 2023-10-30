@@ -3,7 +3,6 @@ import typing
 from BaseClasses import Item, ItemClassification
 from typing import Dict
 
-
 class ItemData(typing.NamedTuple):
     code: typing.Optional[int]
     progression: bool
@@ -44,6 +43,7 @@ item_table_filler: Dict[str, ItemData] = {
 }
 
 #Here we have 39 items
+#This should be replace with a method that construct the dictionary from the settings.
 item_pool_pacts: Dict[str, int] = {
     'HardLaborPactLevel': 5,
     'LastingConsequencesPactLevel': 4,
@@ -63,11 +63,29 @@ item_pool_pacts: Dict[str, int] = {
     'PersonalLiabilityPactLevel': 1,
 }
 
-#Here we have 11 items
-item_pool_fillers: Dict[str, int] = {
-    'Darkness': 1,
-    'Keys': 1,
-}
+def create_pact_pool_ammount(hades_options, multiworld, player) -> Dict[str, int]:
+    item_pool_pacts = {
+        'HardLaborPactLevel': int(multiworld.hard_labor_pact_ammount[player].value),
+        'LastingConsequencesPactLevel': int(multiworld.lasting_consequences_pact_ammount[player].value),
+        'ConvenienceFeePactLevel': int(multiworld.convenience_fee_pact_ammount[player].value),
+        'JurySummonsPactLevel': int(multiworld.jury_summons_pact_ammount[player].value),
+        'ExtremeMeasuresPactLevel': int(multiworld.extreme_measures_pact_ammount[player].value),
+        'CalisthenicsProgramPactLevel': int(multiworld.calisthenics_program_pact_ammount[player].value),
+        'BenefitsPackagePactLevel': int(multiworld.benefits_package_pact_ammount[player].value),
+        'MiddleManagementPactLevel': int(multiworld.middle_management_pact_ammount[player].value),
+        'UnderworldCustomsPactLevel': int(multiworld.underworld_customs_pact_ammount[player].value),
+        'ForcedOvertimePactLevel': int(multiworld.forced_overtime_pact_ammount[player].value),
+        'HeightenedSecurityPactLevel': int(multiworld.heightened_security_pact_ammount[player].value),
+        'RoutineInspectionPactLevel': int(multiworld.routine_inspection_pact_ammount[player].value),
+        'DamageControlPactLevel': int(multiworld.damage_control_pact_ammount[player].value),
+        'ApprovalProcessPactLevel': int(multiworld.approval_process_pact_ammount[player].value),
+        'TightDeadlinePactLevel': int(multiworld.tight_deadline_pact_ammount[player].value),
+        'PersonalLiabilityPactLevel': int(multiworld.personal_liability_pact_ammount[player].value),
+    }
+    return item_pool_pacts
+
+
+
 
 event_item_pairs: Dict[str, str] = {
     "Beat Hades": "Victory",

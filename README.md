@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.1.3 and up to this version it posses the feature detailed below:
+0.2.0 and up to this version it posses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with maxed pacts of punishments. The goal is to beat Hades one time.
@@ -13,6 +13,10 @@ on the run room, biome or run.
 
 Locations:
 - Rooms: Beating any room counts as a location for the AP.
+
+Settings:
+-Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
+-Value of filler items: tweak how much currency each filler item gives you.
 
 # Requirements
 - Have Hades installed (duh!) and [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2), put modimporter.exe in your Hades/Content folder.
@@ -64,7 +68,7 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.1.3 it is compromised of the following modules:
+"require" or related commands). Up to the time of 0.2.0 it is compromised of the following modules:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it recieves

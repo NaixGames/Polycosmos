@@ -1,5 +1,8 @@
 ModUtil.Mod.Register( "PolycosmosHeatManager" )
 
+--Sadly I need to put this buffer in case hades request some data before the Shared state is updated.
+local bufferTime = 2
+
 local pactSettingLoader = {}
 
 local PactDataTable =
@@ -89,6 +92,7 @@ local PactDataTable =
 --------------------functions for loading pact list obtained items
 
 function PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
+    PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
     PolycosmosHeatManager.ResetPactLevels()
     for i=1,#pactList do
         local pactName = pactList[i]
@@ -135,6 +139,34 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
     end
 end
 
+function PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
+    --This is mostly a sanity check
+    if not StyxScribeShared.Root.HeatSettings then
+        PolycosmosEvents.LoadData()
+        wait( bufferTime )
+        if not StyxScribeShared.Root.HeatSettings then
+            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state for heat manager. Enter and exit the save file again!")
+            return
+        end
+    end
+    --We load the Max levels from the Data
+    PactDataTable.HardLabor.MaxLevel = StyxScribeShared.Root.HeatSettings['HardLaborPactLevel']
+    PactDataTable.LastingConsequences.MaxLevel = StyxScribeShared.Root.HeatSettings['LastingConsequencesPactLevel']
+    PactDataTable.ConvenienceFee.MaxLevel = StyxScribeShared.Root.HeatSettings['ConvenienceFeePactLevel']
+    PactDataTable.JurySummons.MaxLevel = StyxScribeShared.Root.HeatSettings['JurySummonsPactLevel']
+    PactDataTable.ExtremeMeasures.MaxLevel = StyxScribeShared.Root.HeatSettings['ExtremeMeasuresPactLevel']
+    PactDataTable.CalisthenicsProgram.MaxLevel = StyxScribeShared.Root.HeatSettings['CalisthenicsProgramPactLevel']
+    PactDataTable.BenefitsPackage.MaxLevel = StyxScribeShared.Root.HeatSettings['BenefitsPackagePactLevel']
+    PactDataTable.MiddleManagement.MaxLevel = StyxScribeShared.Root.HeatSettings['MiddleManagementPactLevel']
+    PactDataTable.UnderworldCustoms.MaxLevel = StyxScribeShared.Root.HeatSettings['UnderworldCustomsPactLevel']
+    PactDataTable.ForcedOvertime.MaxLevel = StyxScribeShared.Root.HeatSettings['ForcedOvertimePactLevel']
+    PactDataTable.HeightenedSecurity.MaxLevel = StyxScribeShared.Root.HeatSettings['HeightenedSecurityPactLevel']
+    PactDataTable.RoutineInspection.MaxLevel = StyxScribeShared.Root.HeatSettings['RoutineInspectionPactLevel']
+    PactDataTable.DamageControl.MaxLevel = StyxScribeShared.Root.HeatSettings['DamageControlPactLevel']
+    PactDataTable.ApprovalProcess.MaxLevel = StyxScribeShared.Root.HeatSettings['ApprovalProcessPactLevel']
+    PactDataTable.TightDeadline.MaxLevel = StyxScribeShared.Root.HeatSettings['TightDeadlinePactLevel']
+    PactDataTable.PersonalLiability.MaxLevel = StyxScribeShared.Root.HeatSettings['PersonalLiabilityPactLevel']
+end
 -------------------- Auxiliary function for checking if a item is a pact level
 function PolycosmosHeatManager.IsHeatLevel(string)
     if (PactDataTable[string]==nil) then

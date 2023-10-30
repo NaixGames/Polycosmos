@@ -21,7 +21,7 @@ This is far more nuanced, but should be more stable during runtime for any user 
 
 
 --Sadly I need to put this buffer in case hades request some data before the Shared state is updated.
-local bufferTime = 1
+local bufferTime = 2
 
 styx_scribe_send_prefix  = "Polycosmos to Client:"
 styx_scribe_recieve_prefix = "Client to Polycosmos:"
