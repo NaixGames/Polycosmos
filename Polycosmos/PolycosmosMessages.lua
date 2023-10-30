@@ -9,7 +9,7 @@ ModUtil.Table.Merge( ModUtil.Hades, {
 ------------ Utils to uniformly change how we desplay messages
 
 function PolycosmosMessages.PrintToPlayer(message)
-    ModUtil.Hades.PrintDisplay(message)
+    ModUtil.Hades.PrintStack(message)
 end
 
 
