@@ -141,7 +141,7 @@ class PersonalLiabilityPactAmmount(Range):
     internal_name = "PersonalLiabilityPactLevel"
 
 class DarknessPackValue(Range):
-    """Choose the value(ammount of darkness) of each darkness pack in the pool."""
+    """Choose the value(ammount of darkness) of each darkness pack in the pool. If set to 0 Darkness will not appear in the pool."""
     display_name = "Darkness Pack Value"
     range_start = 0
     range_end = 10000
@@ -149,12 +149,52 @@ class DarknessPackValue(Range):
     internal_name = "DarknessPackValue"
 
 class KeysPackValue(Range):
-    """Choose the value(ammount of Keys) of each Keys pack in the pool."""
+    """Choose the value(ammount of Keys) of each Keys pack in the pool. If set to 0 Keys will not appear in the pool"""
     display_name = "Keys Pack Value"
     range_start = 0
     range_end = 500
     default = 20
     internal_name = "KeysPackValue"
+
+class GemstonesPackValue(Range):
+    """Choose the value(ammount of Gemstones) of each Gemstone pack in the pool. If set to 0 Gems will not appear in the pool"""
+    display_name = "Gemstone Pack Value"
+    range_start = 0
+    range_end = 2500
+    default = 100
+    internal_name = "GemstonePackValue"
+
+class DiamondsPackValue(Range):
+    """Choose the value(ammount of diamonds) of each diamonds pack in the pool. If set to 0 Diamonds will not appear in the pool"""
+    display_name = "Diamonds Pack Value"
+    range_start = 0
+    range_end = 100
+    default = 15
+    internal_name = "DiamondsPackValue"
+
+class TitanBloodPackValue(Range):
+    """Choose the value(ammount of Titan blood) of each Titan blood pack in the pool. If set to 0 Titan blood will not appear in the pool"""
+    display_name = "Titan Blood Pack Value"
+    range_start = 0
+    range_end = 50
+    default = 3
+    internal_name = "TitanBloodPackValue"
+
+class NectarPackValue(Range):
+    """Choose the value(ammount of Nectar) of each Nectar pack in the pool. If set to 0 Nectar will not appear in the pool"""
+    display_name = "Nectar Pack Value"
+    range_start = 0
+    range_end = 50
+    default = 3
+    internal_name = "NectarPackValue"
+
+class AmbrosiaPackValue(Range):
+    """Choose the value(ammount of Ambrosia) of each Ambrosia pack in the pool. If set to 0 Ambrosia will not appear in the pool"""
+    display_name = "Ambrosia Pack Value"
+    range_start = 0
+    range_end = 50
+    default = 3
+    internal_name = "AmbrosiaPackValue"
 
 
 # ------------------------------ Building dictionary ------------------------
@@ -181,4 +221,9 @@ hades_options: typing.Dict[str, type(Option)] = {
     "personal_liability_pact_ammount": PersonalLiabilityPactAmmount,
     "darkness_pack_value": DarknessPackValue,
     "keys_pack_value": KeysPackValue,
+    "gemstones_pack_value": GemstonesPackValue,
+    "diamonds_pack_value": DiamondsPackValue,
+    "titan_blood_pack_value": TitanBloodPackValue,
+    "nectar_pack_value": NectarPackValue,
+    "ambrosia_pack_value": AmbrosiaPackValue,
 }

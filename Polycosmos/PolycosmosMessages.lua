@@ -3,22 +3,22 @@ ModUtil.Mod.Register( "PolycosmosMessages" )
 -- Change PrintStack height to take up less screen estate
 -- Default PrintStackHeight = 10
 ModUtil.Table.Merge( ModUtil.Hades, {
-	PrintStackHeight = 3
+	PrintStackHeight = 4
 } )
 
 ------------ Utils to uniformly change how we desplay messages
 
 function PolycosmosMessages.PrintToPlayer(message)
-    ModUtil.Hades.PrintStack(message)
+    ModUtil.Hades.PrintStack(message, 3, {1,0.9,0.1,1}, {0,0,0,1}, 20)
 end
 
 
 function PolycosmosMessages.PrintInformationMessage(message)
-    ModUtil.Hades.PrintStack(message)
+    ModUtil.Hades.PrintStack(message, 3, {0.3,0.9,1,1}, {0,0,0,1}, 20)
 end
 
 function PolycosmosMessages.PrintErrorMessage(message, id)
-    ModUtil.Hades.PrintStack("Error number "..id..": "..message)
+    ModUtil.Hades.PrintStack("Error number "..id..": "..message, 3, {1,0,0,1}, {0,0,0,1}, 20)
 end
 
 -- for id Error

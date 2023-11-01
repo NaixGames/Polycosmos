@@ -40,7 +40,32 @@ items_table_event: Dict[str, ItemData] = {
 item_table_filler: Dict[str, ItemData] = {
     'Darkness': ItemData(hades_base_item_id+16, False),
     'Keys': ItemData(hades_base_item_id+17, False),
+    'Gemstones': ItemData(hades_base_item_id+18, False),
+    'Diamonds': ItemData(hades_base_item_id+19, False),
+    'TitanBlood': ItemData(hades_base_item_id+20, False),
+    'Nectar': ItemData(hades_base_item_id+21, False),
+    'Ambrosia': ItemData(hades_base_item_id+22, False)
 }
+
+def create_filler_pool_options(hades_options, multiworld, player):
+    item_filler_options = []
+    if (multiworld.darkness_pack_value[player].value > 0):
+        item_filler_options.append('Darkness')
+    if (multiworld.keys_pack_value[player].value > 0):
+        item_filler_options.append('Keys')
+    if (multiworld.gemstones_pack_value[player].value > 0):
+        item_filler_options.append('Gemstones')
+    if (multiworld.diamonds_pack_value[player].value > 0):
+        item_filler_options.append('Diamonds')
+    if (multiworld.titan_blood_pack_value[player].value > 0):
+        item_filler_options.append('TitanBlood')
+    if (multiworld.nectar_pack_value[player].value > 0):
+        item_filler_options.append('Nectar')
+    if (multiworld.ambrosia_pack_value[player].value > 0):
+        item_filler_options.append('Ambrosia')
+    if (len(item_filler_options)==0):
+        item_filler_options.append('Darkness')
+    return item_filler_options
 
 #Here we have 39 items
 #This should be replace with a method that construct the dictionary from the settings.

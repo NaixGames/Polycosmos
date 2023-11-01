@@ -88,6 +88,11 @@ class HadesContext(CommonContext):
     dictionary_filler_items = {
         "Darkness": 0,
         "Keys": 0,
+        "Gemstones": 0,
+        "Diamonds": 0,
+        "TitanBlood": 0,
+        "Nectar": 0,
+        "Ambrosia": 0,
     }
 
     def __init__(self, server_address, password):
@@ -155,7 +160,9 @@ class HadesContext(CommonContext):
             self.is_connected=True
             self.is_receiving_items_from_connect_package=True
             asyncio.create_task(self.send_msgs([{"cmd": "Get", "keys": ["hades:"+str(self.slot)+":filler:Darkness",
-                                                     "hades:"+str(self.slot)+":filler:Keys"]}]))
+                                                     "hades:"+str(self.slot)+":filler:Keys", "hades:"+str(self.slot)+":filler:Gemstones", 
+                                                     "hades:"+str(self.slot)+":filler:Diamonds", "hades:"+str(self.slot)+":filler:TitanBlood",
+                                                     "hades:"+str(self.slot)+":filler:Nectar", "hades:"+str(self.slot)+":filler:Ambrosia"]}]))
 
         if cmd in {"RoomInfo"}:
             #What should be done when room info is sent. 
@@ -186,6 +193,18 @@ class HadesContext(CommonContext):
             if "hades:"+str(self.slot)+":filler:Keys" in args["keys"]:
                 if args["keys"]["hades:"+str(self.slot)+":filler:Keys"] is not None:
                     self.dictionary_filler_items["Keys"] = args["keys"]["hades:"+str(self.slot)+":filler:Keys"]
+            if "hades:"+str(self.slot)+":filler:Gemstones" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:Gemstones"] is not None:
+                    self.dictionary_filler_items["Gemstones"] = args["keys"]["hades:"+str(self.slot)+":filler:Gemstones"]
+            if "hades:"+str(self.slot)+":filler:Diamonds" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:Diamonds"] is not None:
+                    self.dictionary_filler_items["Diamonds"] = args["keys"]["hades:"+str(self.slot)+":filler:Diamonds"]
+            if "hades:"+str(self.slot)+":filler:TitanBlood" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:TitanBlood"] is not None:
+                    self.dictionary_filler_items["TitanBlood"] = args["keys"]["hades:"+str(self.slot)+":filler:TitanBlood"]
+            if "hades:"+str(self.slot)+":filler:Nectar" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:Nectar"] is not None:
+                    self.dictionary_filler_items["Nectar"] = args["keys"]["hades:"+str(self.slot)+":filler:Nectar"]
     
 
     def send_items(self):
@@ -251,6 +270,11 @@ class HadesContext(CommonContext):
         filler_dictionary = {
             'DarknessPackValue': self.hades_slot_data['darkness_pack_value'],
             'KeysPackValue': self.hades_slot_data['keys_pack_value'],
+            'GemstonesPackValue': self.hades_slot_data['gemstones_pack_value'],
+            'DiamondsPackValue': self.hades_slot_data['diamonds_pack_value'],
+            'TitanBloodPackValue': self.hades_slot_data['titan_blood_pack_value'],
+            'NectarPackValue': self.hades_slot_data['nectar_pack_value'],
+            'AmbrosiaPackValue': self.hades_slot_data['ambrosia_pack_value'],
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
 

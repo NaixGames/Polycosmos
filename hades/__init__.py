@@ -1,7 +1,7 @@
 import string
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_ammount
+from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_ammount, create_filler_pool_options
 from .Locations import setup_location_table, HadesLocation
 from .Options import hades_options
 from .Regions import create_regions
@@ -49,12 +49,19 @@ class HadesWorld(World):
                 item = HadesItem(name, self.player)
                 pool.append(item)
 
-        #Fill filler items (idkw this is not happening automatically)
+        #create the pack of filler options
+        filler_options = create_filler_pool_options(hades_options, self.multiworld, self.player)
+
+        #Fill filler items uniformly. Maybe later we can tweak this.
+        index = 0
         for amount in range(0, len(self.location_name_to_id)-len(pool)):
-            item = HadesItem(self.get_filler_item_name(), self.player)
+            item_name = filler_options[index]
+            item = HadesItem(item_name, self.player)
             pool.append(item)
+            index = (index+1)%len(filler_options)
         
         self.multiworld.itempool += pool
+
 
         # Pair up our event locations with our event items
         for event, item in event_item_pairs.items():
@@ -101,7 +108,7 @@ class HadesWorld(World):
         return slot_data
 
     def get_filler_item_name(self) -> str:
-        return self.multiworld.random.choice(["Darkness", "Keys"]) 
+        return "Darkness"
 
 
 def create_region(world: MultiWorld, player: int, name: str, locations=None, exits=None):
