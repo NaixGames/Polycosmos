@@ -1,7 +1,7 @@
 import string
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_ammount, create_filler_pool_options
+from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options
 from .Locations import setup_location_table, HadesLocation
 from .Options import hades_options
 from .Regions import create_regions
@@ -41,7 +41,7 @@ class HadesWorld(World):
         pool = []
 
         #Fill pact items
-        item_pool_pacts = create_pact_pool_ammount(hades_options, self.multiworld, self.player)
+        item_pool_pacts = create_pact_pool_amount(hades_options, self.multiworld, self.player)
 
         #Fill pact items
         for name, data in item_table_pacts.items():
@@ -73,22 +73,22 @@ class HadesWorld(World):
 
     def calculate_number_of_important_items(self):
         #Go thorugh every option and count what is the chosen level
-        total = int(self.multiworld.hard_labor_pact_ammount[self.player].value)
-        total += int(self.multiworld.lasting_consequences_pact_ammount[self.player].value)
-        total += int(self.multiworld.convenience_fee_pact_ammount[self.player].value)
-        total += int(self.multiworld.jury_summons_pact_ammount[self.player].value)
-        total += int(self.multiworld.extreme_measures_pact_ammount[self.player].value)
-        total += int(self.multiworld.calisthenics_program_pact_ammount[self.player].value)
-        total += int(self.multiworld.benefits_package_pact_ammount[self.player].value)
-        total += int(self.multiworld.middle_management_pact_ammount[self.player].value)
-        total += int(self.multiworld.underworld_customs_pact_ammount[self.player].value)
-        total += int(self.multiworld.forced_overtime_pact_ammount[self.player].value)
-        total += int(self.multiworld.heightened_security_pact_ammount[self.player].value)
-        total += int(self.multiworld.routine_inspection_pact_ammount[self.player].value)
-        total += int(self.multiworld.damage_control_pact_ammount[self.player].value)
-        total += int(self.multiworld.approval_process_pact_ammount[self.player].value)
-        total += int(self.multiworld.tight_deadline_pact_ammount[self.player].value)
-        total += int(self.multiworld.personal_liability_pact_ammount[self.player].value)
+        total = int(self.multiworld.hard_labor_pact_amount[self.player].value)
+        total += int(self.multiworld.lasting_consequences_pact_amount[self.player].value)
+        total += int(self.multiworld.convenience_fee_pact_amount[self.player].value)
+        total += int(self.multiworld.jury_summons_pact_amount[self.player].value)
+        total += int(self.multiworld.extreme_measures_pact_amount[self.player].value)
+        total += int(self.multiworld.calisthenics_program_pact_amount[self.player].value)
+        total += int(self.multiworld.benefits_package_pact_amount[self.player].value)
+        total += int(self.multiworld.middle_management_pact_amount[self.player].value)
+        total += int(self.multiworld.underworld_customs_pact_amount[self.player].value)
+        total += int(self.multiworld.forced_overtime_pact_amount[self.player].value)
+        total += int(self.multiworld.heightened_security_pact_amount[self.player].value)
+        total += int(self.multiworld.routine_inspection_pact_amount[self.player].value)
+        total += int(self.multiworld.damage_control_pact_amount[self.player].value)
+        total += int(self.multiworld.approval_process_pact_amount[self.player].value)
+        total += int(self.multiworld.tight_deadline_pact_amount[self.player].value)
+        total += int(self.multiworld.personal_liability_pact_amount[self.player].value)
         return total
 
     def create_item(self, name: str) -> Item:

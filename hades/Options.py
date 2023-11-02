@@ -12,136 +12,136 @@ class InitialWeapon(TextChoice):
 
 # -----------------------Settings for Pact levels ---------------
 
-class HardLaborPactAmmount(Range):
-    """Choose the ammount of Hard Labor pacts in the pool."""
-    display_name = "Hard Labor Pact Ammount"
+class HardLaborPactAmount(Range):
+    """Choose the amount of Hard Labor pacts in the pool."""
+    display_name = "Hard Labor Pact Amount"
     range_start = 0
     range_end = 5
     default = 3
     internal_name = "HardLaborPactLevel"
 
-class LastingConsequencesPactAmmount(Range):
-    """Choose the ammount of Lasting Consequences pacts in the pool. """
-    display_name = "Lasting Consequences Pact Ammount"
+class LastingConsequencesPactAmount(Range):
+    """Choose the amount of Lasting Consequences pacts in the pool. """
+    display_name = "Lasting Consequences Pact Amount"
     range_start = 0
     range_end = 4
     default = 2
     internal_name = "LastingConsequencesPactLevel"
 
-class ConvenienceFeePactAmmount(Range):
-    """Choose the ammount of Convenience Fee pacts in the pool."""
-    display_name = "Convenience Fee Pact Ammount"
+class ConvenienceFeePactAmount(Range):
+    """Choose the amount of Convenience Fee pacts in the pool."""
+    display_name = "Convenience Fee Pact Amount"
     range_start = 0
     range_end = 2
     default = 1
     internal_name = "ConvenienceFeePactLevel"
 
-class JurySummonsPactAmmount(Range):
-    """Choose the ammount of Jury Summons pacts in the pool."""
-    display_name = "Jury Summons Pact Ammount"
+class JurySummonsPactAmount(Range):
+    """Choose the amount of Jury Summons pacts in the pool."""
+    display_name = "Jury Summons Pact Amount"
     range_start = 0
     range_end = 3
     default = 2
     internal_name = "JurySummonsPactLevel"
 
-class ExtremeMeasuresPactAmmount(Range):
-    """Choose the ammount of Extreme Measures pacts in the pool. """
-    display_name = "Extreme Measures Pact Ammount"
+class ExtremeMeasuresPactAmount(Range):
+    """Choose the amount of Extreme Measures pacts in the pool. """
+    display_name = "Extreme Measures Pact Amount"
     range_start = 0
     range_end = 4
     default = 2
     internal_name = "ExtremeMeasuresPactLevel"
 
-class CalisthenicsProgramPactAmmount(Range):
-    """Choose the ammount of Calisthenics Program pacts in the pool."""
-    display_name = "Calisthenics Program Pact Ammount"
+class CalisthenicsProgramPactAmount(Range):
+    """Choose the amount of Calisthenics Program pacts in the pool."""
+    display_name = "Calisthenics Program Pact Amount"
     range_start = 0
     range_end = 2
     default = 1
     internal_name = "CalisthenicsProgramPactLevel"
 
-class BenefitsPackagePactAmmount(Range):
-    """Choose the ammount of Benefits Package pacts in the pool."""
-    display_name = "Benefits Package Pact Ammount"
+class BenefitsPackagePactAmount(Range):
+    """Choose the amount of Benefits Package pacts in the pool."""
+    display_name = "Benefits Package Pact Amount"
     range_start = 0
     range_end = 2
     default = 1
     internal_name = "BenefitsPackagePactLevel"
 
-class MiddleManagementPactAmmount(Range):
-    """Choose the ammount of Middle Management pacts in the pool."""
-    display_name = "Middle Management Pact Ammount"
+class MiddleManagementPactAmount(Range):
+    """Choose the amount of Middle Management pacts in the pool."""
+    display_name = "Middle Management Pact Amount"
     range_start = 0
     range_end = 1
     default = 1
     internal_name = "MiddleManagementPactLevel"
 
-class UnderworldCustomsPactAmmount(Range):
-    """Choose the ammount of Underworld Customs pacts in the pool."""
-    display_name = "Underworld Customs Pact Ammount"
+class UnderworldCustomsPactAmount(Range):
+    """Choose the amount of Underworld Customs pacts in the pool."""
+    display_name = "Underworld Customs Pact Amount"
     range_start = 0
     range_end = 1
     default = 1
     internal_name = "UnderworldCustomsPactLevel"
 
-class ForcedOvertimePactAmmount(Range):
-    """Choose the ammount of Forced Overtime pacts in the pool."""
-    display_name = "Forced Overtime Pact Ammount"
+class ForcedOvertimePactAmount(Range):
+    """Choose the amount of Forced Overtime pacts in the pool."""
+    display_name = "Forced Overtime Pact Amount"
     range_start = 0
     range_end = 2
     default = 1
     internal_name = "ForcedOvertimePactLevel"
 
-class HeightenedSecurityPactAmmount(Range):
-    """Choose the ammount of Heightened Security pacts in the pool."""
-    display_name = "Heightened Security Pact Ammount"
+class HeightenedSecurityPactAmount(Range):
+    """Choose the amount of Heightened Security pacts in the pool."""
+    display_name = "Heightened Security Pact Amount"
     range_start = 0
     range_end = 1
     default = 1
     internal_name = "HeightenedSecurityPactLevel"
 
-class RoutineInspectionPactAmmount(Range):
-    """Choose the ammount of Routine Inspection pacts in the pool."""
-    display_name = "Routine Inspection Pact Ammount"
+class RoutineInspectionPactAmount(Range):
+    """Choose the amount of Routine Inspection pacts in the pool."""
+    display_name = "Routine Inspection Pact Amount"
     range_start = 0
     range_end = 4
     default = 3
     internal_name = "RoutineInspectionPactLevel"
 
-class DamageControlPactAmmount(Range):
-    """Choose the ammount of Damage Control pacts in the pool."""
-    display_name = "Damage Control Pact Ammount"
+class DamageControlPactAmount(Range):
+    """Choose the amount of Damage Control pacts in the pool."""
+    display_name = "Damage Control Pact Amount"
     range_start = 0
     range_end = 2
     default = 1
     internal_name = "DamageControlPactLevel"
 
-class ApprovalProcessPactAmmount(Range):
-    """Choose the ammount of Approval Process pacts in the pool."""
-    display_name = "Approval Process Pact Ammount"
+class ApprovalProcessPactAmount(Range):
+    """Choose the amount of Approval Process pacts in the pool."""
+    display_name = "Approval Process Pact Amount"
     range_start = 0
     range_end = 2
     default = 1
     internal_name = "ApprovalProcessPactLevel"
 
-class TightDeadlinePactAmmount(Range):
-    """Choose the ammount of Tight Deadline pacts in the pool."""
-    display_name = "Tight Deadline Pact Ammount"
+class TightDeadlinePactAmount(Range):
+    """Choose the amount of Tight Deadline pacts in the pool."""
+    display_name = "Tight Deadline Pact Amount"
     range_start = 0
     range_end = 3
     default = 2
     internal_name = "TightDeadlinePactLevel"
 
-class PersonalLiabilityPactAmmount(Range):
-    """Choose the ammount of Personal Liability pacts in the pool."""
-    display_name = "Personal Liability Pact Ammount"
+class PersonalLiabilityPactAmount(Range):
+    """Choose the amount of Personal Liability pacts in the pool."""
+    display_name = "Personal Liability Pact Amount"
     range_start = 0
     range_end = 1
     default = 0
     internal_name = "PersonalLiabilityPactLevel"
 
 class DarknessPackValue(Range):
-    """Choose the value(ammount of darkness) of each darkness pack in the pool. If set to 0 Darkness will not appear in the pool."""
+    """Choose the value(amount of darkness) of each darkness pack in the pool. If set to 0 Darkness will not appear in the pool."""
     display_name = "Darkness Pack Value"
     range_start = 0
     range_end = 10000
@@ -149,7 +149,7 @@ class DarknessPackValue(Range):
     internal_name = "DarknessPackValue"
 
 class KeysPackValue(Range):
-    """Choose the value(ammount of Keys) of each Keys pack in the pool. If set to 0 Keys will not appear in the pool"""
+    """Choose the value(amount of Keys) of each Keys pack in the pool. If set to 0 Keys will not appear in the pool"""
     display_name = "Keys Pack Value"
     range_start = 0
     range_end = 500
@@ -157,7 +157,7 @@ class KeysPackValue(Range):
     internal_name = "KeysPackValue"
 
 class GemstonesPackValue(Range):
-    """Choose the value(ammount of Gemstones) of each Gemstone pack in the pool. If set to 0 Gems will not appear in the pool"""
+    """Choose the value(amount of Gemstones) of each Gemstone pack in the pool. If set to 0 Gems will not appear in the pool"""
     display_name = "Gemstone Pack Value"
     range_start = 0
     range_end = 2500
@@ -165,7 +165,7 @@ class GemstonesPackValue(Range):
     internal_name = "GemstonePackValue"
 
 class DiamondsPackValue(Range):
-    """Choose the value(ammount of diamonds) of each diamonds pack in the pool. If set to 0 Diamonds will not appear in the pool"""
+    """Choose the value(amount of diamonds) of each diamonds pack in the pool. If set to 0 Diamonds will not appear in the pool"""
     display_name = "Diamonds Pack Value"
     range_start = 0
     range_end = 100
@@ -173,7 +173,7 @@ class DiamondsPackValue(Range):
     internal_name = "DiamondsPackValue"
 
 class TitanBloodPackValue(Range):
-    """Choose the value(ammount of Titan blood) of each Titan blood pack in the pool. If set to 0 Titan blood will not appear in the pool"""
+    """Choose the value(amount of Titan blood) of each Titan blood pack in the pool. If set to 0 Titan blood will not appear in the pool"""
     display_name = "Titan Blood Pack Value"
     range_start = 0
     range_end = 50
@@ -181,7 +181,7 @@ class TitanBloodPackValue(Range):
     internal_name = "TitanBloodPackValue"
 
 class NectarPackValue(Range):
-    """Choose the value(ammount of Nectar) of each Nectar pack in the pool. If set to 0 Nectar will not appear in the pool"""
+    """Choose the value(amount of Nectar) of each Nectar pack in the pool. If set to 0 Nectar will not appear in the pool"""
     display_name = "Nectar Pack Value"
     range_start = 0
     range_end = 50
@@ -189,7 +189,7 @@ class NectarPackValue(Range):
     internal_name = "NectarPackValue"
 
 class AmbrosiaPackValue(Range):
-    """Choose the value(ammount of Ambrosia) of each Ambrosia pack in the pool. If set to 0 Ambrosia will not appear in the pool"""
+    """Choose the value(amount of Ambrosia) of each Ambrosia pack in the pool. If set to 0 Ambrosia will not appear in the pool"""
     display_name = "Ambrosia Pack Value"
     range_start = 0
     range_end = 50
@@ -203,22 +203,22 @@ class AmbrosiaPackValue(Range):
 hades_options: typing.Dict[str, type(Option)] = {
     "weapon": InitialWeapon,
     "death_link": DeathLink,
-    "hard_labor_pact_ammount": HardLaborPactAmmount,
-    "lasting_consequences_pact_ammount": LastingConsequencesPactAmmount,
-    "convenience_fee_pact_ammount": ConvenienceFeePactAmmount,
-    "jury_summons_pact_ammount": JurySummonsPactAmmount,
-    "extreme_measures_pact_ammount": ExtremeMeasuresPactAmmount,
-    "calisthenics_program_pact_ammount": CalisthenicsProgramPactAmmount,
-    "benefits_package_pact_ammount": BenefitsPackagePactAmmount,
-    "middle_management_pact_ammount": MiddleManagementPactAmmount,
-    "underworld_customs_pact_ammount": UnderworldCustomsPactAmmount,
-    "forced_overtime_pact_ammount": ForcedOvertimePactAmmount,
-    "heightened_security_pact_ammount": HeightenedSecurityPactAmmount,
-    "routine_inspection_pact_ammount": RoutineInspectionPactAmmount,
-    "damage_control_pact_ammount": DamageControlPactAmmount,
-    "approval_process_pact_ammount": ApprovalProcessPactAmmount,
-    "tight_deadline_pact_ammount": TightDeadlinePactAmmount,
-    "personal_liability_pact_ammount": PersonalLiabilityPactAmmount,
+    "hard_labor_pact_amount": HardLaborPactAmount,
+    "lasting_consequences_pact_amount": LastingConsequencesPactAmount,
+    "convenience_fee_pact_amount": ConvenienceFeePactAmount,
+    "jury_summons_pact_amount": JurySummonsPactAmount,
+    "extreme_measures_pact_amount": ExtremeMeasuresPactAmount,
+    "calisthenics_program_pact_amount": CalisthenicsProgramPactAmount,
+    "benefits_package_pact_amount": BenefitsPackagePactAmount,
+    "middle_management_pact_amount": MiddleManagementPactAmount,
+    "underworld_customs_pact_amount": UnderworldCustomsPactAmount,
+    "forced_overtime_pact_amount": ForcedOvertimePactAmount,
+    "heightened_security_pact_amount": HeightenedSecurityPactAmount,
+    "routine_inspection_pact_amount": RoutineInspectionPactAmount,
+    "damage_control_pact_amount": DamageControlPactAmount,
+    "approval_process_pact_amount": ApprovalProcessPactAmount,
+    "tight_deadline_pact_amount": TightDeadlinePactAmount,
+    "personal_liability_pact_amount": PersonalLiabilityPactAmount,
     "darkness_pack_value": DarknessPackValue,
     "keys_pack_value": KeysPackValue,
     "gemstones_pack_value": GemstonesPackValue,

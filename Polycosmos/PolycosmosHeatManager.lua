@@ -112,11 +112,11 @@ end
 ---if we eventually want to do other heat settings, this is the function we should modify
 function PolycosmosHeatManager.UpdatePactsLevel()
 	PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-    local oldGameStateMetaUpgrades = DeepCopyTable(GameState.MetaUpgrades)
-    BuildMetaupgradeCache() 
+   -- local oldGameStateMetaUpgrades = DeepCopyTable(GameState.MetaUpgrades)
+    --BuildMetaupgradeCache() --Maybe replace that by If Current run => update Current run meta cache upgrades with current ones
     GameState.SpentShrinePointsCache = GetTotalSpentShrinePoints()
     UpdateActiveShrinePoints()
-    GameState.MetaUpgrades = DeepCopyTable(oldGameStateMetaUpgrades)
+    --GameState.MetaUpgrades = DeepCopyTable(oldGameStateMetaUpgrades)
 
     --[[The use of oldGameStateMetaUpgrades is a really dumb thing, but only way to
     1.- Save the players upgrades in the mirror
@@ -133,9 +133,20 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
             calculatedLevel=0
         end
         pactSettingLoader[pactData.Name] = calculatedLevel
+
+        --This is just for printing which pact levels were obtained. 
+        --If other heat management setting wanted to be implemented this might need change.
+        --Also I dont quite like to have this here ... but it is what it is.
+        if (GameState.MetaUpgrades[pactData.Name] and calculatedLevel < GameState.MetaUpgrades[pactData.Name]) then
+            PolycosmosMessages.PrintToPlayer("Obtained "..pactKey.." pact level item!")
+            PolycosmosMessages.PrintToPlayer(pactKey.." heat level changed to "..calculatedLevel)
+        end
     end
     for pactName, pactLevel in pairs (pactSettingLoader) do
         GameState.MetaUpgrades[pactName] = pactLevel
+        if (CurrentRun) then
+            CurrentRun.MetaUpgradeCache[pactName] = pactLevel
+        end
     end
 end
 

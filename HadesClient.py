@@ -205,6 +205,9 @@ class HadesContext(CommonContext):
             if "hades:"+str(self.slot)+":filler:Nectar" in args["keys"]:
                 if args["keys"]["hades:"+str(self.slot)+":filler:Nectar"] is not None:
                     self.dictionary_filler_items["Nectar"] = args["keys"]["hades:"+str(self.slot)+":filler:Nectar"]
+            if "hades:"+str(self.slot)+":filler:Ambrosia" in args["keys"]:
+                if args["keys"]["hades:"+str(self.slot)+":filler:Ambrosia"] is not None:
+                    self.dictionary_filler_items["Ambrosia"] = args["keys"]["hades:"+str(self.slot)+":filler:Ambrosia"]
     
 
     def send_items(self):
@@ -249,22 +252,22 @@ class HadesContext(CommonContext):
 
     def store_settings_data(self):
         heat_dictionary = {
-            'HardLaborPactLevel': self.hades_slot_data['hard_labor_pact_ammount'],
-            'LastingConsequencesPactLevel': self.hades_slot_data['lasting_consequences_pact_ammount'],
-            'ConvenienceFeePactLevel': self.hades_slot_data['convenience_fee_pact_ammount'],
-            'JurySummonsPactLevel': self.hades_slot_data['jury_summons_pact_ammount'],
-            'ExtremeMeasuresPactLevel': self.hades_slot_data['extreme_measures_pact_ammount'],
-            'CalisthenicsProgramPactLevel': self.hades_slot_data['calisthenics_program_pact_ammount'],
-            'BenefitsPackagePactLevel': self.hades_slot_data['benefits_package_pact_ammount'],
-            'MiddleManagementPactLevel': self.hades_slot_data['middle_management_pact_ammount'],
-            'UnderworldCustomsPactLevel': self.hades_slot_data['underworld_customs_pact_ammount'],
-            'ForcedOvertimePactLevel': self.hades_slot_data['forced_overtime_pact_ammount'],
-            'HeightenedSecurityPactLevel': self.hades_slot_data['heightened_security_pact_ammount'],
-            'RoutineInspectionPactLevel': self.hades_slot_data['routine_inspection_pact_ammount'],
-            'DamageControlPactLevel': self.hades_slot_data['damage_control_pact_ammount'],
-            'ApprovalProcessPactLevel': self.hades_slot_data['approval_process_pact_ammount'],
-            'TightDeadlinePactLevel': self.hades_slot_data['tight_deadline_pact_ammount'],
-            'PersonalLiabilityPactLevel': self.hades_slot_data['personal_liability_pact_ammount'],
+            'HardLaborPactLevel': self.hades_slot_data['hard_labor_pact_amount'],
+            'LastingConsequencesPactLevel': self.hades_slot_data['lasting_consequences_pact_amount'],
+            'ConvenienceFeePactLevel': self.hades_slot_data['convenience_fee_pact_amount'],
+            'JurySummonsPactLevel': self.hades_slot_data['jury_summons_pact_amount'],
+            'ExtremeMeasuresPactLevel': self.hades_slot_data['extreme_measures_pact_amount'],
+            'CalisthenicsProgramPactLevel': self.hades_slot_data['calisthenics_program_pact_amount'],
+            'BenefitsPackagePactLevel': self.hades_slot_data['benefits_package_pact_amount'],
+            'MiddleManagementPactLevel': self.hades_slot_data['middle_management_pact_amount'],
+            'UnderworldCustomsPactLevel': self.hades_slot_data['underworld_customs_pact_amount'],
+            'ForcedOvertimePactLevel': self.hades_slot_data['forced_overtime_pact_amount'],
+            'HeightenedSecurityPactLevel': self.hades_slot_data['heightened_security_pact_amount'],
+            'RoutineInspectionPactLevel': self.hades_slot_data['routine_inspection_pact_amount'],
+            'DamageControlPactLevel': self.hades_slot_data['damage_control_pact_amount'],
+            'ApprovalProcessPactLevel': self.hades_slot_data['approval_process_pact_amount'],
+            'TightDeadlinePactLevel': self.hades_slot_data['tight_deadline_pact_amount'],
+            'PersonalLiabilityPactLevel': self.hades_slot_data['personal_liability_pact_amount'],
         }
         subsume.Modules.StyxScribeShared.Root["HeatSettings"] = heat_dictionary
         filler_dictionary = {

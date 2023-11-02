@@ -5,6 +5,7 @@ loaded = false
 local checkToProcess = "" --TODO: Change this for array and process the whole array. This could help with desyncs.
 
 local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
+--TODO: this gets sightly out of sync if the player exists the file and loads again without closing the game/client. Any way to avoid this?
 
 
 --[[
@@ -16,11 +17,13 @@ locations already checked in server and to build the location to item mapping. A
 between hades and client should be done by sending messages by the StyxScribe hook message.
 
 This is far more nuanced, but should be more stable during runtime for any user that does not run a SSD.
+In fact, after testing this seems to fix a big bunch of crashes that would be a pain to fix otherwise. 
 
 ]]--
 
 
---Sadly I need to put this buffer in case hades request some data before the Shared state is updated.
+--Sadly I need to put this buffer in case hades request some data before the Shared state is updated. This could happen
+--in the case a location check is requested as soon as the game boots up.
 local bufferTime = 2
 
 styx_scribe_send_prefix  = "Polycosmos to Client:"
@@ -70,7 +73,11 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
     if (roomNumber == nil) then
         return
     end
-    PolycosmosEvents.UnlockLocationCheck("Clear Room"..roomNumber)
+    roomString = roomNumber
+    if (roomNumber < 10) then
+        roomString = "0"..roomNumber
+    end
+    PolycosmosEvents.UnlockLocationCheck("Clear Room"..roomString)
 end
 
 --Here we should put other methods to process checks. Let it be boon/NPC related or whatever.

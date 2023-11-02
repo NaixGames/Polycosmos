@@ -5,16 +5,18 @@ from BaseClasses import Location
 
 hades_base_location_id = 666000
 
+#Todo: automate creating of this tables to allow also to make a point based progresion system for Locations
+
 location_table_tartarus = {
-    'Clear Room1': hades_base_location_id+0,
-    'Clear Room2': hades_base_location_id+1,
-    'Clear Room3': hades_base_location_id+2,
-    'Clear Room4': hades_base_location_id+3,
-    'Clear Room5': hades_base_location_id+4,
-    'Clear Room6': hades_base_location_id+5,
-    'Clear Room7': hades_base_location_id+6,
-    'Clear Room8': hades_base_location_id+7,
-    'Clear Room9': hades_base_location_id+8,
+    'Clear Room01': hades_base_location_id+0,
+    'Clear Room02': hades_base_location_id+1,
+    'Clear Room03': hades_base_location_id+2,
+    'Clear Room04': hades_base_location_id+3,
+    'Clear Room05': hades_base_location_id+4,
+    'Clear Room06': hades_base_location_id+5,
+    'Clear Room07': hades_base_location_id+6,
+    'Clear Room08': hades_base_location_id+7,
+    'Clear Room09': hades_base_location_id+8,
     'Clear Room10': hades_base_location_id+9,
     'Clear Room11': hades_base_location_id+10,
     'Clear Room12': hades_base_location_id+11,

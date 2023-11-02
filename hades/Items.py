@@ -88,24 +88,24 @@ item_pool_pacts: Dict[str, int] = {
     'PersonalLiabilityPactLevel': 1,
 }
 
-def create_pact_pool_ammount(hades_options, multiworld, player) -> Dict[str, int]:
+def create_pact_pool_amount(hades_options, multiworld, player) -> Dict[str, int]:
     item_pool_pacts = {
-        'HardLaborPactLevel': int(multiworld.hard_labor_pact_ammount[player].value),
-        'LastingConsequencesPactLevel': int(multiworld.lasting_consequences_pact_ammount[player].value),
-        'ConvenienceFeePactLevel': int(multiworld.convenience_fee_pact_ammount[player].value),
-        'JurySummonsPactLevel': int(multiworld.jury_summons_pact_ammount[player].value),
-        'ExtremeMeasuresPactLevel': int(multiworld.extreme_measures_pact_ammount[player].value),
-        'CalisthenicsProgramPactLevel': int(multiworld.calisthenics_program_pact_ammount[player].value),
-        'BenefitsPackagePactLevel': int(multiworld.benefits_package_pact_ammount[player].value),
-        'MiddleManagementPactLevel': int(multiworld.middle_management_pact_ammount[player].value),
-        'UnderworldCustomsPactLevel': int(multiworld.underworld_customs_pact_ammount[player].value),
-        'ForcedOvertimePactLevel': int(multiworld.forced_overtime_pact_ammount[player].value),
-        'HeightenedSecurityPactLevel': int(multiworld.heightened_security_pact_ammount[player].value),
-        'RoutineInspectionPactLevel': int(multiworld.routine_inspection_pact_ammount[player].value),
-        'DamageControlPactLevel': int(multiworld.damage_control_pact_ammount[player].value),
-        'ApprovalProcessPactLevel': int(multiworld.approval_process_pact_ammount[player].value),
-        'TightDeadlinePactLevel': int(multiworld.tight_deadline_pact_ammount[player].value),
-        'PersonalLiabilityPactLevel': int(multiworld.personal_liability_pact_ammount[player].value),
+        'HardLaborPactLevel': int(multiworld.hard_labor_pact_amount[player].value),
+        'LastingConsequencesPactLevel': int(multiworld.lasting_consequences_pact_amount[player].value),
+        'ConvenienceFeePactLevel': int(multiworld.convenience_fee_pact_amount[player].value),
+        'JurySummonsPactLevel': int(multiworld.jury_summons_pact_amount[player].value),
+        'ExtremeMeasuresPactLevel': int(multiworld.extreme_measures_pact_amount[player].value),
+        'CalisthenicsProgramPactLevel': int(multiworld.calisthenics_program_pact_amount[player].value),
+        'BenefitsPackagePactLevel': int(multiworld.benefits_package_pact_amount[player].value),
+        'MiddleManagementPactLevel': int(multiworld.middle_management_pact_amount[player].value),
+        'UnderworldCustomsPactLevel': int(multiworld.underworld_customs_pact_amount[player].value),
+        'ForcedOvertimePactLevel': int(multiworld.forced_overtime_pact_amount[player].value),
+        'HeightenedSecurityPactLevel': int(multiworld.heightened_security_pact_amount[player].value),
+        'RoutineInspectionPactLevel': int(multiworld.routine_inspection_pact_amount[player].value),
+        'DamageControlPactLevel': int(multiworld.damage_control_pact_amount[player].value),
+        'ApprovalProcessPactLevel': int(multiworld.approval_process_pact_amount[player].value),
+        'TightDeadlinePactLevel': int(multiworld.tight_deadline_pact_amount[player].value),
+        'PersonalLiabilityPactLevel': int(multiworld.personal_liability_pact_amount[player].value),
     }
     return item_pool_pacts
 
