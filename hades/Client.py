@@ -387,7 +387,7 @@ def print_error_and_close(msg):
 #  ------------ Methods to start the client + Hades + StyxScribe ------------
 
 def launch_hades():
-    subsume.Launch()
+    subsume.Launch(True, None)
 
 
 def launch():
@@ -405,11 +405,22 @@ def launch():
 
 
     import colorama
-    sys.stdin = open(0, encoding='utf-8')
-    thr = threading.Thread(target=launch_hades, args=(), kwargs={})
-    thr.start()
-    parser = get_base_parser()
-    args = parser.parse_args()
-    colorama.init()
-    asyncio.run(main(args))
-    colorama.deinit()
+    try:
+        sys.stdin = open(0, encoding='utf-8')
+        thr = threading.Thread(target=launch_hades, args=(), kwargs={})
+        thr.start()
+        parser = get_base_parser()
+        args = parser.parse_args()
+        colorama.init()
+        asyncio.run(main(args))
+        colorama.deinit()
+    except OSError:
+        print("No console for StyxScribe needed")
+        thr = threading.Thread(target=launch_hades, args=(), kwargs={})
+        thr.start()
+        parser = get_base_parser()
+        args = parser.parse_args()
+        colorama.init()
+        asyncio.run(main(args))
+        colorama.deinit()
+        
