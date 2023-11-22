@@ -405,22 +405,10 @@ def launch():
 
 
     import colorama
-    try:
-        sys.stdin = open(0, encoding='utf-8')
-        thr = threading.Thread(target=launch_hades, args=(), kwargs={})
-        thr.start()
-        parser = get_base_parser()
-        args = parser.parse_args()
-        colorama.init()
-        asyncio.run(main(args))
-        colorama.deinit()
-    except OSError:
-        print("No console for StyxScribe needed")
-        thr = threading.Thread(target=launch_hades, args=(), kwargs={})
-        thr.start()
-        parser = get_base_parser()
-        args = parser.parse_args()
-        colorama.init()
-        asyncio.run(main(args))
-        colorama.deinit()
-        
+    thr = threading.Thread(target=launch_hades, args=(), kwargs={})
+    thr.start()
+    parser = get_base_parser()
+    args = parser.parse_args()
+    colorama.init()
+    asyncio.run(main(args))
+    colorama.deinit()
