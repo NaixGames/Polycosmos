@@ -3,7 +3,7 @@ import typing
 from BaseClasses import Location
 
 
-hades_base_location_id = 666000
+hades_base_location_id = 5093427000
 
 #Todo: automate creating of this tables to allow also to make a point based progresion system for Locations
 
