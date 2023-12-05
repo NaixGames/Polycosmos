@@ -155,6 +155,7 @@ class HadesContext(CommonContext):
         # This is what is done when a package arrives.
         if cmd in {"Connected"}:
             # What should be done in a connection package
+            self.cache_items_received_names.clear()
             self.missing_locations_cache = args['missing_locations']
             self.checked_locations_cache = args['checked_locations']
             self.hades_slot_data = args['slot_data']

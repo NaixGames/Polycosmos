@@ -1,6 +1,7 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.2.2 and up to this version it possesses the feature detailed below:
+0.3 and up to this version it possesses the feature detailed below:
+
 
 Modes:
 - Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time.
@@ -21,7 +22,7 @@ Settings:
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
 - Have [ModUtils](https://github.com/SGG-Modding/ModUtil/releases) installed. For this download the latest version from the Github link, unzip that folder on Hades/Content/Mods and then Open modimporter.exe in you Hades/Content folder. Note you might need to create the Mods folder.
-- Have [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed. For this follow the instructions in the repo ( put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe, StyxScribeREPL, StyxScribeShared, StyxScribeSharedREPL in Hades/Content/Mods folde. Run modimporter.exe). If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
+- Have [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed, without the REPL part. For this, download the mod and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository (put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe).
 - Now you can execute the client from source or the compiled version. The latter one ensures more stability, while the latter is easier to use. For source, get your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago) and on it copy HadesClient.py on the base folder (where all the Clients.py are) and copy either the hades folder or hades.apworld in the worlds folder. For the compiled version, grab HadesCompiled.zip and
 unzip in your main Archipelago folder (where all the ArchipelagoClients.exe are).
@@ -76,7 +77,7 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.2.2 it is compromised of the following modules:
+"require" or related commands). Up to the time of 0.3 it is compromised of the following modules:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it recieves
