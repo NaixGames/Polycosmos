@@ -1,4 +1,6 @@
 import string
+import typing
+import settings
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options
@@ -6,7 +8,23 @@ from .Locations import setup_location_table, HadesLocation
 from .Options import hades_options
 from .Regions import create_regions
 from .Rules import set_rules
-from ..AutoWorld import WebWorld, World
+from worlds.AutoWorld import WebWorld, World
+from worlds.LauncherComponents import Component, components, Type, launch_subprocess
+
+
+def launch_client():
+    from .Client import launch
+    launch_subprocess(launch, "HadesClient")
+
+
+components.append(Component("Hades Client", "HadesClient", func=launch_client, component_type=Type.CLIENT))
+
+
+class HadesSettings(settings.Group):
+    class StyxScribePath(settings.UserFilePath):
+        """Path to the StyxScribe install"""
+
+    styx_scribe_path: StyxScribePath = StyxScribePath("C:/Program Files/Steam/steamapps/common/Hades/StyxScribe.py")
 
 
 class HadesWeb(WebWorld):
@@ -30,6 +48,7 @@ class HadesWorld(World):
     game = "Hades"
     topology_present = False
     data_version = 1
+    settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
     required_client_version = (0, 4, 1)
 
