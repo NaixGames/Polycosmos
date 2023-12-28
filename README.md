@@ -93,7 +93,7 @@ Is that by using this hooks that can communicate between Polycosmos and the Arch
 
 As a side note, you might be considering why we even use StyxScribe and not import a .dll to use for the APClient (which already
 exists for game running in .lua). The reason is simple: Hades run on a lua compiler that does not allow manul import of external files.
-It why we use StyxScribe; to bypass this limitation as painlessly as possible. If other ways are found to also
+It is why we use StyxScribe; to bypass this limitation as painlessly as possible. If other ways are found to also
 overcome this, another implementation of this mod might be possible which directly implements the client or other functionality inside Hades
 itself.
 
