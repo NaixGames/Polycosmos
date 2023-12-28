@@ -23,43 +23,18 @@ import settings
 import os
 import ssl
 
-styx_scribe_path = settings.get_settings()["hades_options"]["styx_scribe_path"]
-hadespath = os.path.dirname(styx_scribe_path)
 
-spec = importlib.util.spec_from_file_location("StyxScribe", str(styx_scribe_path))
-styx_scribe = importlib.util.module_from_spec(spec)
-sys.modules["StyxScribe"] = styx_scribe
-spec.loader.exec_module(styx_scribe)
-
-subsume = styx_scribe.StyxScribe("Hades")
-# hack to make it work without chdir
-subsume.proxy_purepaths = {
-            None: hadespath / subsume.executable_cwd_purepath / styx_scribe.LUA_PROXY_STDIN,
-            False: hadespath / subsume.executable_cwd_purepath / styx_scribe.LUA_PROXY_FALSE,
-            True: hadespath / subsume.executable_cwd_purepath / styx_scribe.LUA_PROXY_TRUE
-        }
-subsume.args[0] = os.path.normpath(os.path.join(hadespath, subsume.args[0]))
-subsume.executable_purepath = pathlib.PurePath(hadespath, subsume.executable_purepath)
-for i in range(len(subsume.plugins_paths)):
-    subsume.plugins_paths[i] = pathlib.PurePath(hadespath, subsume.plugins_paths[i])
-
-subsume.LoadPlugins()
+# --------------------- Styx Scribe useful globals -----------------
+global subsume
 
 styx_scribe_recieve_prefix = "Polycosmos to Client:"
-styx_scribe_send_prefix = "Client to Polycosmos:"
-
-
-# Test message and hook just to check styx scribe is working
-def handleMessageTest(message):
-    print(message)
-
-
-# writting "Test:" + str con the styx console should trigger a print message
-subsume.AddHook(handleMessageTest, "Test:", "HadesClient")
+styx_scribe_send_prefix = "Client to Polycosmos:"     
 
 
 def to_styx_scribe(message):
     subsume.Send(styx_scribe_send_prefix + " " + message)
+
+# --------------------- Styx Scribe useful globals -----------------
 
 
 # Here we implement methods for the client
@@ -370,6 +345,7 @@ class HadesContext(CommonContext):
     # ------------ gui section ------------------------------------------------
 
     def run_gui(self):
+        import kvui
         from kvui import GameManager
 
         class HadesManager(GameManager):
@@ -406,6 +382,31 @@ def launch():
 
 
     import colorama
+    # --------------------- Styx Scribe initialization -----------------
+    styx_scribe_path = settings.get_settings()["hades_options"]["styx_scribe_path"]
+    hadespath = os.path.dirname(styx_scribe_path)
+
+    spec = importlib.util.spec_from_file_location("StyxScribe", str(styx_scribe_path))
+    styx_scribe = importlib.util.module_from_spec(spec)
+    sys.modules["StyxScribe"] = styx_scribe
+    spec.loader.exec_module(styx_scribe)
+
+    global subsume
+    subsume = styx_scribe.StyxScribe("Hades")
+    # hack to make it work without chdir
+    subsume.proxy_purepaths = {
+        None: hadespath / subsume.executable_cwd_purepath / styx_scribe.LUA_PROXY_STDIN,
+        False: hadespath / subsume.executable_cwd_purepath / styx_scribe.LUA_PROXY_FALSE,
+        True: hadespath / subsume.executable_cwd_purepath / styx_scribe.LUA_PROXY_TRUE
+    }
+    subsume.args[0] = os.path.normpath(os.path.join(hadespath, subsume.args[0]))
+    subsume.executable_purepath = pathlib.PurePath(hadespath, subsume.executable_purepath)
+    for i in range(len(subsume.plugins_paths)):
+        subsume.plugins_paths[i] = pathlib.PurePath(hadespath, subsume.plugins_paths[i])
+
+    subsume.LoadPlugins()
+    # --------------------- Styx Scribe initialization -----------------
+
     thr = threading.Thread(target=launch_hades, args=(), kwargs={})
     thr.start()
     parser = get_base_parser()

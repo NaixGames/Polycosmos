@@ -7,7 +7,7 @@ Modes:
   
 Items:
 - Pact of Punishment down: an item that turns down the level of pact of punishment. Note the game may load this effect
-on the run room, biome or run.
+on the next room, biome or run.
 
 - Keys, Darkness, Gemstones, Diamonds, Titan Blood, Nectar and Ambrosia as filler items.
 
@@ -22,17 +22,17 @@ Settings:
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
 - Have [ModUtils](https://github.com/SGG-Modding/ModUtil/releases) installed. For this download the latest version from the Github link, unzip that folder on Hades/Content/Mods and then Open modimporter.exe in you Hades/Content folder. Note you might need to create the Mods folder.
 - Have [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed, without the REPL part. For this, download the mod and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
-- Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository (put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe).
-- Now you can execute the client from source or the compiled version. The latter one ensures more stability, while the latter is easier to use. For source, get your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago) and on it copy HadesClient.py on the base folder (where all the Clients.py are) and copy either the hades folder or hades.apworld in the worlds folder. For the compiled version, grab HadesClient.exe and
-copy it in your main Archipelago folder (where all the ArchipelagoClients.exe are).
+- Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point your Mods folder should look like this:
+![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.jpg?raw=true)
+- Now you can execute the client from source or the compiled version. The latter one ensures more stability, while the latter is easier to use. For source, get your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago) and on it copy HadesClient.py on the base folder (where all the Clients.py are) and copy either the hades folder or hades.apworld in the worlds folder. For the compiled version, just copy hades.apworld into your lib/worlds folder inside your Archipelago install.
 - After doing this you should be able to generate and play multiword with Hades! (Note that, clearly, generating Hades games on the website is still not supported. You need to generate locally. Ask in the Discord if you need help
-for this step. To start you can use the Template.yalm, which also includes some explanation of the settings.)
+for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
 NOTE: up to the time of writing this mod does not guarantee any type of compatibility with other Hades mods. You have been warned!
 
 # How to use Polycosmos
 
-- To use Polycosmos execute the HadesClient.py/HadesClient.exe in your chosen Archipelago folder. If everything is working correctly this should open a window to search for your Hades base folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that folder and this should open Hades and the Archipelago client (plus a command terminal if you are running from Source. This terminal is what communicates Hades and the Client, SO DO NOT CLOSE IT!)
+- To use Polycosmos execute the HadesClient.py if you use Source or launch the client from the Launcher if you use compiled. If everything is working correctly this should open a window to search for your StyxScribe.py file, in your Hades folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that file and this should open Hades and the Archipelago client. 
 - Before starting a file, connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
 
 # Credits
