@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.3 and up to this version it possesses the feature detailed below:
+0.3.1 and up to this version it possesses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time.
@@ -25,7 +25,7 @@ Settings:
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point your Mods folder should look like this:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
-- Now you can execute the client from source or the compiled version. The latter one ensures more stability, while the latter is easier to use. For source, get your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago) and on it copy HadesClient.py on the base folder (where all the Clients.py are) and copy either the hades folder or hades.apworld in the worlds folder. For the compiled version, just copy hades.apworld into your lib/worlds folder inside your Archipelago install.
+- Now you can execute the client from source or the compiled version. The latter one ensures more stability, while the former is easier to use. For source, get your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago) and on it copy HadesClient.py on the base folder (where all the Clients.py are) and copy hades.apworld in the worlds folder. For the compiled version, just copy hades.apworld into your lib/worlds folder inside your Archipelago install.
 - After doing this you should be able to generate and play multiword with Hades! (Note that, clearly, generating Hades games on the website is still not supported. You need to generate locally. Ask in the Discord if you need help
 for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
@@ -77,7 +77,7 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.3 it is compromised of the following modules:
+"require" or related commands). Up to the time of 0.3.1 it is compromised of the following modules:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it recieves
