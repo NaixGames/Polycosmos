@@ -10,11 +10,11 @@ class HadesLogic(LogicMixin):
     def _total_heat_level(self, player:int, amount: int) -> int:
         count=0
         for key in item_table_pacts.keys():
-            count = count + self.item_count(key, player)
+            count = count + self.count(key, player)
         return count >= amount
 
     def _has_enough_routine_inspection(self, player: int, amount: int) -> int:
-        return self.item_count('RoutineInspectionPactLevel',player) >= amount
+        return self.count('RoutineInspectionPactLevel',player) >= amount
 
 
 def set_rules(world: MultiWorld, player: int, number_items: int):
