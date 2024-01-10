@@ -17,11 +17,12 @@ class HadesLogic(LogicMixin):
         return self.count('RoutineInspectionPactLevel',player) >= amount
 
 
-def set_rules(world: MultiWorld, player: int, number_items: int):
+def set_rules(world: MultiWorld, player: int, number_items: int, location_table):
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
     #set up that we can get all checks on Tartarus if we beat it
     for location in location_table_tartarus:
-        set_rule(world.get_location(location,player), lambda state: True)
+        if (location in location_table):
+            set_rule(world.get_location(location,player), lambda state: True)
 
     total_routine_inspection = int(world.routine_inspection_pact_amount[player].value)
 

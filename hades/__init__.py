@@ -4,7 +4,7 @@ import settings
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options
-from .Locations import setup_location_table, HadesLocation
+from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation
 from .Options import hades_options
 from .Regions import create_regions
 from .Rules import set_rules
@@ -50,17 +50,24 @@ class HadesWorld(World):
     data_version = 1
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
-    required_client_version = (0, 4, 1)
+    required_client_version = (0, 4, 4)
 
-    location_table = setup_location_table()
     item_name_to_id = {name: data.code for name, data in item_table.items()}
+    location_table = give_all_locations_table()
     location_name_to_id = location_table
 
-    def create_items(self):
+    def generate_early(self):
+        self.location_table = setup_location_table_with_settings(self.multiworld, self.player)
+        self.location_name_to_id = self.location_table
+
+    def create_items(self):  
+        self.location_table = setup_location_table_with_settings(self.multiworld, self.player)
+        self.location_name_to_id = self.location_table
+        
         pool = []
 
         #Fill pact items
-        item_pool_pacts = create_pact_pool_amount(hades_options, self.multiworld, self.player)
+        item_pool_pacts = create_pact_pool_amount(self.multiworld, self.player)
 
         #Fill pact items
         for name, data in item_table_pacts.items():
@@ -69,7 +76,7 @@ class HadesWorld(World):
                 pool.append(item)
 
         #create the pack of filler options
-        filler_options = create_filler_pool_options(hades_options, self.multiworld, self.player)
+        filler_options = create_filler_pool_options(self.multiworld, self.player)
 
         #Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
@@ -88,7 +95,10 @@ class HadesWorld(World):
             self.multiworld.get_location(event, self.player).place_locked_item(event_item)
 
     def set_rules(self):
-        set_rules(self.multiworld, self.player, self.calculate_number_of_important_items())
+        self.location_table = setup_location_table_with_settings(self.multiworld, self.player)
+        self.location_name_to_id = self.location_table
+        
+        set_rules(self.multiworld, self.player, self.calculate_number_of_important_items(), self.location_table)
 
     def calculate_number_of_important_items(self):
         #Go thorugh every option and count what is the chosen level
@@ -114,8 +124,11 @@ class HadesWorld(World):
         return HadesItem(name, self.player)
 
     def create_regions(self):
-        location_table = setup_location_table()
+        self.location_table = setup_location_table_with_settings(self.multiworld, self.player)
+        self.location_name_to_id = self.location_table
+        
         create_regions(self.multiworld, self.player)
+
 
     def fill_slot_data(self) -> dict:
         slot_data = {
@@ -132,7 +145,8 @@ class HadesWorld(World):
 
 def create_region(world: MultiWorld, player: int, name: str, locations=None, exits=None):
     ret = Region(name, player, world)
-    location_table = setup_location_table()
+    location_table = setup_location_table_with_settings(world, player)
+    location_name_to_id = location_table
     if locations:
         for location in locations:
             loc_id = location_table.get(location, 0)

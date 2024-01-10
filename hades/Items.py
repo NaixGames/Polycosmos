@@ -47,7 +47,7 @@ item_table_filler: Dict[str, ItemData] = {
     'Ambrosia': ItemData(hades_base_item_id+22, False)
 }
 
-def create_filler_pool_options(hades_options, multiworld, player):
+def create_filler_pool_options(multiworld, player):
     item_filler_options = []
     if (multiworld.darkness_pack_value[player].value > 0):
         item_filler_options.append('Darkness')
@@ -88,7 +88,7 @@ item_pool_pacts: Dict[str, int] = {
     'PersonalLiabilityPactLevel': 1,
 }
 
-def create_pact_pool_amount(hades_options, multiworld, player) -> Dict[str, int]:
+def create_pact_pool_amount(multiworld, player) -> Dict[str, int]:
     item_pool_pacts = {
         'HardLaborPactLevel': int(multiworld.hard_labor_pact_amount[player].value),
         'LastingConsequencesPactLevel': int(multiworld.lasting_consequences_pact_amount[player].value),

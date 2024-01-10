@@ -7,102 +7,141 @@ hades_base_location_id = 5093427000
 
 #Todo: automate creating of this tables to allow also to make a point based progresion system for Locations
 
+global location_table_tartarus 
 location_table_tartarus = {
-    'Clear Room01': hades_base_location_id+0,
-    'Clear Room02': hades_base_location_id+1,
-    'Clear Room03': hades_base_location_id+2,
-    'Clear Room04': hades_base_location_id+3,
-    'Clear Room05': hades_base_location_id+4,
-    'Clear Room06': hades_base_location_id+5,
-    'Clear Room07': hades_base_location_id+6,
-    'Clear Room08': hades_base_location_id+7,
-    'Clear Room09': hades_base_location_id+8,
-    'Clear Room10': hades_base_location_id+9,
-    'Clear Room11': hades_base_location_id+10,
-    'Clear Room12': hades_base_location_id+11,
-    'Clear Room13': hades_base_location_id+12,
-    'Clear Room14': hades_base_location_id+13,
     'Beat Meg': None,
 }
 
+global location_table_asphodel
 location_table_asphodel = {
-    'Clear Room15': hades_base_location_id+14,
-    'Clear Room16': hades_base_location_id+15,
-    'Clear Room17': hades_base_location_id+16,
-    'Clear Room18': hades_base_location_id+17,
-    'Clear Room19': hades_base_location_id+18,
-    'Clear Room20': hades_base_location_id+19,
-    'Clear Room21': hades_base_location_id+20,
-    'Clear Room22': hades_base_location_id+21,
-    'Clear Room23': hades_base_location_id+22,
-    'Clear Room24': hades_base_location_id+23,
-    'Clear Room25': hades_base_location_id+24,
-    'Clear Room26': hades_base_location_id+25,
-    'Clear Room27': hades_base_location_id+26,
-    'Clear Room28': hades_base_location_id+27,
     'Beat Lernie': None,
 }
 
+global location_table_elyseum
 location_table_elyseum = {
-    'Clear Room29': hades_base_location_id+28,
-    'Clear Room30': hades_base_location_id+29,
-    'Clear Room31': hades_base_location_id+30,
-    'Clear Room32': hades_base_location_id+31,
-    'Clear Room33': hades_base_location_id+32,
-    'Clear Room34': hades_base_location_id+33,
-    'Clear Room35': hades_base_location_id+34,
-    'Clear Room36': hades_base_location_id+35,
-    'Clear Room37': hades_base_location_id+36,
-    'Clear Room38': hades_base_location_id+37,
-    'Clear Room39': hades_base_location_id+38,
-    'Clear Room40': hades_base_location_id+39,
-    'Clear Room41': hades_base_location_id+40,
-    'Clear Room42': hades_base_location_id+41,
     'Beat Bros': None,
 }
 
+global location_table_styx
 location_table_styx = {
-    'Clear Room43': hades_base_location_id+42,
-    'Clear Room44': hades_base_location_id+43,
-    'Clear Room45': hades_base_location_id+44,
-    'Clear Room46': hades_base_location_id+45,
-    'Clear Room47': hades_base_location_id+46,
-    'Clear Room48': hades_base_location_id+47,
-    'Clear Room49': hades_base_location_id+48,
-    'Clear Room50': hades_base_location_id+49,
-    'Clear Room51': hades_base_location_id+50,
-    'Clear Room52': hades_base_location_id+51,
-    'Clear Room53': hades_base_location_id+52,
-    'Clear Room54': hades_base_location_id+53,
-    'Clear Room55': hades_base_location_id+54,
-    'Clear Room56': hades_base_location_id+55,
-    'Clear Room57': hades_base_location_id+56,
-    'Clear Room58': hades_base_location_id+57,
-    'Clear Room59': hades_base_location_id+58,
-    'Clear Room60': hades_base_location_id+59,
-    'Clear Room61': hades_base_location_id+60,
-    'Clear Room62': hades_base_location_id+61,
-    'Clear Room63': hades_base_location_id+62,
-    'Clear Room64': hades_base_location_id+63,
-    'Clear Room65': hades_base_location_id+64,
-    'Clear Room66': hades_base_location_id+65,
-    'Clear Room67': hades_base_location_id+66,
-    'Clear Room68': hades_base_location_id+67,
-    'Clear Room69': hades_base_location_id+68,
-    'Clear Room70': hades_base_location_id+69,
-    'Clear Room71': hades_base_location_id+70,
-    'Clear Room72': hades_base_location_id+71,
     'Beat Hades': None,
 }
 
-def setup_location_table():
+def give_all_locations_table():
+    table_rooms = give_default_location_table()
+    table_score = give_score_location_table(1000)
+    
+    return {
+        **table_rooms,
+        **table_score,
+    }
+
+def clear_tables():
+    global location_table_tartarus 
+    location_table_tartarus = {
+        'Beat Meg': None,
+    }
+
+    global location_table_asphodel
+    location_table_asphodel = {
+        'Beat Lernie': None,
+    }
+
+    global location_table_elyseum
+    location_table_elyseum = {
+        'Beat Bros': None,
+    }
+
+    global location_table_styx
+    location_table_styx = {
+        'Beat Hades': None,
+    }
+    
+
+#Change parameters so they include the settings of the player
+#Chose between old and new system. And for the new system we want to be able
+#to choose how many "locations" we have.
+def setup_location_table_with_settings(multiworld, player):
+    clear_tables()
+   
+    match (multiworld.location_system[player].value):
+        case 1: 
+            result = give_default_location_table()
+            return result
+        
+        case 2:
+            levels = multiworld.score_rewards_amount[player].value
+            return give_score_location_table(levels)
+            
+#-----------------------------------------------
+
+def give_default_location_table():
+    #Repopulate tartarus table; rooms from 1 to 14.
+    global location_table_tartarus 
+    for i in range(14):
+        stringInt=i+1;
+        if (i<10):
+            stringInt = "0"+str(stringInt);
+        location_table_tartarus["ClearRoom"+str(stringInt)] = hades_base_location_id+i
+        
+    #Repopulate asphodel table, rooms from 15 to 28
+    global location_table_asphodel
+    for i in range(14,28):
+        location_table_asphodel["ClearRoom"+str(i+1)]=hades_base_location_id+i
+    
+    #Repopulate elyseum table, rooms from 29 to 42
+    global location_table_elyseum
+    for i in range(28,42):
+        location_table_elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+i
+    
+    #Repopulate elyseum table, rooms from 43 to 72 
+    global location_table_styx 
+    for i in range(42,72):
+        location_table_elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+i
+    
     location_table = {
         **location_table_tartarus, 
         **location_table_asphodel,
         **location_table_elyseum,
         **location_table_styx,
-    }    
+    }
     return location_table
+
+def give_score_location_table(locations):
+    fraction_location = int(locations/4)
+    locations_first_region = locations-3*fraction_location
+
+    global location_table_tartarus 
+    ##Recall to add a offset for the location to avoid sharing ids if two players play with different settings
+    for i in range(locations_first_region):
+        stringInt=i+1;
+        if (i<10):
+            stringInt = "0"+str(stringInt);
+        location_table_tartarus["ClearScore"+str(stringInt)]=hades_base_location_id+i+72 
+
+    global location_table_asphodel
+    for i in range(locations_first_region, locations_first_region+fraction_location):
+        location_table_asphodel["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+        
+    global location_table_elyseum
+    for i in range(locations_first_region+fraction_location, locations_first_region+2*fraction_location):
+        location_table_elyseum["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+    
+    global location_table_styx
+    for i in range(locations_first_region+2*fraction_location, locations):
+        location_table_styx["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+
+    location_table = {
+        **location_table_tartarus, 
+        **location_table_asphodel,
+        **location_table_elyseum,
+        **location_table_styx,
+    }
+    
+    return location_table
+    
+
+#-----------------------------------------------
 
 class HadesLocation(Location):
     game: str = "Hades"

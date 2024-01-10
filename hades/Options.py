@@ -1,5 +1,5 @@
 import typing
-from Options import TextChoice, Option, Range, Toggle, DeathLink
+from Options import TextChoice, Option, Range, Toggle, DeathLink, Choice
 
 
 class InitialWeapon(TextChoice):
@@ -197,6 +197,26 @@ class AmbrosiaPackValue(Range):
     internal_name = "AmbrosiaPackValue"
 
 
+# -----------------------------------------------------------------
+
+class LocationSystem(Choice):
+    """Chose how the game gives you items. Room based gives items on every new room completed. And score based
+    gives items according to score obtained by clearing rooms (even repeated ones)"""
+    display_name = "Location System"
+    option_roombased = 1
+    option_scorebased = 2
+    default = 1
+    
+
+class ScoreRewardsAmount(Range):
+    """When using socre based system, this sets how many locations the score can give. Each room gives "its depth" in score.
+    and each new location need one more points to be unlocked (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)"""
+    display_name = "ScoreRewardsAmount"
+    range_start = 72
+    range_end = 1000
+    default = 300
+
+
 # ------------------------------ Building dictionary ------------------------
 
 
@@ -226,4 +246,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "titan_blood_pack_value": TitanBloodPackValue,
     "nectar_pack_value": NectarPackValue,
     "ambrosia_pack_value": AmbrosiaPackValue,
+    "location_system": LocationSystem,
+    "score_rewards_amount": ScoreRewardsAmount,
 }
