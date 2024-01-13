@@ -29,21 +29,19 @@ local bufferTime = 2
 styx_scribe_send_prefix  = "Polycosmos to Client:"
 styx_scribe_recieve_prefix = "Client to Polycosmos:"
 
+--- variables for score based system
+
+actual_score = 0
+last_score_completed = -1
+limit_of_score = 1001
+last_room_completed=0
+
 ------------ General function to process location checks
 
 function PolycosmosEvents.UnlockLocationCheck(checkName)
     checkToProcess = checkName
     if (checkToProcess == "") then
         return
-    end
-    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if not StyxScribeShared.Root.LocationToItemMap then
-        PolycosmosEvents.LoadData()
-        wait( bufferTime )
-        if not StyxScribeShared.Root.LocationToItemMap then
-            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
-            return
-        end
     end
     PolycosmosEvents.ProcessLocationCheck(checkToProcess, true)
     checkToProcess = ""
@@ -73,12 +71,82 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
     if (roomNumber == nil) then
         return
     end
+    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
+    if not StyxScribeShared.Root.LocationToItemMap then
+        PolycosmosEvents.LoadData()
+        wait( bufferTime )
+        if not StyxScribeShared.Root.LocationToItemMap then
+            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
+            return
+        end
+    end
+
+    if (StyxScribeShared.Root.GameSettings['location_mode'] ~= 1) then
+        return
+    end
+    
     roomString = roomNumber
     if (roomNumber < 10) then
         roomString = "0"..roomNumber
     end
     PolycosmosEvents.UnlockLocationCheck("Clear Room"..roomString)
 end
+
+----------- When using score based checks, we use this function instead of give room check
+
+
+function PolycosmosEvents.GiveScore(roomNumber)
+    if (roomNumber == nil) then
+        return
+    end
+    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
+    if not StyxScribeShared.Root.LocationToItemMap then
+        PolycosmosEvents.LoadData()
+        wait( bufferTime )
+        if not StyxScribeShared.Root.LocationToItemMap then
+            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
+            return
+        end
+    end
+
+    if (StyxScribeShared.Root.GameSettings['location_mode']~= 2) then
+        return
+    end
+
+    -- initialize the variables we need in case we havent done that
+    if (last_score_completed == -1) then
+        last_score_completed = StyxScribeShared.Root.Score
+        actual_score = StyxScribeShared.Root.LastScoreChecked
+        last_room_completed = StyxScribeShared.LastRoomCompleted
+    end
+
+    -- if we already have all the possible checks, just return
+    if (last_score_completed==limit_of_score) then
+        return
+    end
+
+    -- This is to avoid counting the same room twice in a load/unload case. 
+    if (roomNumber ~=1 and last_room_completed == roomNumber) then
+        return
+    end
+    
+    actualScore = actualScore + roomNumber
+    last_room_completed = roomNumber
+
+    if (actualScore > last_score_completed) then
+        checkString = actualScore
+        if (actualScore < 10) then
+            checkString = "0"..checkString
+        end
+        PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString.."-"..roomNumber) --Need to make sure in this case we reset the score and the last completed room on the client
+        actualScore = 0
+        last_score_completed = last_score_completed+1
+    else
+        StyxScribe.Send(styx_scribe_send_prefix.."ScoreUpdate:"..actual_score.."-"..roomNumber) --make sure we can save the score and recover in case of a reload
+    end
+end
+
+
 
 --Here we should put other methods to process checks. Let it be boon/NPC related or whatever.
 

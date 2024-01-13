@@ -64,6 +64,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
+    acculumated_score = 0
 
     dictionary_filler_items = {
         "Darkness": 0,
@@ -93,6 +94,8 @@ class HadesContext(CommonContext):
                         "HadesClient")
         # hook to send deathlink to other player when Zag dies
         subsume.AddHook(self.send_death, styx_scribe_recieve_prefix + "Zag died", "HadesClient")
+        # hook for the score based system
+        subsume.AddHook(self.update_internal_score, styx_scribe_recieve_prefix + "ScoreUpdate:", "HadesClient")
 
     async def server_auth(self, password_requested: bool = False):
         # This is called to autentificate with the server.
@@ -139,7 +142,7 @@ class HadesContext(CommonContext):
                 self.set_deathlink = True
                 self.deathlink_enabled = True
             self.is_connected = True
-            self.is_receiving_items_from_connect_package = True
+            self.is_receiving_items_from_connect_package = True #ADD SCORE RELATED THING IN THIS REQUEST
             asyncio.create_task(self.send_msgs([{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":filler:Darkness",
                                                                         "hades:" + str(self.slot) + ":filler:Keys",
                                                                         "hades:" + str(self.slot) + ":filler:Gemstones",
@@ -148,7 +151,12 @@ class HadesContext(CommonContext):
                                                                             self.slot) + ":filler:TitanBlood",
                                                                         "hades:" + str(self.slot) + ":filler:Nectar",
                                                                         "hades:" + str(
-                                                                            self.slot) + ":filler:Ambrosia"]}]))
+                                                                            self.slot) + ":filler:Ambrosia",
+                                                                        "hades:" + str(
+                                                                            self.slot) + ":score",
+                                                                        "hades:" + str(
+                                                                            self.slot) + ":filler:Ambrosia",
+                                                                        ]}]))
 
         if cmd in {"RoomInfo"}:
             # What should be done when room info is sent.
@@ -173,32 +181,60 @@ class HadesContext(CommonContext):
             super().on_package(cmd, args)
 
         if cmd in {"Retrieved"}:
-            if "hades:" + str(self.slot) + ":filler:Darkness" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:Darkness"] is not None:
-                    self.dictionary_filler_items["Darkness"] = args["keys"][
-                        "hades:" + str(self.slot) + ":filler:Darkness"]
-            if "hades:" + str(self.slot) + ":filler:Keys" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:Keys"] is not None:
-                    self.dictionary_filler_items["Keys"] = args["keys"]["hades:" + str(self.slot) + ":filler:Keys"]
-            if "hades:" + str(self.slot) + ":filler:Gemstones" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:Gemstones"] is not None:
-                    self.dictionary_filler_items["Gemstones"] = args["keys"][
-                        "hades:" + str(self.slot) + ":filler:Gemstones"]
-            if "hades:" + str(self.slot) + ":filler:Diamonds" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:Diamonds"] is not None:
-                    self.dictionary_filler_items["Diamonds"] = args["keys"][
-                        "hades:" + str(self.slot) + ":filler:Diamonds"]
-            if "hades:" + str(self.slot) + ":filler:TitanBlood" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:TitanBlood"] is not None:
-                    self.dictionary_filler_items["TitanBlood"] = args["keys"][
-                        "hades:" + str(self.slot) + ":filler:TitanBlood"]
-            if "hades:" + str(self.slot) + ":filler:Nectar" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"] is not None:
-                    self.dictionary_filler_items["Nectar"] = args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"]
-            if "hades:" + str(self.slot) + ":filler:Ambrosia" in args["keys"]:
-                if args["keys"]["hades:" + str(self.slot) + ":filler:Ambrosia"] is not None:
-                    self.dictionary_filler_items["Ambrosia"] = args["keys"][
-                        "hades:" + str(self.slot) + ":filler:Ambrosia"]
+            self.update_filler_items_information(args)
+            self.update_score_information(args)
+
+    def update_filler_items_information(self, args : dict):
+        if "hades:" + str(self.slot) + ":filler:Darkness" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:Darkness"] is not None:
+                self.dictionary_filler_items["Darkness"] = args["keys"][
+                    "hades:" + str(self.slot) + ":filler:Darkness"]
+        if "hades:" + str(self.slot) + ":filler:Keys" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:Keys"] is not None:
+                self.dictionary_filler_items["Keys"] = args["keys"]["hades:" + str(self.slot) + ":filler:Keys"]
+        if "hades:" + str(self.slot) + ":filler:Gemstones" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:Gemstones"] is not None:
+                self.dictionary_filler_items["Gemstones"] = args["keys"][
+                    "hades:" + str(self.slot) + ":filler:Gemstones"]
+        if "hades:" + str(self.slot) + ":filler:Diamonds" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:Diamonds"] is not None:
+                self.dictionary_filler_items["Diamonds"] = args["keys"][
+                    "hades:" + str(self.slot) + ":filler:Diamonds"]
+        if "hades:" + str(self.slot) + ":filler:TitanBlood" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:TitanBlood"] is not None:
+                 self.dictionary_filler_items["TitanBlood"] = args["keys"][
+                     "hades:" + str(self.slot) + ":filler:TitanBlood"]
+        if "hades:" + str(self.slot) + ":filler:Nectar" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"] is not None:
+                self.dictionary_filler_items["Nectar"] = args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"]
+        if "hades:" + str(self.slot) + ":filler:Ambrosia" in args["keys"]:
+            if args["keys"]["hades:" + str(self.slot) + ":filler:Ambrosia"] is not None:
+                self.dictionary_filler_items["Ambrosia"] = args["keys"][
+                     "hades:" + str(self.slot) + ":filler:Ambrosia"]
+    
+    def update_score_information(self, args : dict):
+        score = 0
+        if "hades:" + str(self.slot) + ":score" in args["keys"]:
+            #update internal info
+            if args["keys"]["hades:" + str(self.slot) + ":score"] is not None:
+                score = int(args["keys"]["hades:" + str(self.slot) + ":score"])
+        subsume.Modules.StyxScribeShared.Root.Score = score
+        
+        last_score=0
+        if "hades:" + str(self.slot) + ":last_score_check" in args["keys"]:
+            #update internal info
+            if args["keys"]["hades:" + str(self.slot) + ":last_score_check"] is not None:
+                last_score = int(args["keys"]["hades:" + str(self.slot) + ":last_score_check"])
+        subsume.Modules.StyxScribeShared.Root.LastScoreCheck = last_score
+        
+        last_room=0
+        if "hades:" + str(self.slot) + ":last_room_completed" in args["keys"]:
+            #update internal info
+            if args["keys"]["hades:" + str(self.slot) + ":last_room_completed"] is not None:
+                last_room = int(args["keys"]["hades:" + str(self.slot) + ":last_room_completed"])
+        subsume.Modules.StyxScribeShared.Root.LastRoomCompleted = last_room
+        
+        
 
     def send_items(self):
         # we filter the filler items according to how many we have recieved and send that payload
@@ -215,12 +251,38 @@ class HadesContext(CommonContext):
     async def send_location_check_to_server(self, message):
         sendingLocationsId = []
 
-        # TODO: make this support an array and not only one location
         sendingLocationsName = message
+        
+        #if playing with score the message has information from the last room cleared and we need to parse
+        if (self.multiworld.location_system[self.player]==2):
+            separatedString = message.split("-")
+            sendingLocationsName = separatedString[0]
+            
+            last_score = int(separatedString[0].split("ClearScore")[1])
+            last_room = int(sendingLocationsName)
+
+            await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
+                               "want_reply": False, "default": 0, "operations": [{"operation": "set", "value": 0}]}])
+            await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check",
+                               "want_reply": False, "default": last_score, "operations": [{"operation": "set", "value": last_score}]}])
+            await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
+                               "want_reply": False, "default": last_room, "operations": [{"operation": "set", "value": last_room}]}])
+
         sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
 
         payload_message = [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
         await self.send_msgs(payload_message)
+        
+    async def update_internal_score(self, message):        
+        separatedMessage = message.split("-")
+        score = int(separatedMessage[0])
+        last_room = int(separatedMessage[1])
+        await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
+                               "want_reply": False, "default": score, "operations": [{"operation": "set", "value": score}]}])
+        await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
+                               "want_reply": False, "default": last_room, "operations": [{"operation": "set", "value": last_room}]}])
+        
+
 
     async def check_connection_and_send_items_and_request_starting_info(self, message):
         if (self.check_for_connection()):
@@ -269,6 +331,10 @@ class HadesContext(CommonContext):
             'AmbrosiaPackValue': self.hades_slot_data['ambrosia_pack_value'],
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
+        game_settings = {
+            'location_mode': self.hades_slot_data['location_system']    
+        }
+        subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
 
         # construct here any other dictionary with settings the main game should know about
 
