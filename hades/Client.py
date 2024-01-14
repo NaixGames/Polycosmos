@@ -249,35 +249,34 @@ class HadesContext(CommonContext):
         return message
 
     async def send_location_check_to_server(self, message):
+        print("sending location check for message")
+        print(message)
         sendingLocationsId = []
         sendingLocationsName = message
         payload_message = []
         sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
         payload_message += [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
-        if (self.hades_slot_data['location_system']==2):
-            separatedString = message.split("-")
-            sendingLocationsName = separatedString[0]
-            
-            last_score = int(separatedString[0].split("ClearScore")[1])
-            last_room = int(sendingLocationsName)
-
-            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
-                               "want_reply": False, "default": 0, "operations": [{"operation": "set", "value": 0}]}]
+        if (self.hades_slot_data['location_system']==2):  
+            last_score = int(message.split("Score")[1])
+            print(last_score)
             payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check",
-                               "want_reply": False, "default": last_score, "operations": [{"operation": "set", "value": last_score}]}]
-            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
-                               "want_reply": False, "default": last_room, "operations": [{"operation": "set", "value": last_room}]}]
-        await self.send_msgs(payload_message)
+                               "want_reply": False}]
+        print("payload sent")
+        asyncio.create_task(self.send_msgs(payload_message))
         
     async def update_internal_score(self, message):        
+        print("updating internal score")
+        print(message)
         separatedMessage = message.split("-")
         score = int(separatedMessage[0])
         last_room = int(separatedMessage[1])
-        await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
-                               "want_reply": False, "default": score, "operations": [{"operation": "set", "value": score}]}])
-        await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
-                               "want_reply": False, "default": last_room, "operations": [{"operation": "set", "value": last_room}]}])
-        
+        print(score)
+        print(last_room)
+        payload = [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
+                               "want_reply": False}]
+        payload += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
+                               "want_reply": False}]
+        asyncio.create_task(self.send_msgs(payload))       
 
 
     async def check_connection_and_send_items_and_request_starting_info(self, message):
