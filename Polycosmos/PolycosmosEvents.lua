@@ -81,7 +81,7 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         end
     end
 
-    if (StyxScribeShared.Root.GameSettings['location_mode'] ~= 1) then
+    if (StyxScribeShared.Root.GameSettings['LocationMode'] ~= 1) then
         return
     end
     
@@ -89,7 +89,8 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
     if (roomNumber < 10) then
         roomString = "0"..roomNumber
     end
-    PolycosmosEvents.UnlockLocationCheck("Clear Room"..roomString)
+
+    PolycosmosEvents.UnlockLocationCheck("ClearRoom"..roomString)
 end
 
 ----------- When using score based checks, we use this function instead of give room check
@@ -109,15 +110,15 @@ function PolycosmosEvents.GiveScore(roomNumber)
         end
     end
 
-    if (StyxScribeShared.Root.GameSettings['location_mode']~= 2) then
+    if (StyxScribeShared.Root.GameSettings['LocationMode']~= 2) then
         return
     end
 
     -- initialize the variables we need in case we havent done that
     if (last_score_completed == -1) then
-        last_score_completed = StyxScribeShared.Root.Score
-        actual_score = StyxScribeShared.Root.LastScoreChecked
-        last_room_completed = StyxScribeShared.LastRoomCompleted
+        actual_score = StyxScribeShared.Root.Score
+        last_score_completed = StyxScribeShared.Root.LastScoreCheck
+        last_room_completed = StyxScribeShared.LastRoomComplete
     end
 
     -- if we already have all the possible checks, just return
@@ -130,18 +131,19 @@ function PolycosmosEvents.GiveScore(roomNumber)
         return
     end
     
-    actualScore = actualScore + roomNumber
+    actual_score = actual_score + roomNumber
     last_room_completed = roomNumber
 
-    if (actualScore > last_score_completed) then
-        checkString = actualScore
-        if (actualScore < 10) then
+    if (actual_score > last_score_completed) then
+        checkString = actual_score
+        if (actual_score < 10) then
             checkString = "0"..checkString
         end
         PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString.."-"..roomNumber) --Need to make sure in this case we reset the score and the last completed room on the client
-        actualScore = 0
+        actual_score = 0
         last_score_completed = last_score_completed+1
     else
+        PolycosmosMessages.PrintToPlayer("You got "..actual_score.."points")
         StyxScribe.Send(styx_scribe_send_prefix.."ScoreUpdate:"..actual_score.."-"..roomNumber) --make sure we can save the score and recover in case of a reload
     end
 end
@@ -229,6 +231,7 @@ end
 ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
     if (run and run.RunDepthCache) then
         PolycosmosEvents.GiveRoomCheck(run.RunDepthCache)
+        PolycosmosEvents.GiveScore(run.RunDepthCache)
     end
     return baseFunc(run, room)
 end)

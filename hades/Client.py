@@ -150,13 +150,7 @@ class HadesContext(CommonContext):
                                                                         "hades:" + str(
                                                                             self.slot) + ":filler:TitanBlood",
                                                                         "hades:" + str(self.slot) + ":filler:Nectar",
-                                                                        "hades:" + str(
-                                                                            self.slot) + ":filler:Ambrosia",
-                                                                        "hades:" + str(
-                                                                            self.slot) + ":score",
-                                                                        "hades:" + str(
-                                                                            self.slot) + ":filler:Ambrosia",
-                                                                        ]}]))
+                                                                        "hades:" + str(self.slot) + ":filler:Ambrosia"]}]))
 
         if cmd in {"RoomInfo"}:
             # What should be done when room info is sent.
@@ -213,28 +207,34 @@ class HadesContext(CommonContext):
                      "hades:" + str(self.slot) + ":filler:Ambrosia"]
     
     def update_score_information(self, args : dict):
-        score = 0
+        print("UPDATING SCORE INFORMATION")
         if "hades:" + str(self.slot) + ":score" in args["keys"]:
-            #update internal info
+            print("UPDATING SCORE")
+            score = 0
             if args["keys"]["hades:" + str(self.slot) + ":score"] is not None:
+                print(args["keys"]["hades:" + str(self.slot) + ":score"])
                 score = int(args["keys"]["hades:" + str(self.slot) + ":score"])
-        subsume.Modules.StyxScribeShared.Root.Score = score
+            print("GIVING SCORE TO SUBSUME")
+            print(score)
+            subsume.Modules.StyxScribeShared.Root.Score = score
         
-        last_score=0
         if "hades:" + str(self.slot) + ":last_score_check" in args["keys"]:
-            #update internal info
+            last_score=1
             if args["keys"]["hades:" + str(self.slot) + ":last_score_check"] is not None:
                 last_score = int(args["keys"]["hades:" + str(self.slot) + ":last_score_check"])
-        subsume.Modules.StyxScribeShared.Root.LastScoreCheck = last_score
+            subsume.Modules.StyxScribeShared.Root.LastScoreCheck = last_score
         
-        last_room=0
         if "hades:" + str(self.slot) + ":last_room_completed" in args["keys"]:
-            #update internal info
+            last_room=0
             if args["keys"]["hades:" + str(self.slot) + ":last_room_completed"] is not None:
                 last_room = int(args["keys"]["hades:" + str(self.slot) + ":last_room_completed"])
-        subsume.Modules.StyxScribeShared.Root.LastRoomCompleted = last_room
+            subsume.Modules.StyxScribeShared.Root.LastRoomComplete = last_room
         
-        
+    def request_stored_score_info(self):
+        #request score
+        payload =[{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":score","hades:" + str(self.slot) + ":last_score_check",
+                                                                      "hades:" + str(self.slot) + ":last_room_completed"]}]
+        asyncio.create_task(self.send_msgs(payload))        
 
     def send_items(self):
         # we filter the filler items according to how many we have recieved and send that payload
@@ -250,27 +250,23 @@ class HadesContext(CommonContext):
 
     async def send_location_check_to_server(self, message):
         sendingLocationsId = []
-
         sendingLocationsName = message
-        
-        #if playing with score the message has information from the last room cleared and we need to parse
-        if (self.multiworld.location_system[self.player]==2):
+        payload_message = []
+        sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
+        payload_message += [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
+        if (self.hades_slot_data['location_system']==2):
             separatedString = message.split("-")
             sendingLocationsName = separatedString[0]
             
             last_score = int(separatedString[0].split("ClearScore")[1])
             last_room = int(sendingLocationsName)
 
-            await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
-                               "want_reply": False, "default": 0, "operations": [{"operation": "set", "value": 0}]}])
-            await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check",
-                               "want_reply": False, "default": last_score, "operations": [{"operation": "set", "value": last_score}]}])
-            await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
-                               "want_reply": False, "default": last_room, "operations": [{"operation": "set", "value": last_room}]}])
-
-        sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
-
-        payload_message = [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
+            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
+                               "want_reply": False, "default": 0, "operations": [{"operation": "set", "value": 0}]}]
+            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check",
+                               "want_reply": False, "default": last_score, "operations": [{"operation": "set", "value": last_score}]}]
+            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
+                               "want_reply": False, "default": last_room, "operations": [{"operation": "set", "value": last_room}]}]
         await self.send_msgs(payload_message)
         
     async def update_internal_score(self, message):        
@@ -297,6 +293,7 @@ class HadesContext(CommonContext):
         subsume.Modules.StyxScribeShared.Root["LocationsUnlocked"] = self.locations_received_names
 
         self.store_settings_data()
+        self.request_stored_score_info()
         self.request_location_to_item_dictionary()
         # send items that were already cached in connect
         self.send_items()
@@ -332,7 +329,7 @@ class HadesContext(CommonContext):
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
         game_settings = {
-            'location_mode': self.hades_slot_data['location_system']    
+            'LocationMode': self.hades_slot_data['location_system']    
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
 
