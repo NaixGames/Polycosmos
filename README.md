@@ -57,6 +57,8 @@ A known issue is that some changes in heat level only take effect when starting 
 
 You see some weird debug messages while playing with keyboard and mouse. To avoid this go to your main Hades folder, and in there open StyxScribe.py. Go to line 26 and in there change "DebugDraw=true" to "DebugDraw=false". In a future version this will be disabled permanently.
 
+After unlocking new abilities in the mirror they may appear as available to buy, even if you dont have access to them from the pact of punishment level. Exiting and entering the mirror fixes this issue. Be warry that if you spend darkenss upgrading this skills, this wont reflect until you properly unlock them.
+
 Any other bug is not expected and reporting helps a ton :).
 
 # Incoming features
