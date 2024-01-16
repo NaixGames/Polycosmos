@@ -10,7 +10,3 @@ Import "PolycosmosEvents.lua"
 
 Import "PolycosmosQoL.lua"
 To "Scripts/StoreData.lua"
-
-::Polycosmos Reverse Extreme Measures
-::Import "PolycosmosExtremeMeasures.lua"
-::To ???
