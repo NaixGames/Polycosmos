@@ -14,7 +14,7 @@ on the next room, biome or run.
 Locations:
 - Beating rooms has two modes: 
 - - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
-- - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how mane locations are behind the score system, with the limit being 1000. Note this will give a REALLY
+- - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how many locations are behind the score system, with the limit being 1000. Note this will give a REALLY
 long game.
 
 Settings:
