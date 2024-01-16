@@ -327,7 +327,6 @@ class HadesContext(CommonContext):
         asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 0}]))
 
     def create_location_to_item_dictionary(self, itemsdict):
-        #This is not working in its current implementation. Because the Root does not have really an update method. ffs
         itemmap = {}
         subsume.Modules.StyxScribeShared.Root["LocationToItemMap"] = {}
         for networkitem in itemsdict:

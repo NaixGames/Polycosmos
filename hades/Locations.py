@@ -108,8 +108,8 @@ def give_default_location_table():
     return location_table
 
 def give_score_location_table(locations):
-    fraction_location = int(locations/4)
-    locations_first_region = locations-3*fraction_location
+    fraction_location = int(locations/8)
+    locations_first_region = locations-7*fraction_location
 
     global location_table_tartarus 
     ##Recall to add a offset for the location to avoid sharing ids if two players play with different settings
@@ -120,15 +120,15 @@ def give_score_location_table(locations):
         location_table_tartarus["ClearScore"+str(stringInt)]=hades_base_location_id+i+72 
 
     global location_table_asphodel
-    for i in range(locations_first_region, locations_first_region+fraction_location):
+    for i in range(locations_first_region, locations_first_region+2*fraction_location):
         location_table_asphodel["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
         
     global location_table_elyseum
-    for i in range(locations_first_region+fraction_location, locations_first_region+2*fraction_location):
+    for i in range(locations_first_region+2*fraction_location, locations_first_region+4*fraction_location):
         location_table_elyseum["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
     
     global location_table_styx
-    for i in range(locations_first_region+2*fraction_location, locations):
+    for i in range(locations_first_region+4*fraction_location, locations):
         location_table_styx["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
 
     location_table = {
