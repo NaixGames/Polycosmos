@@ -102,7 +102,6 @@ function PolycosmosEvents.GiveScore(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
-        print("no location to items map detected!")
         PolycosmosEvents.LoadData()
         wait( bufferTime )
         if not StyxScribeShared.Root.LocationToItemMap then

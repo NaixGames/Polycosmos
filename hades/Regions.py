@@ -1,16 +1,16 @@
-def create_regions(world, player: int):
+def create_regions(world, player: int, location_database):
     from . import create_region
     from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx
 
     #Technically this needs some items (beat Bosses). 
     #Need to add some event items for the Bosses so this looks more natural
     world.regions += [
-        create_region(world, player, "Menu", None, ["Menu"]),
-        create_region(world, player, "Underworld", None, ["Zags room"]), #should actually group rooms according to the part of the underworld they are in. That set up rools more easily
-        create_region(world, player, "Tartarus", [location for location in location_table_tartarus], ["Exit Tartarus"]),
-        create_region(world, player, "Asphodel", [location for location in location_table_asphodel], ["Exit Asphodel"]),
-        create_region(world, player, "Elyseum", [location for location in location_table_elyseum], ["Exit Elyseum"]),
-        create_region(world, player, "Styx", [location for location in location_table_styx]),
+        create_region(world, player, location_database, "Menu", None, ["Menu"]),
+        create_region(world, player, location_database, "Underworld", None, ["Zags room"]), #should actually group rooms according to the part of the underworld they are in. That set up rools more easily
+        create_region(world, player, location_database, "Tartarus", [location for location in location_table_tartarus], ["Exit Tartarus"]),
+        create_region(world, player, location_database, "Asphodel", [location for location in location_table_asphodel], ["Exit Asphodel"]),
+        create_region(world, player, location_database, "Elyseum", [location for location in location_table_elyseum], ["Exit Elyseum"]),
+        create_region(world, player, location_database, "Styx", [location for location in location_table_styx]),
     ]
 
     # link up regions

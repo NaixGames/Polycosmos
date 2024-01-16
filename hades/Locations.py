@@ -61,16 +61,16 @@ def clear_tables():
 #Change parameters so they include the settings of the player
 #Chose between old and new system. And for the new system we want to be able
 #to choose how many "locations" we have.
-def setup_location_table_with_settings(multiworld, player):
+def setup_location_table_with_settings(options):
     clear_tables()
    
-    match (multiworld.location_system[player].value):
+    match (options.location_system.value):
         case 1: 
             result = give_default_location_table()
             return result
         
         case 2:
-            levels = multiworld.score_rewards_amount[player].value
+            levels = options.score_rewards_amount.value
             return give_score_location_table(levels)
             
 #-----------------------------------------------
