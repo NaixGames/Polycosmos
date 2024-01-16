@@ -1,5 +1,3 @@
-THIS IS THE EXPERIMENTAL BRANCH FOR POLYCOSMOS. YOU MOST LIKELY ARE LOOKING FOR THE MAIN ONE. GO GET THAT ONE!
-
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
 0.4 and up to this version it possesses the feature detailed below:
