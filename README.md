@@ -18,8 +18,11 @@ Locations:
 long game.
 
 Settings:
--Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
--Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
+- Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
+- Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
+
+Quality of Life:
+- Contractor have all upgrades available to buy from the start.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
@@ -43,7 +46,9 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions.
 
-The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, DoesBoKnow for proposing this for the multiworld and providing a ton of resources and testing and Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable). Also thanks to Sylvris for helping adding proper APWorld support.
+DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0.
+
+The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support.
 
 # Bugs 
 
