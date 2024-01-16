@@ -20,6 +20,7 @@ long game.
 Settings:
 - Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
 - Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
+- Number of locations behind the score system in the score based mode.
 
 Quality of Life:
 - Contractor have all upgrades available to buy from the start.
