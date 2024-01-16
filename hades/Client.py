@@ -207,15 +207,10 @@ class HadesContext(CommonContext):
                      "hades:" + str(self.slot) + ":filler:Ambrosia"]
     
     def update_score_information(self, args : dict):
-        print("UPDATING SCORE INFORMATION")
         if "hades:" + str(self.slot) + ":score" in args["keys"]:
-            print("UPDATING SCORE")
             score = 0
             if args["keys"]["hades:" + str(self.slot) + ":score"] is not None:
-                print(args["keys"]["hades:" + str(self.slot) + ":score"])
                 score = int(args["keys"]["hades:" + str(self.slot) + ":score"])
-            print("GIVING SCORE TO SUBSUME")
-            print(score)
             subsume.Modules.StyxScribeShared.Root.Score = score
         
         if "hades:" + str(self.slot) + ":last_score_check" in args["keys"]:
@@ -249,8 +244,6 @@ class HadesContext(CommonContext):
         return message
 
     async def send_location_check_to_server(self, message):
-        print("sending location check for message")
-        print(message)
         sendingLocationsId = []
         sendingLocationsName = message
         payload_message = []
@@ -258,24 +251,18 @@ class HadesContext(CommonContext):
         payload_message += [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
         if (self.hades_slot_data['location_system']==2):  
             last_score = int(message.split("Score")[1])
-            print(last_score)
-            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check",
-                               "want_reply": False}]
-        print("payload sent")
+            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check", 
+                               "want_reply": False, "default": 0, "operations": [{"operation": "replace", "value": last_score}]}]
         asyncio.create_task(self.send_msgs(payload_message))
         
     async def update_internal_score(self, message):        
-        print("updating internal score")
-        print(message)
         separatedMessage = message.split("-")
         score = int(separatedMessage[0])
         last_room = int(separatedMessage[1])
-        print(score)
-        print(last_room)
         payload = [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
-                               "want_reply": False}]
+                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": score}]}]
         payload += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
-                               "want_reply": False}]
+                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": last_room}]}]
         asyncio.create_task(self.send_msgs(payload))       
 
 
@@ -340,11 +327,12 @@ class HadesContext(CommonContext):
         asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 0}]))
 
     def create_location_to_item_dictionary(self, itemsdict):
+        #This is not working in its current implementation. Because the Root does not have really an update method. ffs
         itemmap = {}
+        subsume.Modules.StyxScribeShared.Root["LocationToItemMap"] = {}
         for networkitem in itemsdict:
-            itemmap[self.location_names[networkitem.location]] = self.player_names[networkitem.player] + "-" + \
+            subsume.Modules.StyxScribeShared.Root["LocationToItemMap"][self.location_names[networkitem.location]] = self.player_names[networkitem.player] + "-" + \
                                                                  self.item_names[networkitem.item]
-        subsume.Modules.StyxScribeShared.Root["LocationToItemMap"] = itemmap
         self.creating_location_to_item_dictionary = False
         subsume.Send(styx_scribe_send_prefix + "Data package finished")
 

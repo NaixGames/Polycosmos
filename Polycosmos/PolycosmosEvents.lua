@@ -102,6 +102,7 @@ function PolycosmosEvents.GiveScore(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if not StyxScribeShared.Root.LocationToItemMap then
+        print("no location to items map detected!")
         PolycosmosEvents.LoadData()
         wait( bufferTime )
         if not StyxScribeShared.Root.LocationToItemMap then
@@ -141,9 +142,11 @@ function PolycosmosEvents.GiveScore(roomNumber)
         end
         PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString) --Need to make sure in this case we reset the score and the last completed room on the client
         actual_score = actual_score - last_score_completed
+        PolycosmosMessages.PrintToPlayer("Cleared score "..last_score_completed.." you now got "..actual_score.." points")
         last_score_completed = last_score_completed+1
+    else
+        PolycosmosMessages.PrintToPlayer("You got "..actual_score.." points")
     end
-    PolycosmosMessages.PrintToPlayer("You got "..actual_score.."points")
     StyxScribe.Send(styx_scribe_send_prefix.."ScoreUpdate:"..actual_score.."-"..roomNumber) --make sure we can save the score and recover in case of a reload    
 end
 
