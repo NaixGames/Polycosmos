@@ -1,6 +1,3 @@
--- QoL 1: Allow the Broker to have all available options when the lounge is unlocked, regardless of furthest progression.
-
--- StoreData.lua
 ModUtil.LoadOnce(function()
 
 -- Remove "GameStateRequirements" line for all applicable.
@@ -130,9 +127,3 @@ BrokerData =
 }
 
 end)
-
--- Future:
-
--- QoL 2: Have the lounge unlocked after the first death
--- QoL 3: Have the house contractor unlocked after the first death
--- QoL 4: Have the Fated List of Minor Prophecies unlocked after the first death
