@@ -6,13 +6,11 @@ Import "PolycosmosHeatManager.lua"
 Import "PolycosmosItemManager.lua"
 Import "PolycosmosEvents.lua"
 
-::Polycosmos Quality of Life
+::Polycosmos Quality of Life (QoL)
 
 To "Scripts/StoreData.lua"
 Import "QoL/Data/StoreData.lua"
 
-::more to come
-
 ::Polycosmos Reverse Extreme Measures
-::To "Scripts/???"
-::Import "ExtremeMeasures/???"
+::???
+::To ???
