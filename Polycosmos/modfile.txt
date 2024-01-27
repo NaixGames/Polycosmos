@@ -5,8 +5,4 @@ Import "PolycosmosMessages.lua"
 Import "PolycosmosHeatManager.lua"
 Import "PolycosmosItemManager.lua"
 Import "PolycosmosEvents.lua"
-
-::Polycosmos Quality of Life + Reverse Extreme Measures
-
 Import "PolycosmosQoL.lua"
-To "Scripts/StoreData.lua"
