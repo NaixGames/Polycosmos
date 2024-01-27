@@ -1,9 +1,9 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.3.1 and up to this version it possesses the feature detailed below:
+0.4 and up to this version it possesses the feature detailed below:
 
 Modes:
-- Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time.
+- Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time. Can turn off by putting al pact levels at 0 in the .yaml.
   
 Items:
 - Pact of Punishment down: an item that turns down the level of pact of punishment. Note the game may load this effect
@@ -12,11 +12,18 @@ on the next room, biome or run.
 - Keys, Darkness, Gemstones, Diamonds, Titan Blood, Nectar and Ambrosia as filler items.
 
 Locations:
-- Rooms: Beating any room counts as a location for the AP.
+- Beating rooms has two modes: 
+- - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
+- - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how many locations are behind the score system, with the limit being 1000. Note this will give a REALLY
+long game.
 
 Settings:
--Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
--Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
+- Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
+- Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
+- Number of locations behind the score system in the score based mode.
+
+Quality of Life:
+- Contractor have all upgrades available to buy from the start.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
@@ -40,7 +47,9 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions.
 
-The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, DoesBoKnow for proposing this for the multiworld and providing a ton of resources and testing and Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable). Also thanks to Sylvris for helping adding proper APWorld support.
+DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0.
+
+The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support.
 
 # Bugs 
 
@@ -48,19 +57,17 @@ A known issue is that some changes in heat level only take effect when starting 
 
 You see some weird debug messages while playing with keyboard and mouse. To avoid this go to your main Hades folder, and in there open StyxScribe.py. Go to line 26 and in there change "DebugDraw=true" to "DebugDraw=false". In a future version this will be disabled permanently.
 
+After unlocking new abilities in the mirror they may appear as available to buy, even if you dont have access to them from the pact of punishment level. Exiting and entering the mirror fixes this issue. Be warry that if you spend darkenss upgrading this skills, this wont reflect until you properly unlock them.
+
 Any other bug is not expected and reporting helps a ton :).
 
 # Incoming features
 
 This is a list of features that are planned for this mod.
 
-- Making a "score based" location system (and not a "depth based" one, like it is now).
-
-- Making weapons an item, and give the ability to start with any given weapon.
+- Making weapons an item, and give the ability to start with any given weapon. This includes choosing a starting weapon and make other unlockable
 
 - Make the ability of choosing a particular boon a check. Put this Boon traits into the item pool and allow a menu that gives them to the player (Similar to CodexMenu mod)
-
-- Choosing a starting weapon and make other unlockable
 
 - Choosing how many runs victories are required to beat the mod.
 
