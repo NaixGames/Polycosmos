@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.4 and up to this version it possesses the feature detailed below:
+0.4.1 and up to this version it possesses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time. Can turn off by putting al pact levels at 0 in the .yaml.
@@ -24,6 +24,7 @@ Settings:
 
 Quality of Life:
 - Contractor have all upgrades available to buy from the start.
+- The order in which Extreme Measures affects bosses can be reversed. So the first leve affects Hades (instead of the Furies), the second one the heroes and so on. Can be toggle from the .yaml, but it is recommended for a more balanced experience.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
@@ -32,7 +33,7 @@ Quality of Life:
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point your Mods folder should look like this:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
-- Now you can execute the client from source or the compiled version. The latter one ensures more stability, while the former is easier to use. For source, get your [source code Archipelago folder](https://github.com/ArchipelagoMW/Archipelago) and on it copy HadesClient.py on the base folder (where all the Clients.py are) and copy hades.apworld in the worlds folder. For the compiled version, just copy hades.apworld into your lib/worlds folder inside your Archipelago install.
+- Copy hades.apworld into your lib/worlds folder inside your Archipelago install.
 - After doing this you should be able to generate and play multiword with Hades! (Note that, clearly, generating Hades games on the website is still not supported. You need to generate locally. Ask in the Discord if you need help
 for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
@@ -40,14 +41,14 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 # How to use Polycosmos
 
-- To use Polycosmos execute the HadesClient.py if you use Source or launch the client from the Launcher if you use compiled. If everything is working correctly this should open a window to search for your StyxScribe.py file, in your Hades folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that file and this should open Hades and the Archipelago client. 
+- To use Polycosmos launch the client from the Archipelago Launcher. If everything is working correctly this should open a window to search for your StyxScribe.py file, in your Hades folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that file and this should open Hades and the Archipelago client. 
 - Before starting a file, connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
 
 # Credits
 
 Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions.
 
-DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0.
+DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0, contributing the QoL part and the reverse extreme measure.
 
 The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support.
 
