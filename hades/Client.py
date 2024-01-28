@@ -315,7 +315,8 @@ class HadesContext(CommonContext):
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
         game_settings = {
-            'LocationMode': self.hades_slot_data['location_system']    
+            'LocationMode': self.hades_slot_data['location_system'],
+            'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
 

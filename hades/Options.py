@@ -217,6 +217,14 @@ class ScoreRewardsAmount(Range):
     default = 300
 
 
+class ReverseOrderExtremeMeasure(Toggle):
+    """When true the order in which extreme meassures applied is reverse (so level 1 is applied to Hades, instead to Meg/The Furies). 
+    For a more balanced experience"""
+    display_name = "ReverseOrderExtremeMeasure"
+    option_true = 1
+    option_false = 0
+    default = 1
+
 # ------------------------------ Building dictionary ------------------------
 
 
@@ -248,4 +256,5 @@ hades_options: typing.Dict[str, type(Option)] = {
     "ambrosia_pack_value": AmbrosiaPackValue,
     "location_system": LocationSystem,
     "score_rewards_amount": ScoreRewardsAmount,
+    "reverse_order_em": ReverseOrderExtremeMeasure,
 }
