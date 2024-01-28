@@ -24,19 +24,22 @@ config = {
     ReverseCostTableEnabled = false,
 }
 
---Set hook to load Boss data once informacion of setting is loaded
-StyxScribe.AddHook( PolycosmosROEM.LoadBossData styx_scribe_recieve_prefix.."Data package finished", PolycosmosROEM )
+--------------------
 
-
-function PolycosmosROEM.LoadBossData()
+function PolycosmosROEM.LoadBossData( message )
     if (not StyxScribeShared.Root.GameSettings) then
         wait( bufferTime )
-        PolycosmosROEM.LoadBossData()
+        print("Cant load REOM because of lack of data. Sorry.")
+        PolycosmosROEM.LoadBossData("")
         return
     end
-    if (not StyxScribeShared.Root.GameSettings['ReverseOrderEM']) then
+    if (StyxScribeShared.Root.GameSettings['ReverseOrderEM'] == 0) then
+        print("Rever order EM is off. Not loaded.")
         return
     end
+
+    print("starting to load ROEM")
+
     -- high priority
     -- determines which set of Hades' mobs are summoned (EM or non-EM)
     if config.SetupHadesSpawnOptionsEnabled then
@@ -197,4 +200,12 @@ function PolycosmosROEM.LoadBossData()
             end, ReverseOrderEM)
         end, ReverseOrderEM)
     end
+
+    print("Reverse order EM loaded correctly.")
 end
+
+---------------
+
+--Set hook to load Boss data once informacion of setting is loaded
+styx_scribe_recieve_prefix = "Client to Polycosmos:"
+StyxScribe.AddHook( PolycosmosROEM.LoadBossData, styx_scribe_recieve_prefix.."Data package finished", PolycosmosROEM )
