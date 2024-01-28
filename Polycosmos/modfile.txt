@@ -5,4 +5,6 @@ Import "PolycosmosMessages.lua"
 Import "PolycosmosHeatManager.lua"
 Import "PolycosmosItemManager.lua"
 Import "PolycosmosEvents.lua"
+Import "PolycosmosQoL.lua"
+Import "PolycosmosROEM.lua"
 
