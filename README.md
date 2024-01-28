@@ -24,7 +24,7 @@ Settings:
 
 Quality of Life:
 - Contractor have all upgrades available to buy from the start.
-- The order in which Extreme Meassures affects bosses can be reversed. So the first leve affects Hades (instead of the Furies), the second one the heroes and so on. Can be toggle from the .yaml, but it is recommended for a more balanced experience.
+- The order in which Extreme Measures affects bosses can be reversed. So the first leve affects Hades (instead of the Furies), the second one the heroes and so on. Can be toggle from the .yaml, but it is recommended for a more balanced experience.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
@@ -48,7 +48,7 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions.
 
-DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0.
+DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0, contributing the QoL part and the reverse extreme measure.
 
 The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support.
 
