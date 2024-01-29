@@ -30,10 +30,6 @@ global subsume
 styx_scribe_recieve_prefix = "Polycosmos to Client:"
 styx_scribe_send_prefix = "Client to Polycosmos:"     
 
-
-def to_styx_scribe(message):
-    subsume.Send(styx_scribe_send_prefix + " " + message)
-
 # --------------------- Styx Scribe useful globals -----------------
 
 
@@ -139,7 +135,7 @@ class HadesContext(CommonContext):
             self.hades_slot_data = args['slot_data']
             self.location_name_to_id = {name: idnumber for idnumber, name, in self.location_names.items()}
             if 'death_link' in self.hades_slot_data and self.hades_slot_data['death_link']:
-                self.set_deathlink = True
+                asyncio.create_task(self.update_death_link(True))
                 self.deathlink_enabled = True
             self.is_connected = True
             self.is_receiving_items_from_connect_package = True #ADD SCORE RELATED THING IN THIS REQUEST
@@ -177,6 +173,11 @@ class HadesContext(CommonContext):
         if cmd in {"Retrieved"}:
             self.update_filler_items_information(args)
             self.update_score_information(args)
+            
+        if cmd in {"Bounced"}:
+            if "tags" in args:
+                if "DeathLink" in args["tags"]:
+                    self.on_deathlink(args["data"])
 
     def update_filler_items_information(self, args : dict):
         if "hades:" + str(self.slot) + ":filler:Darkness" in args["keys"]:
@@ -358,9 +359,11 @@ class HadesContext(CommonContext):
     # -------------deathlink section started --------------------------------
     def on_deathlink(self, data: dict):
         # What should be done when a deathlink message is recieved
+        if (self.deathlink_pending):
+            return
         self.deathlink_pending = True
+        subsume.Send(styx_scribe_send_prefix + "Deathlink recieved")
         super().on_deathlink(data)
-        to_styx_scribe(styx_scribe_send_prefix + ":Deathlink recieved")
         asyncio.create_task(self.wait_and_lower_deathlink_flag())
 
     def send_death(self, death_text: str = ""):

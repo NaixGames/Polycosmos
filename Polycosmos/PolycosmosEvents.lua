@@ -192,7 +192,7 @@ function PolycosmosEvents.KillPlayer( message )
 	KillHero(CurrentRun.Hero,  { }, { })
 end
 
-StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix..":Deathlink recieved", PolycosmosEvents )
+StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."Deathlink recieved", PolycosmosEvents )
 
 ------------ On death, send deathlink to players
 
