@@ -19,9 +19,8 @@ config = {
     StagedAIEnabled = true,
     ChooseNextRoomDataEnabled = true,
 
-    -- Reverse the cost of Extreme Measures (code in Data/MetaUpgradeData.lua)
-    -- Does not work currently.
-    ReverseCostTableEnabled = false,
+    -- Reverse the cost of Extreme Measures
+    ReverseCostTableEnabled = true,
 }
 
 --------------------
@@ -40,6 +39,13 @@ function PolycosmosROEM.LoadBossData( message )
 
     print("starting to load ROEM")
 
+	
+	if config.ReverseCostTableEnabled then
+		ModUtil.LoadOnce(function()
+			MetaUpgradeData.BossDifficultyShrineUpgrade.CostTable = {4,3,2,1}
+		end)
+	end
+	
     -- high priority
     -- determines which set of Hades' mobs are summoned (EM or non-EM)
     if config.SetupHadesSpawnOptionsEnabled then
