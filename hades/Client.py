@@ -82,7 +82,7 @@ class HadesContext(CommonContext):
         # Add hook to comunicate with StyxScribe
         subsume.AddHook(self.send_location_check_to_server, styx_scribe_recieve_prefix + "Locations updated:",
                         "HadesClient")
-        subsume.AddHook(self.on_game_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient")
+        subsume.AddHook(self.on_run_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient")
         subsume.AddHook(self.check_connection_and_send_items_and_request_starting_info,
                         styx_scribe_recieve_prefix + "Data requested", "HadesClient")
         # Add hook to delete filler items once obtained so they are not triggered more than once
@@ -382,9 +382,16 @@ class HadesContext(CommonContext):
     # -------------game completion section starts
     # this is to detect game completion. Note that on futher updates this will need --------------------------------
     # to be changed to adapt to new game completion conditions
-    def on_game_completion(self, message):
-        asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
-        self.finished_game = True
+    def on_run_completion(self, message):
+        #parse message
+        counters = message.split("-") #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
+        
+        hasEnoughRuns = self.hades_slot_data['hades_defeats_needed'] <= counters[0]
+        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= counters[1]        
+
+        if (hasEnoughRuns and hasEnoughWeapons):
+            asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
+            self.finished_game = True
 
     # -------------game completion section ended --------------------------------
 

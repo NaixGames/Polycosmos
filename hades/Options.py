@@ -224,6 +224,23 @@ class ReverseOrderExtremeMeasure(Toggle):
     option_true = 1
     option_false = 0
     default = 1
+    
+# -----------------------------------------------------------------
+
+class HadesDefeatsNeeded(Range):
+    """How many times you need to defeat Hades to win the world. 10 is for credits."""
+    display_name = "HadesDefeatsNeeded"
+    range_start = 1
+    range_end = 20
+    default = 1
+
+class WeaponsClearsNeeded(Range):
+    """How many different weapons clears are needed to win the world."""
+    display_name = "WeaponsClearsNeeded"
+    range_start = 1
+    range_end = 6
+    default = 1
+
 
 # ------------------------------ Building dictionary ------------------------
 
@@ -257,4 +274,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "location_system": LocationSystem,
     "score_rewards_amount": ScoreRewardsAmount,
     "reverse_order_em": ReverseOrderExtremeMeasure,
+    "hades_defeats_needed" : HadesDefeatsNeeded,
+    "weapons_clears_needed": WeaponsClearsNeeded,
 }
