@@ -43,7 +43,7 @@ item_table_filler: Dict[str, ItemData] = {
     'Gemstones': ItemData(hades_base_item_id+18, False),
     'Diamonds': ItemData(hades_base_item_id+19, False),
     'TitanBlood': ItemData(hades_base_item_id+20, False),
-    'Nectar': ItemData(hades_base_item_id+21, False),
+    'Nectar': ItemData(hades_base_item_id+21, True),
     'Ambrosia': ItemData(hades_base_item_id+22, False)
 }
 
