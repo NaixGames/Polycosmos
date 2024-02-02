@@ -15,6 +15,9 @@ class HadesLogic(LogicMixin):
 
     def _has_enough_routine_inspection(self, player: int, amount: int) -> int:
         return self.count('RoutineInspectionPactLevel',player) >= amount
+    
+    def _has_enough_nectar(self, player:int) -> bool:
+        return self.count('Nectar', player)>0
 
 
 def set_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
@@ -31,4 +34,7 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     set_rule(world.get_entrance('Exit Elyseum', player), lambda state: state.has("BrosVictory", player)  and state._total_heat_level(player, min(number_items*3/4,30)) and state._has_enough_routine_inspection(player,total_routine_inspection))
     set_rule(world.get_location('Beat Hades', player), lambda state: state._total_heat_level(player, min(number_items,35)))
 
+    if (options.keepsakesanity.value==1):
+        set_rule(world.get_entrance('NPCS', player), lambda state: state._has_enough_nectar(player))
     world.completion_condition[player] = lambda state: state.has('Victory', player)
+

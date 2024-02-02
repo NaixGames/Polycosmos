@@ -47,6 +47,33 @@ item_table_filler: Dict[str, ItemData] = {
     'Ambrosia': ItemData(hades_base_item_id+22, False)
 }
 
+item_table_keepsake: Dict[str, ItemData] ={
+    'CerberusKeepsake': ItemData(hades_base_item_id+23, False),
+    'AchillesKeepsake': ItemData(hades_base_item_id+24, False),
+    'NyxKeepsake': ItemData(hades_base_item_id+25, False),
+    'ThanatosKeepsake': ItemData(hades_base_item_id+26, False),
+    'CharonKeepsake': ItemData(hades_base_item_id+27, False),
+    'HypnosKeepsake': ItemData(hades_base_item_id+28, False),
+    'MegaeraKeepsake': ItemData(hades_base_item_id+29, False),
+    'OrpheusKeepsake': ItemData(hades_base_item_id+30, False),
+    'DusaKeepsake': ItemData(hades_base_item_id+31, False),
+    'SkellyKeepsake': ItemData(hades_base_item_id+32, False),
+    'ZeusKeepsake': ItemData(hades_base_item_id+33, False),
+    'PoseidonKeepsake': ItemData(hades_base_item_id+34, False),
+    'AthenaKeepsake': ItemData(hades_base_item_id+35, False),
+    'AphorditeKeepsake': ItemData(hades_base_item_id+36, False),
+    'AresKeepsake': ItemData(hades_base_item_id+37, False),
+    'ArtemisKeepsake': ItemData(hades_base_item_id+38, False),
+    'DionysusKeepsake': ItemData(hades_base_item_id+39, False),
+    'HermesKeepsake': ItemData(hades_base_item_id+40, False),
+    'DemeterKeepsake': ItemData(hades_base_item_id+41, False),
+    'ChaosKeepsake': ItemData(hades_base_item_id+42, False),
+    'SisyphusKeepsake': ItemData(hades_base_item_id+43, False),
+    'EurydiceKeepsake': ItemData(hades_base_item_id+44, False),
+    'PatroclusKeepsake': ItemData(hades_base_item_id+45, False),
+    'DemeterKeepsake': ItemData(hades_base_item_id+46, False),
+}
+
 def create_filler_pool_options(options):
     item_filler_options = []
     if (options.darkness_pack_value.value > 0):
@@ -123,6 +150,7 @@ item_table = {
     **item_table_pacts,
     **items_table_event,
     **item_table_filler,
+    **item_table_keepsake,
 }
 
 class HadesItem(Item):

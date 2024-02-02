@@ -227,6 +227,15 @@ class ReverseOrderExtremeMeasure(Toggle):
     
 # -----------------------------------------------------------------
 
+class KeepsakeSanity(Toggle):
+    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone"""
+    display_name = "KeepsakeSanity"
+    option_true = 1
+    option_false = 0
+    default = 1
+
+# -----------------------------------------------------------------
+
 class HadesDefeatsNeeded(Range):
     """How many times you need to defeat Hades to win the world. 10 is for credits."""
     display_name = "HadesDefeatsNeeded"
@@ -276,4 +285,5 @@ hades_options: typing.Dict[str, type(Option)] = {
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "hades_defeats_needed" : HadesDefeatsNeeded,
     "weapons_clears_needed": WeaponsClearsNeeded,
+    "keepsakesanity": KeepsakeSanity,
 }

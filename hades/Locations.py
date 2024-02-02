@@ -5,7 +5,10 @@ from BaseClasses import Location
 
 hades_base_location_id = 5093427000
 
-#Todo: automate creating of this tables to allow also to make a point based progresion system for Locations
+#This is basically location + score checks. Keeping this as a variable to have easier time keeping
+max_number_room_checks = 1072
+
+#Making global tables that can be used for unit testing.
 
 global location_table_tartarus 
 location_table_tartarus = {
@@ -27,6 +30,33 @@ location_table_styx = {
     'Beat Hades': None,
 }
 
+location_keepsakes ={
+    'CerberusKeepsake': max_number_room_checks+1,
+    'AchillesKeepsake': max_number_room_checks+2,
+    'NyxKeepsake': max_number_room_checks+3,
+    'ThanatosKeepsake': max_number_room_checks+4,
+    'CharonKeepsake': max_number_room_checks+5,
+    'HypnosKeepsake': max_number_room_checks+6,
+    'MegaeraKeepsake': max_number_room_checks+7,
+    'OrpheusKeepsake': max_number_room_checks+8,
+    'DusaKeepsake': max_number_room_checks+9,
+    'SkellyKeepsake': max_number_room_checks+10,
+    'ZeusKeepsake': max_number_room_checks+11,
+    'PoseidonKeepsake': max_number_room_checks+12,
+    'AthenaKeepsake': max_number_room_checks+13,
+    'AphorditeKeepsake': max_number_room_checks+14,
+    'AresKeepsake': max_number_room_checks+15,
+    'ArtemisKeepsake': max_number_room_checks+16,
+    'DionysusKeepsake': max_number_room_checks+17,
+    'HermesKeepsake': max_number_room_checks+18,
+    'DemeterKeepsake': max_number_room_checks+19,
+    'ChaosKeepsake': max_number_room_checks+20,
+    'SisyphusKeepsake': max_number_room_checks+21,
+    'EurydiceKeepsake': max_number_room_checks+22,
+    'PatroclusKeepsake': max_number_room_checks+23,
+    'DemeterKeepsake': max_number_room_checks+24,
+}
+
 def give_all_locations_table():
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
@@ -34,6 +64,7 @@ def give_all_locations_table():
     return {
         **table_rooms,
         **table_score,
+        **location_keepsakes,
     }
 
 def clear_tables():
@@ -63,15 +94,21 @@ def clear_tables():
 #to choose how many "locations" we have.
 def setup_location_table_with_settings(options):
     clear_tables()
+    total_table = {}
+    
+    if (options.keepsakesanity.value == 1):
+        total_table.update(location_keepsakes)
    
     match (options.location_system.value):
         case 1: 
             result = give_default_location_table()
-            return result
+            total_table.update(result)
         
         case 2:
             levels = options.score_rewards_amount.value
-            return give_score_location_table(levels)
+            total_table.update(give_score_location_table(levels))
+    
+    return total_table
             
 #-----------------------------------------------
 
