@@ -8,12 +8,19 @@ local config = {
 	-- allow Wretched broker to sell all items once lounge unlocked
 	UnlockFullBroker = true,
 	
-	-- unlock the lounge from the start
-	UnlockLounge = true,
+	-- unlock the House Contractor and Lounge from the start
+	-- (the House Contractor unlocks from one specific line of code, but the Broker, Lounge, etc. all unlock based on 5 minimum escape attempts.)
+	-- (may also be a good idea to remove the ability for Hypnos to comment on the number of escape attempts you've completed, he's the only one that really does it.)
+	UnlockHouse = true,
 	
-	-- unlock the Fated List from the start
-	-- may just change the cost to 0 Gemstones, going to try and have it already in your room after first death or start of new file
+	-- unlock the Fated List from the start, and remove ability to purchase it
 	UnlockFatedList = true,
+
+	-- remove ability to purchase EM4
+	NoExtremerMeasures = true,
+
+	-- allow Demeter to appear at the same time as other gods
+	UnlockDemeterEarly = true,
 	
 }
 
@@ -22,141 +29,119 @@ PolycosmosQoL.config = config
 if not config.ModEnabled then return end
 
 if config.UnlockFullBroker then
-	ModUtil.LoadOnce(function()
-
-		-- Remove "GameStateRequirements" line for all applicable.
-		BrokerData = 
-		{
-			-- Standard Trades
-		
-			{ 
-				BuyName = "LockKeys", BuyAmount = 1,
-				CostName = "Gems", CostAmount = 10, 
-				Priority = true, 
-				PurchaseSound = "/SFX/KeyPickup",
-			},
-		
-			{ 
-				BuyName = "GiftPoints", BuyAmount = 1,
-				CostName = "LockKeys", CostAmount = 5, 
-				Priority = true, 
-				PurchaseSound = "/SFX/GiftAmbrosiaBottlePickup",
-			},
-		
-			{ 
-				BuyName = "SuperGems", BuyAmount = 1,
-				CostName = "GiftPoints", CostAmount = 10, 
-				Priority = true,
-				PurchaseSound = "/SFX/SuperGemPickup",
-				-- GameStateRequirements = { RequiredKills = { HydraHeadImmortal = 1 }, },
-			},
-		
-			{ 
-				BuyName = "SuperGiftPoints", BuyAmount = 1,
-				CostName = "SuperGems", CostAmount = 2, 
-				Priority = true,
-				PurchaseSound = "/SFX/SuperGiftAmbrosiaBottlePickup",
-				-- GameStateRequirements = { RequiredKills = { Theseus = 1 }, },
-			},
-		
-			{ 
-				BuyName = "SuperLockKeys", BuyAmount = 1,
-				CostName = "SuperGiftPoints", CostAmount = 1, 
-				Priority = true, 
-				PurchaseSound = "/SFX/TitanBloodPickupSFX",
-				-- GameStateRequirements = { RequiredKills = { Theseus = 1 }, },
-			},
-		
-			-- Limited Time Trades
-		
-			{ 
-				BuyName = "GiftPoints", BuyAmount = 1,
-				CostName = "Gems", CostAmount = 10, 
-				PurchaseSound = "/SFX/GiftAmbrosiaBottlePickup",
-			},
-		
-			{ 
-				BuyName = "LockKeys", BuyAmount = 3,
-				CostName = "MetaPoints", CostAmount = 25, 
-				PurchaseSound = "/SFX/KeyPickup",
-			},
-		
-			{ 
-				BuyName = "MetaPoints", BuyAmount = 50,
-				CostName = "GiftPoints", CostAmount = 1, 
-				PurchaseSound = "/SFX/Player Sounds/DarknessCollectionPickup",
-			},
-		
-			{ 
-				BuyName = "Gems", BuyAmount = 20,
-				CostName = "LockKeys", CostAmount = 2, 
-				PurchaseSound = "/SFX/GemPickup",
-			},
-		
-			{ 
-				BuyName = "SuperLockKeys", BuyAmount = 1,
-				CostName = "LockKeys", CostAmount = 15, 
-				PurchaseSound = "/SFX/TitanBloodPickupSFX",
-				-- GameStateRequirements = { RequiredKills = { Harpy = 1 }, },
-			},
-		
-			{ 
-				BuyName = "Gems", BuyAmount = 200,
-				CostName = "SuperLockKeys", CostAmount = 1, 
-				PurchaseSound = "/SFX/GemPickup",
-				-- GameStateRequirements = { RequiredKills = { Harpy = 1 }, },
-			},
-		
-			{ 
-				BuyName = "SuperGiftPoints", BuyAmount = 1,
-				CostName = "GiftPoints", CostAmount = 10, 
-				PurchaseSound = "/SFX/SuperGiftAmbrosiaBottlePickup",
-				-- GameStateRequirements = { RequiredKills = { Theseus = 1 }, },
-			},
-		
-			{ 
-				BuyName = "SuperGiftPoints", BuyAmount = 1,
-				CostName = "SuperLockKeys", CostAmount = 2, 
-				PurchaseSound = "/SFX/SuperGiftAmbrosiaBottlePickup",
-				-- GameStateRequirements = { RequiredKills = { Hades = 1 }, },
-			},
-		
-			{ 
-				BuyName = "SuperGems", BuyAmount = 1,
-				CostName = "SuperLockKeys", CostAmount = 1, 
-				PurchaseSound = "/SFX/SuperGemPickup",
-				-- GameStateRequirements = { RequiredKills = { Hades = 1 }, },
-			},
-		
-			{ 
-				BuyName = "SuperGems", BuyAmount = 1,
-				CostName = "Gems", CostAmount = 100, 
-				PurchaseSound = "/SFX/SuperGemPickup",
-				-- GameStateRequirements = { RequiredKills = { HydraHeadImmortal = 1 }, },
-			},
-		
-			{ 
-				BuyName = "MetaPoints", BuyAmount = 500,
-				CostName = "SuperGiftPoints", CostAmount = 1, 
-				PurchaseSound = "/SFX/Player Sounds/DarknessCollectionPickup",
-				-- GameStateRequirements = { RequiredKills = { Theseus = 1 }, },
-			},
-		
-			{ 
-				BuyName = "Gems", BuyAmount = 50,
-				CostName = "MetaPoints", CostAmount = 300, 
-				PurchaseSound = "/SFX/GemPickup",
-				-- GameStateRequirements = { RequiredMinShrinePointThresholdClear = 1 },
-			},
-		}
-		
-	end)
+	-- unlocks all possible entries, assumes no use of Wretched Broker mods
+	-- (this could likely just be a loop checking for if GameStateRequirements ~= nil, then make it nil on each table)
+	ModUtil.Table.NilMerge( BrokerData, {
+		[3] = {
+			GameStateRequirements = true
+		},
+		[4] = {
+			GameStateRequirements = true
+		},
+		[5] = {
+			GameStateRequirements = true
+		},
+		[10] = {
+			GameStateRequirements = true
+		},
+		[11] = {
+			GameStateRequirements = true
+		},
+		[12] = {
+			GameStateRequirements = true
+		},
+		[13] = {
+			GameStateRequirements = true
+		},
+		[14] = {
+			GameStateRequirements = true
+		},
+		[15] = {
+			GameStateRequirements = true
+		},
+		[16] = {
+			GameStateRequirements = true
+		},
+		[17] = {
+			GameStateRequirements = true
+		},
+	})
 end
 
-if config.UnlockLounge then
-
+if config.UnlockHouse then
+	-- remove requirement for House Contractor
+	ModUtil.Table.NilMerge( DeathLoopData, {
+		DeathArea = {
+			-- remove min run requirement for House Contractor
+			ObstacleData = {
+				[210158] = {
+					SetupGameStateRequirements = {
+						RequiredMinCompletedRuns = true
+					}
+				},
+			-- remove min run requirement for Wretched Broker
+				[423390] = {
+					SetupGameStateRequirements = {
+						RequiredMinCompletedRuns = true
+					}
+				}
+			},
+			-- remove min run requirements to unlock the lounge
+			DistanceTriggers = {
+				[2] = {
+					RequiredMinCompletedRuns = true
+				},
+				[3] = {
+					RequiredMinCompletedRuns = true
+				},
+				[7] = {
+					RequiredMinCompletedRuns = true
+				},
+				[8] = {
+					RequiredMinCompletedRuns = true
+				},
+			},
+			-- remove min run requirement for Dusa to show up with the lounge being unlocked
+			StartUnthreadedEvents = {
+				[19] = {
+					GameStateRequirements = {
+						RequiredMinCompletedRuns = true
+					}
+				},
+				[20] = {
+					GameStateRequirements = {
+						RequiredMinCompletedRuns = true
+					}
+				}
+			}
+		}
+	})
 end
 
 if config.UnlockFatedList then
+	ModUtil.Path.Wrap("StartNewGame", function(baseFunc)
+		baseFunc()
+		-- Adds the Fated List ("QuestLog") on the start of a new save file only.
+		-- This does not unlock the QuestLog on an already-started file, but most people shouldn't be using Polycosmos in this way.
+		AddCosmetic( "QuestLog" )
+	end, PolycosmosQoL)
+end
 
+if config.NoExtremerMeasures then
+	ModUtil.Path.Wrap("StartNewGame", function(baseFunc)
+		baseFunc()
+		-- Adds the ability to select EM4 when Extreme Measures is unlocked on the start of a new save file only.
+		-- (this just makes EM4 cleaner in the shop)
+		-- This does not unlock EM4 on an already-started file, but most people shouldn't be using Polycosmos in this way.
+		AddCosmetic( "HadesEMFight" )
+	end, PolycosmosQoL)
+end
+
+if config.UnlockDemeterEarly then
+	-- remove seeing the surface requirement
+	ModUtil.Table.NilMerge( LootData, {
+		DemeterUpgrade = {
+			RequiredSeenRooms = true
+		}
+	})
 end
