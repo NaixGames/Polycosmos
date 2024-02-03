@@ -117,7 +117,7 @@ def give_default_location_table():
     global location_table_tartarus 
     for i in range(14):
         stringInt=i+1;
-        if (i<10):
+        if (stringInt<10):
             stringInt = "0"+str(stringInt);
         location_table_tartarus["ClearRoom"+str(stringInt)] = hades_base_location_id+i
         
@@ -152,7 +152,7 @@ def give_score_location_table(locations):
     ##Recall to add a offset for the location to avoid sharing ids if two players play with different settings
     for i in range(locations_first_region):
         stringInt=i+1;
-        if (i<10):
+        if (stringInt<10):
             stringInt = "0"+str(stringInt);
         location_table_tartarus["ClearScore"+str(stringInt)]=hades_base_location_id+i+72 
 

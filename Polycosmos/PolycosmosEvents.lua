@@ -167,6 +167,9 @@ function PolycosmosEvents.UpdateItemsRun( message )
         elseif (PolycosmosItemManager.IsFillerItem(parsedName)) then
             PolycosmosItemManager.GiveFillerItem(parsedName)
             StyxScribe.Send(styx_scribe_send_prefix.."Got filler item:"..parsedName)
+        elseif (PolycosmosKeepsakeManager.IsKeepsakeItem(parsedName)) then
+            PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
+            StyxScribe.Send(styx_scribe_send_prefix.."Got Keepsake item:"..parsedName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)

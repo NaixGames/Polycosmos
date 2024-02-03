@@ -61,7 +61,7 @@ item_table_keepsake: Dict[str, ItemData] ={
     'ZeusKeepsake': ItemData(hades_base_item_id+33, False),
     'PoseidonKeepsake': ItemData(hades_base_item_id+34, False),
     'AthenaKeepsake': ItemData(hades_base_item_id+35, False),
-    'AphorditeKeepsake': ItemData(hades_base_item_id+36, False),
+    'AphroditeKeepsake': ItemData(hades_base_item_id+36, False),
     'AresKeepsake': ItemData(hades_base_item_id+37, False),
     'ArtemisKeepsake': ItemData(hades_base_item_id+38, False),
     'DionysusKeepsake': ItemData(hades_base_item_id+39, False),
@@ -71,7 +71,6 @@ item_table_keepsake: Dict[str, ItemData] ={
     'SisyphusKeepsake': ItemData(hades_base_item_id+43, False),
     'EurydiceKeepsake': ItemData(hades_base_item_id+44, False),
     'PatroclusKeepsake': ItemData(hades_base_item_id+45, False),
-    'DemeterKeepsake': ItemData(hades_base_item_id+46, False),
 }
 
 def create_filler_pool_options(options):

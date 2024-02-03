@@ -318,6 +318,7 @@ class HadesContext(CommonContext):
         game_settings = {
             'LocationMode': self.hades_slot_data['location_system'],
             'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
+            'KeepsakeSanity': self.hades_slot_data['keepsakesanity'],
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
 
