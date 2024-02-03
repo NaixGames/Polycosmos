@@ -250,7 +250,7 @@ class HadesContext(CommonContext):
         payload_message = []
         sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
         payload_message += [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
-        if (self.hades_slot_data['location_system']==2):  
+        if (self.hades_slot_data['location_system']==2 and len(message.split("Score"))>1):  
             last_score = int(message.split("Score")[1])
             payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check", 
                                "want_reply": False, "default": 0, "operations": [{"operation": "replace", "value": last_score}]}]
@@ -372,7 +372,9 @@ class HadesContext(CommonContext):
         # Avoid sending death if we died from a deathlink
         if (self.deathlink_enabled == False or self.deathlink_pending == True):
             return
+        self.deathlink_pending = True
         asyncio.create_task(super().send_death(death_text))
+        asyncio.create_task(self.wait_and_lower_deathlink_flag())
 
     async def wait_and_lower_deathlink_flag(self):
         await asyncio.sleep(3)

@@ -116,15 +116,22 @@ end
 
 function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
-    if not StyxScribeShared.Root.GameSettings["Keepsakenity"] then
+    print("Giving keepsake item with "..item)
+
+    if not StyxScribeShared.Root.GameSettings["KeepsakeSanity"] then
+        print("Keepsakenity is off!")
+        print(StyxScribeShared.Root.GameSettings["KeepsakeSanity"])
         return
     end
 
-    gameNPCName = KeepsakeDataTable[string].HadesName
+    gameNPCName = KeepsakeDataTable[item].HadesName
 
     if (GameState.Gift[gameNPCName].Value>0) then
+        print("Already friend of npc, ignoring")
         return
     end
+
+    print("STARTING GIVING ROUTINE")
 
     PolycosmosKeepsakeManager.IncrementGift(gameNPCName)
 
@@ -165,9 +172,8 @@ function PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
     PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
 end
 
-function PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
-    npcClientName = PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
-    for npcTag, npcData in KeepsakeDataTable do
+function PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
+    for npcTag, npcData in pairs(KeepsakeDataTable) do
         if (npcData.HadesName == npcName) then
             return npcData.ClientName
         end
