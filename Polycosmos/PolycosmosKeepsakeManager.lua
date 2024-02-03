@@ -116,22 +116,15 @@ end
 
 function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
-    print("Giving keepsake item with "..item)
-
     if not StyxScribeShared.Root.GameSettings["KeepsakeSanity"] then
-        print("Keepsakenity is off!")
-        print(StyxScribeShared.Root.GameSettings["KeepsakeSanity"])
         return
     end
 
     gameNPCName = KeepsakeDataTable[item].HadesName
 
     if (GameState.Gift[gameNPCName].Value>0) then
-        print("Already friend of npc, ignoring")
         return
     end
-
-    print("STARTING GIVING ROUTINE")
 
     PolycosmosKeepsakeManager.IncrementGift(gameNPCName)
 
@@ -145,8 +138,8 @@ end
 
 function PolycosmosKeepsakeManager.IncrementGift(npcName)
     -- Recreating this function to avoid a loop when wrapping.
-    GameState.Gift[npcName].Value = GameState.Gift[npcName].Value + 1
-	if GiftData[npcName] and GiftData[npcName].InfiniteGifts and GameState.Gift[npcName].Value == GetMaxGiftLevel(name) then
+    GameState.Gift[npcName].Value = 1
+    if GiftData[npcName] and GiftData[npcName].InfiniteGifts and GameState.Gift[npcName].Value == GetMaxGiftLevel(name) then
 		GameState.Gift[npcName].Value = 1
 	end
 end
