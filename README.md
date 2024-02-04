@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.4.1 and up to this version it possesses the feature detailed below:
+0.5.0 and up to this version it possesses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time. Can turn off by putting al pact levels at 0 in the .yaml.
@@ -11,7 +11,7 @@ on the next room, biome or run.
 
 - Keys, Darkness, Gemstones, Diamonds, Titan Blood, Nectar and Ambrosia as filler items.
 
-Locations:
+Location Modes:
 - Beating rooms has two modes: 
 - - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
 - - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how many locations are behind the score system, with the limit being 1000. Note this will give a REALLY
@@ -21,9 +21,14 @@ Settings:
 - Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
 - Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
 - Number of locations behind the score system in the score based mode.
+- Keepsakesanity: Keepsakes are shuffled into the item pool, and giving the first nectar to each NPC becomes a location. Excludes Hades and Persephone. NPCs can be befriended after obtaining their corresponding item and location check as normal.
 
+Victory conditions tweaks:
+- Minimum number of victories against Hades.
+- Mininum number of victories with different weapons against Hades.
+  
 Quality of Life:
-- Contractor have all upgrades available to buy from the start.
+- Contractor have all upgrades available to buy from the start. Fated list available from start. Lounge available from the start. Brooker available from the start. Demeter can appear from the first run.
 - The order in which Extreme Measures affects bosses can be reversed. So the first leve affects Hades (instead of the Furies), the second one the heroes and so on. Can be toggle from the .yaml, but it is recommended for a more balanced experience.
 
 # Requirements
@@ -34,7 +39,7 @@ Quality of Life:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
 - Copy hades.apworld into your lib/worlds folder inside your Archipelago install.
-- After doing this you should be able to generate and play multiword with Hades! (Note that, clearly, generating Hades games on the website is still not supported. You need to generate locally. Ask in the Discord if you need help
+- After doing this you should be able to generate and play multiword with Hades! (Note that generating Hades games on the website is still not supported. You need to generate locally. Ask in the Discord if you need help
 for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
 NOTE: up to the time of writing this mod does not guarantee any type of compatibility with other Hades mods. You have been warned!
@@ -48,7 +53,7 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions.
 
-DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0, contributing the QoL part and the reverse extreme measure.
+DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0, contributing to the QoL part and the reverse extreme measure. Also big support for Keepsakesanity.
 
 The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support.
 
@@ -68,10 +73,6 @@ This is a list of features that are planned for this mod.
 
 - Making weapons an item, and give the ability to start with any given weapon. This includes choosing a starting weapon and make other unlockable
 
-- Make the ability of choosing a particular boon a check. Put this Boon traits into the item pool and allow a menu that gives them to the player (Similar to CodexMenu mod)
-
-- Choosing how many runs victories are required to beat the mod.
-
 - Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
 # How this mod works
@@ -85,7 +86,7 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.3.1 it is compromised of the following modules:
+"require" or related commands). Up to the time of 0.5.0 compromise a bunch of modules, which we explain a few here:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it recieves
