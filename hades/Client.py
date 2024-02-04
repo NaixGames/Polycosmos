@@ -60,7 +60,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    acculumated_score = 0
+    polycosmos_version = "5.0.0"
 
     dictionary_filler_items = {
         "Darkness": 0,
@@ -133,6 +133,10 @@ class HadesContext(CommonContext):
             self.missing_locations_cache = args['missing_locations']
             self.checked_locations_cache = args['checked_locations']
             self.hades_slot_data = args['slot_data']
+            if not (self.hades_slot_data["version_check"]==self.polycosmos_version):
+                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
+                stringError += "THIS ARE NOT COMPATIBLE"
+                raise Exception(stringError)
             self.location_name_to_id = {name: idnumber for idnumber, name, in self.location_names.items()}
             if 'death_link' in self.hades_slot_data and self.hades_slot_data['death_link']:
                 asyncio.create_task(self.update_death_link(True))

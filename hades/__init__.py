@@ -51,6 +51,8 @@ class HadesWorld(World):
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
     required_client_version = (0, 4, 4)
+    
+    polycosmos_version = "5.0.0"
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_table = give_all_locations_table()
@@ -143,6 +145,7 @@ class HadesWorld(World):
         for option_name in hades_options:
             option = getattr(self.options, option_name)
             slot_data[option_name] = option.value
+        slot_data["version_check"] = self.polycosmos_version
         return slot_data
 
     def get_filler_item_name(self) -> str:
