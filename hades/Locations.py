@@ -98,15 +98,13 @@ def setup_location_table_with_settings(options):
     
     if (options.keepsakesanity.value == 1):
         total_table.update(location_keepsakes)
-   
-    match (options.location_system.value):
-        case 1: 
-            result = give_default_location_table()
-            total_table.update(result)
-        
-        case 2:
-            levels = options.score_rewards_amount.value
-            total_table.update(give_score_location_table(levels))
+    
+    if (options.location_system.value==1):
+        result = give_default_location_table()
+        total_table.update(result)
+    elif (options.location_system.value==2):
+        levels = options.score_rewards_amount.value
+        total_table.update(give_score_location_table(levels))
     
     return total_table
             
