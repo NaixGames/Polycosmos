@@ -74,6 +74,12 @@ This is a list of features that are planned for this mod.
 
 - Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
+- Make completing parts of the Fated List locations checks
+
+- Make House contractor unlocks location checks
+
+- Keepsake collector and Fated list collector ending criterias
+
 # How this mod works
 
 There might be the case in which you want to collaborate to improve this multiworld or want to adapt this to bring other game to Archipelago.
