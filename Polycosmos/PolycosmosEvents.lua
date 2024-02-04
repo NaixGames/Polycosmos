@@ -5,7 +5,6 @@ loaded = false
 local checkToProcess = "" --TODO: Change this for array and process the whole array. This could help with desyncs.
 
 local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
---TODO: this gets sightly out of sync if the player exists the file and loads again without closing the game/client. Any way to avoid this?
 
 
 --[[

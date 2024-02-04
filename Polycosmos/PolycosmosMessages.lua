@@ -9,16 +9,16 @@ ModUtil.Table.Merge( ModUtil.Hades, {
 ------------ Utils to uniformly change how we desplay messages
 
 function PolycosmosMessages.PrintToPlayer(message)
-    ModUtil.Hades.PrintStack(message, 3, {1,0.9,0.1,1}, {0,0,0,1}, 20)
+    ModUtil.Hades.PrintStack(message, 5, {1,0.9,0.1,1}, {0,0,0,1}, 20)
 end
 
 
 function PolycosmosMessages.PrintInformationMessage(message)
-    ModUtil.Hades.PrintStack(message, 3, {0.3,0.9,1,1}, {0,0,0,1}, 20)
+    ModUtil.Hades.PrintStack(message, 5, {0.3,0.9,1,1}, {0,0,0,1}, 20)
 end
 
 function PolycosmosMessages.PrintErrorMessage(message, id)
-    ModUtil.Hades.PrintStack("Error number "..id..": "..message, 3, {1,0,0,1}, {0,0,0,1}, 20)
+    ModUtil.Hades.PrintStack("Error number "..id..": "..message, 5, {1,0,0,1}, {0,0,0,1}, 20)
 end
 
 -- for id Error
