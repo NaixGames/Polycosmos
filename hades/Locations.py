@@ -44,7 +44,7 @@ location_keepsakes ={
     'ZeusKeepsake': max_number_room_checks+11,
     'PoseidonKeepsake': max_number_room_checks+12,
     'AthenaKeepsake': max_number_room_checks+13,
-    'AphorditeKeepsake': max_number_room_checks+14,
+    'AphroditeKeepsake': max_number_room_checks+14,
     'AresKeepsake': max_number_room_checks+15,
     'ArtemisKeepsake': max_number_room_checks+16,
     'DionysusKeepsake': max_number_room_checks+17,
