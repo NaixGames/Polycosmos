@@ -146,20 +146,23 @@ end
 
 ---- wrapping for locations of keepsake
 
--- Wrapper for room completion
+-- Wrapper for location checks
 ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
     if not StyxScribeShared.Root.GameSettings["KeepsakeSanity"] then
         return baseFunc(npcName, amount)
     end
     -- only send the first level of friendship (ie, keepsake unlock). This should allow to upgrade friendship level after having the corresponding keepsake
+    PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
     if (GameState.Gift[npcName].Value>0) then
         return baseFunc(npcName, amount)
     end
-    PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
 end)
 
 function PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
     npcClientName = PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
+    if (PolycosmosEvents.HasLocationBeenChecked(npcClientName)) then
+        return
+    end
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..npcClientName)
     itemObtained = StyxScribeShared.Root.LocationToItemMap[npcClientName]
     PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)

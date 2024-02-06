@@ -117,7 +117,7 @@ function PolycosmosEvents.GiveScore(roomNumber)
     if (last_score_completed == -1) then
         actual_score = StyxScribeShared.Root.Score
         last_score_completed = StyxScribeShared.Root.LastScoreCheck
-        last_room_completed = StyxScribeShared.LastRoomComplete
+        last_room_completed = StyxScribeShared.Root.LastRoomComplete
     end
 
     -- if we already have all the possible checks, just return
@@ -258,3 +258,7 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
             return baseFunc(prevRun, args)
         end)
 
+-------------- Checked if a location has been checked
+function PolycosmosEvents.HasLocationBeenChecked( location )
+    return PolycosmosUtils.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosUtils.HasValue(locationsCheckedThisPlay, checkName)
+end
