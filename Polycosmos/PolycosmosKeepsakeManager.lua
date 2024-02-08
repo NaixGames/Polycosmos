@@ -174,7 +174,7 @@ function PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
         return
     end
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..npcClientName)
-    itemObtained = StyxScribeShared.Root.LocationToItemMap[npcClientName]
+    itemObtained =  PolycosmosEvents.GiveItemInLocation(npcClientName)
     PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
 end
 

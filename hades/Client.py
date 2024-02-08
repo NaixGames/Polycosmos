@@ -338,8 +338,8 @@ class HadesContext(CommonContext):
         itemmap = {}
         subsume.Modules.StyxScribeShared.Root["LocationToItemMap"] = {}
         for networkitem in itemsdict:
-            subsume.Modules.StyxScribeShared.Root["LocationToItemMap"][self.location_names[networkitem.location]] = self.player_names[networkitem.player] + "-" + \
-                                                                 self.item_names[networkitem.item]
+            subsume.Send(styx_scribe_send_prefix + "Location to Map:" + self.location_names[networkitem.location] + "-" + self.player_names[networkitem.player] + "-" + \
+                                                                 self.item_names[networkitem.item])
         self.creating_location_to_item_dictionary = False
         subsume.Send(styx_scribe_send_prefix + "Data package finished")
 
