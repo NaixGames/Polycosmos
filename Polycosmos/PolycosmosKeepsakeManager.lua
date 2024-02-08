@@ -1,6 +1,8 @@
 ModUtil.Mod.Register( "PolycosmosKeepsakeManager" )
 
 
+local cacheNPCName=""
+
 --------------------------------------
 
 local KeepsakeDataTable =
@@ -116,7 +118,7 @@ end
 
 function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
-    if not StyxScribeShared.Root.GameSettings["KeepsakeSanity"] then
+    if StyxScribeShared.Root.GameSettings["KeepsakeSanity"]==0 then
         return
     end
 
@@ -148,18 +150,26 @@ end
 
 -- Wrapper for location checks
 ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
-    if not StyxScribeShared.Root.GameSettings["KeepsakeSanity"] then
+    if StyxScribeShared.Root.GameSettings["KeepsakeSanity"]==0 then
         return baseFunc(npcName, amount)
     end
     -- only send the first level of friendship (ie, keepsake unlock). This should allow to upgrade friendship level after having the corresponding keepsake
+    
+    if not PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName) then
+        return baseFunc(npcName, amount)
+    end
+
     PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
+
     if (GameState.Gift[npcName].Value>0) then
         return baseFunc(npcName, amount)
     end
 end)
 
+
+
 function PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
-    npcClientName = PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
+    npcClientName = cacheNPCName
     if (PolycosmosEvents.HasLocationBeenChecked(npcClientName)) then
         return
     end
@@ -171,7 +181,9 @@ end
 function PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
     for npcTag, npcData in pairs(KeepsakeDataTable) do
         if (npcData.HadesName == npcName) then
-            return npcData.ClientName
+            cacheNPCName = npcData.ClientName
+            return true
         end
     end
+    return false
 end
