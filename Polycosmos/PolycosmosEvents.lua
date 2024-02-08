@@ -179,11 +179,12 @@ StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.
 ------------ On Hades killed, send victory signal to Client
 
 function PolycosmosEvents.ProcessHadesDefeat()
+    -- Adding a plus on the number of runs and the number of weapons because this does not account our most recent victory
     numruns = GetNumRunsCleared()
     weaponsWithVictory = 0
     for k, weaponName in ipairs( WeaponSets.HeroMeleeWeapons )  do
-        if (GetNumRunsClearedWithWeapon(weaponName)>0) then
-            weaponsWithVictory = weaponsWithVictory + 1
+        if (GetNumRunsClearedWithWeapon(weaponName)>0 or GetEquippedWeapon() == weaponName) then
+            weaponsWithVictory = weaponsWithVictory+1
         end
     end
     StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory)

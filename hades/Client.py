@@ -285,9 +285,9 @@ class HadesContext(CommonContext):
 
         self.store_settings_data()
         self.request_stored_score_info()
-        self.request_location_to_item_dictionary()
         # send items that were already cached in connect
         self.send_items()
+        self.request_location_to_item_dictionary()
 
     def store_settings_data(self):
         heat_dictionary = {
@@ -394,9 +394,9 @@ class HadesContext(CommonContext):
         #parse message
         counters = message.split("-") #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
         
-        hasEnoughRuns = self.hades_slot_data['hades_defeats_needed'] <= counters[0]
-        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= counters[1]        
-
+        hasEnoughRuns = self.hades_slot_data['hades_defeats_needed'] <= int(counters[0])
+        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= int(counters[1])        
+        print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1])
         if (hasEnoughRuns and hasEnoughWeapons):
             asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
             self.finished_game = True
