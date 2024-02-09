@@ -6,7 +6,8 @@ local checkToProcess = "" --TODO: Change this for array and process the whole ar
 
 local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
 
-local locationToItemMapping = {}
+locationToItemMapping = {} --This is used to have the location to item mapping.
+--When having too many locations StyxScribe.Root wouldnt work. The writting speed was too slow. Having the dictionary being handled by strings works much better.
 
 --[[
 
@@ -269,7 +270,8 @@ end
 -------------------Auxiliar functions to handle location to item mapping
 
 function PolycosmosEvents.IsItemMappingInitiliazed()
-    return table.getn(locationToItemMapping)>0
+    local key,val = next(locationToItemMapping)
+    return (key ~= nil)
 end
 
 function PolycosmosEvents.GiveItemInLocation(location)
@@ -279,8 +281,10 @@ end
 --------------- method to reconstruct location to item mapping
 
 function PolycosmosEvents.RecieveLocationToItem(message)
-    MessageAsTable =  PolycosmosUtils.ParseStringToArray(message)
-    locationToItemMapping[MessageAsTable[0]] = MessageAsTable[1]
+    local MessageAsTable = PolycosmosUtils.ParseStringToArrayWithDash(message)
+    local key = MessageAsTable[1]
+    local value = MessageAsTable[2].."-"..MessageAsTable[3]
+    locationToItemMapping[key] = value
 end
 
 StyxScribe.AddHook( PolycosmosEvents.RecieveLocationToItem, styx_scribe_recieve_prefix.."Location to Item Map:", PolycosmosEvents )
