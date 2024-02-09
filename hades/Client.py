@@ -54,7 +54,6 @@ class HadesContext(CommonContext):
     missing_locations_cache = []
     checked_locations_cache = []
     location_name_to_id = None
-    locations_received_names = []
     location_to_item_map_created = False
     deathlink_pending = False
     deathlink_enabled = False
@@ -278,10 +277,8 @@ class HadesContext(CommonContext):
 
     async def send_items_and_request_starting_info(self, message):
         # Construct location to item mapping
-        self.locations_received_names = []
         for location in self.checked_locations_cache:
-            self.locations_received_names += [self.location_names[location]]
-        subsume.Modules.StyxScribeShared.Root["LocationsUnlocked"] = self.locations_received_names
+            subsume.Send(styx_scribe_send_prefix + "Location checked reminder:"+self.location_names[location])
 
         self.store_settings_data()
         self.request_stored_score_info()

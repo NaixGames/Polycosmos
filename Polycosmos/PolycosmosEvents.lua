@@ -4,10 +4,12 @@ loaded = false
 
 local checkToProcess = "" --TODO: Change this for array and process the whole array. This could help with desyncs.
 
-local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
+locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
 
 locationToItemMapping = {} --This is used to have the location to item mapping.
 --When having too many locations StyxScribe.Root wouldnt work. The writting speed was too slow. Having the dictionary being handled by strings works much better.
+
+-- since eventually the number of locations checked is long enough, I also moved this to work with strings.
 
 --[[
 
@@ -263,7 +265,7 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
 
 -------------- Checked if a location has been checked
 function PolycosmosEvents.HasLocationBeenChecked( location )
-    return PolycosmosUtils.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosUtils.HasValue(locationsCheckedThisPlay, checkName)
+   return PolycosmosUtils.HasValue(locationsCheckedThisPlay, location)
 end
 
 
@@ -288,3 +290,11 @@ function PolycosmosEvents.RecieveLocationToItem(message)
 end
 
 StyxScribe.AddHook( PolycosmosEvents.RecieveLocationToItem, styx_scribe_recieve_prefix.."Location to Item Map:", PolycosmosEvents )
+
+-------------- method to reconstruct the mapping of checked Location
+
+function PolycosmosEvents.AddCheckedLocation( message )
+    table.insert(locationsCheckedThisPlay, message)
+end
+
+StyxScribe.AddHook( PolycosmosEvents.AddCheckedLocation, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
