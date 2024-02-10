@@ -4,8 +4,12 @@ loaded = false
 
 local checkToProcess = "" --TODO: Change this for array and process the whole array. This could help with desyncs.
 
-local locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
+locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
 
+locationToItemMapping = {} --This is used to have the location to item mapping.
+--When having too many locations StyxScribe.Root wouldnt work. The writting speed was too slow. Having the dictionary being handled by strings works much better.
+
+-- since eventually the number of locations checked is long enough, I also moved this to work with strings.
 
 --[[
 
@@ -50,13 +54,13 @@ end
 
 function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
     --If the location is already visited, we ignore adding the check
-    if (PolycosmosUtils.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosUtils.HasValue(locationsCheckedThisPlay, checkName)) then
+    if (PolycosmosEvents.HasLocationBeenChecked( checkName )) then
         return
     end
-    if not StyxScribeShared.Root.LocationToItemMap[checkName] then --if nothing tangible is in this room, just return
+    itemObtained = PolycosmosEvents.GiveItemInLocation(checkName)
+    if not itemObtained then --if nothing tangible is in this room, just return
         return
     end
-    itemObtained = StyxScribeShared.Root.LocationToItemMap[checkName]
     table.insert(locationsCheckedThisPlay, checkName)
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..checkName)
     if  printToPlayer then  --This is to avoid overflowing the print stack if by any chance we print a set of locations in the future
@@ -71,10 +75,10 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         return
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if not StyxScribeShared.Root.LocationToItemMap then
+    if not PolycosmosEvents.IsItemMappingInitiliazed() then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
-        if not StyxScribeShared.Root.LocationToItemMap then
+        if not PolycosmosEvents.IsItemMappingInitiliazed() then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
@@ -100,10 +104,10 @@ function PolycosmosEvents.GiveScore(roomNumber)
         return
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if not StyxScribeShared.Root.LocationToItemMap then
+    if not PolycosmosEvents.IsItemMappingInitiliazed() then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
-        if not StyxScribeShared.Root.LocationToItemMap then
+        if not PolycosmosEvents.IsItemMappingInitiliazed() then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
@@ -261,5 +265,36 @@ ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
 
 -------------- Checked if a location has been checked
 function PolycosmosEvents.HasLocationBeenChecked( location )
-    return PolycosmosUtils.HasValue(StyxScribeShared.Root.LocationsUnlocked, checkName) or PolycosmosUtils.HasValue(locationsCheckedThisPlay, checkName)
+   return PolycosmosUtils.HasValue(locationsCheckedThisPlay, location)
 end
+
+
+-------------------Auxiliar functions to handle location to item mapping
+
+function PolycosmosEvents.IsItemMappingInitiliazed()
+    local key,val = next(locationToItemMapping)
+    return (key ~= nil)
+end
+
+function PolycosmosEvents.GiveItemInLocation(location)
+    return locationToItemMapping[location]
+end
+
+--------------- method to reconstruct location to item mapping
+
+function PolycosmosEvents.RecieveLocationToItem(message)
+    local MessageAsTable = PolycosmosUtils.ParseStringToArrayWithDash(message)
+    local key = MessageAsTable[1]
+    local value = MessageAsTable[2].."-"..MessageAsTable[3]
+    locationToItemMapping[key] = value
+end
+
+StyxScribe.AddHook( PolycosmosEvents.RecieveLocationToItem, styx_scribe_recieve_prefix.."Location to Item Map:", PolycosmosEvents )
+
+-------------- method to reconstruct the mapping of checked Location
+
+function PolycosmosEvents.AddCheckedLocation( message )
+    table.insert(locationsCheckedThisPlay, message)
+end
+
+StyxScribe.AddHook( PolycosmosEvents.AddCheckedLocation, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
