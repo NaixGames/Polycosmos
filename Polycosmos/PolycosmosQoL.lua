@@ -151,4 +151,5 @@ end
 ModUtil.Path.Wrap("UnlockNextMetaUpgradePanel", function(baseFunc, screen, button)
   baseFunc(screen, button)
   CloseMetaUpgradeScreen(screen, button)
+  OpenMetaUpgradeMenu()
 end, MirrorFix)
