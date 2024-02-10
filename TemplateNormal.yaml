@@ -57,34 +57,34 @@ Hades:
   #If all items have value set to 0 then Darkness will be put in the pool and used as "Nothing".
 
   #Max value for Darkness is 10000
-  darkness_pack_value: 1000
+  darkness_pack_value: 500
 
   #Max value for Keys is 500
-  keys_pack_value: 20
+  keys_pack_value: 10
 
   #Max value for Gemstones is 2500
-  gemstones_pack_value: 100
+  gemstones_pack_value: 50
 
   #Max value for Diamonds is 100
-  diamonds_pack_value: 15
+  diamonds_pack_value: 5
 
   #Max value for Titan Blood is 50
-  titan_blood_pack_value: 3
+  titan_blood_pack_value: 2
 
   #Max value for Nectar is 50
-  nectar_pack_value: 3
+  nectar_pack_value: 2
 
   #Max value for Ambrosia is 50
-  ambrosia_pack_value: 3
+  ambrosia_pack_value: 2
 
   #1 is room based, 2 is score based
-  location_system: 1
+  location_system: 2
 
   #number of locations hidden behind score
   score_rewards_amount: 150
 
   #to choose if reverse order extreme meassure applies. 1=true, 0=false
-  reverse_order_em: 0
+  reverse_order_em: 1
 
   #how many times one needs to defeat hades to finish the world. Max is 10.
   hades_defeats_needed : 1
