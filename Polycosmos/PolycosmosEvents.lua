@@ -75,7 +75,7 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         return
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if not PolycosmosEvents.IsItemMappingInitiliazed() then
+    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not StyxScribeShared.Root.GameSettings)) then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
         if not PolycosmosEvents.IsItemMappingInitiliazed() then
