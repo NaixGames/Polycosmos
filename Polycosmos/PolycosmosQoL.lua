@@ -145,3 +145,11 @@ if config.UnlockDemeterEarly then
 		}
 	})
 end
+
+
+-- QoL so that unlocking new levels of the mirror is compatible with routine inspection unlocks
+ModUtil.Path.Wrap("UnlockNextMetaUpgradePanel", function(baseFunc, screen, button)
+  baseFunc(screen, button)
+  CloseMetaUpgradeScreen(screen, button)
+  OpenMetaUpgradeMenu()
+end, MirrorFix)

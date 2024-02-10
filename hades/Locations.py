@@ -30,6 +30,10 @@ location_table_styx = {
     'Beat Hades': None,
 }
 
+global location_table_styx_late
+location_table_styx_late = {
+}
+
 location_keepsakes ={
     'CerberusKeepsake': max_number_room_checks+1,
     'AchillesKeepsake': max_number_room_checks+2,
@@ -88,6 +92,10 @@ def clear_tables():
         'Beat Hades': None,
     }
     
+    global location_table_styx_late
+    location_table_styx_late = {
+    }
+    
 
 #Change parameters so they include the settings of the player
 #Chose between old and new system. And for the new system we want to be able
@@ -129,16 +137,21 @@ def give_default_location_table():
     for i in range(28,42):
         location_table_elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+i
     
-    #Repopulate elyseum table, rooms from 43 to 72 
+    #Repopulate styx table, rooms from 43 to 72. Split into early and late
     global location_table_styx 
-    for i in range(42,72):
-        location_table_elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+i
+    for i in range(42,60):
+        location_table_styx["ClearRoom"+str(i+1)]=hades_base_location_id+i
+        
+    global location_table_styx_late
+    for i in range(60,72):
+        location_table_styx_late["ClearRoom"+str(i+1)]=hades_base_location_id+i
     
     location_table = {
         **location_table_tartarus, 
         **location_table_asphodel,
         **location_table_elyseum,
         **location_table_styx,
+        **location_table_styx_late,
     }
     return location_table
 
@@ -163,14 +176,19 @@ def give_score_location_table(locations):
         location_table_elyseum["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
     
     global location_table_styx
-    for i in range(locations_first_region+4*fraction_location, locations):
+    for i in range(locations_first_region+4*fraction_location, locations+7*fraction_location):
         location_table_styx["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+        
+    global location_table_styx_late
+    for i in range(locations_first_region+7*fraction_location, locations):
+        location_table_styx_late["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
 
     location_table = {
         **location_table_tartarus, 
         **location_table_asphodel,
         **location_table_elyseum,
         **location_table_styx,
+        **location_table_styx_late,
     }
     
     return location_table
