@@ -45,7 +45,8 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 # How to use Polycosmos
 
-- To use Polycosmos launch the client from the Archipelago Launcher. If everything is working correctly this should open a window to search for your StyxScribe.py file, in your Hades folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that file and this should open Hades and the Archipelago client. 
+- To use Polycosmos launch the client from the Archipelago Launcher. If everything is working correctly this should open a window to search for your StyxScribe.py file, in your Hades folder (the standard steam path being C:\Program Files\Steam\steamapps\common\Hades ). Select that file and this should open Hades and the Archipelago client. Note the Archipelago client is a different window that looks like this:
+  ![](https://github.com/NaixGames/Polycosmos/blob/main/ArchipelagoClient.png?raw=true)
 - Before starting a file, connect to your Archipelago server using the client as you would do with any other AP game. Play the game and have fun ;).
 
 # Credits
