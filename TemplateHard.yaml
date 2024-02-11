@@ -26,7 +26,7 @@ Hades:
   benefits_package_pact_amount: 2
 
   #Max level for Middle management is 1
-  middle_management_pact_amount: 2
+  middle_management_pact_amount: 1
 
   #Max level for Underworld Customs is 1
   underworld_customs_pact_amount: 1
