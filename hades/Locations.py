@@ -6,7 +6,7 @@ from BaseClasses import Location
 hades_base_location_id = 5093427000
 
 #This is basically location + score checks. Keeping this as a variable to have easier time keeping
-max_number_room_checks = 1072
+max_number_room_checks = 1072+hades_base_location_id
 
 #Making global tables that can be used for unit testing.
 
@@ -176,11 +176,11 @@ def give_score_location_table(locations):
         location_table_elyseum["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
     
     global location_table_styx
-    for i in range(locations_first_region+4*fraction_location, locations+7*fraction_location):
+    for i in range(locations_first_region+4*fraction_location, locations_first_region+6*fraction_location):
         location_table_styx["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
         
     global location_table_styx_late
-    for i in range(locations_first_region+7*fraction_location, locations):
+    for i in range(locations_first_region+6*fraction_location, locations):
         location_table_styx_late["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
 
     location_table = {

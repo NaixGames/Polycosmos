@@ -59,7 +59,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.5.1"
+    polycosmos_version = "0.5.2"
 
     dictionary_filler_items = {
         "Darkness": 0,
