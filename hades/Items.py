@@ -73,6 +73,15 @@ item_table_keepsake: Dict[str, ItemData] ={
     'PatroclusKeepsake': ItemData(hades_base_item_id+45, False),
 }
 
+item_table_weapons: Dict[str, ItemData] ={
+    'SwordWeaponUnlockItem': ItemData(hades_base_item_id+23, False),
+    'BowWeaponUnlockItem': ItemData(hades_base_item_id+24, False),
+    'SpearWeaponUnlockItem': ItemData(hades_base_item_id+25, False),
+    'ShieldWeaponUnlockItem': ItemData(hades_base_item_id+26, False),
+    'FistWeaponUnlockItem': ItemData(hades_base_item_id+27, False),
+    'GunWeaponUnlockItem': ItemData(hades_base_item_id+28, False),
+}
+
 def create_filler_pool_options(options):
     item_filler_options = []
     if (options.darkness_pack_value.value > 0):
@@ -150,6 +159,7 @@ item_table = {
     **items_table_event,
     **item_table_filler,
     **item_table_keepsake,
+    **item_table_weapons,
 }
 
 class HadesItem(Item):

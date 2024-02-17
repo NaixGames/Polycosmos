@@ -2,6 +2,8 @@ ModUtil.Mod.Register( "PolycosmosROEM" )
 
 local bufferTime = 2
 
+local loaded = false
+
 config = {
     -- below enables are for debugging
     -- comparisons (logic)
@@ -26,6 +28,12 @@ config = {
 --------------------
 
 function PolycosmosROEM.LoadBossData( message )
+    if (loaded) then
+        return
+    end
+
+    loaded = true
+
     if (not StyxScribeShared.Root.GameSettings) then
         wait( bufferTime )
         print("Cant load REOM because of lack of data. Sorry.")
@@ -212,5 +220,4 @@ end
 ---------------
 
 --Set hook to load Boss data once informacion of setting is loaded
-styx_scribe_recieve_prefix = "Client to Polycosmos:"
-StyxScribe.AddHook( PolycosmosROEM.LoadBossData, styx_scribe_recieve_prefix.."Data package finished", PolycosmosROEM )
+StyxScribe.AddHook( PolycosmosROEM.LoadBossData, styx_scribe_recieve_prefix.."Data finished", PolycosmosROEM )

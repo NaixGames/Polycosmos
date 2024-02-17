@@ -13,12 +13,11 @@ class HadesLogic(LogicMixin):
             count = count + self.count(key, player)
         return count >= amount
 
-    def _has_enough_routine_inspection(self, player: int, amount: int) -> int:
-        return self.count('RoutineInspectionPactLevel',player) >= amount
-    
-    def _has_enough_nectar(self, player:int) -> bool:
-        return self.count('Nectar', player)>0
+    def _has_enough_of_item(self, player:int, amount: int, item:str) -> bool:
+        return self.count(item, player)>=amount
 
+    def _has_enough_routine_inspection(self, player: int, amount: int) -> int:
+        return self._has_enough_of_item(player, amount, 'RoutineInspectionPactLevel')
 
 def set_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
@@ -35,6 +34,8 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     set_rule(world.get_location('Beat Hades', player), lambda state: state._total_heat_level(player, min(number_items,35)))
 
     if (options.keepsakesanity.value==1):
-        set_rule(world.get_entrance('NPCS', player), lambda state: state._has_enough_nectar(player))
+        set_rule(world.get_entrance('NPCS', player), lambda state: state._has_enough_of_item(player, 1, 'Nectar'))
+    if (options.weaponsanity.value==1):
+        set_rule(world.get_entrance('Weapon Cache', player), lambda state: state._has_enough_of_item(player, 1, 'Keys'))
     world.completion_condition[player] = lambda state: state.has('Victory', player)
 

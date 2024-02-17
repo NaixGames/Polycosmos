@@ -61,6 +61,15 @@ location_keepsakes ={
     'DemeterKeepsake': max_number_room_checks+24,
 }
 
+location_weapons ={
+    'SwordWeaponUnlockLocation': max_number_room_checks+25,
+    'BowWeaponUnlockLocation': max_number_room_checks+26,
+    'SpearWeaponUnlockLocation': max_number_room_checks+27,
+    'ShieldWeaponUnlockLocation': max_number_room_checks+28,
+    'FistWeaponUnlockLocation': max_number_room_checks+29,
+    'GunWeaponUnlockLocation': max_number_room_checks+30,
+}
+
 def give_all_locations_table():
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
@@ -69,6 +78,7 @@ def give_all_locations_table():
         **table_rooms,
         **table_score,
         **location_keepsakes,
+        **location_weapons,
     }
 
 def clear_tables():
@@ -106,6 +116,9 @@ def setup_location_table_with_settings(options):
     
     if (options.keepsakesanity.value == 1):
         total_table.update(location_keepsakes)
+     
+    if (options.weaponsanity.value == 1):
+        total_table.update(location_weapons)
     
     if (options.location_system.value==1):
         result = give_default_location_table()

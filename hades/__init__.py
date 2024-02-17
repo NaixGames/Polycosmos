@@ -1,11 +1,13 @@
+from re import I
 import string
 import typing
 import settings
+import random
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options, item_table_keepsake
+from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation
-from .Options import hades_options
+from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
 from .Rules import set_rules
 from worlds.AutoWorld import WebWorld, World
@@ -52,7 +54,7 @@ class HadesWorld(World):
     web = HadesWeb()
     required_client_version = (0, 4, 4)
     
-    polycosmos_version = "0.5.2"
+    polycosmos_version = "0.6.0"
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_table = give_all_locations_table()
@@ -82,6 +84,18 @@ class HadesWorld(World):
             for name, data in item_table_keepsake.items():
                 item = HadesItem(name, self.player)
                 pool.append(item)
+                
+        #Fill weapons items
+        if (self.options.initial_weapon == 6):
+            #Randomized initial weapon if needed
+            self.options.initial_weapon = InitialWeapon(random.randint(0, 5))
+            
+        if (self.options.weaponsanity.value==1):
+            for name, data in item_table_weapons.items():
+                if (self.should_ignore_weapon(name)):
+                    continue
+                item = HadesItem(name, self.player)
+                pool.append(item)
 
         #create the pack of filler options
         filler_options = create_filler_pool_options(self.options)
@@ -101,6 +115,21 @@ class HadesWorld(World):
         for event, item in event_item_pairs.items():
             event_item = HadesItem(item, self.player)
             self.multiworld.get_location(event, self.player).place_locked_item(event_item)
+            
+    def should_ignore_weapon(self, name):
+        if (self.options.initial_weapon == 0 and name == "SwordWeaponUnlockItem"):
+            return True
+        if (self.options.initial_weapon == 1 and name == "BowWeaponUnlockItem"):
+            return True
+        if (self.options.initial_weapon == 2 and name == "SpearWeaponUnlockItem"):
+            return True
+        if (self.options.initial_weapon == 3 and name == "ShieldWeaponUnlockItem"):
+            return True
+        if (self.options.initial_weapon == 4 and name == "FistWeaponUnlockItem"):
+            return True
+        if (self.options.initial_weapon == 5 and name == "GunWeaponUnlockItem"):
+            return True
+        return False
 
     def set_rules(self):
         self.location_table = setup_location_table_with_settings(self.options)

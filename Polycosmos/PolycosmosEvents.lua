@@ -172,6 +172,8 @@ function PolycosmosEvents.UpdateItemsRun( message )
             StyxScribe.Send(styx_scribe_send_prefix.."Got filler item:"..parsedName)
         elseif (PolycosmosKeepsakeManager.IsKeepsakeItem(parsedName)) then
             PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
+        elseif (PolycosmosWeaponManager.IsWeaponItem(parsedName)) then
+            PolycosmosWeaponManager.UnlockWeapon(parsedName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
@@ -298,3 +300,4 @@ function PolycosmosEvents.AddCheckedLocation( message )
 end
 
 StyxScribe.AddHook( PolycosmosEvents.AddCheckedLocation, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
+

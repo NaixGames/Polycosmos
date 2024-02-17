@@ -1,15 +1,6 @@
 import typing
 from Options import TextChoice, Option, Range, Toggle, DeathLink, Choice
 
-
-class InitialWeapon(TextChoice):
-    """Chose your initial weapon. Although this does not do anything now.
-     """
-    display_name = "weapon"
-    option_Sword = 0
-    option_Bow = 1
-    internal_name = "Weapon"
-
 # -----------------------Settings for Pact levels ---------------
 
 class HardLaborPactAmount(Range):
@@ -233,6 +224,25 @@ class KeepsakeSanity(Toggle):
     option_true = 1
     option_false = 0
     default = 1
+    
+class WeaponSanity(Toggle):
+    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon before equiping."""
+    display_name = "WeaponSanity"
+    option_true = 1
+    option_false = 0
+    default = 1
+
+class InitialWeapon(Choice):
+    """Chose your initial weapon. Note you might not be able to equip the sword in the weapon hub in WeaponSanity
+     """
+    display_name = "Weapon"
+    option_Sword = 0
+    option_Bow = 1
+    option_Spear = 2
+    option_Shield = 3
+    option_Fist = 4
+    option_Gun = 5
+    option_Random = 6
 
 # -----------------------------------------------------------------
 
@@ -255,7 +265,6 @@ class WeaponsClearsNeeded(Range):
 
 
 hades_options: typing.Dict[str, type(Option)] = {
-    "weapon": InitialWeapon,
     "death_link": DeathLink,
     "hard_labor_pact_amount": HardLaborPactAmount,
     "lasting_consequences_pact_amount": LastingConsequencesPactAmount,
@@ -286,4 +295,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "hades_defeats_needed" : HadesDefeatsNeeded,
     "weapons_clears_needed": WeaponsClearsNeeded,
     "keepsakesanity": KeepsakeSanity,
+    "initial_weapon": InitialWeapon,
+    "weaponsanity": WeaponSanity,
 }

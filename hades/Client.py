@@ -59,7 +59,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.5.2"
+    polycosmos_version = "0.6.0"
 
     dictionary_filler_items = {
         "Darkness": 0,
@@ -169,7 +169,7 @@ class HadesContext(CommonContext):
         if cmd in {"LocationInfo"}:
             if self.creating_location_to_item_mapping:
                 self.creating_location_to_item_mapping = False
-                self.create_location_to_item_dictionary(args['locations'])
+                asyncio.create_task(self.create_location_to_item_dictionary(args['locations']))
                 return
             super().on_package(cmd, args)
 
@@ -320,6 +320,8 @@ class HadesContext(CommonContext):
             'LocationMode': self.hades_slot_data['location_system'],
             'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
             'KeepsakeSanity': self.hades_slot_data['keepsakesanity'],
+            'WeaponSanity': self.hades_slot_data['weaponsanity'],
+            'InitialWeapon': self.hades_slot_data['initial_weapon'],
             'PolycosmosVersion': self.polycosmos_version,
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
@@ -331,14 +333,16 @@ class HadesContext(CommonContext):
         request = self.missing_locations_cache + self.checked_locations_cache
         asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 0}]))
 
-    def create_location_to_item_dictionary(self, itemsdict):
-        itemmap = {}
-        subsume.Modules.StyxScribeShared.Root["LocationToItemMap"] = {}
+    async def create_location_to_item_dictionary(self, itemsdict):
         for networkitem in itemsdict:
             subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + self.location_names[networkitem.location] + "-" + self.player_names[networkitem.player] + "-" + \
                                                                  self.item_names[networkitem.item])
         self.creating_location_to_item_dictionary = False
-        subsume.Send(styx_scribe_send_prefix + "Data package finished")
+        await asyncio.sleep(1) #This await is due to StyxScribe shenanigans. It seems that when dealing with 
+        #big ammount of request of the same hook, it will be blocked from trying to deal with other hooks. So,
+        #it wont resolve the Data finished request below, because it is dealing with the Location to Item Map
+        #requests. The sleep above fixes that.
+        subsume.Send(styx_scribe_send_prefix + "Data finished")
 
     # ----------------- Package Management section ends --------------------------------
 
