@@ -261,11 +261,20 @@ class WeaponsClearsNeeded(Range):
     default = 1
 
 
+# -----------------------------------------------------------------
+
+class IgnoreGreeceDeaths(Toggle):
+    """If deaths on Greece are ignored for deathlink. Live off for the memes."""
+    display_name = "IgnoreGreeceDeaths"
+    option_true = 1
+    option_false = 0
+    default = 1
+
+
 # ------------------------------ Building dictionary ------------------------
 
 
 hades_options: typing.Dict[str, type(Option)] = {
-    "death_link": DeathLink,
     "hard_labor_pact_amount": HardLaborPactAmount,
     "lasting_consequences_pact_amount": LastingConsequencesPactAmount,
     "convenience_fee_pact_amount": ConvenienceFeePactAmount,
@@ -297,4 +306,5 @@ hades_options: typing.Dict[str, type(Option)] = {
     "keepsakesanity": KeepsakeSanity,
     "initial_weapon": InitialWeapon,
     "weaponsanity": WeaponSanity,
+    "ignore_greece_deaths": IgnoreGreeceDeaths,
 }

@@ -1,6 +1,6 @@
 def create_regions(ctx, location_database):
     from . import create_region
-    from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons
+    from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, should_ignore_weapon_location
 
     #create correct underworld exit
     underworldExits = ["Zags room"]
@@ -27,7 +27,11 @@ def create_regions(ctx, location_database):
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "KeepsakesLocations", [location for location in location_keepsakes], ["ExitNPCS"])] 
     
     if (ctx.options.weaponsanity.value==1):
-        ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "WeaponsLocations", [location for location in location_weapons], ["ExitWeaponCache"])]
+        weaponChecks = {}
+        for weaponLocation, weaponData in location_weapons.items():
+            if (not should_ignore_weapon_location(weaponLocation, ctx.options)):
+                weaponChecks.update({weaponLocation : weaponData})
+        ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "WeaponsLocations", [location for location in weaponChecks], ["ExitWeaponCache"])]
         
     # link up regions
     ctx.multiworld.get_entrance("Menu", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))

@@ -80,6 +80,7 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     end
     
     if StyxScribeShared.Root.GameSettings["WeaponSanity"]==0 then
+        AddCosmetic(WeaponsUnlockCosmeticNames[name].ClientNameItem)
         return baseFunc(name, status)
     end
 
@@ -92,7 +93,7 @@ function PolycosmosWeaponManager.UnlockWeapon(weaponClientName)
     weaponHadesName = ""
     for name, data in pairs(WeaponsUnlockCosmeticNames) do
         if data.ClientNameItem == weaponClientName then
-            weaponHadesName = data.HadesName
+            weaponHadesName = data.ClientNameItem
             break
         end
     end
@@ -168,6 +169,11 @@ function PolycosmosWeaponManager.EquipInitialWeapon()
 	GameState.Cosmetics[weaponCosmetic] = true
 	-- Record of it ever being added
 	GameState.CosmeticsAdded[weaponCosmetic] = true
+     -- Current ownership
+	GameState.Cosmetics[weaponCosmetic.."Item"] = true
+	-- Record of it ever being added
+	GameState.CosmeticsAdded[weaponCosmetic.."Item"] = true
+
 
     print("trying to set hero weapon to "..weaponString)
 

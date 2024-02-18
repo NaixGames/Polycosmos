@@ -1,0 +1,35 @@
+{
+  Texts = [
+    "_append"
+    {
+      Id = "SwordWeaponUnlock"
+      DisplayName = "Infernal Arms, Stygian Blade"
+      Description = "Unlock the {#BoldFormat}Stygian Blade {#PreviousFormat} in the Arsenal Room."
+    }
+    {
+      Id = "SpearWeaponUnlock"
+      DisplayName = "Infernal Arms, Eternal Spear"
+      Description = "Unlock the {#BoldFormat}Eternal Spear {#PreviousFormat} in the Arsenal Room."
+    }
+    {
+      Id = "ShieldWeaponUnlock"
+      DisplayName = "Infernal Arms, Shield of Chaos"
+      Description = "Unlock the {#BoldFormat}Shield of Chaos {#PreviousFormat} in the Arsenal Room."
+    }
+    {
+      Id = "BowWeaponUnlock"
+      DisplayName = "Infernal Arms, Heart-Seeking Bow"
+      Description = "Unlock the {#BoldFormat}Heart-Seeking Bow {#PreviousFormat} in the Arsenal Room."
+    }
+    {
+      Id = "FistWeaponUnlock"
+      DisplayName = "Infernal Arms, Twin Fists of Malphon"
+      Description = "Unlock the {#BoldFormat}Twin Fists of Malphon {#PreviousFormat} in the Arsenal Room."
+    }
+    {
+      Id = "GunWeaponUnlock"
+      DisplayName = "Infernal Arms, Adamant Rail"
+      Description = "Unlock the {#BoldFormat}Adamant Rail {#PreviousFormat} in the Arsenal Room."
+    }
+  ]
+}

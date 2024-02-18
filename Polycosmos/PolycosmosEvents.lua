@@ -39,6 +39,12 @@ last_score_completed = -1
 limit_of_score = 1001
 last_room_completed=0
 
+
+--- variables for deathlink checks
+
+is_greece_death = false
+
+
 ------------ General function to process location checks
 
 function PolycosmosEvents.UnlockLocationCheck(checkName)
@@ -130,7 +136,7 @@ function PolycosmosEvents.GiveScore(roomNumber)
     end
 
     -- This is to avoid counting the same room twice in a load/unload case. 
-    if (roomNumber ~=1 and last_room_completed == roomNumber) then
+    if (last_room_completed == roomNumber) then
         return
     end
     
@@ -185,6 +191,11 @@ StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.
 ------------ On Hades killed, send victory signal to Client
 
 function PolycosmosEvents.ProcessHadesDefeat()
+    -- If needed, cache if the next death is going to be a deathlink or not
+    if (StyxScribeShared.Root.GameSettings['IgnoreGreeceDeaths']==1) then
+        is_greece_death = true
+    end
+
     -- Adding a plus on the number of runs and the number of weapons because this does not account our most recent victory
     numruns = GetNumRunsCleared()
     weaponsWithVictory = 0
@@ -212,6 +223,10 @@ StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."De
 ------------ On death, send deathlink to players
 
 function PolycosmosEvents.SendDeathlink()
+    if (is_greece_death == true) then
+        is_greece_death = false
+        return
+    end
     StyxScribe.Send(styx_scribe_send_prefix.."Zag died")
 end
 

@@ -9,5 +9,12 @@ Import "PolycosmosQoL.lua"
 Import "PolycosmosROEM.lua"
 Import "PolycosmosKeepsakeManager.lua"
 Import "PolycosmosKeepsakeData.lua"
+Import "PolycosmosWeaponStoreSystem.lua"
 Import "PolycosmosWeaponManager.lua"
 Import "PolycosmosVersionChecker.lua"
+
+To "Scripts/ConditionalItemData.lua"
+Import "Data/ConditionalItemData.lua"
+
+To "Scripts/TextLineSets.lua"
+Import "Data/TextLineSets.lua"

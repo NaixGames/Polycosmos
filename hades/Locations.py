@@ -1,4 +1,5 @@
 import typing
+import time
 
 from BaseClasses import Location
 
@@ -118,8 +119,10 @@ def setup_location_table_with_settings(options):
         total_table.update(location_keepsakes)
      
     if (options.weaponsanity.value == 1):
-        total_table.update(location_weapons)
-    
+        for weaponLocation, weaponData in location_weapons.items():
+            if (not should_ignore_weapon_location(weaponLocation, options)):
+                total_table.update({weaponLocation : weaponData})
+
     if (options.location_system.value==1):
         result = give_default_location_table()
         total_table.update(result)
@@ -129,6 +132,24 @@ def setup_location_table_with_settings(options):
     
     return total_table
             
+#-----------------------------------------------
+
+def should_ignore_weapon_location(weaponLocation, options):
+    if (options.initial_weapon.value == 0 and weaponLocation == "SwordWeaponUnlockLocation"):
+        return True
+    if (options.initial_weapon.value == 1 and weaponLocation == "BowWeaponUnlockLocation"):
+        return True
+    if (options.initial_weapon.value == 2 and weaponLocation == "SpearWeaponUnlockLocation"):
+        return True
+    if (options.initial_weapon.value == 3 and weaponLocation == "ShieldWeaponUnlockLocation"):
+        return True
+    if (options.initial_weapon.value == 4 and weaponLocation == "FistWeaponUnlockLocation"):
+        return True
+    if (options.initial_weapon.value == 5 and weaponLocation == "GunWeaponUnlockLocation"):
+        return True
+    return False;
+
+
 #-----------------------------------------------
 
 def give_default_location_table():
