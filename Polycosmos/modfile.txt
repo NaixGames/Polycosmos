@@ -9,7 +9,6 @@ Import "PolycosmosQoL.lua"
 Import "PolycosmosROEM.lua"
 Import "PolycosmosKeepsakeManager.lua"
 Import "PolycosmosKeepsakeData.lua"
-Import "PolycosmosWeaponStoreSystem.lua"
 Import "PolycosmosWeaponManager.lua"
 Import "PolycosmosVersionChecker.lua"
 
