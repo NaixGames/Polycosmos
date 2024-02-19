@@ -11,6 +11,8 @@ Import "PolycosmosKeepsakeManager.lua"
 Import "PolycosmosKeepsakeData.lua"
 Import "PolycosmosWeaponManager.lua"
 Import "PolycosmosVersionChecker.lua"
+Import "PolycosmosGhostAdminOverride.lua"
+
 
 To "Scripts/ConditionalItemData.lua"
 Import "Data/ConditionalItemData.lua"

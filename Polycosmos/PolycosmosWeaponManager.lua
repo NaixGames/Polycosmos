@@ -68,7 +68,7 @@ local WeaponsUnlockCosmeticNames =
 {
     SwordWeaponUnlock = {
         ClientNameItem = "SwordWeaponUnlockItem",
-        ClientNameUnlock = "SwordWeaponUnlockLocation",
+        ClientNameLocation = "SwordWeaponUnlockLocation",
         HadesName = "SwordWeaponUnlock", 
     },
     BowWeaponUnlock = {
@@ -147,6 +147,17 @@ end
 
 ------------ 
 
+function PolycosmosWeaponManager.IsWeaponLocation(locationName)
+    for name, data in pairs(WeaponsUnlockCosmeticNames) do
+        if data.ClientNameLocation == locationName then
+            return true
+        end
+    end
+    return false
+end
+
+------------ 
+
 function PolycosmosWeaponManager.RequestInitialWeapon()
     if (StyxScribeShared.Root.GameSettings) then
         PolycosmosWeaponManager.EquipInitialWeapon()
@@ -201,9 +212,6 @@ function PolycosmosWeaponManager.EquipInitialWeapon()
 	GameState.Cosmetics[weaponCosmetic.."Item"] = true
 	-- Record of it ever being added
 	GameState.CosmeticsAdded[weaponCosmetic.."Item"] = true
-
-
-    print("trying to set hero weapon to "..weaponString)
 
     HeroData.DefaultHero.DefaultWeapon = weaponString
     CurrentRun.Hero.DefaultWeapon = weaponString
