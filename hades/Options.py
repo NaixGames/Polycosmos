@@ -259,6 +259,13 @@ class WeaponsClearsNeeded(Range):
     range_start = 1
     range_end = 6
     default = 1
+    
+class KeepsakesNeeded(Range):
+    """How many different keepsakes unlocked are needed to win the world."""
+    display_name = "KeepsakesNeeded"
+    range_start = 0
+    range_end = 23
+    default = 0
 
 
 # -----------------------------------------------------------------
@@ -303,6 +310,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "hades_defeats_needed" : HadesDefeatsNeeded,
     "weapons_clears_needed": WeaponsClearsNeeded,
+    "keepsakes_needed": KeepsakesNeeded,
     "keepsakesanity": KeepsakeSanity,
     "initial_weapon": InitialWeapon,
     "weaponsanity": WeaponSanity,

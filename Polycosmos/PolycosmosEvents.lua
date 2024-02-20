@@ -204,7 +204,10 @@ function PolycosmosEvents.ProcessHadesDefeat()
             weaponsWithVictory = weaponsWithVictory+1
         end
     end
-    StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory)
+
+    numKeepsakes = PolycosmosKeepsakeManager.GiveNumberOfKeesakes()
+
+    StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes)
 end
 
 table.insert(EncounterData.BossHades.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.ProcessHadesDefeat"})

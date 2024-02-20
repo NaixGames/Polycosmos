@@ -117,7 +117,7 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 		-------------------THIS IS THE NEW BIT TO SHOW DIFFERENT ITEMS FOR AP
 		-------------------------------------------------
 
-		if (PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true ) then
+		if (StyxScribeShared.Root.GameSettings["WeaponSanity"]==1 and PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true) then
 			Title = PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
 		else
 			Title = displayName

@@ -397,9 +397,10 @@ class HadesContext(CommonContext):
         counters = message.split("-") #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
         
         hasEnoughRuns = self.hades_slot_data['hades_defeats_needed'] <= int(counters[0])
-        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= int(counters[1])        
-        print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1])
-        if (hasEnoughRuns and hasEnoughWeapons):
+        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= int(counters[1])
+        hasEnoughKeepsakes = self.hades_slot_data['keepsakes_needed'] <= int(counters[2])
+        print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1] + " AND " + hasEnoughKeepsakes)
+        if (hasEnoughRuns and hasEnoughWeapons and hasEnoughKeepsakes):
             asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
             self.finished_game = True
 
