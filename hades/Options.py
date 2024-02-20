@@ -226,7 +226,7 @@ class KeepsakeSanity(Toggle):
     default = 1
     
 class WeaponSanity(Toggle):
-    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon before equiping."""
+    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon item to gain the skill to equip them.."""
     display_name = "WeaponSanity"
     option_true = 1
     option_false = 0
@@ -271,7 +271,7 @@ class KeepsakesNeeded(Range):
 # -----------------------------------------------------------------
 
 class IgnoreGreeceDeaths(Toggle):
-    """If deaths on Greece are ignored for deathlink. Live off for the memes."""
+    """If deaths on Greece are ignored for deathlink. Leave off for the memes.."""
     display_name = "IgnoreGreeceDeaths"
     option_true = 1
     option_false = 0

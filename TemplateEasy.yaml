@@ -1,100 +1,224 @@
+game: Hades
+requires:
+  version: 0.4.4 # Version of Archipelago required for this yaml to work as expected.
+
 Hades:
   progression_balancing: 50
-  accessibility: items
-  weapon: 0 #Unsupported for now
-  death_link: off
 
-  #Max level for HardLabor is 5
+  accessibility: items
+
+ # Choose the amount of Hard Labor pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 5
   hard_labor_pact_amount: 2
 
-  #Max level for Lasting consequence is 4
+  # Choose the amount of Lasting Consequences pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 4
   lasting_consequences_pact_amount: 1
-
-  #Max level for Convenience Fee is 2
+ # Choose the amount of Convenience Fee pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
   convenience_fee_pact_amount: 1
 
-  #Max level for JurySummons is 3
+  # Choose the amount of Jury Summons pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 3
   jury_summons_pact_amount: 1
 
-  #Max level for Extreme measures is 4
+  # Choose the amount of Extreme Measures pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 4
   extreme_measures_pact_amount: 0
 
-  #Max level for Calisthenics Program is 2
+  # Choose the amount of Calisthenics Program pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
   calisthenics_program_pact_amount: 1
 
-  #Max level for Benefits Package is 2
+  # Choose the amount of Benefits Package pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
   benefits_package_pact_amount: 1
 
-  #Max level for Middle management is 1
+  # Choose the amount of Middle Management pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
   middle_management_pact_amount: 1
 
-  #Max level for Underworld Customs is 1
+  # Choose the amount of Underworld Customs pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
   underworld_customs_pact_amount: 1
 
-  #Max level for Forced Overtime is 2
+  # Choose the amount of Forced Overtime pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
   forced_overtime_pact_amount: 1
 
-  #Max level for Heightened security is 1
+  # Choose the amount of Heightened Security pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
   heightened_security_pact_amount: 1
 
-  #Max level for Routine inspection is 4
+  # Choose the amount of Routine Inspection pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 4
   routine_inspection_pact_amount: 1
 
-  #Max level for Damage Control is 2
+  # Choose the amount of Damage Control pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
   damage_control_pact_amount: 1
 
-  #Max level for Approval Process is 2
+  # Choose the amount of Approval Process pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
   approval_process_pact_amount: 1
 
-  #Max level for Tight Deadline is 3
+  # Choose the amount of Tight Deadline pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 3
   tight_deadline_pact_amount: 1
-
-  #Max level for Personal Liabilty is 1
+  # Choose the amount of Personal Liability pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
   personal_liability_pact_amount: 0
 
-  
-  #If any filler item has value set 0 it will be put out of the pool.
-  #If all items have value set to 0 then Darkness will be put in the pool and used as "Nothing".
-
-  #Max value for Darkness is 10000
+  # Choose the value(amount of darkness) of each darkness pack in the pool. If set to 0 Darkness will not appear in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 10000
   darkness_pack_value: 1000
 
-  #Max value for Keys is 500
+  # Choose the value(amount of Keys) of each Keys pack in the pool. If set to 0 Keys will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 500
   keys_pack_value: 15
 
-  #Max value for Gemstones is 2500
+  # Choose the value(amount of Gemstones) of each Gemstone pack in the pool. If set to 0 Gems will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2500
   gemstones_pack_value: 100
 
-  #Max value for Diamonds is 100
+  # Choose the value(amount of diamonds) of each diamonds pack in the pool. If set to 0 Diamonds will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 100
   diamonds_pack_value: 5
 
-  #Max value for Titan Blood is 50
+  # Choose the value(amount of Titan blood) of each Titan blood pack in the pool. If set to 0 Titan blood will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 50
   titan_blood_pack_value: 3
 
-  #Max value for Nectar is 50
+  # Choose the value(amount of Nectar) of each Nectar pack in the pool. If set to 0 Nectar will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 50
   nectar_pack_value: 3
 
-  #Max value for Ambrosia is 50
+  # Choose the value(amount of Ambrosia) of each Ambrosia pack in the pool. If set to 0 Ambrosia will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 50
   ambrosia_pack_value: 3
 
-  #1 is room based, 2 is score based
+  # Chose how the game gives you items.
+  # 1.- Room based gives items on every new room completed
+  # 2.- Score based gives items according to score obtained by clearing rooms (even repeated ones)
   location_system: 2
 
-  #number of locations hidden behind score
+  # When using socre based system, this sets how many locations the score can give. Each room gives "its depth" in score.
+  # and each new location need one more points to be unlocked (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 72
+  # Maximum value is 1000
   score_rewards_amount: 150
 
-  #to choose if reverse order extreme meassure applies. 1=true, 0=false
+  # When true the order in which extreme meassures applied is reverse (so level 1 is applied to Hades, instead to Meg/The Furies). 
+  # For a more balanced experience
   reverse_order_em: 1
 
-  #how many times one needs to defeat hades to finish the world. Max is 10.
-  hades_defeats_needed : 1
+  # How many times you need to defeat Hades to win the world. 10 is for credits.
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 1
+  # Maximum value is 20
+  hades_defeats_needed: 1
 
-  #with how many different weapons we need to defeat hades to finish the world. Max is 6.
+  # How many different weapons clears are needed to win the world.
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 1
+  # Maximum value is 6
   weapons_clears_needed: 1
 
-  #if keepsakes are put into the item pool and giving nector to npcs become a location. 1 = yes, 0=no.
+  # How many different keepsakes unlocked are needed to win the world.
+  #
+  # You can define additional values between the minimum and maximum values.
+  # Minimum value is 0
+  # Maximum value is 23
+  keepsakes_needed: 0
+
+  # If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone
   keepsakesanity: 1
 
-description: 'Generated by https://archipelago.gg/'
-game: Hades
-name: PlayerName
+  # Chose your initial weapon. Note you might not be able to equip the sword in the weapon hub in WeaponSanity
+  # 0.- Sword
+  # 1.- Bow
+  # 2.- Spear
+  # 3.- Shield
+  # 4.- Fist
+  # 5.- Gun
+  # 6.- Random
+  initial_weapon: 0
+
+  # If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon item to gain the skill to equip them.  
+  weaponsanity: 1
+
+   # If deaths on Greece are ignored for deathlink. Leave off for the memes.
+  ignore_greece_deaths: 1
