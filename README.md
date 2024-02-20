@@ -36,6 +36,7 @@ Quality of Life:
 - Contractor have all upgrades available to buy from the start. Fated list available from start. Lounge available from the start. Brooker available from the start. Demeter can appear from the first run.
 - The order in which Extreme Measures affects bosses can be reversed. So the first leve affects Hades (instead of the Furies), the second one the heroes and so on. Can be toggle from the .yaml, but it is recommended for a more balanced experience.
 - To avoid deaths in greece counting for deathlink.
+- The ability to chose the initial weapon for zagreyus, or having it being randomized.
 - Weapons now getting bought from the house contractor, not from the weapon storage. Needed for getting weaponsanity working.
 
 # Requirements
