@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.5.0 and up to this version it possesses the feature detailed below:
+0.6.0 and up to this version it possesses the feature detailed below:
 
 Modes:
 - Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time. Can turn off by putting al pact levels at 0 in the .yaml.
@@ -10,6 +10,10 @@ Items:
 on the next room, biome or run.
 
 - Keys, Darkness, Gemstones, Diamonds, Titan Blood, Nectar and Ambrosia as filler items.
+
+- Weaponsanity: weapons can be randomized as items in the multiworld. Buying them counts as a location check.
+
+- Keepsakesanity: keepsakes can randomized as items in the multiworld. Getting them count as a location check.
 
 Location Modes: Clearning rooms will give location checks. There are two modes that can be chosen for how this works: 
 - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
@@ -21,14 +25,19 @@ Settings:
 - Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
 - Number of locations behind the score system in the score based mode.
 - Keepsakesanity: Keepsakes are shuffled into the item pool, and giving the first nectar to each NPC becomes a location. Excludes Hades and Persephone. NPCs can be befriended after obtaining their corresponding item and location check as normal.
+- Weaponsanity: Weapons can be shuffled into the item pool, buying them from the store becoming a location.
 
 Victory conditions tweaks:
 - Minimum number of victories against Hades.
 - Mininum number of victories with different weapons against Hades.
+- Minimum number of keepsakes before finishing the game counts.
   
 Quality of Life:
 - Contractor have all upgrades available to buy from the start. Fated list available from start. Lounge available from the start. Brooker available from the start. Demeter can appear from the first run.
 - The order in which Extreme Measures affects bosses can be reversed. So the first leve affects Hades (instead of the Furies), the second one the heroes and so on. Can be toggle from the .yaml, but it is recommended for a more balanced experience.
+- To avoid deaths in greece counting for deathlink.
+- The ability to chose the initial weapon for zagreyus, or having it being randomized.
+- Weapons now getting bought from the house contractor, not from the weapon storage. Needed for getting weaponsanity working.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
