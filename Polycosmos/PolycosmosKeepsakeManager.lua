@@ -192,7 +192,7 @@ end
 function PolycosmosKeepsakeManager.GiveNumberOfKeesakes()
     numberKeepsakes = 0
     for nameKey, nameData in pairs(KeepsakeDataTable) do
-        if (GameState.Gift[nameData].HadesName.Value>0) then
+        if (GameState.Gift[nameData.HadesName].Value>0) then
             numberKeepsakes = numberKeepsakes + 1
         end
     end
