@@ -126,8 +126,12 @@ function PolycosmosWeaponManager.UnlockWeapon(weaponClientName)
         end
     end
 
+    if (GameState.Cosmetics[weaponHadesName] == true) then
+        return
+    end 
+
     -- Current ownership
-	GameState.Cosmetics[weaponHadesName] =true
+	GameState.Cosmetics[weaponHadesName] = true
 	-- Record of it ever being added
 	GameState.CosmeticsAdded[weaponHadesName] = true
 
