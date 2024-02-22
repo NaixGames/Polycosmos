@@ -71,6 +71,39 @@ location_weapons ={
     'GunWeaponUnlockLocation': max_number_room_checks+30,
 }
 
+
+location_store_gemstones ={
+    'FountainUpgrade1Location': max_number_room_checks+31,
+    'FountainUpgrade2Location': max_number_room_checks+32,
+    'FountainTartarusLocation': max_number_room_checks+33,
+    'FountainAsphodelLocation': max_number_room_checks+34,
+    'FountainElysiumLocation': max_number_room_checks+35,
+    'UrnsOfWealth1Location': max_number_room_checks+36,
+    'UrnsOfWealth2Location': max_number_room_checks+37,
+    'UrnsOfWealth3Location': max_number_room_checks+38,
+    'InfernalThrove1Location': max_number_room_checks+39,
+    'InfernalThrove2Location': max_number_room_checks+40,
+    'InfernalThrove3Location': max_number_room_checks+41,
+    'KeepsakeCollectionLocation': max_number_room_checks+42,
+    'KeepsakeCollectionLocation': max_number_room_checks+43,
+}
+
+location_store_diamonds ={
+    'DeluxeContractorDeskLocation': max_number_room_checks+44,
+    'VanquishersKeepLocation': max_number_room_checks+45,
+    'FishingRodLocation': max_number_room_checks+46,
+    'CourtMusicianSentenceLocation': max_number_room_checks+47,
+    'CourtMusicianStandLocation': max_number_room_checks+48,
+    'PitchBlackDarknessLocation': max_number_room_checks+49,
+    'FatedKeysLocation': max_number_room_checks+50,
+    'BrilliantGemstonesLocation': max_number_room_checks+51,
+    'VintageNectarLocation': max_number_room_checks+52,
+    'DarkerThirstLocation': max_number_room_checks+53, 
+}
+
+
+
+
 def give_all_locations_table():
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
@@ -80,6 +113,8 @@ def give_all_locations_table():
         **table_score,
         **location_keepsakes,
         **location_weapons,
+        **location_store_gemstones,
+        **location_store_diamonds,
     }
 
 def clear_tables():
@@ -122,6 +157,10 @@ def setup_location_table_with_settings(options):
         for weaponLocation, weaponData in location_weapons.items():
             if (not should_ignore_weapon_location(weaponLocation, options)):
                 total_table.update({weaponLocation : weaponData})
+                
+    if (options.storesanity.value==1):
+        total_table.update(location_store_gemstones)
+        total_table.update(location_store_diamonds)
 
     if (options.location_system.value==1):
         result = give_default_location_table()

@@ -1,6 +1,6 @@
 def create_regions(ctx, location_database):
     from . import create_region
-    from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, should_ignore_weapon_location
+    from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, should_ignore_weapon_location, location_store_gemstones, location_store_diamonds
 
     #create correct underworld exit
     underworldExits = ["Zags room"]
@@ -9,6 +9,11 @@ def create_regions(ctx, location_database):
         
     if (ctx.options.weaponsanity.value==1):
         underworldExits += ["Weapon Cache"]
+        
+    if (ctx.options.storesanity.value==1):
+        underworldExits += ["Store Gemstones Entrance"]
+        underworldExits += ["Store Diamonds Entrance"]
+        
 
     #Technically this needs some items (beat Bosses). 
     #Need to add some event items for the Bosses so this looks more natural
@@ -33,6 +38,10 @@ def create_regions(ctx, location_database):
                 weaponChecks.update({weaponLocation : weaponData})
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "WeaponsLocations", [location for location in weaponChecks], ["ExitWeaponCache"])]
         
+    if (ctx.options.storesanity.value==1):
+        ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "StoreGemstones", [location for location in location_store_gemstones], ["ExitGemStore"])] 
+        ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "StoreDiamonds", [location for location in location_store_diamonds], ["ExitDiamondStore"])] 
+    
     # link up regions
     ctx.multiworld.get_entrance("Menu", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
     ctx.multiworld.get_entrance("Zags room", ctx.player).connect(ctx.multiworld.get_region("Tartarus", ctx.player))
@@ -55,3 +64,9 @@ def create_regions(ctx, location_database):
         ctx.multiworld.get_entrance("Weapon Cache", ctx.player).connect(ctx.multiworld.get_region("WeaponsLocations", ctx.player))
         ctx.multiworld.get_entrance("ExitWeaponCache", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
         
+    if (ctx.options.storesanity.value==1):
+        ctx.multiworld.get_entrance("Store Gemstones Entrance", ctx.player).connect(ctx.multiworld.get_region("StoreGemstones", ctx.player))
+        ctx.multiworld.get_entrance("ExitGemStore", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+        
+        ctx.multiworld.get_entrance("Store Diamonds Entrance", ctx.player).connect(ctx.multiworld.get_region("StoreDiamonds", ctx.player))
+        ctx.multiworld.get_entrance("ExitDiamondStore", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))

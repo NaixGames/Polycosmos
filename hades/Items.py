@@ -82,6 +82,34 @@ item_table_weapons: Dict[str, ItemData] ={
     'GunWeaponUnlockItem': ItemData(hades_base_item_id+51, False),
 }
 
+item_table_store: Dict[str, ItemData] ={
+    'FountainUpgrade1Item': ItemData(hades_base_item_id+52, False),
+    'FountainUpgrade2Item': ItemData(hades_base_item_id+53, False),
+    'FountainTartarusItem': ItemData(hades_base_item_id+54, False),
+    'FountainAsphodelItem': ItemData(hades_base_item_id+55, False),
+    'FountainElysiumItem': ItemData(hades_base_item_id+56, False),
+    'UrnsOfWealth1Item': ItemData(hades_base_item_id+57, False),
+    'UrnsOfWealth2Item': ItemData(hades_base_item_id+58, False),
+    'UrnsOfWealth3Item': ItemData(hades_base_item_id+59, False),
+    'InfernalThrove1Item': ItemData(hades_base_item_id+60, False),
+    'InfernalThrove2Item': ItemData(hades_base_item_id+61, False),
+    'InfernalThrove3Item': ItemData(hades_base_item_id+62, False),
+    'KeepsakeCollectionItem': ItemData(hades_base_item_id+63, False),
+    'CodexIndexItem': ItemData(hades_base_item_id+64, False),
+    'DeluxeContractorDeskItem': ItemData(hades_base_item_id+65, False),
+    'VanquishersKeepItem': ItemData(hades_base_item_id+66, False),
+    'FishingRodItem': ItemData(hades_base_item_id+67, False),
+    'CourtMusicianSentenceItem': ItemData(hades_base_item_id+68, False),
+    'CourtMusicianStandItem': ItemData(hades_base_item_id+69, False),
+    'PitchBlackDarknessItem': ItemData(hades_base_item_id+70, False),
+    'FatedKeysItem': ItemData(hades_base_item_id+71, False),
+    'BrilliantGemstonesItem': ItemData(hades_base_item_id+72, False),
+    'VintageNectarItem': ItemData(hades_base_item_id+73, False),
+    'DarkerThirstItem': ItemData(hades_base_item_id+74, False),
+}
+
+
+
 def create_filler_pool_options(options):
     item_filler_options = []
     if (options.darkness_pack_value.value > 0):
@@ -160,6 +188,7 @@ item_table = {
     **item_table_filler,
     **item_table_keepsake,
     **item_table_weapons,
+    **item_table_store,
 }
 
 class HadesItem(Item):

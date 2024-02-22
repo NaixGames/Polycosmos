@@ -219,18 +219,25 @@ class ReverseOrderExtremeMeasure(Toggle):
 # -----------------------------------------------------------------
 
 class KeepsakeSanity(Toggle):
-    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone"""
+    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone."""
     display_name = "KeepsakeSanity"
     option_true = 1
     option_false = 0
     default = 1
     
 class WeaponSanity(Toggle):
-    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon item to gain the skill to equip them.."""
+    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon item to gain the skill to equip them."""
     display_name = "WeaponSanity"
     option_true = 1
     option_false = 0
-    default = 1
+    default = 1 
+
+class StoreSanity(Toggle):
+    """If Important item from the store are shuffled in the item pool. Need to be sent the items to gain the different perks that make runs easier."""
+    display_name = "StoreSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
 
 class InitialWeapon(Choice):
     """Chose your initial weapon. Note you might not be able to equip the sword in the weapon hub in WeaponSanity
@@ -314,5 +321,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "keepsakesanity": KeepsakeSanity,
     "initial_weapon": InitialWeapon,
     "weaponsanity": WeaponSanity,
+    "storesanity": StoreSanity,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
 }

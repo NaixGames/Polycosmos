@@ -321,6 +321,7 @@ class HadesContext(CommonContext):
             'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
             'KeepsakeSanity': self.hades_slot_data['keepsakesanity'],
             'WeaponSanity': self.hades_slot_data['weaponsanity'],
+            'StoreSanity': self.hades_slot_data['storesanity'],
             'InitialWeapon': self.hades_slot_data['initial_weapon'],
             'IgnoreGreeceDeaths': self.hades_slot_data['ignore_greece_deaths'],
             'PolycosmosVersion': self.polycosmos_version,
