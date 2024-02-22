@@ -74,12 +74,12 @@ item_table_keepsake: Dict[str, ItemData] ={
 }
 
 item_table_weapons: Dict[str, ItemData] ={
-    'SwordWeaponUnlockItem': ItemData(hades_base_item_id+23, False),
-    'BowWeaponUnlockItem': ItemData(hades_base_item_id+24, False),
-    'SpearWeaponUnlockItem': ItemData(hades_base_item_id+25, False),
-    'ShieldWeaponUnlockItem': ItemData(hades_base_item_id+26, False),
-    'FistWeaponUnlockItem': ItemData(hades_base_item_id+27, False),
-    'GunWeaponUnlockItem': ItemData(hades_base_item_id+28, False),
+    'SwordWeaponUnlockItem': ItemData(hades_base_item_id+46, False),
+    'BowWeaponUnlockItem': ItemData(hades_base_item_id+47, False),
+    'SpearWeaponUnlockItem': ItemData(hades_base_item_id+48, False),
+    'ShieldWeaponUnlockItem': ItemData(hades_base_item_id+49, False),
+    'FistWeaponUnlockItem': ItemData(hades_base_item_id+50, False),
+    'GunWeaponUnlockItem': ItemData(hades_base_item_id+51, False),
 }
 
 def create_filler_pool_options(options):
