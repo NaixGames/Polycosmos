@@ -153,3 +153,24 @@ ModUtil.Path.Wrap("UnlockNextMetaUpgradePanel", function(baseFunc, screen, butto
   CloseMetaUpgradeScreen(screen, button)
   OpenMetaUpgradeMenu()
 end, MirrorFix)
+
+
+-- QoL so all aspects can be unlocked from the get go.
+
+ModUtil.LoadOnce(function ()
+		-- removes requirements for upgrading weapons
+        WeaponUpgradeData.DefaultGameStateRequirement.RequiredTrueFlags = nil
+		-- unlocks sword hidden aspect
+        TextLinesRecord["NyxRevealsArthurAspect01"] = true 
+        -- unlocks spear hidden aspect
+        TextLinesRecord["AchillesRevealsGuanYuAspect01"] = true
+        -- unlocks shield hidden aspect
+        TextLinesRecord["ChaosRevealsBeowulfAspect01"] = true
+        -- unlocks bow hidden aspect
+        TextLinesRecord["ArtemisRevealsRamaAspect01"] = true
+        -- unlocks fist hidden aspect
+        TextLinesRecord["MinotaurRevealsGilgameshAspect01"] = true
+        -- unlocks gun hidden aspect
+        TextLinesRecord["ZeusRevealsLuciferAspect01"] = true  
+ end)
+

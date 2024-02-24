@@ -1,7 +1,7 @@
 ModUtil.Mod.Register( "PolycosmosCosmeticsManager" )
 
 
-local StoreUnlockCosmeticNamesGemstones =
+local StoreUnlockCosmeticNames =
 {
     HealthFountainHeal1 = {
         ClientNameItem = "FountainUpgrade1Item", 
@@ -9,7 +9,7 @@ local StoreUnlockCosmeticNamesGemstones =
     },
     HealthFountainHeal2 = {
         ClientNameItem = "FountainUpgrade2Item", --IsProgressive
-        ClientNameLocation = "FountainUpgrade2Location", --Requires HealthFountainHeal2
+        ClientNameLocation = "FountainUpgrade2Location", --Requires HealthFountainHeal1
     },
     TartarusReprieve = {
         ClientNameItem = "FountainTartarusItem",
@@ -54,12 +54,8 @@ local StoreUnlockCosmeticNamesGemstones =
     CodexBoonList = {
         ClientNameItem = "CodexIndexItem",
         ClientNameLocation = "CodexIndexLocation",
-    }
-}
-
-local StoreUnlockCosmeticNamesDiamonds =
-{
-    GhostAdminDesk = {
+    }, 
+    GhostAdminDesk = { --Everything here and below needs diamonds.
         ClientNameItem = "DeluxeContractorDeskItem",
         ClientNameLocation = "DeluxeContractorDeskLocation", --Requires ElysiumReprieve, CourtMusicianSentenceItem
     },
@@ -99,7 +95,54 @@ local StoreUnlockCosmeticNamesDiamonds =
         ClientNameItem = "DarkerThirstItem",
         ClientNameLocation = "DarkerThirstLocation", -- Requires DeluxeContractorDeskItem
     },
-
 }
 
 --------------------------------------
+
+
+ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
+    -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
+    if (not StoreUnlockCosmeticNames[name]) then
+        return baseFunc(name, status)
+    end
+    
+    if StyxScribeShared.Root.GameSettings["StoreSanity"]==0 then
+         return baseFunc(name, status)
+    end
+
+    nameOverride = StoreUnlockCosmeticNames[name].ClientNameLocation --overriding this to split gaining the item from the location
+    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..nameOverride)
+    return baseFunc(nameOverride, status)
+end)
+
+
+------------------------------------------
+
+function PolycosmosCosmeticsManager.UnlockCosmetics(cosmeticClientName)
+    cosmeticHadesName = ""
+    for name, data in pairs(StoreUnlockCosmeticNames) do
+        if data.ClientNameItem == cosmeticClientName then
+            cosmeticHadesName = name
+            break
+        end
+    end
+
+    if (GameState.CosmeticsAdded[cosmeticHadesName] == true) then
+        return
+    end 
+
+    -- Current ownership
+	GameState.Cosmetics[cosmeticHadesName] = true
+	-- Record of it ever being added
+	GameState.CosmeticsAdded[cosmeticHadesName] = true
+
+    PolycosmosMessages.PrintToPlayer("Recieved cosmetic" .. cosmeticHadesName)
+end
+
+------------------------------------------
+
+function PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)
+    return StoreUnlockCosmeticNames[cosmeticName]
+end
+
+------------------------------------------

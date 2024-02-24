@@ -6,11 +6,49 @@ ModUtil.Path.Wrap( "DisplayCosmetics", function(baseFunc, screen, slotName)
         return PolycosmosGhostAdminOverride.DisplayCosmeticsOverride(screen, slotName)
 end)
 
+-------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.GiveAPItemAtLocation(locationName)
     return PolycosmosEvents.GiveItemInLocation(locationName)
 end
 
+-------------------------------------------------------
+
+function PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
+	local result = ""
+
+	if (PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true) then
+		if (StyxScribeShared.Root.GameSettings["WeaponSanity"]==0) then
+			result = displayName
+		else
+			PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
+		end
+	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)) then
+		if (StyxScribeShared.Root.GameSettings["StoreSanity"]==0) then
+			result = displayName
+		else
+			PolycosmosGhostAdminOverride.GiveAPItemAtLocation(PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName).ClientNameLocation)
+		end
+	else
+		result = DisplayName
+	end
+
+	return result
+end
+
+
+------------------------------------------------------
+
+function PolycosmosGhostAdminOverride.CheckIfPlayerHasLocation(cosmeticName)
+	if (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)) then
+		return GameState.CosmeticsAdded[PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName).ClientNameLocation]
+	else
+		return GameState.CosmeticsAdded[cosmeticName]
+	end
+end
+
+
+-------------------------------------------------------
 
 
 function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName )
@@ -36,7 +74,7 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 	for cosmeticName, cosmeticData in pairs( ConditionalItemData ) do
 		if not cosmeticData.DebugOnly and cosmeticData.ResourceCost ~= nil and not cosmeticData.Disabled then
 			if cosmeticData.GameStateRequirements == nil or IsGameStateEligible( CurrentRun, cosmeticData, cosmeticData.GameStateRequirements ) then
-				if GameState.CosmeticsAdded[cosmeticName] then
+				if PolycosmosGhostAdminOverride.CheckIfPlayerHasLocation(cosmeticName) then
 					purchasedItems[cosmeticData.Slot] = purchasedItems[cosmeticData.Slot] or {}
 					table.insert( purchasedItems[cosmeticData.Slot], cosmeticData )
 				else
@@ -117,13 +155,7 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 		-------------------THIS IS THE NEW BIT TO SHOW DIFFERENT ITEMS FOR AP
 		-------------------------------------------------
 
-		if (StyxScribeShared.Root.GameSettings["WeaponSanity"]==0) then
-			Title = displayName
-		elseif (PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true) then
-			Title = PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
-		else
-			Title = displayName
-		end
+		Title = PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
 
 
 		-------------------------------------------------
@@ -257,9 +289,20 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 			end
 		end
 
+		-------------------------------------------------
+		-------------------THIS IS THE NEW BIT TO SHOW DIFFERENT ITEMS FOR AP
+		-------------------------------------------------
+
+		Title = PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
+
+		-------------------------------------------------
+		-------------------THIS ENDS THE NEW BIT TO SHOW DIFFERENT ITEMS FOR AP
+		-------------------------------------------------
+
+
 		-- Title
 		CreateTextBox(MergeTables({ Id = components[purchaseButtonTitleKey].Id,
-			Text = displayName,
+			Text = Title,
 			OffsetX = -355,
 			OffsetY = -22,
 			FontSize = 24,

@@ -61,6 +61,10 @@ class HadesWorld(World):
     location_name_to_id = location_table
 
     def generate_early(self):
+        if (self.options.initial_weapon == 6):
+            #Randomized initial weapon if needed
+            self.options.initial_weapon = InitialWeapon(random.randint(0, 5))
+           
         self.location_table = setup_location_table_with_settings(self.options)
         self.location_name_to_id = self.location_table
 
@@ -85,11 +89,7 @@ class HadesWorld(World):
                 item = HadesItem(name, self.player)
                 pool.append(item)
                 
-        #Fill weapons items
-        if (self.options.initial_weapon == 6):
-            #Randomized initial weapon if needed
-            self.options.initial_weapon = InitialWeapon(random.randint(0, 5))
-            
+        #Fill weapons items            
         if (self.options.weaponsanity.value==1):
             for name, data in item_table_weapons.items():
                 if (self.should_ignore_weapon(name)):
