@@ -99,6 +99,40 @@ local StoreUnlockCosmeticNames =
 
 --------------------------------------
 
+local StoreUnlockProgressiveNames =
+{
+    "HealthFountainHeal1",
+    "HealthFountainHeal2",
+    "BreakableValue1",
+    "BreakableValue2",
+    "BreakableValue3",
+    "ChallengeSwitches1",
+    "ChallengeSwitches2",
+    "ChallengeSwitches3",
+}
+
+local HealthFountainProgressive =
+{
+    "HealthFountainHeal1",
+    "HealthFountainHeal2",
+}
+
+local BreakableValueProgressive =
+{
+    "BreakableValue1",
+    "BreakableValue2",
+    "BreakableValue3",
+}
+
+local ChallengeSwitchesProgressive =
+{
+    "ChallengeSwitches1",
+    "ChallengeSwitches2",
+    "ChallengeSwitches3",
+}
+
+--------------------------------------
+
 
 ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
@@ -127,12 +161,18 @@ function PolycosmosCosmeticsManager.UnlockCosmetics(cosmeticClientName)
         end
     end
 
+
+    if (PolycosmosUtils.HasValue(StoreUnlockProgressiveNames, cosmeticHadesName)) then
+        cosmeticHadesName = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveName(cosmeticHadesName) 
+    end
+
+    -- Current ownership
+	GameState.Cosmetics[cosmeticHadesName] = true
+
     if (GameState.CosmeticsAdded[cosmeticHadesName] == true) then
         return
     end 
 
-    -- Current ownership
-	GameState.Cosmetics[cosmeticHadesName] = true
 	-- Record of it ever being added
 	GameState.CosmeticsAdded[cosmeticHadesName] = true
 
@@ -146,3 +186,29 @@ function PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)
 end
 
 ------------------------------------------
+
+function PolycosmosCosmeticsManager.GiveCorrespondingProgressiveName(progressiveName)
+    result = progressiveName
+
+    if (PolycosmosUtils.HasValue(HealthFountainProgressive, progressiveName)) then
+        result = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(HealthFountainProgressive)
+    elif (PolycosmosUtils.HasValue(BreakableValueProgressive, progressiveName))
+        result = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(BreakableValueProgressive)
+    elif (PolycosmosUtils.HasValue(ChallengeSwitchesProgressive, progressiveName))
+        result = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(ChallengeSwitchesProgressive)
+    end
+
+	return result
+end
+
+
+------------------------------------------
+
+function PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(progressiveTable)
+    for index,value in ipairs(progressiveTable) do
+        if (GameState.CosmeticsAdded[value] == false or GameState.CosmeticsAdded[value] == nil) then
+            return value
+        end
+    end
+end
+
