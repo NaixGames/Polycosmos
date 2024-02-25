@@ -15,6 +15,8 @@ on the next room, biome or run.
 
 - Keepsakesanity: keepsakes can randomized as items in the multiworld. Getting them count as a location check.
 
+- Storesanity: all important items from the store can be randomized in the multiworld. Buying them from the store count as a location check.
+
 Location Modes: Clearning rooms will give location checks. There are two modes that can be chosen for how this works: 
 - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
 - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how many locations are behind the score system, with the limit being 1000. Note this will give a REALLY
@@ -25,6 +27,7 @@ Settings:
 - Value of filler items: tweak how much currency each filler item gives you. Can use to turn off filler items
 - Number of locations behind the score system in the score based mode.
 - Keepsakesanity: Keepsakes are shuffled into the item pool, and giving the first nectar to each NPC becomes a location. Excludes Hades and Persephone. NPCs can be befriended after obtaining their corresponding item and location check as normal.
+- Storesanity: Important store items are shuffled into the item pool, and buying them from the store becomes location instead. The store slots have logic to them, you can see below the details.
 - Weaponsanity: Weapons can be shuffled into the item pool, buying them from the store becoming a location.
 
 Victory conditions tweaks:
@@ -38,6 +41,7 @@ Quality of Life:
 - To avoid deaths in greece counting for deathlink.
 - The ability to chose the initial weapon for zagreyus, or having it being randomized.
 - Weapons now getting bought from the house contractor, not from the weapon storage. Needed for getting weaponsanity working.
+- All aspects from weapons can be bought once you unlock the weapon.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
@@ -72,23 +76,55 @@ A known issue is that some changes in heat level only take effect when starting 
 
 You see some weird debug messages while playing with keyboard and mouse. To avoid this go to your main Hades folder, and in there open StyxScribe.py. Go to line 26 and in there change "DebugDraw=true" to "DebugDraw=false". In a future version this will be disabled permanently.
 
-After unlocking new abilities in the mirror they may appear as available to buy, even if you dont have access to them from the pact of punishment level. Exiting and entering the mirror fixes this issue. Be warry that if you spend darkenss upgrading this skills, this wont reflect until you properly unlock them.
+Some letters can be see on the top left corner when starting the mods. They fix after a couple of minutes or dying. It is a known, but totally unimportant bug.
 
 Any other bug is not expected and reporting helps a ton :).
+
+# StoreSanity logic
+
+In StoreSanity the "spots" in the store are tied to a location in the original game. You can see the logic for each location below. Note that when obtaining items that have multiple levels, they are managed in a progressive way (so if you get InfernalThrove3Item first that will appear as InternalThrove1Item in your game and managed as such). 
+
+- FountainUpgrade1Location: Requires FountainTartarusItem
+
+- FountainUpgrade2Location: Requires FountainUpgrade1Item
+
+- FountainAsphodelLocation: Requires FountainTartarusItem, Arriving to Asphodel, KeepsakeRack.
+
+- FountainElysiumLocation: Requires FountainAsphodelItem, Arriving to Elysium, KeepsakeRack.
+
+- UrnsOfWealth1Location: Requires FountainTartarusItem
+
+- UrnsOfWealth2Location: Requires UrnsOfWealth1Item
+
+- UrnsOfWealth3Location: Requires UrnsOfWealth2Item
+
+- InfernalThrove2Location: Requires FountainElysiumItem, InfernalThrove1Item, KeepsakeRack.
+
+- InfernalThrove2Location: Requires FountainElysiumItem, InfernalThrove2Item, KeepsakeRack, DeluxeContractorDeskItem.
+
+- CodexIndexLocation: Requieres at least 3 runs and advance Achiles Dialogue. Putting it here since it is not that known.
+
+- DeluxeContractorDeskLocation: Requires ElysiumFountainItem, CourtMusicianSentenceItem
+
+- VanishersKeepLocation: Requires DeluxeContractorDeskItem
+
+- FishingRodLocation: Requires getting to Temple of Styx, FountainTartarusItem.
+
+- CourtMusicianSentenceLocation: Requires getting to Asphodel, FountainTartarusItem.
+
+- CourtMusicianStandLocation: Requires CourtMusicianSentenceItem.
+
+- PitchBlackDarknessLocation, FatedKeysLocation, BrilliantGemstonesLocation, VintageNectarLocation, DarkerThirstLocation: all require DeluxeContractorDeskItem
 
 # Incoming features
 
 This is a list of features that are planned for this mod.
 
-- Making weapons an item, and give the ability to start with any given weapon. This includes choosing a starting weapon and make other unlockable
-
 - Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
 
 - Make completing parts of the Fated List locations checks
 
-- Make House contractor unlocks location checks
-
-- Keepsake collector and Fated list collector ending criterias
+- Fated list collector ending criterias
 
 # How this mod works
 
