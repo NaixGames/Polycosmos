@@ -36,6 +36,9 @@ end
 ------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.CheckIfPlayerHasLocation(cosmeticName)
+	if (StyxScribeShared.Root.GameSettings["StoreSanity"]==0) then
+		return GameState.CosmeticsAdded[cosmeticName]
+	end
 	if (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)) then
 		return GameState.CosmeticsAdded[PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName).ClientNameLocation]
 	else
