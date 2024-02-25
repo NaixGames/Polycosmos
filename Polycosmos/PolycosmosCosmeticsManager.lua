@@ -166,6 +166,10 @@ function PolycosmosCosmeticsManager.UnlockCosmetics(cosmeticClientName)
         cosmeticHadesName = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveName(cosmeticHadesName) 
     end
 
+    if (cosmeticHadesName == nil) then
+        return
+    end
+
     -- Current ownership
 	GameState.Cosmetics[cosmeticHadesName] = true
 
@@ -187,16 +191,33 @@ end
 
 ------------------------------------------
 
+function PolycosmosCosmeticsManager.IsCosmeticItem(itemName)
+    for name, data in pairs(StoreUnlockCosmeticNames) do
+        if data.ClientNameItem == itemName then
+            return true
+        end
+    end
+    return false
+end
+
+------------------------------------------
+
 function PolycosmosCosmeticsManager.GiveCorrespondingProgressiveName(progressiveName)
     result = progressiveName
 
+    if (GameState.CosmeticsAdded[progressiveName.."Progressive"] == true) then
+        return
+    end
+
     if (PolycosmosUtils.HasValue(HealthFountainProgressive, progressiveName)) then
         result = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(HealthFountainProgressive)
-    elif (PolycosmosUtils.HasValue(BreakableValueProgressive, progressiveName))
+    elseif (PolycosmosUtils.HasValue(BreakableValueProgressive, progressiveName)) then
         result = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(BreakableValueProgressive)
-    elif (PolycosmosUtils.HasValue(ChallengeSwitchesProgressive, progressiveName))
+    elseif (PolycosmosUtils.HasValue(ChallengeSwitchesProgressive, progressiveName)) then
         result = PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(ChallengeSwitchesProgressive)
     end
+
+    GameState.CosmeticsAdded[progressiveName.."Progressive"] = true
 
 	return result
 end
@@ -210,5 +231,6 @@ function PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(pr
             return value
         end
     end
+    return progressiveTable[0]
 end
 

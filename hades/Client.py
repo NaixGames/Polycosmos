@@ -59,7 +59,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.6.1"
+    polycosmos_version = "0.7.0"
 
     dictionary_filler_items = {
         "Darkness": 0,
@@ -336,14 +336,17 @@ class HadesContext(CommonContext):
         asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 0}]))
 
     async def create_location_to_item_dictionary(self, itemsdict):
+        counter = 0
         for networkitem in itemsdict:
             subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + self.location_names[networkitem.location] + "-" + self.player_names[networkitem.player] + "-" + \
                                                                  self.item_names[networkitem.item])
+            counter += 1
+            if counter == 50:
+                await asyncio.sleep(0.25)
+                counter = 0
         self.creating_location_to_item_dictionary = False
-        await asyncio.sleep(1) #This await is due to StyxScribe shenanigans. It seems that when dealing with 
-        #big ammount of request of the same hook, it will be blocked from trying to deal with other hooks. So,
-        #it wont resolve the Data finished request below, because it is dealing with the Location to Item Map
-        #requests. The sleep above fixes that.
+        await asyncio.sleep(1) #This sleeps are due to StyxScribe shenanigans. It seems that when dealing with 
+        #big ammount of request of the it can get stuck and forgot about calls. The sleeps fixes it. Not elegant, but it works.
         subsume.Send(styx_scribe_send_prefix + "Data finished")
 
     # ----------------- Package Management section ends --------------------------------

@@ -10,6 +10,7 @@ Import "PolycosmosROEM.lua"
 Import "PolycosmosKeepsakeManager.lua"
 Import "PolycosmosKeepsakeData.lua"
 Import "PolycosmosWeaponManager.lua"
+Import "PolycosmosCosmeticsManager.lua"
 Import "PolycosmosVersionChecker.lua"
 Import "PolycosmosGhostAdminOverride.lua"
 

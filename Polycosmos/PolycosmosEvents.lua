@@ -180,6 +180,8 @@ function PolycosmosEvents.UpdateItemsRun( message )
             PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
         elseif (PolycosmosWeaponManager.IsWeaponItem(parsedName)) then
             PolycosmosWeaponManager.UnlockWeapon(parsedName)
+        elseif (PolycosmosCosmeticsManager.IsCosmeticItem(parsedName)) then
+            PolycosmosCosmeticsManager.UnlockCosmetics(parsedName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)

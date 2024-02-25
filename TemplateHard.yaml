@@ -211,6 +211,9 @@ Hades:
   # If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone
   keepsakesanity: 1
 
+  #If store items are suffle into the item pool. Buying the item from the store becomes a location. Note the logic on the store is not obvious, see readme for the details.
+  storesanity: 1
+
   # Chose your initial weapon. Note you might not be able to equip the sword in the weapon hub in WeaponSanity
   # 0.- Sword
   # 1.- Bow

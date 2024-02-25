@@ -1,6 +1,6 @@
 ModUtil.Mod.Register( "PolycosmosGhostAdminOverride" )
 
------------- Setup of high level weapon system
+------------ 
 
 ModUtil.Path.Wrap( "DisplayCosmetics", function(baseFunc, screen, slotName)
         return PolycosmosGhostAdminOverride.DisplayCosmeticsOverride(screen, slotName)
@@ -15,25 +15,21 @@ end
 -------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
-	local result = ""
-
 	if (PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true) then
 		if (StyxScribeShared.Root.GameSettings["WeaponSanity"]==0) then
-			result = displayName
+			return displayName
 		else
-			PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
+			return PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
 		end
-	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)) then
+	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(displayName) ~= nil) then
 		if (StyxScribeShared.Root.GameSettings["StoreSanity"]==0) then
-			result = displayName
+			return displayName
 		else
-			PolycosmosGhostAdminOverride.GiveAPItemAtLocation(PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName).ClientNameLocation)
+			return PolycosmosGhostAdminOverride.GiveAPItemAtLocation(PolycosmosCosmeticsManager.GiveCosmeticLocationData(displayName).ClientNameLocation)
 		end
 	else
-		result = DisplayName
+		return displayName
 	end
-
-	return result
 end
 
 
@@ -156,7 +152,6 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 		-------------------------------------------------
 
 		Title = PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
-
 
 		-------------------------------------------------
 		-------------------THIS ENDS THE NEW BIT TO SHOW DIFFERENT ITEMS FOR AP
