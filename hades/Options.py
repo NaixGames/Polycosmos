@@ -250,6 +250,13 @@ class InitialWeapon(Choice):
     option_Fist = 4
     option_Gun = 5
     option_Random = 6
+    
+class FateSanity(Toggle):
+    """If most of the locations of the fated list are considered AP locations. Can make the games significantly longer"""
+    display_name = "FateSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
 
 # -----------------------------------------------------------------
 
@@ -322,5 +329,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "initial_weapon": InitialWeapon,
     "weaponsanity": WeaponSanity,
     "storesanity": StoreSanity,
+    "fatesanity": FateSanity,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
 }

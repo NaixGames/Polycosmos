@@ -152,14 +152,14 @@ ModUtil.Path.Wrap("UnlockNextMetaUpgradePanel", function(baseFunc, screen, butto
   baseFunc(screen, button)
   CloseMetaUpgradeScreen(screen, button)
   OpenMetaUpgradeMenu()
-end, MirrorFix)
+end, PolycosmosQoL)
 
 
 -- QoL so all aspects can be unlocked from the get go.
 
 ModUtil.LoadOnce(function ()
 		-- removes requirements for upgrading weapons
-        WeaponUpgradeData.DefaultGameStateRequirement.RequiredTrueFlags = nil
+        GameState.Flags["AspectsUnlocked"] = true
 		-- unlocks sword hidden aspect
         TextLinesRecord["NyxRevealsArthurAspect01"] = true 
         -- unlocks spear hidden aspect
@@ -172,5 +172,4 @@ ModUtil.LoadOnce(function ()
         TextLinesRecord["MinotaurRevealsGilgameshAspect01"] = true
         -- unlocks gun hidden aspect
         TextLinesRecord["ZeusRevealsLuciferAspect01"] = true  
- end)
-
+end)

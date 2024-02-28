@@ -324,6 +324,7 @@ class HadesContext(CommonContext):
             'StoreSanity': self.hades_slot_data['storesanity'],
             'InitialWeapon': self.hades_slot_data['initial_weapon'],
             'IgnoreGreeceDeaths': self.hades_slot_data['ignore_greece_deaths'],
+            'FateSanity': self.hades_slot_data['fatesanity'],
             'PolycosmosVersion': self.polycosmos_version,
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings

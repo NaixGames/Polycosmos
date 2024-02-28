@@ -101,7 +101,44 @@ location_store_diamonds ={
     'DarkerThirstLocation': max_number_room_checks+53, 
 }
 
-
+location_table_fates = {
+    'IsThereNoEscape?': max_number_room_checks+54,
+    'DistantRelatives': max_number_room_checks+55,
+    'ChthonicColleagues': max_number_room_checks+56,
+    'TheReluctantMusician': max_number_room_checks+57,
+    'GoddessOfWisdom': max_number_room_checks+58,
+    'GodOfTheHeavens': max_number_room_checks+59,
+    'GodOfTheSea': max_number_room_checks+60,
+    'GoddessOfLove': max_number_room_checks+61,
+    'GodOfWar': max_number_room_checks+62,
+    'GoddessOfTheHunt': max_number_room_checks+63,
+    'GodOfWine': max_number_room_checks+64,
+    'GodOfSwiftness': max_number_room_checks+65,
+    'GoddessOfSeasons': max_number_room_checks+66,
+    'PowerWithoutEqual': max_number_room_checks+67,
+    'DivinePairings': max_number_room_checks+68,
+    'PrimordialBoons': max_number_room_checks+69,
+    'PrimordialBanes': max_number_room_checks+70,
+    'InfernalArms': max_number_room_checks+71,
+    'TheStygianBlade': max_number_room_checks+72,
+    'TheHeartSeekingBow': max_number_room_checks+73,
+    'TheShieldOfChaos': max_number_room_checks+74,
+    'TheEternalSpear': max_number_room_checks+75,
+    'TheTwinFists': max_number_room_checks+76,
+    'TheAdamantRail': max_number_room_checks+77,
+    'MasterOfArms': max_number_room_checks+78,
+    'AViolentPast': max_number_room_checks+79,
+    'HarshConditions': max_number_room_checks+80,
+    'SlashedBenefits': max_number_room_checks+81,
+    'WantonRansacking': max_number_room_checks+82,
+    'ASimpleJob': max_number_room_checks+83,
+    'ChthonicKnowledge': max_number_room_checks+84,
+    'CustomerLoyalty': max_number_room_checks+85,
+    'DarkReflections': max_number_room_checks+86,
+    'CloseAtHeart': max_number_room_checks+87,
+    'DenizensOfTheDeep': max_number_room_checks+88,
+    'TheUselessTrinket': max_number_room_checks+89,
+}
 
 
 def give_all_locations_table():
@@ -115,6 +152,7 @@ def give_all_locations_table():
         **location_weapons,
         **location_store_gemstones,
         **location_store_diamonds,
+        **location_table_fates,
     }
 
 def clear_tables():
@@ -168,6 +206,9 @@ def setup_location_table_with_settings(options):
     elif (options.location_system.value==2):
         levels = options.score_rewards_amount.value
         total_table.update(give_score_location_table(levels))
+    
+    if (options.fatesanity==1):
+        total_table.update(location_table_fates)
     
     return total_table
             

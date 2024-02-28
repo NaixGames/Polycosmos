@@ -31,10 +31,10 @@ item_table_pacts: Dict[str, ItemData] = {
 }
 
 items_table_event: Dict[str, ItemData] = {
-    'Victory': ItemData(hades_base_item_id+666, True, True),
     'MegVictory': ItemData(hades_base_item_id+667,True,True),
     'LernieVictory': ItemData(hades_base_item_id+668,True,True),
-    'BrosVictory': ItemData(hades_base_item_id+669,True,True)
+    'BrosVictory': ItemData(hades_base_item_id+669,True,True),
+    'HadesVictory': ItemData(hades_base_item_id+670, True, True),
 }
 
 item_table_filler: Dict[str, ItemData] = {
@@ -176,7 +176,7 @@ def create_pact_pool_amount(options) -> Dict[str, int]:
 
 
 event_item_pairs: Dict[str, str] = {
-    "Beat Hades": "Victory",
+    "Beat Hades": "HadesVictory",
     "Beat Meg": "MegVictory",
     "Beat Lernie": "LernieVictory",
     "Beat Bros": "BrosVictory",
