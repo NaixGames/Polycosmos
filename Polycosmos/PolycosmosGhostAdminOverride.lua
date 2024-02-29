@@ -9,7 +9,11 @@ end)
 -------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.GiveAPItemAtLocation(locationName)
-    return PolycosmosEvents.GiveItemInLocation(locationName)
+	local itemName = PolycosmosEvents.GiveItemInLocation(locationName)
+	if (itemName == nil) then
+		itemName = "InitialWeapon"
+	end
+    return itemName
 end
 
 -------------------------------------------------------

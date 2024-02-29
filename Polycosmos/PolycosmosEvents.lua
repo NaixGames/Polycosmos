@@ -323,9 +323,17 @@ StyxScribe.AddHook( PolycosmosEvents.ReceiveLocationToItemMap, styx_scribe_recie
 
 -------------- method to reconstruct the mapping of checked Location
 
-function PolycosmosEvents.AddCheckedLocation( message )
-    table.insert(locationsCheckedThisPlay, message)
+function PolycosmosEvents.RecievedLocationsReminders( message )
+    local Locations = PolycosmosUtils.ParseStringToArray(message)
+    for i=1,#Locations do
+        local location = Locations[i]
+        PolycosmosEvents.AddCheckedLocation(location)
+    end
 end
 
-StyxScribe.AddHook( PolycosmosEvents.AddCheckedLocation, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
+function PolycosmosEvents.AddCheckedLocation( location )
+    table.insert(locationsCheckedThisPlay, location)
+end
+
+StyxScribe.AddHook( PolycosmosEvents.RecievedLocationsReminders, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
 

@@ -277,8 +277,12 @@ class HadesContext(CommonContext):
 
     async def send_items_and_request_starting_info(self, message):
         # Construct location to item mapping
+        location_reminders = ""
         for location in self.checked_locations_cache:
-            subsume.Send(styx_scribe_send_prefix + "Location checked reminder:"+self.location_names[location])
+            location_reminders += self.location_names[location]
+            location_reminders += ","
+            
+        subsume.Send(styx_scribe_send_prefix + "Location checked reminder:"+location_reminders)        
 
         self.store_settings_data()
         self.request_stored_score_info()
