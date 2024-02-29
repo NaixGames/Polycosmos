@@ -304,14 +304,22 @@ end
 
 --------------- method to reconstruct location to item mapping
 
-function PolycosmosEvents.RecieveLocationToItem(message)
+function PolycosmosEvents.ReceiveLocationToItemMap(message)
+    local LocationToItemMap = PolycosmosUtils.ParseStringToArray(message)
+    for i=1,#LocationToItemMap do
+        local map = LocationToItemMap[i]
+        PolycosmosEvents.ReceiveLocationToItem(map)
+    end
+end
+
+function PolycosmosEvents.ReceiveLocationToItem(message)
     local MessageAsTable = PolycosmosUtils.ParseStringToArrayWithDash(message)
     local key = MessageAsTable[1]
     local value = MessageAsTable[2].."-"..MessageAsTable[3]
     locationToItemMapping[key] = value
 end
 
-StyxScribe.AddHook( PolycosmosEvents.RecieveLocationToItem, styx_scribe_recieve_prefix.."Location to Item Map:", PolycosmosEvents )
+StyxScribe.AddHook( PolycosmosEvents.ReceiveLocationToItemMap, styx_scribe_recieve_prefix.."Location to Item Map:", PolycosmosEvents )
 
 -------------- method to reconstruct the mapping of checked Location
 

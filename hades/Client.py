@@ -337,18 +337,13 @@ class HadesContext(CommonContext):
         asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 0}]))
 
     async def create_location_to_item_dictionary(self, itemsdict):
-        counter = 0
+        locationItemMapping = ""
         for networkitem in itemsdict:
-            subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + self.location_names[networkitem.location] + "-" + self.player_names[networkitem.player] + "-" + \
-                                                                 self.item_names[networkitem.item])
-            counter += 1
-            if counter == 100:
-                await asyncio.sleep(0.5)
-                counter = 0
+            locationItemMapping += self.location_names[networkitem.location] + "-" + self.player_names[networkitem.player] + "-" + \
+                                                                 self.item_names[networkitem.item] + ","
+            
+        subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         self.creating_location_to_item_dictionary = False
-        await asyncio.sleep(0.5) #This sleeps are due to StyxScribe shenanigans. It seems that when dealing with 
-        #big ammount of request of the it can get stuck and forgot about calls. The sleeps fixes it. Not elegant, but it works.
-        #good thing is that nothing important that needs to be get before one second is behind this.
         subsume.Send(styx_scribe_send_prefix + "Data finished")
 
     # ----------------- Package Management section ends --------------------------------
