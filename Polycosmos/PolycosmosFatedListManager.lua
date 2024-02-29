@@ -121,7 +121,8 @@ function PolycosmosFatedListManager.GiveItemTitle(displayName)
 		if (StyxScribeShared.Root.GameSettings["FateSanity"]==0) then
 			return displayName
 		else
-			return  PolycosmosEvents.GiveItemInLocation(FatedListNames[displayName].ClientNameLocation)
+			return PolycosmosEvents.GiveItemInLocation(FatedListNames[displayName].ClientNameLocation)
+		end
 	else
 		return displayName
 	end
@@ -135,7 +136,7 @@ ModUtil.Path.Wrap( "OpenQuestLogScreen", function(baseFunc, args)
 end)
 
 ModUtil.Path.Wrap( "CashOutQuest", function(baseFunc, screen, button)
-		if (not FatedListNames[button.Data.Name] then)
+		if (not FatedListNames[button.Data.Name]) then
 			return baseFunc(screen, button)
 		end
 
@@ -143,9 +144,9 @@ ModUtil.Path.Wrap( "CashOutQuest", function(baseFunc, screen, button)
 			return baseFunc(screen, button)
 		end
 
-		nameLocation = FatedListNames[button.Data.Name]
+		local fateNameLocation = FatedListNames[button.Data.Name].ClientNameLocation
 
-		StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..nameLocation)
+		StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..fateNameLocation)
         return PolycosmosFatedListManager.CashOutQuestOverride(screen, button)
 end)
 
@@ -250,7 +251,7 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 		end
 
 		CreateTextBox(MergeTables({ Id = components[questButtonKey].Id,
-			Text = PolycosmosFatedListManager.GiveItemInLocation(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
+			Text = PolycosmosFatedListManager.GiveItemTitle(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
 			Color = {245, 200, 47, 255},
 			FontSize = 22,
 			OffsetX = -10, OffsetY = 0,
@@ -297,7 +298,7 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 
 
 		CreateTextBox(MergeTables({ Id = components[questButtonKey].Id,
-			Text = PolycosmosFatedListManager.GiveItemInLocation(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
+			Text = PolycosmosFatedListManager.GiveItemTitle(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
 			Color = {215, 215, 215, 255},
 			FontSize = 22,
 			OffsetX = -10, OffsetY = 0,
@@ -329,7 +330,7 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 		AttachLua({ Id = components[questButtonKey].Id, Table = components[questButtonKey] })
 
 		CreateTextBox(MergeTables({ Id = components[questButtonKey].Id,
-			Text = PolycosmosFatedListManager.GiveItemInLocation(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
+			Text = PolycosmosFatedListManager.GiveItemTitle(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
 			Color = Color.Black,
 			FontSize = 22,
 			OffsetX = -10, OffsetY = 0,
