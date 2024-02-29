@@ -296,6 +296,7 @@ class IgnoreGreeceDeaths(Toggle):
 
 
 hades_options: typing.Dict[str, type(Option)] = {
+    "death_link": DeathLink,
     "hard_labor_pact_amount": HardLaborPactAmount,
     "lasting_consequences_pact_amount": LastingConsequencesPactAmount,
     "convenience_fee_pact_amount": ConvenienceFeePactAmount,
