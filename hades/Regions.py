@@ -81,6 +81,6 @@ def create_regions(ctx, location_database):
         ctx.multiworld.get_entrance("Store Diamonds Entrance", ctx.player).connect(ctx.multiworld.get_region("StoreDiamonds", ctx.player))
         ctx.multiworld.get_entrance("ExitDiamondStore", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
         
-    if (ctx.options.fatesanity.value==1):
-        ctx.multiworld.get_entrance("Fated Lists", ctx.player).connect(ctx.multiworld.get_region("FatedList", ctx.player))
-        ctx.multiworld.get_entrance("ExitFatedList", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+    
+    ctx.multiworld.get_entrance("Fated Lists", ctx.player).connect(ctx.multiworld.get_region("FatedList", ctx.player))
+    ctx.multiworld.get_entrance("ExitFatedList", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
