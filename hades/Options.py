@@ -281,6 +281,13 @@ class KeepsakesNeeded(Range):
     range_end = 23
     default = 0
 
+class FatesNeeded(Range):
+    """How many different Fated List completed are needed to win the world."""
+    display_name = "FatesNeeded"
+    range_start = 0
+    range_end = 35
+    default = 0
+
 
 # -----------------------------------------------------------------
 
@@ -326,6 +333,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "hades_defeats_needed" : HadesDefeatsNeeded,
     "weapons_clears_needed": WeaponsClearsNeeded,
     "keepsakes_needed": KeepsakesNeeded,
+    "fates_needed": FatesNeeded,
     "keepsakesanity": KeepsakeSanity,
     "initial_weapon": InitialWeapon,
     "weaponsanity": WeaponSanity,

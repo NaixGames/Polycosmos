@@ -1,6 +1,6 @@
 def create_regions(ctx, location_database):
     from . import create_region
-    from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, should_ignore_weapon_location, location_store_gemstones, location_store_diamonds, location_table_fates
+    from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, should_ignore_weapon_location, location_store_gemstones, location_store_diamonds, location_table_fates, location_table_fates_events
 
     #create correct underworld exit
     underworldExits = ["Zags room"]
@@ -13,9 +13,10 @@ def create_regions(ctx, location_database):
     if (ctx.options.storesanity.value==1):
         underworldExits += ["Store Gemstones Entrance"]
         underworldExits += ["Store Diamonds Entrance"]
-        
-    if (ctx.options.fatesanity.value==1):
-        underworldExits += ["Fated Lists"]
+    
+    #Add fates list for achievement logic and fatesanity if needed
+    underworldExits += ["Fated Lists"]
+
         
 
     #Technically this needs some items (beat Bosses). 
@@ -45,8 +46,11 @@ def create_regions(ctx, location_database):
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "StoreGemstones", [location for location in location_store_gemstones], ["ExitGemStore"])] 
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "StoreDiamonds", [location for location in location_store_diamonds], ["ExitDiamondStore"])] 
     
+    fates_location = location_table_fates_events
     if (ctx.options.fatesanity.value==1):
-        ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "FatedList", [location for location in location_table_fates], ["ExitFatedList"])] 
+        fates_location.update(location_table_fates)
+    ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "FatedList", [location for location in fates_location], ["ExitFatedList"])] 
+
 
     # link up regions
     ctx.multiworld.get_entrance("Menu", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))

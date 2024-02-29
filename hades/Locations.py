@@ -141,6 +141,46 @@ location_table_fates = {
 }
 
 
+location_table_fates_events = {
+    'IsThereNoEscape?Event': max_number_room_checks+90,
+    'DistantRelativesEvent': max_number_room_checks+91,
+    'ChthonicColleaguesEvent': max_number_room_checks+92,
+    'TheReluctantMusicianEvent': max_number_room_checks+93,
+    'GoddessOfWisdomEvent': max_number_room_checks+94,
+    'GodOfTheHeavensEvent': max_number_room_checks+95,
+    'GodOfTheSeaEvent': max_number_room_checks+96,
+    'GoddessOfLoveEvent': max_number_room_checks+97,
+    'GodOfWarEvent': max_number_room_checks+98,
+    'GoddessOfTheHuntEvent': max_number_room_checks+99,
+    'GodOfWineEvent': max_number_room_checks+100,
+    'GodOfSwiftnessEvent': max_number_room_checks+101,
+    'GoddessOfSeasonsEvent': max_number_room_checks+102,
+    'PowerWithoutEqualEvent': max_number_room_checks+103,
+    'DivinePairingsEvent': max_number_room_checks+104,
+    'PrimordialBoonsEvent': max_number_room_checks+105,
+    'PrimordialBanesEvent': max_number_room_checks+106,
+    'InfernalArmsEvent': max_number_room_checks+107,
+    'TheStygianBladeEvent': max_number_room_checks+108,
+    'TheHeartSeekingBowEvent': max_number_room_checks+109,
+    'TheShieldOfChaosEvent': max_number_room_checks+110,
+    'TheEternalSpearEvent': max_number_room_checks+111,
+    'TheTwinFistsEvent': max_number_room_checks+112,
+    'TheAdamantRailEvent': max_number_room_checks+113,
+    'MasterOfArmsEvent': max_number_room_checks+114,
+    'AViolentPastEvent': max_number_room_checks+115,
+    'HarshConditionsEvent': max_number_room_checks+116,
+    'SlashedBenefitsEvent': max_number_room_checks+117,
+    'WantonRansackingEvent': max_number_room_checks+118,
+    'ASimpleJobEvent': max_number_room_checks+119,
+    'ChthonicKnowledgeEvent': max_number_room_checks+120,
+    'CustomerLoyaltyEvent': max_number_room_checks+121,
+    'DarkReflectionsEvent': max_number_room_checks+122,
+    'CloseAtHeartEvent': max_number_room_checks+123,
+    'DenizensOfTheDeepEvent': max_number_room_checks+124,
+    'TheUselessTrinketEvent': max_number_room_checks+125,
+}
+
+
 def give_all_locations_table():
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
@@ -153,6 +193,7 @@ def give_all_locations_table():
         **location_store_gemstones,
         **location_store_diamonds,
         **location_table_fates,
+        **location_table_fates_events,
     }
 
 def clear_tables():
@@ -187,6 +228,7 @@ def clear_tables():
 def setup_location_table_with_settings(options):
     clear_tables()
     total_table = {}
+    total_table.update(location_table_fates_events)
     
     if (options.keepsakesanity.value == 1):
         total_table.update(location_keepsakes)

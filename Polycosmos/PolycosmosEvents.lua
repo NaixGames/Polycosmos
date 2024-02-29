@@ -199,17 +199,26 @@ function PolycosmosEvents.ProcessHadesDefeat()
     end
 
     -- Adding a plus on the number of runs and the number of weapons because this does not account our most recent victory
-    numruns = GetNumRunsCleared()
-    weaponsWithVictory = 0
+    local numruns = GetNumRunsCleared()
+    local weaponsWithVictory = 0
     for k, weaponName in ipairs( WeaponSets.HeroMeleeWeapons )  do
         if (GetNumRunsClearedWithWeapon(weaponName)>0 or GetEquippedWeapon() == weaponName) then
             weaponsWithVictory = weaponsWithVictory+1
         end
     end
 
-    numKeepsakes = PolycosmosKeepsakeManager.GiveNumberOfKeesakes()
+    local numKeepsakes = PolycosmosKeepsakeManager.GiveNumberOfKeesakes()
 
-    StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes)
+    local numFates = 0
+
+    for k, questName in ipairs( QuestOrderData ) do
+		local questData = QuestData[questName]
+		if GameState.QuestStatus[questData.Name] == "CashedOut" then
+			numFates = numFates + 1
+		end
+	end
+
+    StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes.."-"..numFates)
 end
 
 table.insert(EncounterData.BossHades.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.ProcessHadesDefeat"})
