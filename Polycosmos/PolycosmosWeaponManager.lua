@@ -23,7 +23,10 @@ end, PolycosmosWeaponManager)
 -- Makes it impossible to buy from the Arsenal Room (required since only the Cosmetics unlock the weapons now, so buying them just wastes keys)
 ModUtil.Path.Context.Wrap("ModUtil.Hades.Triggers.OnUsed.Interactables.1.Call", function()
     ModUtil.Path.Wrap("HasResource", function(baseFunc, name, amount)
-        return false
+        if (name == "LockKeys") then
+            return false
+        end
+        return baseFunc(name, amount)
     end, PolycosmosWeaponManager)
 end, PolycosmosWeaponManager)
 
