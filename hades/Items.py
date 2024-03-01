@@ -152,9 +152,9 @@ item_table_hidden_aspects : Dict[str, ItemData] ={
     "SwordHiddenAspect" : ItemData(hades_base_item_id+75, True),
 	"BowHiddenAspect": ItemData(hades_base_item_id+76, True),
 	"SpearHiddenAspect": ItemData(hades_base_item_id+77, True),
-	"ShieldHiddenAspect": ItemData(hades_base_item_id+77, True),
-	"FirstHiddenAspect": ItemData(hades_base_item_id+78, True),
-	"GunHiddenAspect": ItemData(hades_base_item_id+79, True)
+	"ShieldHiddenAspect": ItemData(hades_base_item_id+78, True),
+	"FirstHiddenAspect": ItemData(hades_base_item_id+79, True),
+	"GunHiddenAspect": ItemData(hades_base_item_id+80, True)
 }
 
 
