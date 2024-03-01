@@ -237,7 +237,7 @@ Hades:
   # If deaths on Greece are ignored for deathlink. Leave off for the memes.
   ignore_greece_deaths: 1
 
-  death_link: 'true'
+  death_link: 'false'
 
 
 
