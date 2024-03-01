@@ -182,6 +182,8 @@ function PolycosmosEvents.UpdateItemsRun( message )
             PolycosmosWeaponManager.UnlockWeapon(parsedName)
         elseif (PolycosmosCosmeticsManager.IsCosmeticItem(parsedName)) then
             PolycosmosCosmeticsManager.UnlockCosmetics(parsedName)
+        elseif (PolycosmosAspectsManager.IsHiddenAspect(parsedName)) then
+            PolycosmosAspectsManager.UnlockHiddenAspect(parsedName, true)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)

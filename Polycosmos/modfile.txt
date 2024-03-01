@@ -14,7 +14,7 @@ Import "PolycosmosCosmeticsManager.lua"
 Import "PolycosmosVersionChecker.lua"
 Import "PolycosmosGhostAdminOverride.lua"
 Import "PolycosmosFatedListManager.lua"
-
+Import "PolycosmosAspectsManager.lua"
 
 To "Scripts/ConditionalItemData.lua"
 Import "Data/ConditionalItemData.lua"

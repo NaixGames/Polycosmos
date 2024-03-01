@@ -148,6 +148,15 @@ item_table_store: Dict[str, ItemData] ={
     'DarkerThirstItem': ItemData(hades_base_item_id+74, True),
 }
 
+item_table_hidden_aspects : Dict[str, ItemData] ={
+    "SwordHiddenAspect" : ItemData(hades_base_item_id+75, True),
+	"BowHiddenAspect": ItemData(hades_base_item_id+76, True),
+	"SpearHiddenAspect": ItemData(hades_base_item_id+77, True),
+	"ShieldHiddenAspect": ItemData(hades_base_item_id+77, True),
+	"FirstHiddenAspect": ItemData(hades_base_item_id+78, True),
+	"GunHiddenAspect": ItemData(hades_base_item_id+79, True)
+}
+
 
 
 def create_filler_pool_options(options):
@@ -266,6 +275,7 @@ item_table = {
     **item_table_keepsake,
     **item_table_weapons,
     **item_table_store,
+    **item_table_hidden_aspects,
 }
 
 class HadesItem(Item):

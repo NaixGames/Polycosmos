@@ -257,6 +257,13 @@ class FateSanity(Toggle):
     option_true = 1
     option_false = 0
     default = 1 
+    
+class HiddenAspectSanity(Toggle):
+    """If hidden aspects of weapons are shuffled into the item pool to be unlocked before being able to be used."""
+    display_name = "HiddenAspectSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
 
 # -----------------------------------------------------------------
 
@@ -339,5 +346,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "weaponsanity": WeaponSanity,
     "storesanity": StoreSanity,
     "fatesanity": FateSanity,
+    "hidden_aspectsanity": HiddenAspectSanity,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
 }

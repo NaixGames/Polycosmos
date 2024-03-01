@@ -5,7 +5,7 @@ import settings
 import random
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, item_table_store
+from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, item_table_store, item_table_hidden_aspects
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation
 from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
@@ -100,6 +100,11 @@ class HadesWorld(World):
         #Fill store items
         if (self.options.storesanity.value==1):
             for name, data in item_table_store.items():
+                item = HadesItem(name, self.player)
+                pool.append(item)
+                
+        if (self.options.hidden_aspectsanity.value==1):
+            for name, date in item_table_hidden_aspects.items():
                 item = HadesItem(name, self.player)
                 pool.append(item)
 

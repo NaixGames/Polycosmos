@@ -173,7 +173,7 @@ Hades:
   # 2.- Score based gives items according to score obtained by clearing rooms (even repeated ones)
   location_system: 2
 
-  # When using socre based system, this sets how many locations the score can give. Each room gives "its depth" in score.
+  # When using socre based system, this sets how many locations the score can give. Each room gives "its depth" in score. 
   # and each new location need one more points to be unlocked (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)
   #
   # You can define additional values between the minimum and maximum values.
@@ -206,6 +206,9 @@ Hades:
   # Maximum value is 23
   keepsakes_needed: 0
 
+  #How many different fated list needs to be solve to finish the game.
+  fates_needed: 0
+
   # If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone
   keepsakesanity: 1
 
@@ -220,10 +223,21 @@ Hades:
   # 4.- Fist
   # 5.- Gun
   # 6.- Random
-  initial_weapon: 0
+  initial_weapon: 6
 
   # If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon item to gain the skill to equip them.  
   weaponsanity: 1
 
-   # If deaths on Greece are ignored for deathlink. Leave off for the memes.
+  # If easily obtained fate locations are considered AP locations
+  fatesanity: 0
+  
+  # if weapons hidden aspects are blocked into their are obtained from the item pool
+  hidden_aspectsanity: 1
+
+  # If deaths on Greece are ignored for deathlink. Leave off for the memes.
   ignore_greece_deaths: 1
+
+  death_link: 'true'
+
+
+
