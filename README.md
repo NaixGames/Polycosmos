@@ -13,6 +13,8 @@ on the next room, biome or run.
 
 - Weaponsanity: weapons can be randomized as items in the multiworld. Buying them counts as a location check.
 
+- Hidden Aspects: hidden aspects can be randomized as items in the multiworld, needing to get those before being able to buy them on hades. Helps make them more balanced.
+
 - Keepsakesanity: keepsakes can randomized as items in the multiworld. Getting them count as a location check.
 
 - Storesanity: all important items from the store can be randomized in the multiworld. Buying them from the store count as a location check.
@@ -21,6 +23,7 @@ Location Modes: Clearning rooms will give location checks. There are two modes t
 - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
 - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how many locations are behind the score system, with the limit being 1000. Note this will give a REALLY
 long game.
+- FateSanity: The majority of the fates of the fates list can be used as a location for the multiworld. Completing them and cashing them grants the reward behind them.
 
 Settings:
 - Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
@@ -31,9 +34,10 @@ Settings:
 - Weaponsanity: Weapons can be shuffled into the item pool, buying them from the store becoming a location.
 
 Victory conditions tweaks:
-- Minimum number of victories against Hades.
-- Mininum number of victories with different weapons against Hades.
-- Minimum number of keepsakes before finishing the game counts.
+- Minimum number of victories against Hades before finishing the game counts as victory.
+- Mininum number of victories with different weapons against before finishing the game counts as victory.
+- Minimum number of keepsakes before finishing the game counts as victory.
+- Minimum number of fated list completed before finishing the game counts as victory.
   
 Quality of Life:
 - Contractor have all upgrades available to buy from the start. Fated list available from start. Lounge available from the start. Brooker available from the start. Demeter can appear from the first run.
@@ -41,7 +45,7 @@ Quality of Life:
 - To avoid deaths in greece counting for deathlink.
 - The ability to chose the initial weapon for zagreyus, or having it being randomized.
 - Weapons now getting bought from the house contractor, not from the weapon storage. Needed for getting weaponsanity working.
-- All aspects from weapons can be bought once you unlock the weapon.
+- All aspects from weapons can be bought once you unlock the weapon (expect for the hidden ones if those are in the item pool).
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
