@@ -139,7 +139,11 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     if (not StoreUnlockCosmeticNames[name]) then
         return baseFunc(name, status)
     end
-    
+
+    if (not StyxScribeShared.Root.GameSettings) then
+        wait(2)
+    end
+
     if StyxScribeShared.Root.GameSettings["StoreSanity"]==0 then
          return baseFunc(name, status)
     end

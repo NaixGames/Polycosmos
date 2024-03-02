@@ -54,7 +54,7 @@ class HadesWorld(World):
     web = HadesWeb()
     required_client_version = (0, 4, 4)
     
-    polycosmos_version = "0.8.0"
+    polycosmos_version = "0.9.0"
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_table = give_all_locations_table()
@@ -78,10 +78,11 @@ class HadesWorld(World):
         item_pool_pacts = create_pact_pool_amount(self.options)
 
         #Fill pact items
-        for name, data in item_table_pacts.items():
-            for amount in range(item_pool_pacts.get(name, 1)):
-                item = HadesItem(name, self.player)
-                pool.append(item)
+        if (self.options.heat_system.value == 1):
+            for name, data in item_table_pacts.items():
+                for amount in range(item_pool_pacts.get(name, 1)):
+                    item = HadesItem(name, self.player)
+                    pool.append(item)
         
         #Fill keepsake items
         if (self.options.keepsakesanity.value==1):
