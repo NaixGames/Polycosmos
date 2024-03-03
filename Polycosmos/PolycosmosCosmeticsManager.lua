@@ -133,6 +133,10 @@ local ChallengeSwitchesProgressive =
 
 --------------------------------------
 
+local cachedCosmetics = {}
+
+--------------------------------------
+
 
 ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
@@ -147,7 +151,8 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     end
 
     if (not StyxScribeShared.Root.GameSettings) then
-        wait(1) --if loading while on Zag rooms we may not have the settings yet and the game my try to load them
+        table.insert(cachedCosmetics, name)
+        return
     end
 
     if StyxScribeShared.Root.GameSettings["StoreSanity"]==0 then
@@ -243,3 +248,15 @@ function PolycosmosCosmeticsManager.GiveCorrespondingProgressiveNameFromTable(pr
     return progressiveTable[0]
 end
 
+
+--------------------------------------------
+
+function PolycosmosCosmeticsManager.ResolveQueueCosmetics(message)
+	for k, name in ipairs(cachedCosmetics) do
+        AddCosmetic(name)
+    end
+    cachedCosmetics = {}
+end
+
+--Set hook to load Boss data once informacion of setting is loaded
+StyxScribe.AddHook( PolycosmosCosmeticsManager.ResolveQueueCosmetics, styx_scribe_recieve_prefix.."Data finished", PolycosmosCosmeticsManager )
