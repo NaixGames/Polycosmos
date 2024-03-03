@@ -140,15 +140,20 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
         return baseFunc(name, status)
     end
 
+    local nameOverride = StoreUnlockCosmeticNames[name].ClientNameLocation --overriding this to split gaining the item from the location
+
+    if (GameState.CosmeticsAdded[nameOverride] == true) then
+        return
+    end
+
     if (not StyxScribeShared.Root.GameSettings) then
-        wait(2)
+        wait(1) --if loading while on Zag rooms we may not have the settings yet and the game my try to load them
     end
 
     if StyxScribeShared.Root.GameSettings["StoreSanity"]==0 then
          return baseFunc(name, status)
     end
 
-    nameOverride = StoreUnlockCosmeticNames[name].ClientNameLocation --overriding this to split gaining the item from the location
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..nameOverride)
     return baseFunc(nameOverride, status)
 end)
