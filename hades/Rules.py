@@ -61,18 +61,19 @@ class HadesLogic(LogicMixin):
 
 def set_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
-    #set up that we can get all checks on Tartarus if we beat it
-    for location in location_table_tartarus:
-        if (location in location_table):
-            set_rule(world.get_location(location,player), lambda state: True)
-
     total_routine_inspection = int(options.routine_inspection_pact_amount.value)
 
-    set_rule(world.get_entrance('Exit Tartarus', player), lambda state: state.has("MegVictory", player) and state._total_heat_level(player, min(number_items/4,10), options) and state._has_enough_routine_inspection(player,total_routine_inspection-2, options) and state._has_enough_weapons(player, options, 2))
-    set_rule(world.get_entrance('Exit Asphodel', player), lambda state: state.has("LernieVictory", player) and state._total_heat_level(player, min(number_items/2,20), options) and state._has_enough_routine_inspection(player,total_routine_inspection-1, options) and state._has_enough_weapons(player, options, 3))
-    set_rule(world.get_entrance('Exit Elyseum', player), lambda state: state.has("BrosVictory", player)  and state._total_heat_level(player, min(number_items*3/4,30), options) and state._has_enough_routine_inspection(player,total_routine_inspection, options) and state._has_enough_weapons(player, options, 4))
-    set_rule(world.get_location('Beat Hades', player), lambda state: state._total_heat_level(player, min(number_items,35), options) and state._has_enough_weapons(player, options, 5))
-
+    if (options.location_system.value == 3):
+        print("do same thing as below but per weapon")
+    else:
+        set_rule(world.get_entrance('Exit Tartarus', player), lambda state: state.has("MegVictory", player) and state._total_heat_level(player, min(number_items/4,10), options) and state._has_enough_routine_inspection(player,total_routine_inspection-2, options) and state._has_enough_weapons(player, options, 2))
+        set_rule(world.get_entrance('Exit Asphodel', player), lambda state: state.has("LernieVictory", player) and state._total_heat_level(player, min(number_items/2,20), options) and state._has_enough_routine_inspection(player,total_routine_inspection-1, options) and state._has_enough_weapons(player, options, 3))
+        set_rule(world.get_entrance('Exit Elyseum', player), lambda state: state.has("BrosVictory", player)  and state._total_heat_level(player, min(number_items*3/4,30), options) and state._has_enough_routine_inspection(player,total_routine_inspection, options) and state._has_enough_weapons(player, options, 4))
+        set_rule(world.get_location('Beat Hades', player), lambda state: state._total_heat_level(player, min(number_items,35), options) and state._has_enough_weapons(player, options, 5))
+    
+    
+    world.completion_condition[player] = lambda state: state._can_get_victory(player, options)
+    
     if (options.keepsakesanity.value==1 and options.nectar_pack_value.value > 0):
         set_rule(world.get_entrance('NPCS', player), lambda state: state._has_enough_of_item(player, 1, 'Nectar'))
     if (options.weaponsanity.value==1 and options.keys_pack_value.value >0):
@@ -82,8 +83,6 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     if (options.fatesanity.value==1):
         set_fates_rules(world,player,number_items,location_table,options, "")
     set_fates_rules(world,player,number_items,location_table,options, "Event")
-    world.completion_condition[player] = lambda state: state._can_get_victory(player, options)
-
 
 
 def set_store_rules(world: MultiWorld, player: int, number_items: int, location_table, options):

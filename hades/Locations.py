@@ -7,7 +7,7 @@ from BaseClasses import Location
 hades_base_location_id = 5093427000
 
 #This is basically location + score checks. Keeping this as a variable to have easier time keeping
-max_number_room_checks = 1072+hades_base_location_id
+max_number_room_checks = 1505+hades_base_location_id
 
 #Making global tables that can be used for unit testing.
 
@@ -180,11 +180,24 @@ location_table_fates_events = {
     'TheUselessTrinketEvent': max_number_room_checks+125,
 }
 
+#----------------------
+
+location_weapons_subfixes = {
+    "SwordWeapon",
+	"SpearWeapon",
+	"ShieldWeapon",
+	"BowWeapon",
+	"FistWeapon",
+	"GunWeapon",
+}
+
+#---------------------
 
 def give_all_locations_table():
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
-    
+    table_weaponlocation = give_weapon_based_locations()    
+
     return {
         **table_rooms,
         **table_score,
@@ -349,6 +362,15 @@ def give_score_location_table(locations):
     
     return location_table
     
+
+def give_weapon_based_locations():
+    default_locations = give_default_location_table()
+    subfixCounter = 0
+    weapon_locations = {}
+    for weaponSubfix in location_weapons_subfixes:
+        print("hello")
+        #start at max_number_room_checks. 
+
 
 #-----------------------------------------------
 

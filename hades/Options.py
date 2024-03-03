@@ -203,11 +203,13 @@ class AmbrosiaPackValue(Range):
 # -----------------------------------------------------------------
 
 class LocationSystem(Choice):
-    """Chose how the game gives you items. Room based gives items on every new room completed. And score based
-    gives items according to score obtained by clearing rooms (even repeated ones)"""
+    """Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
+    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
+    items on every new room completed with a new weapon (so more locations than the original room based system)"""
     display_name = "Location System"
     option_roombased = 1
     option_scorebased = 2
+    option_roomweaponbased = 3
     default = 1
     
 

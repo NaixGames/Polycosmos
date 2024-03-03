@@ -158,6 +158,35 @@ function PolycosmosEvents.GiveScore(roomNumber)
     StyxScribe.Send(styx_scribe_send_prefix.."ScoreUpdate:"..actual_score.."-"..roomNumber) --make sure we can save the score and recover in case of a reload    
 end
 
+--Give weapon location check if needed
+
+function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
+    if (roomNumber == nil) then
+        return
+    end
+    --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
+    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not StyxScribeShared.Root.GameSettings)) then
+        PolycosmosEvents.LoadData()
+        wait( bufferTime )
+        if not PolycosmosEvents.IsItemMappingInitiliazed() then
+            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
+            return
+        end
+    end
+
+    if (StyxScribeShared.Root.GameSettings['LocationMode'] ~= 3) then
+        return
+    end
+    
+    roomString = roomNumber
+    if (roomNumber < 10) then
+        roomString = "0"..roomNumber
+    end
+
+    roomString = roomString..GetEquippedWeapon()
+
+    PolycosmosEvents.UnlockLocationCheck("ClearRoom"..roomString)
+end
 
 
 --Here we should put other methods to process checks. Let it be boon/NPC related or whatever.
@@ -279,6 +308,7 @@ ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
     if (run and run.RunDepthCache) then
         PolycosmosEvents.GiveRoomCheck(run.RunDepthCache)
         PolycosmosEvents.GiveScore(run.RunDepthCache)
+        PolycosmosEvents.GiveWeaponRoomCheck(run.RunDepthCache)
     end
     return baseFunc(run, room)
 end)
