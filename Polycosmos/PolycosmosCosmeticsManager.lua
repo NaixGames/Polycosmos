@@ -151,7 +151,7 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     end 
     
     if (not StyxScribeShared.Root.GameSettings) then
-        insert(cachedCosmetics, name)
+        table.insert(cachedCosmetics, name)
         return
     end
 
