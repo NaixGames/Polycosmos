@@ -108,6 +108,10 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     if (not WeaponsUnlockCosmeticNames[name]) then
         return baseFunc(name, status)
     end
+
+    if (not StyxScribeShared.Root.GameSettings) then
+        wait(1) --if loading while on Zag rooms we may not have the settings yet and the game my try to load them 
+    end
     
     if StyxScribeShared.Root.GameSettings["WeaponSanity"]==0 then
         AddCosmetic(WeaponsUnlockCosmeticNames[name].ClientNameItem)
