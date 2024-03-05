@@ -104,9 +104,9 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     world.completion_condition[player] = lambda state: state._can_get_victory(player, options)
     
     if (options.keepsakesanity.value==1 and options.nectar_pack_value.value > 0):
-        set_rule(world.get_entrance('NPCS', player), lambda state: state._has_enough_of_item(player, 1, 'Nectar'))
+        set_rule(world.get_entrance('NPCS', player), lambda state: True)
     if (options.weaponsanity.value==1 and options.keys_pack_value.value >0):
-        set_rule(world.get_entrance('Weapon Cache', player), lambda state: state._has_enough_of_item(player, 1, 'Keys'))
+        set_rule(world.get_entrance('Weapon Cache', player), lambda state: True)
     if (options.storesanity.value==1):
         set_store_rules(world, player, number_items, location_table, options)
     if (options.fatesanity.value==1):
@@ -173,7 +173,7 @@ def set_fates_rules(world: MultiWorld, player: int, number_items: int, location_
         set_rule(world.get_location('ASimpleJob'+subfix, player), lambda state: state.has('CodexIndexItem', player))
         set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state.has('HadesVictory', player) and state.has('FishingRodItem',player))
     else:
-        set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state.has('MegVictory', player) and state.has('FountainTartarusItem', player))
+        set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state.has('MegVictory', player))
         set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state.has('HadesVictory', player))
     
     #This part depends on weaponsanity, but the false option is handled on has_enough_weapons
