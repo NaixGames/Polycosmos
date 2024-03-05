@@ -5,7 +5,7 @@ import settings
 import random
 
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
-from .Items import item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, item_table_store, item_table_hidden_aspects
+from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, item_table_store, item_table_hidden_aspects
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation
 from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
@@ -114,7 +114,7 @@ class HadesWorld(World):
 
         #Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
-        for amount in range(0, len(self.location_name_to_id)-len(pool)):
+        for amount in range(0, len(self.location_name_to_id)-len(pool)-len(event_item_pairs)):
             item_name = filler_options[index]
             item = HadesItem(item_name, self.player)
             pool.append(item)
@@ -124,9 +124,14 @@ class HadesWorld(World):
 
 
         # Pair up our event locations with our event items
-        for event, item in event_item_pairs.items():
-            event_item = HadesItem(item, self.player)
-            self.multiworld.get_location(event, self.player).place_locked_item(event_item)
+        if (self.options.location_system.value==3):
+            for event, item in event_item_pairs_weapon_mode.items():
+                event_item = HadesItem(item, self.player)
+                self.multiworld.get_location(event, self.player).place_locked_item(event_item)
+        else:
+            for event, item in event_item_pairs.items():
+                event_item = HadesItem(item, self.player)
+                self.multiworld.get_location(event, self.player).place_locked_item(event_item)
             
     def should_ignore_weapon(self, name):
         if (self.options.initial_weapon == 0 and name == "SwordWeaponUnlockItem"):

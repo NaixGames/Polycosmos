@@ -201,6 +201,7 @@ def give_all_locations_table():
     return {
         **table_rooms,
         **table_score,
+        **table_weaponlocation,
         **location_keepsakes,
         **location_weapons,
         **location_store_gemstones,
@@ -261,6 +262,8 @@ def setup_location_table_with_settings(options):
     elif (options.location_system.value==2):
         levels = options.score_rewards_amount.value
         total_table.update(give_score_location_table(levels))
+    elif (options.location_system.value==3):
+        total_table.update(give_weapon_based_locations())
     
     if (options.fatesanity==1):
         total_table.update(location_table_fates)
@@ -367,10 +370,15 @@ def give_weapon_based_locations():
     default_locations = give_default_location_table()
     subfixCounter = 0
     weapon_locations = {}
+    
     for weaponSubfix in location_weapons_subfixes:
-        print("hello")
-        #start at max_number_room_checks. 
-
+        index=0
+        for location_name, location_data in default_locations.items():
+            weapon_locations[location_name+weaponSubfix] = hades_base_location_id+1073+index+subfixCounter*73
+            index += 1
+        subfixCounter += 1
+        
+    return weapon_locations
 
 #-----------------------------------------------
 
