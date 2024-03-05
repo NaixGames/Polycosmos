@@ -263,7 +263,7 @@ class InitialWeapon(Choice):
     option_Shield = 3
     option_Fist = 4
     option_Gun = 5
-    option_Random = 6
+    option_RandomWeapon = 6
     
 class FateSanity(Toggle):
     """If most of the locations of the fated list are considered AP locations. Can make the games significantly longer"""

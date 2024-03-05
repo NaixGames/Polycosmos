@@ -17,28 +17,28 @@ def create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_databa
     tartarus["Beat Meg"+weaponSubfix] = None
 
     for i in range(14,28):
-        asphodel["ClearRoom"+str(i+1)]=hades_base_location_id+1073+i+subfixCounter*72
+        asphodel["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
     
     asphodel["Beat Lernie"+weaponSubfix] = None
 
     for i in range(28,42):
-        elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+1073+i+subfixCounter*72
+        elyseum["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
     elyseum["Beat Bros"+weaponSubfix] = None    
 
     for i in range(42,60):
-        styx["ClearRoom"+str(i+1)]=hades_base_location_id+1073+i+subfixCounter*72
+        styx["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
         
     styx["Beat Hades"+weaponSubfix] = None
 
     for i in range(60,72):
-        styx_late["ClearRoom"+str(i+1)]=hades_base_location_id+1073+i+subfixCounter*72
+        styx_late["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
     
     ctx.multiworld.regions += [
-                create_region(ctx.multiworld, ctx.player, location_database, "Tartarus"+weaponSubfix, [location for location in tartarus], ["Exit Tartarus"+weaponSubfix, "DieT"]),
-                create_region(ctx.multiworld, ctx.player, location_database, "Asphodel"+weaponSubfix, [location for location in asphodel], ["Exit Asphodel"+weaponSubfix, "DieA"]),
-                create_region(ctx.multiworld, ctx.player, location_database, "Elyseum"+weaponSubfix, [location for location in elyseum], ["Exit Elyseum"+weaponSubfix, "DieE"]),
-                create_region(ctx.multiworld, ctx.player, location_database, "Styx"+weaponSubfix, [location for location in styx], ["DieS", "Late Chambers"+weaponSubfix]),
-                create_region(ctx.multiworld, ctx.player, location_database, "StyxLate"+weaponSubfix, [location for location in styx_late], ["DieSL"]),
+                create_region(ctx.multiworld, ctx.player, location_database, "Tartarus"+weaponSubfix, [location for location in tartarus], ["Exit Tartarus"+weaponSubfix, "DieT"+weaponSubfix]),
+                create_region(ctx.multiworld, ctx.player, location_database, "Asphodel"+weaponSubfix, [location for location in asphodel], ["Exit Asphodel"+weaponSubfix, "DieA"+weaponSubfix]),
+                create_region(ctx.multiworld, ctx.player, location_database, "Elyseum"+weaponSubfix, [location for location in elyseum], ["Exit Elyseum"+weaponSubfix, "DieE"+weaponSubfix]),
+                create_region(ctx.multiworld, ctx.player, location_database, "Styx"+weaponSubfix, [location for location in styx], ["DieS"+weaponSubfix, "Late Chambers"+weaponSubfix]),
+                create_region(ctx.multiworld, ctx.player, location_database, "StyxLate"+weaponSubfix, [location for location in styx_late], ["DieSL"+weaponSubfix]),
             ]
 
 
@@ -47,7 +47,7 @@ def create_regions(ctx, location_database):
     from .Locations import location_table_tartarus, location_table_asphodel, location_table_elyseum, location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, should_ignore_weapon_location, location_store_gemstones, location_store_diamonds, location_table_fates, location_table_fates_events, location_weapons_subfixes
 
     #create correct underworld exit
-    underworldExits = ["Zags room"]
+    underworldExits = []
     if (ctx.options.keepsakesanity.value==1):
         underworldExits += ["NPCS"]
         
@@ -71,6 +71,7 @@ def create_regions(ctx, location_database):
             create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_database)
             subfixCounter += 1
     else:
+        underworldExits += ["Zags room"]
         ctx.multiworld.regions += [
             create_region(ctx.multiworld, ctx.player, location_database, "Tartarus", [location for location in location_table_tartarus], ["Exit Tartarus", "DieT"]),
             create_region(ctx.multiworld, ctx.player, location_database, "Asphodel", [location for location in location_table_asphodel], ["Exit Asphodel", "DieA"]),
@@ -111,18 +112,22 @@ def create_regions(ctx, location_database):
             ctx.multiworld.get_entrance("Exit Asphodel"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Elyseum"+weaponSubfix, ctx.player))
             ctx.multiworld.get_entrance("Exit Elyseum"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Styx"+weaponSubfix, ctx.player))
             ctx.multiworld.get_entrance("Late Chambers"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("StyxLate"+weaponSubfix, ctx.player))
+            ctx.multiworld.get_entrance("DieT"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+            ctx.multiworld.get_entrance("DieA"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))    
+            ctx.multiworld.get_entrance("DieE"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+            ctx.multiworld.get_entrance("DieS"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+            ctx.multiworld.get_entrance("DieSL"+weaponSubfix, ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
     else:
         ctx.multiworld.get_entrance("Zags room", ctx.player).connect(ctx.multiworld.get_region("Tartarus", ctx.player))
         ctx.multiworld.get_entrance("Exit Tartarus", ctx.player).connect(ctx.multiworld.get_region("Asphodel", ctx.player))
         ctx.multiworld.get_entrance("Exit Asphodel", ctx.player).connect(ctx.multiworld.get_region("Elyseum", ctx.player))
         ctx.multiworld.get_entrance("Exit Elyseum", ctx.player).connect(ctx.multiworld.get_region("Styx", ctx.player))
         ctx.multiworld.get_entrance("Late Chambers", ctx.player).connect(ctx.multiworld.get_region("StyxLate", ctx.player))
-        
-    ctx.multiworld.get_entrance("DieT", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
-    ctx.multiworld.get_entrance("DieA", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))    
-    ctx.multiworld.get_entrance("DieE", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
-    ctx.multiworld.get_entrance("DieS", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
-    ctx.multiworld.get_entrance("DieSL", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+        ctx.multiworld.get_entrance("DieT", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+        ctx.multiworld.get_entrance("DieA", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))    
+        ctx.multiworld.get_entrance("DieE", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+        ctx.multiworld.get_entrance("DieS", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
+        ctx.multiworld.get_entrance("DieSL", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
 
     #here we connect locations that depend on options
     if (ctx.options.keepsakesanity.value==1):

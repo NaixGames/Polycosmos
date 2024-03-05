@@ -377,7 +377,9 @@ def give_weapon_based_locations():
             weapon_locations[location_name+weaponSubfix] = hades_base_location_id+1073+index+subfixCounter*73
             index += 1
         subfixCounter += 1
-        
+
+    clear_tables()        
+
     return weapon_locations
 
 #-----------------------------------------------

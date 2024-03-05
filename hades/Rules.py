@@ -48,6 +48,8 @@ class HadesLogic(LogicMixin):
         return amount_fates >= amount
     
     def _has_weapon(self, weaponSubfix, player:int, option) -> bool:
+        if (option.weaponsanity.value==0):
+            return True
         if (weaponSubfix == "SwordWeapon"):
             return (option.initial_weapon.value == 0) or (self.count('SwordWeaponUnlockItem', player)>0)
         if (weaponSubfix == "BowWeapon"):
@@ -63,13 +65,7 @@ class HadesLogic(LogicMixin):
         return True
 
     def _can_get_victory(self, player: int, options) -> bool:
-        if (options.location_system.value==3):
-            counter=0
-            for weaponSubfix in location_weapons_subfixes:
-                counter += self.count('HadesVictory'+weaponSubfix)
-            can_win = (counter > 0)
-        else:
-            can_win = self.count('HadesVictory', player) == 1
+        can_win = self._has_defeated_boss('HadesVictory', player, options)
         if (options.weaponsanity.value == 1):
             weapons = options.weapons_clears_needed.value
             can_win = (can_win) and (self._has_enough_weapons(player,options,weapons))
@@ -79,6 +75,15 @@ class HadesLogic(LogicMixin):
         fates = options.fates_needed.value
         can_win = (can_win) and (self._has_enough_fates_done(player,fates,options))
         return can_win
+    
+    def _has_defeated_boss(self,bossVictory,player:int, options) -> bool:
+        if (options.location_system.value == 3):
+            counter=0
+            for weaponSubfix in location_weapons_subfixes:
+                counter += self.count(bossVictory+weaponSubfix, player)
+            return counter > 0
+        else:
+           return self.count(bossVictory, player) == 1
 
 def set_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
@@ -126,8 +131,8 @@ def set_store_rules(world: MultiWorld, player: int, number_items: int, location_
     #Fountains
     set_rule(world.get_location('FountainUpgrade1Location', player), lambda state: state.has('FountainTartarusItem', player))
     set_rule(world.get_location('FountainUpgrade2Location', player), lambda state: state.has('FountainUpgrade1Item', player) or state.has('FountainUpgrade2Item', player))
-    set_rule(world.get_location('FountainAsphodelLocation', player), lambda state: state.has('FountainTartarusItem', player) and state.has('KeepsakeCollectionItem', player) and state.has("MegVictory", player))
-    set_rule(world.get_location('FountainElysiumLocation', player), lambda state: state.has('FountainAsphodelItem', player) and state.has('KeepsakeCollectionItem', player) and state.has("LernieVictory", player))
+    set_rule(world.get_location('FountainAsphodelLocation', player), lambda state: state.has('FountainTartarusItem', player) and state.has('KeepsakeCollectionItem', player) and state._has_defeated_boss('MegVictory', player, options))
+    set_rule(world.get_location('FountainElysiumLocation', player), lambda state: state.has('FountainAsphodelItem', player) and state.has('KeepsakeCollectionItem', player) and state._has_defeated_boss('LernieVictory', player, options))
     
     #Urns
     set_rule(world.get_location('UrnsOfWealth1Location', player), lambda state: state.has('FountainTartarusItem', player))
@@ -139,15 +144,15 @@ def set_store_rules(world: MultiWorld, player: int, number_items: int, location_
     set_rule(world.get_location('UrnsOfWealth3Location', player), lambda state: state._has_enough_throve(player,2) and state.has('FountainElysiumItem',player) and state.has('KeepsakeCollectionItem', player) and state.has('DeluxeContractorDeskItem', player))
     
     #Keepsake storage
-    set_rule(world.get_location('KeepsakeCollectionLocation', player), lambda state: state.has('MegVictory', player) and state.has('FountainTartarusItem', player))
+    set_rule(world.get_location('KeepsakeCollectionLocation', player), lambda state: state._has_defeated_boss('MegVictory', player, options) and state.has('FountainTartarusItem', player))
     
     #Deluxe contractor desk
     set_rule(world.get_location('DeluxeContractorDeskLocation', player), lambda state: state.has('FountainElysiumItem', player) and state.has('CourtMusicianSentenceItem', player))
     
     #Other random stuff
     set_rule(world.get_location('VanquishersKeepLocation', player), lambda state: state.has('DeluxeContractorDeskItem', player))
-    set_rule(world.get_location('FishingRodLocation', player), lambda state: state.has('BrosVictory', player) and state.has('FountainTartarusItem', player))
-    set_rule(world.get_location('CourtMusicianSentenceLocation', player), lambda state: state.has('MegVictory', player) and state.has('FountainTartarusItem', player))
+    set_rule(world.get_location('FishingRodLocation', player), lambda state: state._has_defeated_boss('BrosVictory', player, options) and state.has('FountainTartarusItem', player))
+    set_rule(world.get_location('CourtMusicianSentenceLocation', player), lambda state: state._has_defeated_boss('MegVictory', player, options) and state.has('FountainTartarusItem', player))
     set_rule(world.get_location('CourtMusicianStandLocation', player), lambda state: state.has('CourtMusicianSentenceItem', player))
     
     #Upgrades of runs with gems locations
@@ -160,26 +165,26 @@ def set_store_rules(world: MultiWorld, player: int, number_items: int, location_
 
 def set_fates_rules(world: MultiWorld, player: int, number_items: int, location_table, options, subfix: str):
     #Rules that dont depend on other settings
-    set_rule(world.get_location('IsThereNoEscape?'+subfix, player), lambda state: state.has('HadesVictory', player))
-    set_rule(world.get_location('HarshConditions'+subfix, player), lambda state: state.has('HadesVictory', player)) #requires heat
-    set_rule(world.get_location('SlashedBenefits'+subfix, player), lambda state: state.has('HadesVictory', player)) #requires heat
-    set_rule(world.get_location('TheUselessTrinket'+subfix, player), lambda state: state.has('HadesVictory', player)) #requires heat
-    set_rule(world.get_location('WantonRansacking'+subfix, player), lambda state: state.has('HadesVictory', player))
-    set_rule(world.get_location('DarkReflections'+subfix, player), lambda state: state.has('HadesVictory', player))
+    set_rule(world.get_location('IsThereNoEscape?'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options))
+    set_rule(world.get_location('HarshConditions'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options)) #requires heat
+    set_rule(world.get_location('SlashedBenefits'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options)) #requires heat
+    set_rule(world.get_location('TheUselessTrinket'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options)) #requires heat
+    set_rule(world.get_location('WantonRansacking'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options))
+    set_rule(world.get_location('DarkReflections'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options))
 
     #Rules that depend on storesanity
     if (options.storesanity.value==1):
         set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state.has('CourtMusicianSentenceItem', player))
         set_rule(world.get_location('ASimpleJob'+subfix, player), lambda state: state.has('CodexIndexItem', player))
-        set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state.has('HadesVictory', player) and state.has('FishingRodItem',player))
+        set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options) and state.has('FishingRodItem',player))
     else:
-        set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state.has('MegVictory', player))
-        set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state.has('HadesVictory', player))
+        set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state._has_defeated_boss('MegVictory', player, options))
+        set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options))
     
     #This part depends on weaponsanity, but the false option is handled on has_enough_weapons
     set_rule(world.get_location('InfernalArms'+subfix, player), lambda state: state._has_enough_weapons(player, options, 5))
     set_rule(world.get_location('AViolentPast'+subfix, player), lambda state: state._has_enough_weapons(player, options, 5))
-    set_rule(world.get_location('MasterOfArms'+subfix, player), lambda state: state._has_enough_weapons(player, options, 5) and state.has('HadesVictory', player))
+    set_rule(world.get_location('MasterOfArms'+subfix, player), lambda state: state._has_enough_weapons(player, options, 5) and state._has_defeated_boss('HadesVictory', player, options))
    
     #rules that depend on weaponsanity:
     if (options.weaponsanity.value==1):
