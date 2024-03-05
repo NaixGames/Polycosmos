@@ -113,7 +113,7 @@ class HadesWorld(World):
 
         #Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
-        for amount in range(0, len(self.location_name_to_id)-len(pool)):
+        for amount in range(0, len(self.location_name_to_id)-len(pool)-len(event_item_pairs.items())):
             item_name = filler_options[index]
             item = HadesItem(item_name, self.player)
             pool.append(item)
