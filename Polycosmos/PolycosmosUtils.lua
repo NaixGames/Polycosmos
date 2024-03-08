@@ -34,7 +34,7 @@ function PolycosmosUtils.ParseStringToArrayWithDash( message )
         return resultTable
     end
 
-    for word in string.gmatch(message, "([^-]+)") do
+    for word in string.gmatch(message, "([^--]+)") do
         table.insert(resultTable, word)
     end
     return resultTable
