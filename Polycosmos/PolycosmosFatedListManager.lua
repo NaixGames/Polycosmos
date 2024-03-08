@@ -5,7 +5,7 @@ ModUtil.Mod.Register( "PolycosmosFatedListManager" )
 local FatedListNames =
 {
     FirstClear = {
-        ClientNameLocation = "IsThereNoEscape?",  --requires completion
+        ClientNameLocation = "IsThereNoEscape?",
     },
 	MeetOlympians = {
 		ClientNameLocation = "DistantRelatives", 

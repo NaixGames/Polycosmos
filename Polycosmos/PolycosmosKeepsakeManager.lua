@@ -50,30 +50,37 @@ local KeepsakeDataTable =
     ZeusKeepsake = {
         ClientName = "ZeusKeepsake",
         HadesName = "ZeusUpgrade",
+        MeetLine = "ZeusFirstPickUp",
     },
     PoseidonKeepsake = {
         ClientName = "PoseidonKeepsake",
         HadesName = "PoseidonUpgrade",
+        MeetLine = "PoseidonFirstPickUp",
     },
     AthenaKeepsake = {
         ClientName = "AthenaKeepsake",
         HadesName = "AthenaUpgrade",
+        MeetLine = "AthenaFirstPickUp",
     },
     AphroditeKeepsake = {
         ClientName = "AphroditeKeepsake",
         HadesName = "AphroditeUpgrade",
+        MeetLine = "AphroditeFirstPickUp",
     },
     AresKeepsake = {
         ClientName = "AresKeepsake",
         HadesName = "AresUpgrade",
+        MeetLine = "AresFirstPickUp",
     },
     ArtemisKeepsake = {
         ClientName = "ArtemisKeepsake",
         HadesName = "ArtemisUpgrade",
+        MeetLine = "ArtemisFirstPickUp",
     },
     DionysusKeepsake = {
         ClientName = "DionysusKeepsake",
         HadesName = "DionysusUpgrade",
+        MeetLine = "DionysusFirstPickUp",
     },
     HermesKeepsake = {
         ClientName = "HermesKeepsake",
@@ -126,6 +133,11 @@ function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
 
     if (GameState.Gift[gameNPCName].Value>0) then
         return
+    end
+
+    --Give first line of text to avoid blocking fated list. This can take a LONG while if you dont do this.
+    if (KeepsakeDataTable[item].MeetLine) then
+        TextLinesRecord[KeepsakeDataTable[item].MeetLine] = true
     end
 
     PolycosmosKeepsakeManager.IncrementGift(gameNPCName)
