@@ -316,7 +316,7 @@ end
 --------------- method to reconstruct location to item mapping
 
 function PolycosmosEvents.ReceiveLocationToItemMap(message)
-    local LocationToItemMap = PolycosmosUtils.ParseStringToArray(message)
+    local LocationToItemMap = PolycosmosUtils.ParseSeparatingStringToArrayWithDash(message)
     for i=1,#LocationToItemMap do
         local map = LocationToItemMap[i]
         PolycosmosEvents.ReceiveLocationToItem(map)
