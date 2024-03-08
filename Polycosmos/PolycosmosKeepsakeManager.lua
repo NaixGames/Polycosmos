@@ -93,6 +93,7 @@ local KeepsakeDataTable =
     ChaosKeepsake = {
         ClientName = "ChaosKeepsake",
         HadesName = "TrialUpgrade",
+        MeetLine = "ChaosFirstPickUp",
     },
     SisyphusKeepsake = {
         ClientName = "SisyphusKeepsake",
