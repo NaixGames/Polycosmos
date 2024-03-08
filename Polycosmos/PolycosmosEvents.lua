@@ -324,6 +324,7 @@ function PolycosmosEvents.ReceiveLocationToItemMap(message)
 end
 
 function PolycosmosEvents.ReceiveLocationToItem(message)
+    print(message)
     local MessageAsTable = PolycosmosUtils.ParseStringToArrayWithDash(message)
     local key = MessageAsTable[1]
     local value = MessageAsTable[2].."-"..MessageAsTable[3]
