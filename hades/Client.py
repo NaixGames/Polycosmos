@@ -344,7 +344,7 @@ class HadesContext(CommonContext):
     async def create_location_to_item_dictionary(self, itemsdict):
         locationItemMapping = ""
         for networkitem in itemsdict:
-            locationItemMapping += self.location_names[networkitem.location] + "-" + self.player_names[networkitem.player] + "-" + \
+            locationItemMapping += self.location_names[networkitem.location] + "--" + self.player_names[networkitem.player] + "--" + \
                                                                  self.item_names[networkitem.item] + ","
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
