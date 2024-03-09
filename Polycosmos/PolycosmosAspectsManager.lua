@@ -71,7 +71,7 @@ local HiddenAspects ={
 	"BowHiddenAspect",
 	"SpearHiddenAspect",
 	"ShieldHiddenAspect",
-	"FirstHiddenAspect",
+	"FistHiddenAspect",
 	"GunHiddenAspect",
 }
 
