@@ -48,7 +48,6 @@ class HadesLogic(LogicMixin):
         return amount_fates >= amount
     
     def _has_weapon(self, weaponSubfix, player:int, option) -> bool:
-        print("Calling of has weapon with " + weaponSubfix)
         if (option.weaponsanity.value==0):
             return True
         if (weaponSubfix == "SwordWeapon"):
