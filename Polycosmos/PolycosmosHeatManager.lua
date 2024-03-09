@@ -232,7 +232,12 @@ end
 function PolycosmosHeatManager.SaveUserIntededHeat()
     for pactKey, pactData in pairs(PactDataTable) do
         local namePact = pactData.Name
-        GameState.UserStoredHeat[namePact] = GameState.MetaUpgrades[pactData.Name]
+        local calculatedLevel = pactData.MaxLevel-pactData.ObtainedPactItems
+        if (GameState.MetaUpgrades[namePact]<= calculatedLevel) then
+            GameState.UserStoredHeat[namePact] = 0
+        else
+            GameState.UserStoredHeat[namePact] = GameState.MetaUpgrades[namePact] 
+        end
     end
 end
 
