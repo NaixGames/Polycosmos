@@ -28,6 +28,19 @@ function PolycosmosUtils.ParseStringToArray( message )
 end
 
 
+function PolycosmosUtils.ParseSeparatingStringToArrayWithDash( message )
+    local resultTable = {}
+    if (message == nil or message == "") then
+        return resultTable
+    end
+
+    for word in string.gmatch(message, "([^||]+)") do
+        table.insert(resultTable, word)
+    end
+    return resultTable
+end
+
+
 function PolycosmosUtils.ParseStringToArrayWithDash( message )
     local resultTable = {}
     if (message == nil or message == "") then
