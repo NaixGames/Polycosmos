@@ -13,25 +13,25 @@ def create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_databa
         stringInt=i+1;
         if (stringInt<10):
             stringInt = "0"+str(stringInt);
-        tartarus["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*72
+        tartarus["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*73
     tartarus["Beat Meg"+weaponSubfix] = None
 
     for i in range(14,28):
-        asphodel["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
+        asphodel["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     
     asphodel["Beat Lernie"+weaponSubfix] = None
 
     for i in range(28,42):
-        elyseum["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
+        elyseum["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     elyseum["Beat Bros"+weaponSubfix] = None    
 
     for i in range(42,60):
-        styx["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
+        styx["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
         
     styx["Beat Hades"+weaponSubfix] = None
 
     for i in range(60,72):
-        styx_late["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*72
+        styx_late["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     
     ctx.multiworld.regions += [
                 create_region(ctx.multiworld, ctx.player, location_database, "Tartarus"+weaponSubfix, [location for location in tartarus], ["Exit Tartarus"+weaponSubfix, "DieT"+weaponSubfix]),
@@ -40,6 +40,12 @@ def create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_databa
                 create_region(ctx.multiworld, ctx.player, location_database, "Styx"+weaponSubfix, [location for location in styx], ["DieS"+weaponSubfix, "Late Chambers"+weaponSubfix]),
                 create_region(ctx.multiworld, ctx.player, location_database, "StyxLate"+weaponSubfix, [location for location in styx_late], ["DieSL"+weaponSubfix]),
             ]
+    
+    tartarus = {}
+    asphodel = {}
+    elyseum = {}
+    styx = {}
+    styx_late = {}
 
 
 def create_regions(ctx, location_database):
@@ -80,7 +86,7 @@ def create_regions(ctx, location_database):
             create_region(ctx.multiworld, ctx.player, location_database, "StyxLate", [location for location in location_table_styx_late], ["DieSL"]),
         ]
 
-    ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Underworld", None, underworldExits)] #should actually group rooms according to the part of the underworld they are in. That set up rools more easily
+    ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Underworld", None, underworldExits)]
 
     #here we set locations that depend on options
     if (ctx.options.keepsakesanity.value==1):

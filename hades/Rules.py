@@ -1,9 +1,9 @@
 from enum import KEEP
 from BaseClasses import MultiWorld
 from .Items import item_table_pacts, item_table_weapons, item_table_keepsake, items_table_fates_completion
-from .Locations import location_weapons_subfixes, location_table_tartarus
 from ..AutoWorld import LogicMixin
 from ..generic.Rules import set_rule
+from Utils import visualize_regions
 
 
 class HadesLogic(LogicMixin):
@@ -48,21 +48,21 @@ class HadesLogic(LogicMixin):
         return amount_fates >= amount
     
     def _has_weapon(self, weaponSubfix, player:int, option) -> bool:
+        print("Calling of has weapon with " + weaponSubfix)
         if (option.weaponsanity.value==0):
             return True
         if (weaponSubfix == "SwordWeapon"):
-            return (option.initial_weapon.value == 0) or (self.count('SwordWeaponUnlockItem', player)>0)
+            return ((option.initial_weapon.value == 0) or (self.has('SwordWeaponUnlockItem', player)))
         if (weaponSubfix == "BowWeapon"):
-            return (option.initial_weapon.value == 1) or (self.count('BowWeaponUnlockItem', player)>0)
+            return ((option.initial_weapon.value == 1) or (self.has('BowWeaponUnlockItem', player)))
         if (weaponSubfix == "SpearWeapon"):
-            return (option.initial_weapon.value == 2) or (self.count('SpearWeaponUnlockItem', player)>0)
+            return ((option.initial_weapon.value == 2) or (self.has('SpearWeaponUnlockItem', player)))
         if (weaponSubfix == "ShieldWeapon"):
-            return (option.initial_weapon.value == 3) or (self.count('ShieldWeaponUnlockItem', player)>0)
+            return ((option.initial_weapon.value == 3) or (self.has('ShieldWeaponUnlockItem', player)))
         if (weaponSubfix == "FistWeapon"):
-            return (option.initial_weapon.value == 4) or (self.count('FistWeaponUnlockItem', player)>0)
+            return ((option.initial_weapon.value == 4) or (self.has('FistWeaponUnlockItem', player)))
         if (weaponSubfix == "GunWeapon"):
-            return (option.initial_weapon.value == 5) or (self.count('GunWeaponUnlockItem', player)>0)
-        return True
+            return ((option.initial_weapon.value == 5) or (self.has('GunWeaponUnlockItem', player)))
 
     def _can_get_victory(self, player: int, options) -> bool:
         can_win = self._has_defeated_boss('HadesVictory', player, options)
@@ -79,11 +79,15 @@ class HadesLogic(LogicMixin):
     def _has_defeated_boss(self,bossVictory,player:int, options) -> bool:
         if (options.location_system.value == 3):
             counter=0
-            for weaponSubfix in location_weapons_subfixes:
-                counter += self.count(bossVictory+weaponSubfix, player)
+            counter += self.count(bossVictory+"SwordWeapon", player)
+            counter += self.count(bossVictory+"SpearWeapon", player)
+            counter += self.count(bossVictory+"BowWeapon", player)
+            counter += self.count(bossVictory+"ShieldWeapon", player)
+            counter += self.count(bossVictory+"FistWeapon", player)
+            counter += self.count(bossVictory+"GunWeapon", player)
             return counter > 0
         else:
-           return self.count(bossVictory, player) == 1
+           return self.has(bossVictory, player)
 
 def set_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
@@ -91,16 +95,13 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
 
 
     if (options.location_system.value == 3):
-        for weaponSubfix in location_weapons_subfixes:
-            set_rule(world.get_entrance('Zags room'+weaponSubfix, player), lambda state: state._has_weapon(weaponSubfix, player, options))
-            set_rule(world.get_entrance('Exit Tartarus'+weaponSubfix, player), lambda state: state.has("MegVictory"+weaponSubfix, player) and state._total_heat_level(player, min(number_items/4,10), options) and state._has_enough_routine_inspection(player,total_routine_inspection-2, options) and state._has_enough_weapons(player, options, 2))
-            set_rule(world.get_entrance('Exit Asphodel'+weaponSubfix, player), lambda state: state.has("LernieVictory"+weaponSubfix, player) and state._total_heat_level(player, min(number_items/2,20), options) and state._has_enough_routine_inspection(player,total_routine_inspection-1, options) and state._has_enough_weapons(player, options, 3))
-            set_rule(world.get_entrance('Exit Elyseum'+weaponSubfix, player), lambda state: state.has("BrosVictory"+weaponSubfix, player)  and state._total_heat_level(player, min(number_items*3/4,30), options) and state._has_enough_routine_inspection(player,total_routine_inspection, options) and state._has_enough_weapons(player, options, 4))
-            set_rule(world.get_location('Beat Hades'+weaponSubfix, player), lambda state: state._total_heat_level(player, min(number_items,35), options) and state._has_enough_weapons(player, options, 5))
+        set_weapon_region_rules(world, player, number_items, location_table, options, "SwordWeapon", total_routine_inspection);
+        set_weapon_region_rules(world, player, number_items, location_table, options, "SpearWeapon", total_routine_inspection);
+        set_weapon_region_rules(world, player, number_items, location_table, options, "BowWeapon", total_routine_inspection);
+        set_weapon_region_rules(world, player, number_items, location_table, options, "ShieldWeapon", total_routine_inspection);
+        set_weapon_region_rules(world, player, number_items, location_table, options, "FistWeapon", total_routine_inspection);
+        set_weapon_region_rules(world, player, number_items, location_table, options, "GunWeapon", total_routine_inspection);
     else:
-        for location in location_table_tartarus:
-            if (location in location_table):
-               set_rule(world.get_location(location,player), lambda state: True)
         set_rule(world.get_entrance('Exit Tartarus', player), lambda state: state.has("MegVictory", player) and state._total_heat_level(player, min(number_items/4,10), options) and state._has_enough_routine_inspection(player,total_routine_inspection-2, options) and state._has_enough_weapons(player, options, 2))
         set_rule(world.get_entrance('Exit Asphodel', player), lambda state: state.has("LernieVictory", player) and state._total_heat_level(player, min(number_items/2,20), options) and state._has_enough_routine_inspection(player,total_routine_inspection-1, options) and state._has_enough_weapons(player, options, 3))
         set_rule(world.get_entrance('Exit Elyseum', player), lambda state: state.has("BrosVictory", player)  and state._total_heat_level(player, min(number_items*3/4,30), options) and state._has_enough_routine_inspection(player,total_routine_inspection, options) and state._has_enough_weapons(player, options, 4))
@@ -117,6 +118,8 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     if (options.fatesanity.value==1):
         set_fates_rules(world,player,number_items,location_table,options, "")
     set_fates_rules(world,player,number_items,location_table,options, "Event")
+    
+    visualize_regions(world.get_region("Menu", player), "my_world.puml")
 
 
 def set_store_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
@@ -197,3 +200,13 @@ def set_fates_rules(world: MultiWorld, player: int, number_items: int, location_
         
     if (options.keepsakesanity.value==1):
         set_rule(world.get_location('CloseAtHeart'+subfix, player), lambda state: state._has_enough_keepsakes(player, 23, options))
+        
+
+def set_weapon_region_rules(world: MultiWorld, player: int, number_items: int, location_table, options, weaponSubfix: str, total_routine_inspection:int):
+    set_rule(world.get_entrance('Zags room'+weaponSubfix, player), lambda state: state._has_weapon(weaponSubfix, player, options))
+    set_rule(world.get_entrance('Exit Tartarus'+weaponSubfix, player), lambda state: state.has("MegVictory"+weaponSubfix, player) and state._total_heat_level(player, min(number_items/4,10), options) and state._has_enough_routine_inspection(player,total_routine_inspection-2, options) and state._has_enough_weapons(player, options, 2))
+    set_rule(world.get_entrance('Exit Asphodel'+weaponSubfix, player), lambda state: state.has("LernieVictory"+weaponSubfix, player) and state._total_heat_level(player, min(number_items/2,20), options) and state._has_enough_routine_inspection(player,total_routine_inspection-1, options) and state._has_enough_weapons(player, options, 3))
+    set_rule(world.get_entrance('Exit Elyseum'+weaponSubfix, player), lambda state: state.has("BrosVictory"+weaponSubfix, player)  and state._total_heat_level(player, min(number_items*3/4,30), options) and state._has_enough_routine_inspection(player,total_routine_inspection, options) and state._has_enough_weapons(player, options, 4))
+    set_rule(world.get_location('Beat Hades'+weaponSubfix, player), lambda state: state._total_heat_level(player, min(number_items,35), options) and state._has_enough_weapons(player, options, 5))
+    
+

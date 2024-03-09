@@ -7,7 +7,7 @@ from BaseClasses import Location
 hades_base_location_id = 5093427000
 
 #This is basically location + score checks. Keeping this as a variable to have easier time keeping
-max_number_room_checks = 1505+hades_base_location_id
+max_number_room_checks = 1700+hades_base_location_id
 
 #Making global tables that can be used for unit testing.
 
@@ -367,19 +367,37 @@ def give_score_location_table(locations):
     
 
 def give_weapon_based_locations():
-    default_locations = give_default_location_table()
     subfixCounter = 0
     weapon_locations = {}
     
     for weaponSubfix in location_weapons_subfixes:
-        index=0
-        for location_name, location_data in default_locations.items():
-            weapon_locations[location_name+weaponSubfix] = hades_base_location_id+1073+index+subfixCounter*73
-            index += 1
+    
+        for i in range(14):
+            stringInt=i+1;
+            if (stringInt<10):
+                stringInt = "0"+str(stringInt);
+            weapon_locations["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*73
+        weapon_locations["Beat Meg"+weaponSubfix] = None
+
+        for i in range(14,28):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+    
+        weapon_locations["Beat Lernie"+weaponSubfix] = None
+
+        for i in range(28,42):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+        weapon_locations["Beat Bros"+weaponSubfix] = None    
+
+        for i in range(42,60):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+        
+        weapon_locations["Beat Hades"+weaponSubfix] = None
+
+        for i in range(60,72):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+            
         subfixCounter += 1
-
-    clear_tables()        
-
+    
     return weapon_locations
 
 #-----------------------------------------------

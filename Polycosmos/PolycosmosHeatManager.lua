@@ -137,6 +137,9 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
         end
     end
     for pactName, pactLevel in pairs (pactSettingLoader) do
+        if (GameState.UserStoredHeat==nil) then
+            GameState.UserStoredHeat = {}
+        end
         if (GameState.UserStoredHeat[pactName] == nil) then
             GameState.UserStoredHeat[pactName] = 0
         end
