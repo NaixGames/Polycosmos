@@ -406,7 +406,7 @@ class HadesContext(CommonContext):
         hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= int(counters[1])
         hasEnoughKeepsakes = self.hades_slot_data['keepsakes_needed'] <= int(counters[2])
         hasEnoughFates = self.hades_slot_data['fates_needed'] <= int(counters[3])
-        print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1] + " AND " + counters[2] + " AND " + int(counters[3]))
+        print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1] + " AND " + counters[2] + " AND " + counters[3])
         if (hasEnoughRuns and hasEnoughWeapons and hasEnoughKeepsakes and hasEnoughFates):
             asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
             self.finished_game = True
