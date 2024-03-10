@@ -229,8 +229,8 @@ function PolycosmosEvents.ProcessHadesDefeat()
         is_greece_death = true
     end
 
-    -- Adding a plus on the number of runs and the number of weapons because this does not account our most recent victory
-    local numruns = GetNumRunsCleared()
+    
+    local numruns = GetNumRunsCleared()+1
     local weaponsWithVictory = 0
     for k, weaponName in ipairs( WeaponSets.HeroMeleeWeapons )  do
         if (GetNumRunsClearedWithWeapon(weaponName)>0 or GetEquippedWeapon() == weaponName) then
@@ -270,9 +270,9 @@ StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."De
 function PolycosmosEvents.SendDeathlink()
     if (is_greece_death == true) then
         is_greece_death = false
-        return
+    else
+        StyxScribe.Send(styx_scribe_send_prefix.."Zag died")
     end
-    StyxScribe.Send(styx_scribe_send_prefix.."Zag died")
 end
 
 

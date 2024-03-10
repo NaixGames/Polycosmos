@@ -110,6 +110,9 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     
     if (options.keepsakesanity.value==1 and options.nectar_pack_value.value > 0):
         set_rule(world.get_entrance('NPCS', player), lambda state: True)
+        set_rule(world.get_location('EurydiceKeepsake',player), lambda state: state._has_defeated_boss('MegVictory', player, options))
+        set_rule(world.get_location('ThanatosKeepsake',player), lambda state: state._has_defeated_boss('LernieVictory', player, options))
+        set_rule(world.get_location('PatroclusKeepsake',player), lambda state: state._has_defeated_boss('LernieVictory', player, options))
     if (options.weaponsanity.value==1 and options.keys_pack_value.value >0):
         set_rule(world.get_entrance('Weapon Cache', player), lambda state: True)
     if (options.storesanity.value==1):
