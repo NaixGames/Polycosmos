@@ -2,7 +2,7 @@ from enum import KEEP
 from BaseClasses import MultiWorld
 from .Items import item_table_pacts, item_table_weapons, item_table_keepsake, items_table_fates_completion
 from ..AutoWorld import LogicMixin
-from ..generic.Rules import set_rule
+from ..generic.Rules import set_rule, add_rule
 from Utils import visualize_regions
 
 
@@ -118,6 +118,10 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
         set_fates_rules(world,player,number_items,location_table,options, "")
     set_fates_rules(world,player,number_items,location_table,options, "Event")
     
+
+    if (options.keepsakesanity.value==1 and options.storesanity.value==1):
+        add_rule(world.get_location('CourtMusicianSentenceLocation', player), lambda state: state.has('OrpheusKeepsake', player))
+
     visualize_regions(world.get_region("Menu", player), "my_world.puml")
 
 
