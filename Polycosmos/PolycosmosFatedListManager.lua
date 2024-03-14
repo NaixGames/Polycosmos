@@ -5,7 +5,7 @@ ModUtil.Mod.Register( "PolycosmosFatedListManager" )
 local FatedListNames =
 {
     FirstClear = {
-        ClientNameLocation = "IsThereNoEscape?",  --requires completion
+        ClientNameLocation = "IsThereNoEscape?",
     },
 	MeetOlympians = {
 		ClientNameLocation = "DistantRelatives", 
@@ -56,7 +56,7 @@ local FatedListNames =
 		ClientNameLocation = "PrimordialBanes", 
 	},
 	WeaponUnlocks = {
-		ClientNameLocation = "InfernalArms", 
+		ClientNameLocation = "InfernalArms",
 	},
 	SwordHammerUpgrades = {
 		ClientNameLocation = "TheStygianBlade", 
@@ -121,7 +121,11 @@ function PolycosmosFatedListManager.GiveItemTitle(displayName)
 		if (StyxScribeShared.Root.GameSettings["FateSanity"]==0) then
 			return displayName
 		else
-			return PolycosmosEvents.GiveItemInLocation(FatedListNames[displayName].ClientNameLocation)
+			local nameFatedList =  PolycosmosEvents.GiveItemInLocation(FatedListNames[displayName].ClientNameLocation)
+			if (nameFatedList == "") then
+				return "UnknownAPFatedListReward"
+			end
+			return nameFatedList
 		end
 	else
 		return displayName

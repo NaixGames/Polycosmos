@@ -51,10 +51,6 @@ local StoreUnlockCosmeticNames =
         ClientNameItem = "KeepsakeCollectionItem",
         ClientNameLocation = "KeepsakeCollectionLocation", --Requires defeating Meg, TartarusReprieve
     },
-    CodexBoonList = {
-        ClientNameItem = "CodexIndexItem",
-        ClientNameLocation = "CodexIndexLocation",
-    }, 
     GhostAdminDesk = { --Everything here and below needs diamonds.
         ClientNameItem = "DeluxeContractorDeskItem",
         ClientNameLocation = "DeluxeContractorDeskLocation", --Requires ElysiumReprieve, CourtMusicianSentenceItem
@@ -148,8 +144,8 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
 
     if (GameState.CosmeticsAdded[nameOverride] == true) then
         return
-    end 
-    
+    end
+
     if (not StyxScribeShared.Root.GameSettings) then
         table.insert(cachedCosmetics, name)
         return

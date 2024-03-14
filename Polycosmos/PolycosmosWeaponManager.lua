@@ -199,6 +199,10 @@ function PolycosmosWeaponManager.EquipInitialWeapon()
     InitialWeaponRequested = false
     initialWeapon = StyxScribeShared.Root.GameSettings["InitialWeapon"]
 
+    if (GameState.WeaponsUnlocked and GameState.WeaponsUnlocked["SwordWeapon"]) then
+        GameState.WeaponsUnlocked["SwordWeapon"] = false
+    end
+
     weaponString = ""
     weaponCosmetic = ""
 
