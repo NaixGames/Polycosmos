@@ -1,10 +1,12 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.6.0 and up to this version it possesses the feature detailed below:
+0.9.0 and up to this version it possesses the feature detailed below:
 
-Modes:
-- Reverse Heat: Start the game with high pacts of punishments. The goal is to beat Hades one time. Can turn off by putting al pact levels at 0 in the .yaml.
-  
+Modes for heat:
+- Reverse Heat: Start the game with high pacts of punishments. Pact of punishments reductions are items in the item pool.
+- Minimal Heat: Start the game with high pacts of punishments. Pact of punishments can never be set below the initial settings. For the brave.
+- Vanilla: Same as the standard game.
+
 Items:
 - Pact of Punishment down: an item that turns down the level of pact of punishment. Note the game may load this effect
 on the next room, biome or run.
@@ -19,11 +21,14 @@ on the next room, biome or run.
 
 - Storesanity: all important items from the store can be randomized in the multiworld. Buying them from the store count as a location check.
 
+- FateSanity: The majority of the fates of the fates list can be used as a location for the multiworld. Completing them and cashing them grants the reward behind them.
+
 Location Modes: Clearning rooms will give location checks. There are two modes that can be chosen for how this works: 
 - Location based: Beating any room with a certain depth on the run counts as a location for the AP. Beating the same room twice wont give another item.
 - Score based: Beating a room with a certain depth on a run gives score according to its depth. So beating the fifth room on the run gives 5 points. The twenty-th gives 20 points and so on.  Beating your high score level counts as an item, and then it substracts that ammount of score. So if your highest score is 19, you have 17 points and beat room 6: this will give location "ScoreClear020" and leave you with 17+6-20=3 points. You can adjust how many locations are behind the score system, with the limit being 1000. Note this will give a REALLY
 long game.
-- FateSanity: The majority of the fates of the fates list can be used as a location for the multiworld. Completing them and cashing them grants the reward behind them.
+- Location based for weapon: Beating any room with a certain depth on the run, which each weapon, counts as a location for the AP. Beating the same room twice with the same weapon wont give another item.
+
 
 Settings:
 - Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of this items are in the pool.
@@ -32,6 +37,7 @@ Settings:
 - Keepsakesanity: Keepsakes are shuffled into the item pool, and giving the first nectar to each NPC becomes a location. Excludes Hades and Persephone. NPCs can be befriended after obtaining their corresponding item and location check as normal.
 - Storesanity: Important store items are shuffled into the item pool, and buying them from the store becomes location instead. The store slots have logic to them, you can see below the details.
 - Weaponsanity: Weapons can be shuffled into the item pool, buying them from the store becoming a location.
+- FateSanity: Fated list are location for the ap world.
 
 Victory conditions tweaks:
 - Minimum number of victories against Hades before finishing the game counts as victory.
