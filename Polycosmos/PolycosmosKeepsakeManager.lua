@@ -154,9 +154,6 @@ end
 function PolycosmosKeepsakeManager.IncrementGift(npcName)
     -- Recreating this function to avoid a loop when wrapping.
     GameState.Gift[npcName].Value = 1
-    if GiftData[npcName] and GiftData[npcName].InfiniteGifts and GameState.Gift[npcName].Value == GetMaxGiftLevel(name) then
-		GameState.Gift[npcName].Value = 1
-	end
 end
 
 ---- wrapping for locations of keepsake
@@ -166,7 +163,6 @@ ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
     if StyxScribeShared.Root.GameSettings["KeepsakeSanity"]==0 then
         return baseFunc(npcName, amount)
     end
-    -- only send the first level of friendship (ie, keepsake unlock). This should allow to upgrade friendship level after having the corresponding keepsake
     
     if not PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName) then
         return baseFunc(npcName, amount)
@@ -174,6 +170,7 @@ ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
 
     PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
 
+    -- only send the first level of friendship (ie, keepsake unlock). This should allow to upgrade friendship level after having the corresponding keepsake
     if (GameState.Gift[npcName].Value>0) then
         return baseFunc(npcName, amount)
     end

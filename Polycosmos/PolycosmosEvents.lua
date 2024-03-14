@@ -230,7 +230,7 @@ function PolycosmosEvents.ProcessHadesDefeat()
     end
 
     
-    local numruns = GetNumRunsCleared()+1
+    local numruns = GetNumRunsCleared()
     local weaponsWithVictory = 0
     for k, weaponName in ipairs( WeaponSets.HeroMeleeWeapons )  do
         if (GetNumRunsClearedWithWeapon(weaponName)>0 or GetEquippedWeapon() == weaponName) then
