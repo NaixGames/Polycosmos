@@ -135,26 +135,25 @@ item_table_store: Dict[str, ItemData] ={
     'InfernalThrove2Item': ItemData(hades_base_item_id+61, True),
     'InfernalThrove3Item': ItemData(hades_base_item_id+62, True),
     'KeepsakeCollectionItem': ItemData(hades_base_item_id+63, True),
-    'CodexIndexItem': ItemData(hades_base_item_id+64, True),
-    'DeluxeContractorDeskItem': ItemData(hades_base_item_id+65, True),
-    'VanquishersKeepItem': ItemData(hades_base_item_id+66, True),
-    'FishingRodItem': ItemData(hades_base_item_id+67, True),
-    'CourtMusicianSentenceItem': ItemData(hades_base_item_id+68, True),
-    'CourtMusicianStandItem': ItemData(hades_base_item_id+69, True),
-    'PitchBlackDarknessItem': ItemData(hades_base_item_id+70, True),
-    'FatedKeysItem': ItemData(hades_base_item_id+71, True),
-    'BrilliantGemstonesItem': ItemData(hades_base_item_id+72, True),
-    'VintageNectarItem': ItemData(hades_base_item_id+73, True),
-    'DarkerThirstItem': ItemData(hades_base_item_id+74, True),
+    'DeluxeContractorDeskItem': ItemData(hades_base_item_id+64, True),
+    'VanquishersKeepItem': ItemData(hades_base_item_id+65, True),
+    'FishingRodItem': ItemData(hades_base_item_id+66, True),
+    'CourtMusicianSentenceItem': ItemData(hades_base_item_id+67, True),
+    'CourtMusicianStandItem': ItemData(hades_base_item_id+68, True),
+    'PitchBlackDarknessItem': ItemData(hades_base_item_id+69, True),
+    'FatedKeysItem': ItemData(hades_base_item_id+70, True),
+    'BrilliantGemstonesItem': ItemData(hades_base_item_id+71, True),
+    'VintageNectarItem': ItemData(hades_base_item_id+72, True),
+    'DarkerThirstItem': ItemData(hades_base_item_id+73, True),
 }
 
 item_table_hidden_aspects : Dict[str, ItemData] ={
-    "SwordHiddenAspect" : ItemData(hades_base_item_id+75, True),
-	"BowHiddenAspect": ItemData(hades_base_item_id+76, True),
-	"SpearHiddenAspect": ItemData(hades_base_item_id+77, True),
-	"ShieldHiddenAspect": ItemData(hades_base_item_id+78, True),
-	"FirstHiddenAspect": ItemData(hades_base_item_id+79, True),
-	"GunHiddenAspect": ItemData(hades_base_item_id+80, True)
+    "SwordHiddenAspect" : ItemData(hades_base_item_id+74, True),
+	"BowHiddenAspect": ItemData(hades_base_item_id+75, True),
+	"SpearHiddenAspect": ItemData(hades_base_item_id+76, True),
+	"ShieldHiddenAspect": ItemData(hades_base_item_id+77, True),
+	"FistHiddenAspect": ItemData(hades_base_item_id+78, True),
+	"GunHiddenAspect": ItemData(hades_base_item_id+79, True)
 }
 
 
