@@ -7,7 +7,7 @@ from BaseClasses import Location
 hades_base_location_id = 5093427000
 
 #This is basically location + score checks. Keeping this as a variable to have easier time keeping
-max_number_room_checks = 1072+hades_base_location_id
+max_number_room_checks = 1700+hades_base_location_id
 
 #Making global tables that can be used for unit testing.
 
@@ -180,14 +180,28 @@ location_table_fates_events = {
     'TheUselessTrinketEvent': max_number_room_checks+125,
 }
 
+#----------------------
+
+location_weapons_subfixes = {
+    "SwordWeapon",
+	"SpearWeapon",
+	"ShieldWeapon",
+	"BowWeapon",
+	"FistWeapon",
+	"GunWeapon",
+}
+
+#---------------------
 
 def give_all_locations_table():
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
-    
+    table_weaponlocation = give_weapon_based_locations()    
+
     return {
         **table_rooms,
         **table_score,
+        **table_weaponlocation,
         **location_keepsakes,
         **location_weapons,
         **location_store_gemstones,
@@ -248,6 +262,8 @@ def setup_location_table_with_settings(options):
     elif (options.location_system.value==2):
         levels = options.score_rewards_amount.value
         total_table.update(give_score_location_table(levels))
+    elif (options.location_system.value==3):
+        total_table.update(give_weapon_based_locations())
     
     if (options.fatesanity==1):
         total_table.update(location_table_fates)
@@ -349,6 +365,40 @@ def give_score_location_table(locations):
     
     return location_table
     
+
+def give_weapon_based_locations():
+    subfixCounter = 0
+    weapon_locations = {}
+    
+    for weaponSubfix in location_weapons_subfixes:
+    
+        for i in range(14):
+            stringInt=i+1;
+            if (stringInt<10):
+                stringInt = "0"+str(stringInt);
+            weapon_locations["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*73
+        weapon_locations["Beat Meg"+weaponSubfix] = None
+
+        for i in range(14,28):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+    
+        weapon_locations["Beat Lernie"+weaponSubfix] = None
+
+        for i in range(28,42):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+        weapon_locations["Beat Bros"+weaponSubfix] = None    
+
+        for i in range(42,60):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+        
+        weapon_locations["Beat Hades"+weaponSubfix] = None
+
+        for i in range(60,72):
+            weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
+            
+        subfixCounter += 1
+    
+    return weapon_locations
 
 #-----------------------------------------------
 

@@ -3,6 +3,18 @@ from Options import TextChoice, Option, Range, Toggle, DeathLink, Choice
 
 # -----------------------Settings for Pact levels ---------------
 
+class HeatSystem(Choice):
+    """Choose either ReverseHeat (1), MinimalHeat (2) or VainillaHeat(3) for the game.
+    In ReverseHeat you start with heat pacts that cannot be disabled until you get the corresponding pact item.
+    In Minimal the settings for the PactsAmmounts below set your minimal heat to be set, and cannot go below that level.
+    If not wanting to have one of this heat systems on, chose Vainilla heat (and then the following options related to pacts do nothing)."""
+    display_name = "Heat System"
+    option_reverseheat = 1
+    option_minimalheat = 2
+    option_vainilllaheat = 3
+    default = 1
+
+
 class HardLaborPactAmount(Range):
     """Choose the amount of Hard Labor pacts in the pool."""
     display_name = "Hard Labor Pact Amount"
@@ -191,11 +203,13 @@ class AmbrosiaPackValue(Range):
 # -----------------------------------------------------------------
 
 class LocationSystem(Choice):
-    """Chose how the game gives you items. Room based gives items on every new room completed. And score based
-    gives items according to score obtained by clearing rooms (even repeated ones)"""
+    """Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
+    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
+    items on every new room completed with a new weapon (so more locations than the original room based system)"""
     display_name = "Location System"
     option_roombased = 1
     option_scorebased = 2
+    option_roomweaponbased = 3
     default = 1
     
 
@@ -249,7 +263,7 @@ class InitialWeapon(Choice):
     option_Shield = 3
     option_Fist = 4
     option_Gun = 5
-    option_Random = 6
+    option_RandomWeapon = 6
     
 class FateSanity(Toggle):
     """If most of the locations of the fated list are considered AP locations. Can make the games significantly longer"""
@@ -311,6 +325,7 @@ class IgnoreGreeceDeaths(Toggle):
 
 hades_options: typing.Dict[str, type(Option)] = {
     "death_link": DeathLink,
+    "heat_system": HeatSystem,
     "hard_labor_pact_amount": HardLaborPactAmount,
     "lasting_consequences_pact_amount": LastingConsequencesPactAmount,
     "convenience_fee_pact_amount": ConvenienceFeePactAmount,

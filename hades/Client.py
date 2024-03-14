@@ -59,7 +59,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.8.0"
+    polycosmos_version = "0.9.0"
 
     dictionary_filler_items = {
         "Darkness": 0,
@@ -321,6 +321,7 @@ class HadesContext(CommonContext):
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
         game_settings = {
+            'HeatMode': self.hades_slot_data['heat_system'],
             'LocationMode': self.hades_slot_data['location_system'],
             'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
             'KeepsakeSanity': self.hades_slot_data['keepsakesanity'],
