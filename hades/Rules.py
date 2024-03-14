@@ -184,7 +184,6 @@ def set_fates_rules(world: MultiWorld, player: int, number_items: int, location_
     #Rules that depend on storesanity
     if (options.storesanity.value==1):
         set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state.has('CourtMusicianSentenceItem', player))
-        set_rule(world.get_location('ASimpleJob'+subfix, player), lambda state: state.has('CodexIndexItem', player))
         set_rule(world.get_location('DenizensOfTheDeep'+subfix, player), lambda state: state._has_defeated_boss('HadesVictory', player, options) and state.has('FishingRodItem',player))
     else:
         set_rule(world.get_location('TheReluctantMusician'+subfix, player), lambda state: state._has_defeated_boss('MegVictory', player, options))

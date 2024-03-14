@@ -168,25 +168,13 @@ ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
         return baseFunc(npcName, amount)
     end
 
-    PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
+    PolycosmosEvents.ProcessLocationCheck(cacheNPCName, true)
 
     -- only send the first level of friendship (ie, keepsake unlock). This should allow to upgrade friendship level after having the corresponding keepsake
     if (GameState.Gift[npcName].Value>0) then
         return baseFunc(npcName, amount)
     end
 end)
-
-
-
-function PolycosmosKeepsakeManager.HandleKeepsakeLocation(npcName)
-    npcClientName = cacheNPCName
-    if (PolycosmosEvents.HasLocationBeenChecked(npcClientName)) then
-        return
-    end
-    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..npcClientName)
-    itemObtained =  PolycosmosEvents.GiveItemInLocation(npcClientName)
-    PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
-end
 
 function PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
     for npcTag, npcData in pairs(KeepsakeDataTable) do
