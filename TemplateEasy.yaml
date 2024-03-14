@@ -9,6 +9,12 @@ Hades:
 
   accessibility: items
 
+  #Chose either ReverseHeat (1), MinimalHeat (2) or VainillaHeat(3) for the game. 
+  #In ReverseHeat you start with heat pacts that cannot be disabled until you get the corresponding pact item.
+  #In Minimal the settings for the PactsAmmounts below set your minimal heat to be set, and cannot go below that level
+  #If not wanting to have one of this heat systems on, chose Vainilla heat (and then the following options related to pacts do nothing).
+  heat_system: 1
+
  # Choose the amount of Hard Labor pacts in the pool.
     #
     # You can define additional values between the minimum and maximum values.
@@ -171,6 +177,7 @@ Hades:
   # Chose how the game gives you items.
   # 1.- Room based gives items on every new room completed
   # 2.- Score based gives items according to score obtained by clearing rooms (even repeated ones)
+  # 3.- WeaponRoom based gives item on every new room completed with each different weapon
   location_system: 2
 
   # When using socre based system, this sets how many locations the score can give. Each room gives "its depth" in score. 
