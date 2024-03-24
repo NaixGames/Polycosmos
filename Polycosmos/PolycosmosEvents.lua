@@ -325,11 +325,6 @@ ModUtil.LoadOnce(function ()
 end)
 
 
--------------- On new run make sure to load the Heat Levels again
-ModUtil.Path.Wrap("StartNewRun", function (baseFunc, prevRun, args)
-            PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-            return baseFunc(prevRun, args)
-        end)
 
 -------------- Checked if a location has been checked
 function PolycosmosEvents.HasLocationBeenChecked( location )
