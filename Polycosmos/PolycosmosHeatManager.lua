@@ -145,7 +145,7 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
         end
         GameState.MetaUpgrades[pactName] = math.max(pactLevel, GameState.UserStoredHeat[pactName])
         if (CurrentRun) then
-            CurrentRun.MetaUpgradeCache[pactName] = pactLevel
+            CurrentRun.MetaUpgradeCache[pactName] = math.max(pactLevel, GameState.UserStoredHeat[pactName])
         end
     end
 end

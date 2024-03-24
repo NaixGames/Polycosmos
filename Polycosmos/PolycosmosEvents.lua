@@ -254,6 +254,11 @@ end
 
 table.insert(EncounterData.BossHades.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.ProcessHadesDefeat"})
 
+-- Also process victory on credit start, becase in this case Hades is technically not defeated.
+ModUtil.Path.Wrap("StartCredits", function( baseFunc, args )
+	PolycosmosEvents.ProcessHadesDefeat()
+	return baseFunc(args)
+end)
 
 ------------ On deathlink, kill Zag
 
