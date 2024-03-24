@@ -116,7 +116,6 @@ function PolycosmosHeatManager.UpdatePactsLevel()
 	PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
     GameState.SpentShrinePointsCache = GetTotalSpentShrinePoints()
     UpdateActiveShrinePoints()
-    
 end
 
 function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
@@ -144,7 +143,7 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
             GameState.UserStoredHeat[pactName] = 0
         end
         GameState.MetaUpgrades[pactName] = math.max(pactLevel, GameState.UserStoredHeat[pactName])
-        if (CurrentRun) then
+        if (CurrentRun ~= nil) then
             CurrentRun.MetaUpgradeCache[pactName] = math.max(pactLevel, GameState.UserStoredHeat[pactName])
         end
     end
@@ -236,6 +235,16 @@ function PolycosmosHeatManager.SaveUserIntededHeat()
     for pactKey, pactData in pairs(PactDataTable) do
         local namePact = pactData.Name
         local calculatedLevel = pactData.MaxLevel-pactData.ObtainedPactItems
+        
+        -- some guards for dumb cases
+        if (GameState.MetaUpgrades[namePact] == nil) then
+            GameState.MetaUpgrades[namePact] = 0
+        end
+        if (GameState.UserStoredHeat==nil) then
+            GameState.UserStoredHeat = {}
+        end
+
+
         if (GameState.MetaUpgrades[namePact]<= calculatedLevel) then
             GameState.UserStoredHeat[namePact] = 0
         else
@@ -247,10 +256,8 @@ end
 
 ModUtil.WrapBaseFunction("StartNewRun", 
     function ( baseFunc, prevRun, args )
-        local run = baseFunc( prevRun, args )
-
         PolycosmosHeatManager.SaveUserIntededHeat()
         PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
 
-        return run
+        return baseFunc( prevRun, args )
     end, PolycosmosHeatManager)
