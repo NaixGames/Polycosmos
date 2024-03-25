@@ -130,7 +130,7 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
         --This is just for printing which pact levels were obtained. 
         --If other heat management setting wanted to be implemented this might need change.
         --Also I dont quite like to have this here ... but it is what it is.
-        if (GameState.MetaUpgrades[pactData.Name] and calculatedLevel < GameState.MetaUpgrades[pactData.Name]) then
+        if (GameState.MetaUpgrades[pactData.Name] and calculatedLevel < GameState.MetaUpgrades[pactData.Name] and StyxScribeShared.Root.GameSettings["HeatMode"]~=3) then
             PolycosmosMessages.PrintToPlayer("Obtained "..pactKey.." pact level item!")
             PolycosmosMessages.PrintToPlayer(pactKey.." minimal heat level changed to "..calculatedLevel)
         end
