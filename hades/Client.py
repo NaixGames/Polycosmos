@@ -59,7 +59,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.9.0"
+    polycosmos_version = "0.9.1"
 
     dictionary_filler_items = {
         "Darkness": 0,
@@ -129,15 +129,16 @@ class HadesContext(CommonContext):
         if cmd in {"Connected"}:
             # What should be done in a connection package
             self.cache_items_received_names.clear()
-            self.missing_locations_cache = args['missing_locations']
-            self.checked_locations_cache = args['checked_locations']
-            self.hades_slot_data = args['slot_data']
+            self.missing_locations_cache = args["missing_locations"]
+            self.checked_locations_cache = args["checked_locations"]
+            self.hades_slot_data = args["slot_data"]
             if not (self.hades_slot_data["version_check"]==self.polycosmos_version):
-                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
+                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] \
+                            + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
                 stringError += "THIS ARE NOT COMPATIBLE"
                 raise Exception(stringError)
             self.location_name_to_id = {name: idnumber for idnumber, name, in self.location_names.items()}
-            if 'death_link' in self.hades_slot_data and self.hades_slot_data['death_link']:
+            if "death_link" in self.hades_slot_data and self.hades_slot_data["death_link"]:
                 asyncio.create_task(self.update_death_link(True))
                 self.deathlink_enabled = True
             self.is_connected = True
@@ -149,19 +150,21 @@ class HadesContext(CommonContext):
                                                                         "hades:" + str(
                                                                             self.slot) + ":filler:TitanBlood",
                                                                         "hades:" + str(self.slot) + ":filler:Nectar",
-                                                                        "hades:" + str(self.slot) + ":filler:Ambrosia"]}]))
+                                                                        "hades:" + str(
+                                                                            self.slot) + ":filler:Ambrosia"]}]))
 
         if cmd in {"RoomInfo"}:
             # What should be done when room info is sent.
-            self.seed_name = args['seed_name']
+            self.seed_name = args["seed_name"]
 
         if cmd in {"ReceivedItems"}:
             # What should be done when an Item is recieved.
             # NOTE THIS GETS ALL ITEMS THAT HAVE BEEN RECIEVED! WE USE THIS FOR RESYNCS!
-            for item in args['items']:
+            for item in args["items"]:
                 self.cache_items_received_names += [self.item_names[item.item]]
-            msg = f"Received {', '.join([self.item_names[item.item] for item in args['items']])}"
-            # We ignore sending the package to hades if just connected, since the game it not ready for it (and will request it itself later)
+            msg = f"Received {", ".join([self.item_names[item.item] for item in args["items"]])}"
+            # We ignore sending the package to hades if just connected, 
+            #since the game it not ready for it (and will request it itself later)
             if (self.is_receiving_items_from_connect_package):
                 return;
             self.send_items()
@@ -169,7 +172,7 @@ class HadesContext(CommonContext):
         if cmd in {"LocationInfo"}:
             if self.creating_location_to_item_mapping:
                 self.creating_location_to_item_mapping = False
-                asyncio.create_task(self.create_location_to_item_dictionary(args['locations']))
+                asyncio.create_task(self.create_location_to_item_dictionary(args["locations"]))
                 return
             super().on_package(cmd, args)
 
@@ -231,8 +234,9 @@ class HadesContext(CommonContext):
         
     def request_stored_score_info(self):
         #request score
-        payload =[{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":score","hades:" + str(self.slot) + ":last_score_check",
-                                                                      "hades:" + str(self.slot) + ":last_room_completed"]}]
+        payload =[{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":score",
+                                          "hades:" + str(self.slot) + ":last_score_check",
+                                          "hades:" + str(self.slot) + ":last_room_completed"]}]
         asyncio.create_task(self.send_msgs(payload))        
 
     def send_items(self):
@@ -252,21 +256,28 @@ class HadesContext(CommonContext):
         sendingLocationsName = message
         payload_message = []
         sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
-        payload_message += [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
-        if (self.hades_slot_data['location_system']==2 and len(message.split("Score"))>1):  
+        payload_message += [{"cmd": "LocationChecks", "locations": sendingLocationsId}]
+        if (self.hades_slot_data["location_system"]==2 and len(message.split("Score"))>1):  
             last_score = int(message.split("Score")[1])
             payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check", 
-                               "want_reply": False, "default": 0, "operations": [{"operation": "replace", "value": last_score}]}]
+                               "want_reply": False, "default": 0, "operations": [{"operation": "replace", 
+                                                                                  "value": last_score}]}]
         asyncio.create_task(self.send_msgs(payload_message))
         
     async def update_internal_score(self, message):        
         separatedMessage = message.split("-")
         score = int(separatedMessage[0])
         last_room = int(separatedMessage[1])
-        payload = [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
-                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": score}]}]
-        payload += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
-                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": last_room}]}]
+        payload = [{"cmd": "Set", 
+                    "key": "hades:" + str(self.slot) + ":score",
+                    "want_reply": False, 
+                    "default": 0, 
+                    "operations": [{"operation": "add", "value": score}]}]
+        payload += [{"cmd": "Set", 
+                     "key": "hades:" + str(self.slot) + ":last_room_completed",
+                    "want_reply": False, 
+                    "default": 0, 
+                    "operations": [{"operation": "add", "value": last_room}]}]
         asyncio.create_task(self.send_msgs(payload))       
 
 
@@ -292,46 +303,46 @@ class HadesContext(CommonContext):
 
     def store_settings_data(self):
         heat_dictionary = {
-            'HardLaborPactLevel': self.hades_slot_data['hard_labor_pact_amount'],
-            'LastingConsequencesPactLevel': self.hades_slot_data['lasting_consequences_pact_amount'],
-            'ConvenienceFeePactLevel': self.hades_slot_data['convenience_fee_pact_amount'],
-            'JurySummonsPactLevel': self.hades_slot_data['jury_summons_pact_amount'],
-            'ExtremeMeasuresPactLevel': self.hades_slot_data['extreme_measures_pact_amount'],
-            'CalisthenicsProgramPactLevel': self.hades_slot_data['calisthenics_program_pact_amount'],
-            'BenefitsPackagePactLevel': self.hades_slot_data['benefits_package_pact_amount'],
-            'MiddleManagementPactLevel': self.hades_slot_data['middle_management_pact_amount'],
-            'UnderworldCustomsPactLevel': self.hades_slot_data['underworld_customs_pact_amount'],
-            'ForcedOvertimePactLevel': self.hades_slot_data['forced_overtime_pact_amount'],
-            'HeightenedSecurityPactLevel': self.hades_slot_data['heightened_security_pact_amount'],
-            'RoutineInspectionPactLevel': self.hades_slot_data['routine_inspection_pact_amount'],
-            'DamageControlPactLevel': self.hades_slot_data['damage_control_pact_amount'],
-            'ApprovalProcessPactLevel': self.hades_slot_data['approval_process_pact_amount'],
-            'TightDeadlinePactLevel': self.hades_slot_data['tight_deadline_pact_amount'],
-            'PersonalLiabilityPactLevel': self.hades_slot_data['personal_liability_pact_amount'],
+            "HardLaborPactLevel": self.hades_slot_data["hard_labor_pact_amount"],
+            "LastingConsequencesPactLevel": self.hades_slot_data["lasting_consequences_pact_amount"],
+            "ConvenienceFeePactLevel": self.hades_slot_data["convenience_fee_pact_amount"],
+            "JurySummonsPactLevel": self.hades_slot_data["jury_summons_pact_amount"],
+            "ExtremeMeasuresPactLevel": self.hades_slot_data["extreme_measures_pact_amount"],
+            "CalisthenicsProgramPactLevel": self.hades_slot_data["calisthenics_program_pact_amount"],
+            "BenefitsPackagePactLevel": self.hades_slot_data["benefits_package_pact_amount"],
+            "MiddleManagementPactLevel": self.hades_slot_data["middle_management_pact_amount"],
+            "UnderworldCustomsPactLevel": self.hades_slot_data["underworld_customs_pact_amount"],
+            "ForcedOvertimePactLevel": self.hades_slot_data["forced_overtime_pact_amount"],
+            "HeightenedSecurityPactLevel": self.hades_slot_data["heightened_security_pact_amount"],
+            "RoutineInspectionPactLevel": self.hades_slot_data["routine_inspection_pact_amount"],
+            "DamageControlPactLevel": self.hades_slot_data["damage_control_pact_amount"],
+            "ApprovalProcessPactLevel": self.hades_slot_data["approval_process_pact_amount"],
+            "TightDeadlinePactLevel": self.hades_slot_data["tight_deadline_pact_amount"],
+            "PersonalLiabilityPactLevel": self.hades_slot_data["personal_liability_pact_amount"],
         }
         subsume.Modules.StyxScribeShared.Root["HeatSettings"] = heat_dictionary
         filler_dictionary = {
-            'DarknessPackValue': self.hades_slot_data['darkness_pack_value'],
-            'KeysPackValue': self.hades_slot_data['keys_pack_value'],
-            'GemstonesPackValue': self.hades_slot_data['gemstones_pack_value'],
-            'DiamondsPackValue': self.hades_slot_data['diamonds_pack_value'],
-            'TitanBloodPackValue': self.hades_slot_data['titan_blood_pack_value'],
-            'NectarPackValue': self.hades_slot_data['nectar_pack_value'],
-            'AmbrosiaPackValue': self.hades_slot_data['ambrosia_pack_value'],
+            "DarknessPackValue": self.hades_slot_data["darkness_pack_value"],
+            "KeysPackValue": self.hades_slot_data["keys_pack_value"],
+            "GemstonesPackValue": self.hades_slot_data["gemstones_pack_value"],
+            "DiamondsPackValue": self.hades_slot_data["diamonds_pack_value"],
+            "TitanBloodPackValue": self.hades_slot_data["titan_blood_pack_value"],
+            "NectarPackValue": self.hades_slot_data["nectar_pack_value"],
+            "AmbrosiaPackValue": self.hades_slot_data["ambrosia_pack_value"],
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
         game_settings = {
-            'HeatMode': self.hades_slot_data['heat_system'],
-            'LocationMode': self.hades_slot_data['location_system'],
-            'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
-            'KeepsakeSanity': self.hades_slot_data['keepsakesanity'],
-            'WeaponSanity': self.hades_slot_data['weaponsanity'],
-            'StoreSanity': self.hades_slot_data['storesanity'],
-            'InitialWeapon': self.hades_slot_data['initial_weapon'],
-            'IgnoreGreeceDeaths': self.hades_slot_data['ignore_greece_deaths'],
-            'FateSanity': self.hades_slot_data['fatesanity'],
-            'HiddenAspectSanity': self.hades_slot_data['hidden_aspectsanity'],
-            'PolycosmosVersion': self.polycosmos_version,
+            "HeatMode": self.hades_slot_data["heat_system"],
+            "LocationMode": self.hades_slot_data["location_system"],
+            "ReverseOrderEM": self.hades_slot_data["reverse_order_em"],
+            "KeepsakeSanity": self.hades_slot_data["keepsakesanity"],
+            "WeaponSanity": self.hades_slot_data["weaponsanity"],
+            "StoreSanity": self.hades_slot_data["storesanity"],
+            "InitialWeapon": self.hades_slot_data["initial_weapon"],
+            "IgnoreGreeceDeaths": self.hades_slot_data["ignore_greece_deaths"],
+            "FateSanity": self.hades_slot_data["fatesanity"],
+            "HiddenAspectSanity": self.hades_slot_data["hidden_aspectsanity"],
+            "PolycosmosVersion": self.polycosmos_version,
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
 
@@ -345,8 +356,8 @@ class HadesContext(CommonContext):
     async def create_location_to_item_dictionary(self, itemsdict):
         locationItemMapping = ""
         for networkitem in itemsdict:
-            locationItemMapping += self.location_names[networkitem.location] + "--" + self.player_names[networkitem.player] + "--" + \
-                                                                 self.item_names[networkitem.item] + "||"
+            locationItemMapping += self.location_names[networkitem.location] + "--" 
+            + self.player_names[networkitem.player] + "--" + self.item_names[networkitem.item] + "||"
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         self.creating_location_to_item_dictionary = False
@@ -401,12 +412,13 @@ class HadesContext(CommonContext):
     # to be changed to adapt to new game completion conditions
     def on_run_completion(self, message):
         #parse message
-        counters = message.split("-") #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
+        counters = message.split("-") 
+        #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
         
-        hasEnoughRuns = self.hades_slot_data['hades_defeats_needed'] <= int(counters[0])
-        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= int(counters[1])
-        hasEnoughKeepsakes = self.hades_slot_data['keepsakes_needed'] <= int(counters[2])
-        hasEnoughFates = self.hades_slot_data['fates_needed'] <= int(counters[3])
+        hasEnoughRuns = self.hades_slot_data["hades_defeats_needed"] <= int(counters[0])
+        hasEnoughWeapons = self.hades_slot_data["weapons_clears_needed"] <= int(counters[1])
+        hasEnoughKeepsakes = self.hades_slot_data["keepsakes_needed"] <= int(counters[2])
+        hasEnoughFates = self.hades_slot_data["fates_needed"] <= int(counters[3])
         print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1] + " AND " + counters[2] + " AND " + counters[3])
         if (hasEnoughRuns and hasEnoughWeapons and hasEnoughKeepsakes and hasEnoughFates):
             asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))

@@ -7,11 +7,12 @@ class HeatSystem(Choice):
     """Choose either ReverseHeat (1), MinimalHeat (2) or VainillaHeat(3) for the game.
     In ReverseHeat you start with heat pacts that cannot be disabled until you get the corresponding pact item.
     In Minimal the settings for the PactsAmmounts below set your minimal heat to be set, and cannot go below that level.
-    If not wanting to have one of this heat systems on, chose Vainilla heat (and then the following options related to pacts do nothing)."""
+    If not wanting to have one of this heat systems on, chose Vanilla heat 
+    (then the following options related to pacts do nothing)."""
     display_name = "Heat System"
     option_reverseheat = 1
     option_minimalheat = 2
-    option_vainilllaheat = 3
+    option_vanilllaheat = 3
     default = 1
 
 
@@ -144,7 +145,8 @@ class PersonalLiabilityPactAmount(Range):
     internal_name = "PersonalLiabilityPactLevel"
 
 class DarknessPackValue(Range):
-    """Choose the value(amount of darkness) of each darkness pack in the pool. If set to 0 Darkness will not appear in the pool."""
+    """Choose the value(amount of darkness) of each darkness pack in the pool. 
+    If set to 0 Darkness will not appear in the pool."""
     display_name = "Darkness Pack Value"
     range_start = 0
     range_end = 10000
@@ -152,7 +154,8 @@ class DarknessPackValue(Range):
     internal_name = "DarknessPackValue"
 
 class KeysPackValue(Range):
-    """Choose the value(amount of Keys) of each Keys pack in the pool. If set to 0 Keys will not appear in the pool"""
+    """Choose the value(amount of Keys) of each Keys pack in the pool.
+    If set to 0 Keys will not appear in the pool"""
     display_name = "Keys Pack Value"
     range_start = 0
     range_end = 500
@@ -160,7 +163,8 @@ class KeysPackValue(Range):
     internal_name = "KeysPackValue"
 
 class GemstonesPackValue(Range):
-    """Choose the value(amount of Gemstones) of each Gemstone pack in the pool. If set to 0 Gems will not appear in the pool"""
+    """Choose the value(amount of Gemstones) of each Gemstone pack in the pool. 
+    If set to 0 Gems will not appear in the pool"""
     display_name = "Gemstone Pack Value"
     range_start = 0
     range_end = 2500
@@ -168,7 +172,8 @@ class GemstonesPackValue(Range):
     internal_name = "GemstonePackValue"
 
 class DiamondsPackValue(Range):
-    """Choose the value(amount of diamonds) of each diamonds pack in the pool. If set to 0 Diamonds will not appear in the pool"""
+    """Choose the value(amount of diamonds) of each diamonds pack in the pool. 
+    If set to 0 Diamonds will not appear in the pool"""
     display_name = "Diamonds Pack Value"
     range_start = 0
     range_end = 100
@@ -176,7 +181,8 @@ class DiamondsPackValue(Range):
     internal_name = "DiamondsPackValue"
 
 class TitanBloodPackValue(Range):
-    """Choose the value(amount of Titan blood) of each Titan blood pack in the pool. If set to 0 Titan blood will not appear in the pool"""
+    """Choose the value(amount of Titan blood) of each Titan blood pack in the pool. 
+    If set to 0 Titan blood will not appear in the pool"""
     display_name = "Titan Blood Pack Value"
     range_start = 0
     range_end = 50
@@ -184,7 +190,8 @@ class TitanBloodPackValue(Range):
     internal_name = "TitanBloodPackValue"
 
 class NectarPackValue(Range):
-    """Choose the value(amount of Nectar) of each Nectar pack in the pool. If set to 0 Nectar will not appear in the pool"""
+    """Choose the value(amount of Nectar) of each Nectar pack in the pool. 
+    If set to 0 Nectar will not appear in the pool"""
     display_name = "Nectar Pack Value"
     range_start = 0
     range_end = 50
@@ -192,7 +199,8 @@ class NectarPackValue(Range):
     internal_name = "NectarPackValue"
 
 class AmbrosiaPackValue(Range):
-    """Choose the value(amount of Ambrosia) of each Ambrosia pack in the pool. If set to 0 Ambrosia will not appear in the pool"""
+    """Choose the value(amount of Ambrosia) of each Ambrosia pack in the pool. 
+    If set to 0 Ambrosia will not appear in the pool"""
     display_name = "Ambrosia Pack Value"
     range_start = 0
     range_end = 50
@@ -214,8 +222,9 @@ class LocationSystem(Choice):
     
 
 class ScoreRewardsAmount(Range):
-    """When using socre based system, this sets how many locations the score can give. Each room gives "its depth" in score.
-    and each new location need one more points to be unlocked (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)"""
+    """When using socre based system, this sets how many locations the score can give. 
+    Each room gives "its depth" in score and each new location need one more points to be unlocked 
+    (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)"""
     display_name = "ScoreRewardsAmount"
     range_start = 72
     range_end = 1000
@@ -223,7 +232,8 @@ class ScoreRewardsAmount(Range):
 
 
 class ReverseOrderExtremeMeasure(Toggle):
-    """When true the order in which extreme meassures applied is reverse (so level 1 is applied to Hades, instead to Meg/The Furies). 
+    """When true the order in which extreme meassures applied is reverse 
+    so level 1 is applied to Hades, instead to Meg/The Furies). 
     For a more balanced experience"""
     display_name = "ReverseOrderExtremeMeasure"
     option_true = 1
@@ -233,21 +243,24 @@ class ReverseOrderExtremeMeasure(Toggle):
 # -----------------------------------------------------------------
 
 class KeepsakeSanity(Toggle):
-    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. For simplicity this does not affects Hades and Persephone."""
+    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. 
+    For simplicity this does not affects Hades and Persephone."""
     display_name = "KeepsakeSanity"
     option_true = 1
     option_false = 0
     default = 1
     
 class WeaponSanity(Toggle):
-    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. Need to be sent the weapon item to gain the skill to equip them."""
+    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. 
+    Need to be sent the weapon item to gain the skill to equip them."""
     display_name = "WeaponSanity"
     option_true = 1
     option_false = 0
     default = 1 
 
 class StoreSanity(Toggle):
-    """If Important item from the store are shuffled in the item pool. Need to be sent the items to gain the different perks that make runs easier."""
+    """If Important item from the store are shuffled in the item pool.
+      Need to be sent the items to gain the different perks that make runs easier."""
     display_name = "StoreSanity"
     option_true = 1
     option_false = 0
@@ -266,7 +279,8 @@ class InitialWeapon(Choice):
     option_RandomWeapon = 6
     
 class FateSanity(Toggle):
-    """If most of the locations of the fated list are considered AP locations. Can make the games significantly longer"""
+    """If most of the locations of the fated list are considered AP locations. 
+    Can make the games significantly longer"""
     display_name = "FateSanity"
     option_true = 1
     option_false = 0
