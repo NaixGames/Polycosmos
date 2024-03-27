@@ -35,7 +35,7 @@ styx_scribe_recieve_prefix = "Client to Polycosmos:"
 --- variables for score based system
 
 actual_score = 0
-last_score_completed = -1
+next_score_to_complete = -1
 limit_of_score = 1001
 last_room_completed=0
 
@@ -124,14 +124,20 @@ function PolycosmosEvents.GiveScore(roomNumber)
     end
 
     -- initialize the variables we need in case we havent done that
-    if (last_score_completed == -1) then
-        actual_score = StyxScribeShared.Root.Score
-        last_score_completed = StyxScribeShared.Root.LastScoreCheck
-        last_room_completed = StyxScribeShared.Root.LastRoomComplete
+    if (next_score_to_complete == -1) then
+        if (GameState.ScoreSystem == nil) then
+            GameState.ScoreSystem = {}
+            GameState.ScoreSystem["actual_score"] = 0
+            GameState.ScoreSystem["next_score_to_complete"] = 1
+            GameState.ScoreSystem["last_room_completed"] = 0
+        end
+        actual_score = GameState.ScoreSystem["actual_score"]
+        next_score_to_complete = GameState.ScoreSystem["next_score_to_complete"]
+        last_room_completed = GameState.ScoreSystem["last_room_completed"]
     end
 
     -- if we already have all the possible checks, just return
-    if (last_score_completed==limit_of_score) then
+    if (next_score_to_complete==limit_of_score) then
         return
     end
 
@@ -143,19 +149,21 @@ function PolycosmosEvents.GiveScore(roomNumber)
     actual_score = actual_score + roomNumber
     last_room_completed = roomNumber
 
-    if (actual_score >= last_score_completed) then
-        checkString = last_score_completed
-        if (last_score_completed < 10) then
+    if (actual_score >= next_score_to_complete) then
+        checkString = next_score_to_complete
+        if (next_score_to_complete < 10) then
             checkString = "0"..checkString
         end
         PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString) --Need to make sure in this case we reset the score and the last completed room on the client
-        actual_score = actual_score - last_score_completed
-        PolycosmosMessages.PrintToPlayer("Cleared score "..last_score_completed.." you now got "..actual_score.." points")
-        last_score_completed = last_score_completed+1
+        actual_score = actual_score - next_score_to_complete
+        PolycosmosMessages.PrintToPlayer("Cleared score "..next_score_to_complete.." you now got "..actual_score.." points")
+        next_score_to_complete = next_score_to_complete+1
+        GameState.ScoreSystem["next_score_to_complete"]  = next_score_to_complete
     else
         PolycosmosMessages.PrintToPlayer("You got "..actual_score.." points")
     end
-    StyxScribe.Send(styx_scribe_send_prefix.."ScoreUpdate:"..actual_score.."-"..roomNumber) --make sure we can save the score and recover in case of a reload    
+    GameState.ScoreSystem["actual_score"] = actual_score
+    GameState.ScoreSystem["last_room_completed"] = roomNumber
 end
 
 --Give weapon location check if needed

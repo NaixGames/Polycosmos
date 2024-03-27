@@ -89,8 +89,6 @@ class HadesContext(CommonContext):
                         "HadesClient")
         # hook to send deathlink to other player when Zag dies
         subsume.AddHook(self.send_death, styx_scribe_recieve_prefix + "Zag died", "HadesClient")
-        # hook for the score based system
-        subsume.AddHook(self.update_internal_score, styx_scribe_recieve_prefix + "ScoreUpdate:", "HadesClient")
 
     async def server_auth(self, password_requested: bool = False):
         # This is called to autentificate with the server.
@@ -142,7 +140,7 @@ class HadesContext(CommonContext):
                 asyncio.create_task(self.update_death_link(True))
                 self.deathlink_enabled = True
             self.is_connected = True
-            self.is_receiving_items_from_connect_package = True #ADD SCORE RELATED THING IN THIS REQUEST
+            self.is_receiving_items_from_connect_package = True 
             asyncio.create_task(self.send_msgs([{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":filler:Darkness",
                                                                         "hades:" + str(self.slot) + ":filler:Keys",
                                                                         "hades:" + str(self.slot) + ":filler:Gemstones",
@@ -162,7 +160,7 @@ class HadesContext(CommonContext):
             # NOTE THIS GETS ALL ITEMS THAT HAVE BEEN RECIEVED! WE USE THIS FOR RESYNCS!
             for item in args["items"]:
                 self.cache_items_received_names += [self.item_names[item.item]]
-            msg = f"Received {", ".join([self.item_names[item.item] for item in args["items"]])}"
+            msg =  f"Received {', '.join([self.item_names[item.item] for item in args['items']])}"
             # We ignore sending the package to hades if just connected, 
             #since the game it not ready for it (and will request it itself later)
             if (self.is_receiving_items_from_connect_package):
@@ -178,7 +176,6 @@ class HadesContext(CommonContext):
 
         if cmd in {"Retrieved"}:
             self.update_filler_items_information(args)
-            self.update_score_information(args)
             
         if cmd in {"Bounced"}:
             if "tags" in args:
@@ -212,32 +209,7 @@ class HadesContext(CommonContext):
             if args["keys"]["hades:" + str(self.slot) + ":filler:Ambrosia"] is not None:
                 self.dictionary_filler_items["Ambrosia"] = args["keys"][
                      "hades:" + str(self.slot) + ":filler:Ambrosia"]
-    
-    def update_score_information(self, args : dict):
-        if "hades:" + str(self.slot) + ":score" in args["keys"]:
-            score = 0
-            if args["keys"]["hades:" + str(self.slot) + ":score"] is not None:
-                score = int(args["keys"]["hades:" + str(self.slot) + ":score"])
-            subsume.Modules.StyxScribeShared.Root.Score = score
-        
-        if "hades:" + str(self.slot) + ":last_score_check" in args["keys"]:
-            last_score=1
-            if args["keys"]["hades:" + str(self.slot) + ":last_score_check"] is not None:
-                last_score = int(args["keys"]["hades:" + str(self.slot) + ":last_score_check"])
-            subsume.Modules.StyxScribeShared.Root.LastScoreCheck = last_score
-        
-        if "hades:" + str(self.slot) + ":last_room_completed" in args["keys"]:
-            last_room=0
-            if args["keys"]["hades:" + str(self.slot) + ":last_room_completed"] is not None:
-                last_room = int(args["keys"]["hades:" + str(self.slot) + ":last_room_completed"])
-            subsume.Modules.StyxScribeShared.Root.LastRoomComplete = last_room
-        
-    def request_stored_score_info(self):
-        #request score
-        payload =[{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":score",
-                                          "hades:" + str(self.slot) + ":last_score_check",
-                                          "hades:" + str(self.slot) + ":last_room_completed"]}]
-        asyncio.create_task(self.send_msgs(payload))        
+         
 
     def send_items(self):
         # we filter the filler items according to how many we have recieved and send that payload
@@ -257,28 +229,7 @@ class HadesContext(CommonContext):
         payload_message = []
         sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
         payload_message += [{"cmd": "LocationChecks", "locations": sendingLocationsId}]
-        if (self.hades_slot_data["location_system"]==2 and len(message.split("Score"))>1):  
-            last_score = int(message.split("Score")[1])
-            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check", 
-                               "want_reply": False, "default": 0, "operations": [{"operation": "replace", 
-                                                                                  "value": last_score}]}]
         asyncio.create_task(self.send_msgs(payload_message))
-        
-    async def update_internal_score(self, message):        
-        separatedMessage = message.split("-")
-        score = int(separatedMessage[0])
-        last_room = int(separatedMessage[1])
-        payload = [{"cmd": "Set", 
-                    "key": "hades:" + str(self.slot) + ":score",
-                    "want_reply": False, 
-                    "default": 0, 
-                    "operations": [{"operation": "add", "value": score}]}]
-        payload += [{"cmd": "Set", 
-                     "key": "hades:" + str(self.slot) + ":last_room_completed",
-                    "want_reply": False, 
-                    "default": 0, 
-                    "operations": [{"operation": "add", "value": last_room}]}]
-        asyncio.create_task(self.send_msgs(payload))       
 
 
     async def check_connection_and_send_items_and_request_starting_info(self, message):
@@ -296,7 +247,6 @@ class HadesContext(CommonContext):
         subsume.Send(styx_scribe_send_prefix + "Location checked reminder:"+location_reminders)        
 
         self.store_settings_data()
-        self.request_stored_score_info()
         # send items that were already cached in connect
         self.send_items()
         self.request_location_to_item_dictionary()
@@ -356,7 +306,7 @@ class HadesContext(CommonContext):
     async def create_location_to_item_dictionary(self, itemsdict):
         locationItemMapping = ""
         for networkitem in itemsdict:
-            locationItemMapping += self.location_names[networkitem.location] + "--" 
+            locationItemMapping += self.location_names[networkitem.location] + "--" \
             + self.player_names[networkitem.player] + "--" + self.item_names[networkitem.item] + "||"
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
