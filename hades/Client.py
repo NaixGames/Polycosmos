@@ -61,16 +61,6 @@ class HadesContext(CommonContext):
     is_receiving_items_from_connect_package = False
     polycosmos_version = "0.9.1"
 
-    dictionary_filler_items = {
-        "Darkness": 0,
-        "Keys": 0,
-        "Gemstones": 0,
-        "Diamonds": 0,
-        "TitanBlood": 0,
-        "Nectar": 0,
-        "Ambrosia": 0,
-    }
-
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
         self.send_index: int = 0
@@ -84,9 +74,6 @@ class HadesContext(CommonContext):
         subsume.AddHook(self.on_run_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient")
         subsume.AddHook(self.check_connection_and_send_items_and_request_starting_info,
                         styx_scribe_recieve_prefix + "Data requested", "HadesClient")
-        # Add hook to delete filler items once obtained so they are not triggered more than once
-        subsume.AddHook(self.on_filler_item_recieved_signal, styx_scribe_recieve_prefix + "Got filler item:",
-                        "HadesClient")
         # hook to send deathlink to other player when Zag dies
         subsume.AddHook(self.send_death, styx_scribe_recieve_prefix + "Zag died", "HadesClient")
 
@@ -141,15 +128,6 @@ class HadesContext(CommonContext):
                 self.deathlink_enabled = True
             self.is_connected = True
             self.is_receiving_items_from_connect_package = True 
-            asyncio.create_task(self.send_msgs([{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":filler:Darkness",
-                                                                        "hades:" + str(self.slot) + ":filler:Keys",
-                                                                        "hades:" + str(self.slot) + ":filler:Gemstones",
-                                                                        "hades:" + str(self.slot) + ":filler:Diamonds",
-                                                                        "hades:" + str(
-                                                                            self.slot) + ":filler:TitanBlood",
-                                                                        "hades:" + str(self.slot) + ":filler:Nectar",
-                                                                        "hades:" + str(
-                                                                            self.slot) + ":filler:Ambrosia"]}]))
 
         if cmd in {"RoomInfo"}:
             # What should be done when room info is sent.
@@ -173,47 +151,15 @@ class HadesContext(CommonContext):
                 asyncio.create_task(self.create_location_to_item_dictionary(args["locations"]))
                 return
             super().on_package(cmd, args)
-
-        if cmd in {"Retrieved"}:
-            self.update_filler_items_information(args)
             
         if cmd in {"Bounced"}:
             if "tags" in args:
                 if "DeathLink" in args["tags"]:
                     self.on_deathlink(args["data"])
-
-    def update_filler_items_information(self, args : dict):
-        if "hades:" + str(self.slot) + ":filler:Darkness" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Darkness"] is not None:
-                self.dictionary_filler_items["Darkness"] = args["keys"][
-                    "hades:" + str(self.slot) + ":filler:Darkness"]
-        if "hades:" + str(self.slot) + ":filler:Keys" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Keys"] is not None:
-                self.dictionary_filler_items["Keys"] = args["keys"]["hades:" + str(self.slot) + ":filler:Keys"]
-        if "hades:" + str(self.slot) + ":filler:Gemstones" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Gemstones"] is not None:
-                self.dictionary_filler_items["Gemstones"] = args["keys"][
-                    "hades:" + str(self.slot) + ":filler:Gemstones"]
-        if "hades:" + str(self.slot) + ":filler:Diamonds" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Diamonds"] is not None:
-                self.dictionary_filler_items["Diamonds"] = args["keys"][
-                    "hades:" + str(self.slot) + ":filler:Diamonds"]
-        if "hades:" + str(self.slot) + ":filler:TitanBlood" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:TitanBlood"] is not None:
-                 self.dictionary_filler_items["TitanBlood"] = args["keys"][
-                     "hades:" + str(self.slot) + ":filler:TitanBlood"]
-        if "hades:" + str(self.slot) + ":filler:Nectar" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"] is not None:
-                self.dictionary_filler_items["Nectar"] = args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"]
-        if "hades:" + str(self.slot) + ":filler:Ambrosia" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Ambrosia"] is not None:
-                self.dictionary_filler_items["Ambrosia"] = args["keys"][
-                     "hades:" + str(self.slot) + ":filler:Ambrosia"]
          
 
     def send_items(self):
-        # we filter the filler items according to how many we have recieved and send that payload
-        payload_message = self.parse_array_to_string(self.filter_filler_items_from_cache())
+        payload_message = self.parse_array_to_string(self.cache_items_received_names)
         subsume.Send(styx_scribe_send_prefix + "Items Updated:" + payload_message)
 
     def parse_array_to_string(self, array_of_items):
@@ -315,20 +261,8 @@ class HadesContext(CommonContext):
 
     # ----------------- Package Management section ends --------------------------------
 
-    # ------------------ Section for dealing with filler items not getting obtianed more than once ------------
 
-    async def on_filler_item_recieved_signal(self, message):
-        self.dictionary_filler_items[message] = self.dictionary_filler_items[message] + 1
-        await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":filler:" + message,
-                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": 1}]}])
 
-    def filter_filler_items_from_cache(self):
-        filtered_cache = copy.deepcopy(self.cache_items_received_names)
-        for key in self.dictionary_filler_items:
-            for i in range(0, self.dictionary_filler_items[key]):
-                if key in filtered_cache:
-                    filtered_cache.remove(key)
-        return filtered_cache
 
     # ----------------- Filler items section ended --------------------------------
 

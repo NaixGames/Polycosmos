@@ -212,7 +212,6 @@ function PolycosmosEvents.UpdateItemsRun( message )
             table.insert(pactList, parsedName)
         elseif (PolycosmosItemManager.IsFillerItem(parsedName)) then
             PolycosmosItemManager.GiveFillerItem(parsedName)
-            StyxScribe.Send(styx_scribe_send_prefix.."Got filler item:"..parsedName)
         elseif (PolycosmosKeepsakeManager.IsKeepsakeItem(parsedName)) then
             PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
         elseif (PolycosmosWeaponManager.IsWeaponItem(parsedName)) then
@@ -224,6 +223,7 @@ function PolycosmosEvents.UpdateItemsRun( message )
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
+    PolycosmosItemManager.FlushAndProcessFillerItems()
 end
 
 StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.."Items Updated:", PolycosmosEvents )
