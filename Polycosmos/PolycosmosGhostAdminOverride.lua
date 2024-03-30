@@ -20,13 +20,13 @@ end
 
 function PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
 	if (PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true) then
-		if (StyxScribeShared.Root.GameSettings["WeaponSanity"]==0) then
+		if (GameState.ClientGameSettings["WeaponSanity"]==0) then
 			return displayName
 		else
 			return PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
 		end
 	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(displayName) ~= nil) then
-		if (StyxScribeShared.Root.GameSettings["StoreSanity"]==0) then
+		if (GameState.ClientGameSettings["StoreSanity"]==0) then
 			return displayName
 		else
 			return PolycosmosGhostAdminOverride.GiveAPItemAtLocation(PolycosmosCosmeticsManager.GiveCosmeticLocationData(displayName).ClientNameLocation)
@@ -40,7 +40,7 @@ end
 ------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.CheckIfPlayerHasLocation(cosmeticName)
-	if (StyxScribeShared.Root.GameSettings["StoreSanity"]==0) then
+	if (GameState.ClientGameSettings["StoreSanity"]==0) then
 		return GameState.CosmeticsAdded[cosmeticName]
 	end
 	if (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName)) then

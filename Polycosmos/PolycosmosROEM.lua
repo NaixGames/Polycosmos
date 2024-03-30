@@ -27,7 +27,7 @@ config = {
 
 --------------------
 
-function PolycosmosROEM.LoadBossData( message )
+function PolycosmosROEM.LoadBossData()
     if (loaded) then
         return
     end
@@ -36,11 +36,12 @@ function PolycosmosROEM.LoadBossData( message )
 
     if (not StyxScribeShared.Root.GameSettings) then
         wait( bufferTime )
-        print("Cant load REOM because of lack of data. Sorry.")
-        PolycosmosROEM.LoadBossData("")
-        return
+        if (not StyxScribeShared.Root.GameSettings) then
+            print("Cant load REOM because of lack of data. Sorry.")
+            return
+        end
     end
-    if (StyxScribeShared.Root.GameSettings['ReverseOrderEM'] == 0) then
+    if (StyxScribeShared.Root.GameSettings["ReverseOrderEM"] == 0) then
         print("Rever order EM is off. Not loaded.")
         return
     end
@@ -218,6 +219,3 @@ function PolycosmosROEM.LoadBossData( message )
 end
 
 ---------------
-
---Set hook to load Boss data once informacion of setting is loaded
-StyxScribe.AddHook( PolycosmosROEM.LoadBossData, styx_scribe_recieve_prefix.."Data finished", PolycosmosROEM )

@@ -118,7 +118,7 @@ local FatedListNames =
 
 function PolycosmosFatedListManager.GiveItemTitle(displayName)
 	if (FatedListNames[displayName]) then
-		if (StyxScribeShared.Root.GameSettings["FateSanity"]==0) then
+		if (GameState.ClientGameSettings["FateSanity"]==0) then
 			return displayName
 		else
 			local nameFatedList =  PolycosmosEvents.GiveItemInLocation(FatedListNames[displayName].ClientNameLocation)
@@ -144,7 +144,7 @@ ModUtil.Path.Wrap( "CashOutQuest", function(baseFunc, screen, button)
 			return baseFunc(screen, button)
 		end
 
-		if StyxScribeShared.Root.GameSettings['FateSanity']==0 then
+		if GameState.ClientGameSettings["FateSanity"] == 0 then
 			return baseFunc(screen, button)
 		end
 

@@ -77,21 +77,21 @@ end
 
 function PolycosmosItemManager.FlushAndProcessFillerItems()
     if (not valueLoaded) then
-        if not StyxScribeShared.Root.FillerValues then
+        if not GameState.ClientDataIsLoaded then
             wait( bufferTime )
-            if not StyxScribeShared.Root.FillerValues then
+            if not GameState.ClientDataIsLoaded then
                 PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state for item manager. Enter and exit the save file again!")
                 return
             end
         end
 
-        DarknessPackValue = StyxScribeShared.Root.FillerValues['DarknessPackValue']
-        KeysPackValue = StyxScribeShared.Root.FillerValues['KeysPackValue']
-        GemstonesPackValue = StyxScribeShared.Root.FillerValues['GemstonesPackValue']
-        DiamondsPackValue = StyxScribeShared.Root.FillerValues['DiamondsPackValue']
-        TitanBloodPackValue = StyxScribeShared.Root.FillerValues['TitanBloodPackValue']
-        NectarPackValue = StyxScribeShared.Root.FillerValues['NectarPackValue']
-        AmbrosiaPackValue = StyxScribeShared.Root.FillerValues['AmbrosiaPackValue']
+        DarknessPackValue = GameState.ClientFillerValues['DarknessPackValue']
+        KeysPackValue = GameState.ClientFillerValues['KeysPackValue']
+        GemstonesPackValue = GameState.ClientFillerValues['GemstonesPackValue']
+        DiamondsPackValue = GameState.ClientFillerValues['DiamondsPackValue']
+        TitanBloodPackValue = GameState.ClientFillerValues['TitanBloodPackValue']
+        NectarPackValue = GameState.ClientFillerValues['NectarPackValue']
+        AmbrosiaPackValue = GameState.ClientFillerValues['AmbrosiaPackValue']
 
         valueLoaded = true
     end

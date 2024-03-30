@@ -4,7 +4,13 @@ polycosmos_version = "0.9.1"
 
 -- Auxiliary function to check if an array has a value
 function PolycosmosVersionChecker.CheckVersion(message)
-    client_version = StyxScribeShared.Root.GameSettings['PolycosmosVersion']
+    if (not GameState.ClientDataIsLoaded) then
+        wait(bufferTime)
+        if (not GameState.ClientDataIsLoaded) then
+            print("can't check version out of lack of data. sorry.")
+        end
+    end
+    client_version = GameState.ClientGameSettings["PolycosmosVersion"]
     if (client_version ~= polycosmos_version) then
         PolycosmosMessages.PrintToPlayer("Hades using Polycosmos version "..polycosmos_version.." and Client using "..client_version..". Use compatible versions")
         PolycosmosMessages.PrintToPlayer("Use compatible versions")

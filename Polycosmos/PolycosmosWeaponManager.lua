@@ -113,12 +113,12 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
         return baseFunc(name, status)
     end
 
-    if (not StyxScribeShared.Root.GameSettings) then
+    if (not GameState.ClientDataIsLoaded) then
         table.insert(cachedWeapons, name)
         return
     end
     
-    if StyxScribeShared.Root.GameSettings["WeaponSanity"]==0 then
+    if GameState.ClientGameSettings["WeaponSanity"] == 0 then
         AddCosmetic(WeaponsUnlockCosmeticNames[name].ClientNameItem)
         return baseFunc(name, status)
     end
@@ -176,16 +176,12 @@ end
 ------------ 
 
 function PolycosmosWeaponManager.RequestInitialWeapon()
-    if (StyxScribeShared.Root.GameSettings) then
-        PolycosmosWeaponManager.EquipInitialWeapon()
-    else
-        InitialWeaponRequested = true
-    end
+    InitialWeaponRequested = true
 end
 
 ------------ 
 
-function PolycosmosWeaponManager.CheckRequestInitialWeapon( message )
+function PolycosmosWeaponManager.CheckRequestInitialWeapon()
     PolycosmosWeaponManager.ResolveQueueWeapons()
     if (not InitialWeaponRequested) then
         return
@@ -197,7 +193,7 @@ end
 
 function PolycosmosWeaponManager.EquipInitialWeapon()
     InitialWeaponRequested = false
-    initialWeapon = StyxScribeShared.Root.GameSettings["InitialWeapon"]
+    initialWeapon = GameState.ClientGameSettings["InitialWeapon"]
 
     if (GameState.WeaponsUnlocked and GameState.WeaponsUnlocked["SwordWeapon"]) then
         GameState.WeaponsUnlocked["SwordWeapon"] = false
@@ -249,7 +245,6 @@ ModUtil.Path.Wrap( "StartNewGame", function(baseFunc)
         return baseFunc()
 end)
 
-StyxScribe.AddHook( PolycosmosWeaponManager.CheckRequestInitialWeapon, styx_scribe_recieve_prefix.."Data finished", PolycosmosWeaponManager )
 
 ------------
 
