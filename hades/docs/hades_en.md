@@ -6,10 +6,10 @@ Install the game through Steam. Then install the following mods:
 
 - [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2)
 - [ModUtils](https://github.com/SGG-Modding/ModUtil)
-- [StyxScribe](https://github.com/SGG-Modding/StyxScribe), without the REPL. Delete the two files ending in REPL.
+- [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL).
 - [Polycosmos](https://github.com/Naix99/Polycosmos/tree/main/Polycosmos)
 
-Put the hades.apworld file in your worlds folder (normally in your archipelago installation, go to lib\worlds.
+Put the hades.apworld file in your worlds folder (normally in your archipelago installation, go to lib\worlds).
 
 ## Configuring your YAML file
 
