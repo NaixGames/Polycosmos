@@ -56,7 +56,7 @@ Quality of Life:
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
 - Have [ModUtils](https://github.com/SGG-Modding/ModUtil/releases) installed. For this download the latest version from the Github link, unzip that folder on Hades/Content/Mods and then Open modimporter.exe in you Hades/Content folder. Note you might need to create the Mods folder.
-- Have [StyxScribe](https://github.com/SGG-Modding/StyxScribe) installed, without the REPL part. For this, download the mod and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
+- Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL) installed, without the REPL part. For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point your Mods folder should look like this:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
@@ -74,19 +74,17 @@ NOTE: up to the time of writing this mod does not guarantee any type of compatib
 
 # Credits
 
-Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions.
+Everyone at the Hades modding discord. They have been a massive help. Especially Magic_Gonads and PonyWarrior for answering my pestering questions. Also, the credit of StyxScribe is theirs and only theirs.
 
-DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0, contributing to the QoL part and the reverse extreme measure. Also big support for Keepsakesanity.
+DoesBoKnow for proposing the multiworld and providing a tons of resources and testing. Also for being a contributor since 0.4.0, contributing to the almost all the features from that point forward.
 
-The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support.
+The AP discord and all the people in the Hades subthread which have pitch in with ideas and help keep me motivated. That includes, but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping adding proper APWorld support. Also thanks to all the testers for providing information about the bugs they encountered.
 
 # Bugs 
 
 A known issue is that some changes in heat level only take effect when starting the next room, biome or run starts. That is how Hades work and not much we can do about that.
 
 You see some weird debug messages while playing with keyboard and mouse. To avoid this go to your main Hades folder, and in there open StyxScribe.py. Go to line 26 and in there change "DebugDraw=true" to "DebugDraw=false". In a future version this will be disabled permanently.
-
-Some letters can be see on the top left corner when starting the mods. They fix after a couple of minutes or dying. It is a known, but totally unimportant bug.
 
 Any other bug is not expected and reporting helps a ton :).
 
@@ -125,16 +123,6 @@ In StoreSanity the "spots" in the store are tied to a location in the original g
 - CourtMusicianStandLocation: Requires CourtMusicianSentenceItem.
 
 - PitchBlackDarknessLocation, FatedKeysLocation, BrilliantGemstonesLocation, VintageNectarLocation, DarkerThirstLocation: all require DeluxeContractorDeskItem
-
-# Incoming features
-
-This is a list of features that are planned for this mod.
-
-- Make better compatibility with the pact of punishment window and this mod (so you can choose your heat level if you have enough pact levels).
-
-- Make completing parts of the Fated List locations checks
-
-- Fated list collector ending criterias
 
 # How this mod works
 
