@@ -458,7 +458,22 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosROEM.LoadBossData()
     PolycosmosWeaponManager.CheckRequestInitialWeapon()
     PolycosmosCosmeticsManager.ResolveQueueCosmetics()
+    PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
+    PolycosmosHeatManager.SaveUserIntededHeat()
+    PolycosmosHeatManager.CheckMinimalHeatSetting()
+    PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
 end
 
 --Set hook to load Boss data once informacion of setting is loaded
 StyxScribe.AddHook( PolycosmosEvents.SaveClientData, styx_scribe_recieve_prefix.."Data finished", PolycosmosEvents )
+
+
+ModUtil.WrapBaseFunction("StartNewRun", 
+    function ( baseFunc, prevRun, args )
+        if (GameState ~= nil and GameState.ClientDataIsLoaded) then
+            PolycosmosEvents.SetUpGameWithData()
+        else --if this is the first run we should run this to get the timer on the UI
+            GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] = 1
+        end
+        return baseFunc( prevRun, args )
+    end, PolycosmosEvents)

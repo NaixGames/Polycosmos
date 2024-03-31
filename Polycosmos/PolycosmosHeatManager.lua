@@ -243,12 +243,3 @@ function PolycosmosHeatManager.SaveUserIntededHeat()
         end
     end
 end
-
-
-ModUtil.WrapBaseFunction("StartNewRun", 
-    function ( baseFunc, prevRun, args )
-        PolycosmosHeatManager.SaveUserIntededHeat()
-        PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-
-        return baseFunc( prevRun, args )
-    end, PolycosmosHeatManager)
