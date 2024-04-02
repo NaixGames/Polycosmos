@@ -35,7 +35,7 @@ styx_scribe_recieve_prefix = "Client to Polycosmos:"
 --- variables for score based system
 
 actual_score = 0
-last_score_completed = -1
+next_score_to_complete = -1
 limit_of_score = 1001
 last_room_completed=0
 
@@ -43,6 +43,7 @@ last_room_completed=0
 --- variables for deathlink checks
 
 is_greece_death = false
+
 
 
 ------------ General function to process location checks
@@ -81,16 +82,16 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         return
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not StyxScribeShared.Root.GameSettings)) then
+    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
-        if not PolycosmosEvents.IsItemMappingInitiliazed() then
+        if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
     end
 
-    if (StyxScribeShared.Root.GameSettings['LocationMode'] ~= 1) then
+    if (GameState.ClientGameSettings["LocationMode"] ~= 1) then
         return
     end
     
@@ -110,28 +111,34 @@ function PolycosmosEvents.GiveScore(roomNumber)
         return
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if not PolycosmosEvents.IsItemMappingInitiliazed() then
+    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
-        if not PolycosmosEvents.IsItemMappingInitiliazed() then
+        if not ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
     end
 
-    if (StyxScribeShared.Root.GameSettings['LocationMode']~= 2) then
+    if (GameState.ClientGameSettings["LocationMode"] ~= 2) then
         return
     end
 
     -- initialize the variables we need in case we havent done that
-    if (last_score_completed == -1) then
-        actual_score = StyxScribeShared.Root.Score
-        last_score_completed = StyxScribeShared.Root.LastScoreCheck
-        last_room_completed = StyxScribeShared.Root.LastRoomComplete
+    if (next_score_to_complete == -1) then
+        if (GameState.ScoreSystem == nil) then
+            GameState.ScoreSystem = {}
+            GameState.ScoreSystem["actual_score"] = 0
+            GameState.ScoreSystem["next_score_to_complete"] = 1
+            GameState.ScoreSystem["last_room_completed"] = 0
+        end
+        actual_score = GameState.ScoreSystem["actual_score"]
+        next_score_to_complete = GameState.ScoreSystem["next_score_to_complete"]
+        last_room_completed = GameState.ScoreSystem["last_room_completed"]
     end
 
     -- if we already have all the possible checks, just return
-    if (last_score_completed==limit_of_score) then
+    if (next_score_to_complete==limit_of_score) then
         return
     end
 
@@ -143,19 +150,21 @@ function PolycosmosEvents.GiveScore(roomNumber)
     actual_score = actual_score + roomNumber
     last_room_completed = roomNumber
 
-    if (actual_score >= last_score_completed) then
-        checkString = last_score_completed
-        if (last_score_completed < 10) then
+    if (actual_score >= next_score_to_complete) then
+        checkString = next_score_to_complete
+        if (next_score_to_complete < 10) then
             checkString = "0"..checkString
         end
         PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString) --Need to make sure in this case we reset the score and the last completed room on the client
-        actual_score = actual_score - last_score_completed
-        PolycosmosMessages.PrintToPlayer("Cleared score "..last_score_completed.." you now got "..actual_score.." points")
-        last_score_completed = last_score_completed+1
+        actual_score = actual_score - next_score_to_complete
+        PolycosmosMessages.PrintToPlayer("Cleared score "..next_score_to_complete.." you now got "..actual_score.." points")
+        next_score_to_complete = next_score_to_complete+1
+        GameState.ScoreSystem["next_score_to_complete"]  = next_score_to_complete
     else
         PolycosmosMessages.PrintToPlayer("You got "..actual_score.." points")
     end
-    StyxScribe.Send(styx_scribe_send_prefix.."ScoreUpdate:"..actual_score.."-"..roomNumber) --make sure we can save the score and recover in case of a reload    
+    GameState.ScoreSystem["actual_score"] = actual_score
+    GameState.ScoreSystem["last_room_completed"] = roomNumber
 end
 
 --Give weapon location check if needed
@@ -165,16 +174,16 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
         return
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
-    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not StyxScribeShared.Root.GameSettings)) then
+    if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
         PolycosmosEvents.LoadData()
         wait( bufferTime )
-        if not PolycosmosEvents.IsItemMappingInitiliazed() then
+        if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
     end
 
-    if (StyxScribeShared.Root.GameSettings['LocationMode'] ~= 3) then
+    if (GameState.ClientGameSettings["LocationMode"] ~= 3) then
         return
     end
     
@@ -195,6 +204,12 @@ end
 
 --When more features are added this is the function we need to extend!
 function PolycosmosEvents.UpdateItemsRun( message )
+    if (not GameState.ClientDataIsLoaded) then
+        --If this is not loaded then the player just started the game.
+        --We can return. Items will be sent again at the end of the first room, which happens 
+        --automatically, so we can return in this case.
+        return
+    end
     local itemList = PolycosmosUtils.ParseStringToArray(message)
     local pactList = {}
     for i=1,#itemList do
@@ -204,7 +219,6 @@ function PolycosmosEvents.UpdateItemsRun( message )
             table.insert(pactList, parsedName)
         elseif (PolycosmosItemManager.IsFillerItem(parsedName)) then
             PolycosmosItemManager.GiveFillerItem(parsedName)
-            StyxScribe.Send(styx_scribe_send_prefix.."Got filler item:"..parsedName)
         elseif (PolycosmosKeepsakeManager.IsKeepsakeItem(parsedName)) then
             PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
         elseif (PolycosmosWeaponManager.IsWeaponItem(parsedName)) then
@@ -216,6 +230,7 @@ function PolycosmosEvents.UpdateItemsRun( message )
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
+    PolycosmosItemManager.FlushAndProcessFillerItems()
 end
 
 StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.."Items Updated:", PolycosmosEvents )
@@ -225,7 +240,7 @@ StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.
 
 function PolycosmosEvents.ProcessHadesDefeat()
     -- If needed, cache if the next death is going to be a deathlink or not
-    if (StyxScribeShared.Root.GameSettings['IgnoreGreeceDeaths']==1) then
+    if (GameState.ClientGameSettings["IgnoreGreeceDeaths"]==1) then
         is_greece_death = true
     end
 
@@ -320,6 +335,7 @@ end)
 
 -- Wrapper for room loading
 ModUtil.LoadOnce(function ()
+    GameState.ClientDataIsLoaded = false
     PolycosmosEvents.LoadData()
     PolycosmosMessages.PrintInformationMessage("Mod loaded")
 end)
@@ -378,3 +394,86 @@ end
 
 StyxScribe.AddHook( PolycosmosEvents.RecievedLocationsReminders, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
 
+
+
+-------------- Method to store Client info on save file. Avoid desyncs and problems with exiting and reintering.
+
+function PolycosmosEvents.SaveClientData( message )
+    if (GameState.ClientDataIsLoaded) then
+        PolycosmosEvents.SetUpGameWithData()
+    end
+    GameState.HeatSettings = {}
+    GameState.HeatSettings["HardLaborPactLevel"] = StyxScribeShared.Root.HeatSettings['HardLaborPactLevel']
+    GameState.HeatSettings["LastingConsequencesPactLevel"] = StyxScribeShared.Root.HeatSettings['LastingConsequencesPactLevel']
+    GameState.HeatSettings["ConvenienceFeePactLevel"] = StyxScribeShared.Root.HeatSettings['ConvenienceFeePactLevel']
+    GameState.HeatSettings["JurySummonsPactLevel"] = StyxScribeShared.Root.HeatSettings['JurySummonsPactLevel']
+    GameState.HeatSettings["ExtremeMeasuresPactLevel"] = StyxScribeShared.Root.HeatSettings['ExtremeMeasuresPactLevel']
+    GameState.HeatSettings["CalisthenicsProgramPactLevel"] = StyxScribeShared.Root.HeatSettings['CalisthenicsProgramPactLevel']
+    GameState.HeatSettings["BenefitsPackagePactLevel"] = StyxScribeShared.Root.HeatSettings['BenefitsPackagePactLevel']
+    GameState.HeatSettings["MiddleManagementPactLevel"] = StyxScribeShared.Root.HeatSettings['MiddleManagementPactLevel']
+    GameState.HeatSettings["UnderworldCustomsPactLevel"] = StyxScribeShared.Root.HeatSettings['UnderworldCustomsPactLevel']
+    GameState.HeatSettings["ForcedOvertimePactLevel"] = StyxScribeShared.Root.HeatSettings['ForcedOvertimePactLevel']
+    GameState.HeatSettings["HeightenedSecurityPactLevel"] = StyxScribeShared.Root.HeatSettings['HeightenedSecurityPactLevel']
+    GameState.HeatSettings["RoutineInspectionPactLevel"] = StyxScribeShared.Root.HeatSettings['RoutineInspectionPactLevel']
+    GameState.HeatSettings["DamageControlPactLevel"] = StyxScribeShared.Root.HeatSettings['DamageControlPactLevel']
+    GameState.HeatSettings["ApprovalProcessPactLevel"] = StyxScribeShared.Root.HeatSettings['ApprovalProcessPactLevel']
+    GameState.HeatSettings["TightDeadlinePactLevel"] = StyxScribeShared.Root.HeatSettings['TightDeadlinePactLevel']
+    GameState.HeatSettings["PersonalLiabilityPactLevel"] = StyxScribeShared.Root.HeatSettings['PersonalLiabilityPactLevel']
+
+    GameState.ClientFillerValues = {}
+    GameState.ClientFillerValues["DarknessPackValue"] = StyxScribeShared.Root.FillerValues['DarknessPackValue']
+    GameState.ClientFillerValues["KeysPackValue"] = StyxScribeShared.Root.FillerValues['KeysPackValue']
+    GameState.ClientFillerValues["GemstonesPackValue"] = StyxScribeShared.Root.FillerValues['GemstonesPackValue']
+    GameState.ClientFillerValues["DiamondsPackValue"] = StyxScribeShared.Root.FillerValues['DiamondsPackValue']
+    GameState.ClientFillerValues["TitanBloodPackValue"] = StyxScribeShared.Root.FillerValues['TitanBloodPackValue']
+    GameState.ClientFillerValues["NectarPackValue"] = StyxScribeShared.Root.FillerValues['NectarPackValue']
+    GameState.ClientFillerValues["AmbrosiaPackValue"] = StyxScribeShared.Root.FillerValues['AmbrosiaPackValue']
+
+    GameState.ClientGameSettings = {}
+    GameState.ClientGameSettings["HeatMode"] = StyxScribeShared.Root.GameSettings['HeatMode']
+    GameState.ClientGameSettings["LocationMode"] = StyxScribeShared.Root.GameSettings['LocationMode']
+    GameState.ClientGameSettings["ReverseOrderEM"] = StyxScribeShared.Root.GameSettings['ReverseOrderEM']
+    GameState.ClientGameSettings["KeepsakeSanity"] = StyxScribeShared.Root.GameSettings['KeepsakeSanity']
+    GameState.ClientGameSettings["WeaponSanity"] = StyxScribeShared.Root.GameSettings['WeaponSanity']
+    GameState.ClientGameSettings["StoreSanity"] = StyxScribeShared.Root.GameSettings['StoreSanity']
+    GameState.ClientGameSettings["InitialWeapon"] = StyxScribeShared.Root.GameSettings['InitialWeapon']
+    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = StyxScribeShared.Root.GameSettings['IgnoreGreeceDeaths']
+    GameState.ClientGameSettings["FateSanity"] = StyxScribeShared.Root.GameSettings['FateSanity']
+    GameState.ClientGameSettings["HiddenAspectSanity"] = StyxScribeShared.Root.GameSettings['HiddenAspectSanity']
+    GameState.ClientGameSettings["PolycosmosVersion"] = StyxScribeShared.Root.GameSettings['PolycosmosVersion']
+
+    GameState.ClientDataIsLoaded = true
+
+    PolycosmosROEM.LoadBossData()
+
+    SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+    ValidateCheckpoint({ Valid = true })
+
+    Save()
+
+    PolycosmosEvents.SetUpGameWithData()
+end
+
+function PolycosmosEvents.SetUpGameWithData()
+    PolycosmosROEM.LoadBossData()
+    PolycosmosWeaponManager.CheckRequestInitialWeapon()
+    PolycosmosCosmeticsManager.ResolveQueueCosmetics()
+    PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
+    PolycosmosHeatManager.SaveUserIntededHeat()
+    PolycosmosHeatManager.CheckMinimalHeatSetting()
+    PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
+end
+
+--Set hook to load Boss data once informacion of setting is loaded
+StyxScribe.AddHook( PolycosmosEvents.SaveClientData, styx_scribe_recieve_prefix.."Data finished", PolycosmosEvents )
+
+
+ModUtil.WrapBaseFunction("StartNewRun", 
+    function ( baseFunc, prevRun, args )
+        if (GameState ~= nil and GameState.ClientDataIsLoaded) then
+            PolycosmosEvents.SetUpGameWithData()
+        else --if this is the first run we should run this to get the timer on the UI
+            GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] = 1
+        end
+        return baseFunc( prevRun, args )
+    end, PolycosmosEvents)

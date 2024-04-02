@@ -93,7 +93,7 @@ ModUtil.LoadOnce(function ()
 end)
 
 function PolycosmosAspectsManager.UnlockAllHiddenAspects( message )
-	if (StyxScribeShared.Root.GameSettings["HiddenAspectSanity"] == 0) then
+	if (GameState.ClientGameSettings["HiddenAspectSanity"] == 0) then
 		for k, name in ipairs(HiddenAspects) do
 			PolycosmosAspectsManager.UnlockHiddenAspect(name, false)
 		end

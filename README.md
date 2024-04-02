@@ -157,7 +157,3 @@ itself.
 
 - Archipelago Client is a .py app that can communicate with an Archipelago server to send and recieve items. This server also
 deals with game randomization (ie, what item correspond to which other player item).
-
-The current implementation of the Client differentiate mainly in that it import StyxScribe, creates an instance of its main class,
-and then add all the hook it needs to communicate with StyxScribe. Finally it uses another thread to initiliazes the game+StyxScribe in parallel to it. This is how the Client automatically opens the game and set up communication to it. It also set ups the settings from the .yalm in a StyxScribe.Shared.Root state, which then the game can read
-to gather information about the settings the player chose. Beside this, the client should not present other main difference with other AP clients.

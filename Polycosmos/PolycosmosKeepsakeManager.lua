@@ -126,7 +126,7 @@ end
 
 function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
-    if StyxScribeShared.Root.GameSettings["KeepsakeSanity"]==0 then
+    if GameState.ClientGameSettings["KeepsakeSanity"] == 0 then
         return
     end
 
@@ -160,7 +160,7 @@ end
 
 -- Wrapper for location checks
 ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
-    if StyxScribeShared.Root.GameSettings["KeepsakeSanity"]==0 then
+    if GameState.ClientGameSettings["KeepsakeSanity"] == 0 then
         return baseFunc(npcName, amount)
     end
     

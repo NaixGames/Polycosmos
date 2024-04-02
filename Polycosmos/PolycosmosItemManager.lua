@@ -27,6 +27,15 @@ local AmbrosiaPackValue = 3
 
 local valueLoaded = false
 
+
+local KeyRequests = 0
+local DarknessRequests = 0
+local GemstonesRequests = 0
+local DiamondsRequests = 0
+local TitanBloodRequests = 0
+local NectarRequests = 0
+local AmbrosiaRequests = 0
+
 -------------------- Auxiliary function for checking if a item is a filler item
 function PolycosmosItemManager.IsFillerItem(string)
     return PolycosmosUtils.HasValue(ItemsDataArray, string)
@@ -35,79 +44,123 @@ end
 --------------------
 
 function PolycosmosItemManager.GiveFillerItem(item)
+    if (item == "Keys") then
+        KeyRequests = KeyRequests + 1
+    end
+
+    if (item == "Darkness") then
+        DarknessRequests = DarknessRequests + 1
+    end
+
+    if (item == "Gemstones") then
+        GemstonesRequests = GemstonesRequests + 1
+    end
+
+    if (item == "Diamonds") then
+        DiamondsRequests = DiamondsRequests + 1
+    end
+
+    if (item == "TitanBlood") then
+        TitanBloodRequests = TitanBloodRequests + 1
+    end
+
+    if (item == "Nectar") then
+        NectarRequests = NectarRequests + 1
+    end
+
+    if (item == "Ambrosia") then
+        AmbrosiaRequests = AmbrosiaRequests + 1
+    end
+end
+
+--------------------
+
+function PolycosmosItemManager.FlushAndProcessFillerItems()
     if (not valueLoaded) then
-        if not StyxScribeShared.Root.FillerValues then
-            PolycosmosEvents.LoadData()
+        if not GameState.ClientDataIsLoaded then
             wait( bufferTime )
-            if not StyxScribeShared.Root.FillerValues then
+            if not GameState.ClientDataIsLoaded then
                 PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state for item manager. Enter and exit the save file again!")
                 return
             end
         end
 
-        DarknessPackValue = StyxScribeShared.Root.FillerValues['DarknessPackValue']
-        KeysPackValue = StyxScribeShared.Root.FillerValues['KeysPackValue']
-        GemstonesPackValue = StyxScribeShared.Root.FillerValues['GemstonesPackValue']
-        DiamondsPackValue = StyxScribeShared.Root.FillerValues['DiamondsPackValue']
-        TitanBloodPackValue = StyxScribeShared.Root.FillerValues['TitanBloodPackValue']
-        NectarPackValue = StyxScribeShared.Root.FillerValues['NectarPackValue']
-        AmbrosiaPackValue = StyxScribeShared.Root.FillerValues['AmbrosiaPackValue']
+        DarknessPackValue = GameState.ClientFillerValues['DarknessPackValue']
+        KeysPackValue = GameState.ClientFillerValues['KeysPackValue']
+        GemstonesPackValue = GameState.ClientFillerValues['GemstonesPackValue']
+        DiamondsPackValue = GameState.ClientFillerValues['DiamondsPackValue']
+        TitanBloodPackValue = GameState.ClientFillerValues['TitanBloodPackValue']
+        NectarPackValue = GameState.ClientFillerValues['NectarPackValue']
+        AmbrosiaPackValue = GameState.ClientFillerValues['AmbrosiaPackValue']
+
         valueLoaded = true
     end
 
-    print(item)
 
-    if (item == "Keys") then
-        print("1")
-        AddResource("LockKeys", KeysPackValue)
-        CurrentRun.LockKeys = GameState.Resources.LockKeys
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..KeysPackValue.." Keys")
+    if (GameState.FillerItemLodger == nil) then
+        GameState.FillerItemLodger = {}
+        GameState.FillerItemLodger["Darkness"] = 0
+        GameState.FillerItemLodger["Keys"] = 0
+        GameState.FillerItemLodger["Gemstones"] = 0
+        GameState.FillerItemLodger["Diamonds"] = 0
+        GameState.FillerItemLodger["TitanBlood"] = 0
+        GameState.FillerItemLodger["Nectar"] = 0
+        GameState.FillerItemLodger["Ambrosia"] = 0
     end
 
-    if (item == "Darkness") then
-        print("2")
-        AddResource("MetaPoints", DarknessPackValue)
-        CurrentRun.MetaPoints = GameState.Resources.MetaPoints
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..DarknessPackValue.." Darkness")
+    while (KeyRequests > GameState.FillerItemLodger["Keys"]) do
+        PolycosmosItemManager.ProcessFillerItem("LockKeys", KeysPackValue, "Keys")
+        GameState.FillerItemLodger["Keys"] = GameState.FillerItemLodger["Keys"] + 1
     end
 
-    if (item == "Gemstones") then
-        print("3")
-        AddResource("Gems", GemstonesPackValue)
-        CurrentRun.Gems = GameState.Resources.Gems
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..GemstonesPackValue.." Gems")
+    while (DarknessRequests > GameState.FillerItemLodger["Darkness"]) do
+        PolycosmosItemManager.ProcessFillerItem("MetaPoints", DarknessPackValue, "Darkness")
+        GameState.FillerItemLodger["Darkness"] = GameState.FillerItemLodger["Darkness"] + 1
     end
 
-    if (item == "Diamonds") then
-        print("4")
-        AddResource("SuperGems", DiamondsPackValue)
-        CurrentRun.SuperGems = GameState.Resources.SuperGems
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..DiamondsPackValue.." Diamonds")
+    while (GemstonesRequests > GameState.FillerItemLodger["Gemstones"]) do
+        PolycosmosItemManager.ProcessFillerItem("Gems", GemstonesPackValue, "Gemstones")
+        GameState.FillerItemLodger["Gemstones"] = GameState.FillerItemLodger["Gemstones"] + 1
     end
 
-    if (item == "TitanBlood") then
-        print("5")
-        AddResource("SuperLockKeys", TitanBloodPackValue)
-        CurrentRun.SuperLockKeys = GameState.Resources.SuperLockKeys
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..TitanBloodPackValue.." Titan Blood")
-    end
-
-    if (item == "Nectar") then
-        print("6")
-        AddResource("GiftPoints", NectarPackValue)
-        CurrentRun.GiftPoints = GameState.Resources.GiftPoints
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..NectarPackValue.." Nectar")
-    end
-
-    if (item == "Ambrosia") then
-        print("7")
-        AddResource("SuperGiftPoints", AmbrosiaPackValue)
-        CurrentRun.SuperGiftPoints = GameState.Resources.SuperGiftPoints
-        PolycosmosMessages.PrintToPlayer("Recieved a pack of "..AmbrosiaPackValue.." Ambrosia")
+    while (DiamondsRequests > GameState.FillerItemLodger["Diamonds"]) do
+        PolycosmosItemManager.ProcessFillerItem("SuperGems", DiamondsPackValue, "Diamonds")
+        GameState.FillerItemLodger["Diamonds"] = GameState.FillerItemLodger["Diamonds"] + 1
     end
     
+    while (TitanBloodRequests > GameState.FillerItemLodger["TitanBlood"]) do
+        PolycosmosItemManager.ProcessFillerItem("SuperLockKeys", TitanBloodPackValue, "TitanBlood")
+        GameState.FillerItemLodger["TitanBlood"] = GameState.FillerItemLodger["TitanBlood"] + 1
+    end
+
+    while (NectarRequests > GameState.FillerItemLodger["Nectar"]) do
+        PolycosmosItemManager.ProcessFillerItem("GiftPoints", NectarPackValue, "Nectar")
+        GameState.FillerItemLodger["Nectar"] = GameState.FillerItemLodger["Nectar"] + 1
+    end
+
+    while (AmbrosiaRequests > GameState.FillerItemLodger["Ambrosia"]) do
+        PolycosmosItemManager.ProcessFillerItem("SuperGiftPoints", AmbrosiaPackValue, "Ambrosia")
+        GameState.FillerItemLodger["Ambrosia"] = GameState.FillerItemLodger["Ambrosia"] + 1
+    end
+
+    KeyRequests = 0
+    DarknessRequests = 0
+    GemstonesRequests = 0
+    DiamondsRequests = 0
+    TitanBloodRequests = 0
+    NectarRequests = 0
+    AmbrosiaRequests = 0
+
     SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
     ValidateCheckpoint({ Valid = true })
 
     Save()
+end
+
+--------------------
+
+function PolycosmosItemManager.ProcessFillerItem(internalItemName, packValue, name)
+    AddResource(internalItemName, packValue)
+    CurrentRun[internalItemName] = GameState.Resources[internalItemName]
+    PolycosmosMessages.PrintToPlayer("Recieved a pack of "..packValue.." "..name)
 end

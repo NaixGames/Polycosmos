@@ -130,7 +130,7 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
         --This is just for printing which pact levels were obtained. 
         --If other heat management setting wanted to be implemented this might need change.
         --Also I dont quite like to have this here ... but it is what it is.
-        if (GameState.MetaUpgrades[pactData.Name] and calculatedLevel < GameState.MetaUpgrades[pactData.Name] and StyxScribeShared.Root.GameSettings["HeatMode"]~=3) then
+        if (GameState.MetaUpgrades[pactData.Name] and calculatedLevel < GameState.MetaUpgrades[pactData.Name] and GameState.ClientGameSettings["HeatMode"] ~=3) then
             PolycosmosMessages.PrintToPlayer("Obtained "..pactKey.." pact level item!")
             PolycosmosMessages.PrintToPlayer(pactKey.." minimal heat level changed to "..calculatedLevel)
         end
@@ -150,16 +150,7 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
 end
 
 function PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
-    --This is mostly a sanity check
-    if not StyxScribeShared.Root.HeatSettings then
-        PolycosmosEvents.LoadData()
-        wait( bufferTime )
-        if not StyxScribeShared.Root.HeatSettings then
-            PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state for heat manager. Enter and exit the save file again!")
-            return
-        end
-    end
-    if (StyxScribeShared.Root.GameSettings["HeatMode"]==3) then
+    if (GameState.ClientGameSettings["HeatMode"]==3) then
         --We load the Max levels from the Data
         PactDataTable.HardLabor.MaxLevel = 0
         PactDataTable.LastingConsequences.MaxLevel = 0
@@ -179,27 +170,27 @@ function PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
         PactDataTable.PersonalLiability.MaxLevel = 0
     else
         --We load the Max levels from the Data
-        PactDataTable.HardLabor.MaxLevel = StyxScribeShared.Root.HeatSettings['HardLaborPactLevel']
-        PactDataTable.LastingConsequences.MaxLevel = StyxScribeShared.Root.HeatSettings['LastingConsequencesPactLevel']
-        PactDataTable.ConvenienceFee.MaxLevel = StyxScribeShared.Root.HeatSettings['ConvenienceFeePactLevel']
-        PactDataTable.JurySummons.MaxLevel = StyxScribeShared.Root.HeatSettings['JurySummonsPactLevel']
-        PactDataTable.ExtremeMeasures.MaxLevel = StyxScribeShared.Root.HeatSettings['ExtremeMeasuresPactLevel']
-        PactDataTable.CalisthenicsProgram.MaxLevel = StyxScribeShared.Root.HeatSettings['CalisthenicsProgramPactLevel']
-        PactDataTable.BenefitsPackage.MaxLevel = StyxScribeShared.Root.HeatSettings['BenefitsPackagePactLevel']
-        PactDataTable.MiddleManagement.MaxLevel = StyxScribeShared.Root.HeatSettings['MiddleManagementPactLevel']
-        PactDataTable.UnderworldCustoms.MaxLevel = StyxScribeShared.Root.HeatSettings['UnderworldCustomsPactLevel']
-        PactDataTable.ForcedOvertime.MaxLevel = StyxScribeShared.Root.HeatSettings['ForcedOvertimePactLevel']
-        PactDataTable.HeightenedSecurity.MaxLevel = StyxScribeShared.Root.HeatSettings['HeightenedSecurityPactLevel']
-        PactDataTable.RoutineInspection.MaxLevel = StyxScribeShared.Root.HeatSettings['RoutineInspectionPactLevel']
-        PactDataTable.DamageControl.MaxLevel = StyxScribeShared.Root.HeatSettings['DamageControlPactLevel']
-        PactDataTable.ApprovalProcess.MaxLevel = StyxScribeShared.Root.HeatSettings['ApprovalProcessPactLevel']
-        PactDataTable.TightDeadline.MaxLevel = StyxScribeShared.Root.HeatSettings['TightDeadlinePactLevel']
-        PactDataTable.PersonalLiability.MaxLevel = StyxScribeShared.Root.HeatSettings['PersonalLiabilityPactLevel']
+        PactDataTable.HardLabor.MaxLevel = GameState.HeatSettings['HardLaborPactLevel']
+        PactDataTable.LastingConsequences.MaxLevel = GameState.HeatSettings['LastingConsequencesPactLevel']
+        PactDataTable.ConvenienceFee.MaxLevel = GameState.HeatSettings['ConvenienceFeePactLevel']
+        PactDataTable.JurySummons.MaxLevel = GameState.HeatSettings['JurySummonsPactLevel']
+        PactDataTable.ExtremeMeasures.MaxLevel = GameState.HeatSettings['ExtremeMeasuresPactLevel']
+        PactDataTable.CalisthenicsProgram.MaxLevel = GameState.HeatSettings['CalisthenicsProgramPactLevel']
+        PactDataTable.BenefitsPackage.MaxLevel = GameState.HeatSettings['BenefitsPackagePactLevel']
+        PactDataTable.MiddleManagement.MaxLevel = GameState.HeatSettings['MiddleManagementPactLevel']
+        PactDataTable.UnderworldCustoms.MaxLevel = GameState.HeatSettings['UnderworldCustomsPactLevel']
+        PactDataTable.ForcedOvertime.MaxLevel = GameState.HeatSettings['ForcedOvertimePactLevel']
+        PactDataTable.HeightenedSecurity.MaxLevel = GameState.HeatSettings['HeightenedSecurityPactLevel']
+        PactDataTable.RoutineInspection.MaxLevel = GameState.HeatSettings['RoutineInspectionPactLevel']
+        PactDataTable.DamageControl.MaxLevel = GameState.HeatSettings['DamageControlPactLevel']
+        PactDataTable.ApprovalProcess.MaxLevel = GameState.HeatSettings['ApprovalProcessPactLevel']
+        PactDataTable.TightDeadline.MaxLevel = GameState.HeatSettings['TightDeadlinePactLevel']
+        PactDataTable.PersonalLiability.MaxLevel = GameState.HeatSettings['PersonalLiabilityPactLevel']
     end
 end
 
 function PolycosmosHeatManager.CheckMinimalHeatSetting() 
-    if (StyxScribeShared.Root.GameSettings["HeatMode"]==2) then
+    if (GameState.ClientGameSettings["HeatMode"]==2) then
         for pactKey, pactData in pairs(PactDataTable) do
             local namePact = pactData.Name
             GameState.UserStoredHeat[namePact] = pactData.MaxLevel 
@@ -252,12 +243,3 @@ function PolycosmosHeatManager.SaveUserIntededHeat()
         end
     end
 end
-
-
-ModUtil.WrapBaseFunction("StartNewRun", 
-    function ( baseFunc, prevRun, args )
-        PolycosmosHeatManager.SaveUserIntededHeat()
-        PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-
-        return baseFunc( prevRun, args )
-    end, PolycosmosHeatManager)

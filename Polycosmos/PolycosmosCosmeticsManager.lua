@@ -247,12 +247,9 @@ end
 
 --------------------------------------------
 
-function PolycosmosCosmeticsManager.ResolveQueueCosmetics(message)
+function PolycosmosCosmeticsManager.ResolveQueueCosmetics()
 	for k, name in ipairs(cachedCosmetics) do
         AddCosmetic(name)
     end
     cachedCosmetics = {}
 end
-
---Set hook to load Boss data once informacion of setting is loaded
-StyxScribe.AddHook( PolycosmosCosmeticsManager.ResolveQueueCosmetics, styx_scribe_recieve_prefix.."Data finished", PolycosmosCosmeticsManager )

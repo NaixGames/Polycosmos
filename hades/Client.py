@@ -59,17 +59,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.9.0"
-
-    dictionary_filler_items = {
-        "Darkness": 0,
-        "Keys": 0,
-        "Gemstones": 0,
-        "Diamonds": 0,
-        "TitanBlood": 0,
-        "Nectar": 0,
-        "Ambrosia": 0,
-    }
+    polycosmos_version = "0.9.1"
 
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
@@ -84,13 +74,8 @@ class HadesContext(CommonContext):
         subsume.AddHook(self.on_run_completion, styx_scribe_recieve_prefix + "Hades defeated", "HadesClient")
         subsume.AddHook(self.check_connection_and_send_items_and_request_starting_info,
                         styx_scribe_recieve_prefix + "Data requested", "HadesClient")
-        # Add hook to delete filler items once obtained so they are not triggered more than once
-        subsume.AddHook(self.on_filler_item_recieved_signal, styx_scribe_recieve_prefix + "Got filler item:",
-                        "HadesClient")
         # hook to send deathlink to other player when Zag dies
         subsume.AddHook(self.send_death, styx_scribe_recieve_prefix + "Zag died", "HadesClient")
-        # hook for the score based system
-        subsume.AddHook(self.update_internal_score, styx_scribe_recieve_prefix + "ScoreUpdate:", "HadesClient")
 
     async def server_auth(self, password_requested: bool = False):
         # This is called to autentificate with the server.
@@ -129,39 +114,33 @@ class HadesContext(CommonContext):
         if cmd in {"Connected"}:
             # What should be done in a connection package
             self.cache_items_received_names.clear()
-            self.missing_locations_cache = args['missing_locations']
-            self.checked_locations_cache = args['checked_locations']
-            self.hades_slot_data = args['slot_data']
+            self.missing_locations_cache = args["missing_locations"]
+            self.checked_locations_cache = args["checked_locations"]
+            self.hades_slot_data = args["slot_data"]
             if not (self.hades_slot_data["version_check"]==self.polycosmos_version):
-                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
+                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] \
+                            + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
                 stringError += "THIS ARE NOT COMPATIBLE"
                 raise Exception(stringError)
             self.location_name_to_id = {name: idnumber for idnumber, name, in self.location_names.items()}
-            if 'death_link' in self.hades_slot_data and self.hades_slot_data['death_link']:
+            if "death_link" in self.hades_slot_data and self.hades_slot_data["death_link"]:
                 asyncio.create_task(self.update_death_link(True))
                 self.deathlink_enabled = True
             self.is_connected = True
-            self.is_receiving_items_from_connect_package = True #ADD SCORE RELATED THING IN THIS REQUEST
-            asyncio.create_task(self.send_msgs([{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":filler:Darkness",
-                                                                        "hades:" + str(self.slot) + ":filler:Keys",
-                                                                        "hades:" + str(self.slot) + ":filler:Gemstones",
-                                                                        "hades:" + str(self.slot) + ":filler:Diamonds",
-                                                                        "hades:" + str(
-                                                                            self.slot) + ":filler:TitanBlood",
-                                                                        "hades:" + str(self.slot) + ":filler:Nectar",
-                                                                        "hades:" + str(self.slot) + ":filler:Ambrosia"]}]))
+            self.is_receiving_items_from_connect_package = True 
 
         if cmd in {"RoomInfo"}:
             # What should be done when room info is sent.
-            self.seed_name = args['seed_name']
+            self.seed_name = args["seed_name"]
 
         if cmd in {"ReceivedItems"}:
             # What should be done when an Item is recieved.
             # NOTE THIS GETS ALL ITEMS THAT HAVE BEEN RECIEVED! WE USE THIS FOR RESYNCS!
-            for item in args['items']:
+            for item in args["items"]:
                 self.cache_items_received_names += [self.item_names[item.item]]
-            msg = f"Received {', '.join([self.item_names[item.item] for item in args['items']])}"
-            # We ignore sending the package to hades if just connected, since the game it not ready for it (and will request it itself later)
+            msg =  f"Received {', '.join([self.item_names[item.item] for item in args['items']])}"
+            # We ignore sending the package to hades if just connected, 
+            #since the game it not ready for it (and will request it itself later)
             if (self.is_receiving_items_from_connect_package):
                 return;
             self.send_items()
@@ -169,75 +148,18 @@ class HadesContext(CommonContext):
         if cmd in {"LocationInfo"}:
             if self.creating_location_to_item_mapping:
                 self.creating_location_to_item_mapping = False
-                asyncio.create_task(self.create_location_to_item_dictionary(args['locations']))
+                asyncio.create_task(self.create_location_to_item_dictionary(args["locations"]))
                 return
             super().on_package(cmd, args)
-
-        if cmd in {"Retrieved"}:
-            self.update_filler_items_information(args)
-            self.update_score_information(args)
             
         if cmd in {"Bounced"}:
             if "tags" in args:
                 if "DeathLink" in args["tags"]:
                     self.on_deathlink(args["data"])
-
-    def update_filler_items_information(self, args : dict):
-        if "hades:" + str(self.slot) + ":filler:Darkness" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Darkness"] is not None:
-                self.dictionary_filler_items["Darkness"] = args["keys"][
-                    "hades:" + str(self.slot) + ":filler:Darkness"]
-        if "hades:" + str(self.slot) + ":filler:Keys" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Keys"] is not None:
-                self.dictionary_filler_items["Keys"] = args["keys"]["hades:" + str(self.slot) + ":filler:Keys"]
-        if "hades:" + str(self.slot) + ":filler:Gemstones" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Gemstones"] is not None:
-                self.dictionary_filler_items["Gemstones"] = args["keys"][
-                    "hades:" + str(self.slot) + ":filler:Gemstones"]
-        if "hades:" + str(self.slot) + ":filler:Diamonds" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Diamonds"] is not None:
-                self.dictionary_filler_items["Diamonds"] = args["keys"][
-                    "hades:" + str(self.slot) + ":filler:Diamonds"]
-        if "hades:" + str(self.slot) + ":filler:TitanBlood" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:TitanBlood"] is not None:
-                 self.dictionary_filler_items["TitanBlood"] = args["keys"][
-                     "hades:" + str(self.slot) + ":filler:TitanBlood"]
-        if "hades:" + str(self.slot) + ":filler:Nectar" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"] is not None:
-                self.dictionary_filler_items["Nectar"] = args["keys"]["hades:" + str(self.slot) + ":filler:Nectar"]
-        if "hades:" + str(self.slot) + ":filler:Ambrosia" in args["keys"]:
-            if args["keys"]["hades:" + str(self.slot) + ":filler:Ambrosia"] is not None:
-                self.dictionary_filler_items["Ambrosia"] = args["keys"][
-                     "hades:" + str(self.slot) + ":filler:Ambrosia"]
-    
-    def update_score_information(self, args : dict):
-        if "hades:" + str(self.slot) + ":score" in args["keys"]:
-            score = 0
-            if args["keys"]["hades:" + str(self.slot) + ":score"] is not None:
-                score = int(args["keys"]["hades:" + str(self.slot) + ":score"])
-            subsume.Modules.StyxScribeShared.Root.Score = score
-        
-        if "hades:" + str(self.slot) + ":last_score_check" in args["keys"]:
-            last_score=1
-            if args["keys"]["hades:" + str(self.slot) + ":last_score_check"] is not None:
-                last_score = int(args["keys"]["hades:" + str(self.slot) + ":last_score_check"])
-            subsume.Modules.StyxScribeShared.Root.LastScoreCheck = last_score
-        
-        if "hades:" + str(self.slot) + ":last_room_completed" in args["keys"]:
-            last_room=0
-            if args["keys"]["hades:" + str(self.slot) + ":last_room_completed"] is not None:
-                last_room = int(args["keys"]["hades:" + str(self.slot) + ":last_room_completed"])
-            subsume.Modules.StyxScribeShared.Root.LastRoomComplete = last_room
-        
-    def request_stored_score_info(self):
-        #request score
-        payload =[{"cmd": "Get", "keys": ["hades:" + str(self.slot) + ":score","hades:" + str(self.slot) + ":last_score_check",
-                                                                      "hades:" + str(self.slot) + ":last_room_completed"]}]
-        asyncio.create_task(self.send_msgs(payload))        
+         
 
     def send_items(self):
-        # we filter the filler items according to how many we have recieved and send that payload
-        payload_message = self.parse_array_to_string(self.filter_filler_items_from_cache())
+        payload_message = self.parse_array_to_string(self.cache_items_received_names)
         subsume.Send(styx_scribe_send_prefix + "Items Updated:" + payload_message)
 
     def parse_array_to_string(self, array_of_items):
@@ -252,22 +174,8 @@ class HadesContext(CommonContext):
         sendingLocationsName = message
         payload_message = []
         sendingLocationsId += [self.location_name_to_id[sendingLocationsName]]
-        payload_message += [{"cmd": 'LocationChecks', "locations": sendingLocationsId}]
-        if (self.hades_slot_data['location_system']==2 and len(message.split("Score"))>1):  
-            last_score = int(message.split("Score")[1])
-            payload_message += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_score_check", 
-                               "want_reply": False, "default": 0, "operations": [{"operation": "replace", "value": last_score}]}]
+        payload_message += [{"cmd": "LocationChecks", "locations": sendingLocationsId}]
         asyncio.create_task(self.send_msgs(payload_message))
-        
-    async def update_internal_score(self, message):        
-        separatedMessage = message.split("-")
-        score = int(separatedMessage[0])
-        last_room = int(separatedMessage[1])
-        payload = [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":score",
-                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": score}]}]
-        payload += [{"cmd": "Set", "key": "hades:" + str(self.slot) + ":last_room_completed",
-                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": last_room}]}]
-        asyncio.create_task(self.send_msgs(payload))       
 
 
     async def check_connection_and_send_items_and_request_starting_info(self, message):
@@ -285,53 +193,52 @@ class HadesContext(CommonContext):
         subsume.Send(styx_scribe_send_prefix + "Location checked reminder:"+location_reminders)        
 
         self.store_settings_data()
-        self.request_stored_score_info()
         # send items that were already cached in connect
         self.send_items()
         self.request_location_to_item_dictionary()
 
     def store_settings_data(self):
         heat_dictionary = {
-            'HardLaborPactLevel': self.hades_slot_data['hard_labor_pact_amount'],
-            'LastingConsequencesPactLevel': self.hades_slot_data['lasting_consequences_pact_amount'],
-            'ConvenienceFeePactLevel': self.hades_slot_data['convenience_fee_pact_amount'],
-            'JurySummonsPactLevel': self.hades_slot_data['jury_summons_pact_amount'],
-            'ExtremeMeasuresPactLevel': self.hades_slot_data['extreme_measures_pact_amount'],
-            'CalisthenicsProgramPactLevel': self.hades_slot_data['calisthenics_program_pact_amount'],
-            'BenefitsPackagePactLevel': self.hades_slot_data['benefits_package_pact_amount'],
-            'MiddleManagementPactLevel': self.hades_slot_data['middle_management_pact_amount'],
-            'UnderworldCustomsPactLevel': self.hades_slot_data['underworld_customs_pact_amount'],
-            'ForcedOvertimePactLevel': self.hades_slot_data['forced_overtime_pact_amount'],
-            'HeightenedSecurityPactLevel': self.hades_slot_data['heightened_security_pact_amount'],
-            'RoutineInspectionPactLevel': self.hades_slot_data['routine_inspection_pact_amount'],
-            'DamageControlPactLevel': self.hades_slot_data['damage_control_pact_amount'],
-            'ApprovalProcessPactLevel': self.hades_slot_data['approval_process_pact_amount'],
-            'TightDeadlinePactLevel': self.hades_slot_data['tight_deadline_pact_amount'],
-            'PersonalLiabilityPactLevel': self.hades_slot_data['personal_liability_pact_amount'],
+            "HardLaborPactLevel": self.hades_slot_data["hard_labor_pact_amount"],
+            "LastingConsequencesPactLevel": self.hades_slot_data["lasting_consequences_pact_amount"],
+            "ConvenienceFeePactLevel": self.hades_slot_data["convenience_fee_pact_amount"],
+            "JurySummonsPactLevel": self.hades_slot_data["jury_summons_pact_amount"],
+            "ExtremeMeasuresPactLevel": self.hades_slot_data["extreme_measures_pact_amount"],
+            "CalisthenicsProgramPactLevel": self.hades_slot_data["calisthenics_program_pact_amount"],
+            "BenefitsPackagePactLevel": self.hades_slot_data["benefits_package_pact_amount"],
+            "MiddleManagementPactLevel": self.hades_slot_data["middle_management_pact_amount"],
+            "UnderworldCustomsPactLevel": self.hades_slot_data["underworld_customs_pact_amount"],
+            "ForcedOvertimePactLevel": self.hades_slot_data["forced_overtime_pact_amount"],
+            "HeightenedSecurityPactLevel": self.hades_slot_data["heightened_security_pact_amount"],
+            "RoutineInspectionPactLevel": self.hades_slot_data["routine_inspection_pact_amount"],
+            "DamageControlPactLevel": self.hades_slot_data["damage_control_pact_amount"],
+            "ApprovalProcessPactLevel": self.hades_slot_data["approval_process_pact_amount"],
+            "TightDeadlinePactLevel": self.hades_slot_data["tight_deadline_pact_amount"],
+            "PersonalLiabilityPactLevel": self.hades_slot_data["personal_liability_pact_amount"],
         }
         subsume.Modules.StyxScribeShared.Root["HeatSettings"] = heat_dictionary
         filler_dictionary = {
-            'DarknessPackValue': self.hades_slot_data['darkness_pack_value'],
-            'KeysPackValue': self.hades_slot_data['keys_pack_value'],
-            'GemstonesPackValue': self.hades_slot_data['gemstones_pack_value'],
-            'DiamondsPackValue': self.hades_slot_data['diamonds_pack_value'],
-            'TitanBloodPackValue': self.hades_slot_data['titan_blood_pack_value'],
-            'NectarPackValue': self.hades_slot_data['nectar_pack_value'],
-            'AmbrosiaPackValue': self.hades_slot_data['ambrosia_pack_value'],
+            "DarknessPackValue": self.hades_slot_data["darkness_pack_value"],
+            "KeysPackValue": self.hades_slot_data["keys_pack_value"],
+            "GemstonesPackValue": self.hades_slot_data["gemstones_pack_value"],
+            "DiamondsPackValue": self.hades_slot_data["diamonds_pack_value"],
+            "TitanBloodPackValue": self.hades_slot_data["titan_blood_pack_value"],
+            "NectarPackValue": self.hades_slot_data["nectar_pack_value"],
+            "AmbrosiaPackValue": self.hades_slot_data["ambrosia_pack_value"],
         }
         subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
         game_settings = {
-            'HeatMode': self.hades_slot_data['heat_system'],
-            'LocationMode': self.hades_slot_data['location_system'],
-            'ReverseOrderEM': self.hades_slot_data['reverse_order_em'],
-            'KeepsakeSanity': self.hades_slot_data['keepsakesanity'],
-            'WeaponSanity': self.hades_slot_data['weaponsanity'],
-            'StoreSanity': self.hades_slot_data['storesanity'],
-            'InitialWeapon': self.hades_slot_data['initial_weapon'],
-            'IgnoreGreeceDeaths': self.hades_slot_data['ignore_greece_deaths'],
-            'FateSanity': self.hades_slot_data['fatesanity'],
-            'HiddenAspectSanity': self.hades_slot_data['hidden_aspectsanity'],
-            'PolycosmosVersion': self.polycosmos_version,
+            "HeatMode": self.hades_slot_data["heat_system"],
+            "LocationMode": self.hades_slot_data["location_system"],
+            "ReverseOrderEM": self.hades_slot_data["reverse_order_em"],
+            "KeepsakeSanity": self.hades_slot_data["keepsakesanity"],
+            "WeaponSanity": self.hades_slot_data["weaponsanity"],
+            "StoreSanity": self.hades_slot_data["storesanity"],
+            "InitialWeapon": self.hades_slot_data["initial_weapon"],
+            "IgnoreGreeceDeaths": self.hades_slot_data["ignore_greece_deaths"],
+            "FateSanity": self.hades_slot_data["fatesanity"],
+            "HiddenAspectSanity": self.hades_slot_data["hidden_aspectsanity"],
+            "PolycosmosVersion": self.polycosmos_version,
         }
         subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
 
@@ -345,8 +252,8 @@ class HadesContext(CommonContext):
     async def create_location_to_item_dictionary(self, itemsdict):
         locationItemMapping = ""
         for networkitem in itemsdict:
-            locationItemMapping += self.location_names[networkitem.location] + "--" + self.player_names[networkitem.player] + "--" + \
-                                                                 self.item_names[networkitem.item] + "||"
+            locationItemMapping += self.location_names[networkitem.location] + "--" \
+            + self.player_names[networkitem.player] + "--" + self.item_names[networkitem.item] + "||"
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         self.creating_location_to_item_dictionary = False
@@ -354,20 +261,8 @@ class HadesContext(CommonContext):
 
     # ----------------- Package Management section ends --------------------------------
 
-    # ------------------ Section for dealing with filler items not getting obtianed more than once ------------
 
-    async def on_filler_item_recieved_signal(self, message):
-        self.dictionary_filler_items[message] = self.dictionary_filler_items[message] + 1
-        await self.send_msgs([{"cmd": "Set", "key": "hades:" + str(self.slot) + ":filler:" + message,
-                               "want_reply": False, "default": 0, "operations": [{"operation": "add", "value": 1}]}])
 
-    def filter_filler_items_from_cache(self):
-        filtered_cache = copy.deepcopy(self.cache_items_received_names)
-        for key in self.dictionary_filler_items:
-            for i in range(0, self.dictionary_filler_items[key]):
-                if key in filtered_cache:
-                    filtered_cache.remove(key)
-        return filtered_cache
 
     # ----------------- Filler items section ended --------------------------------
 
@@ -401,12 +296,13 @@ class HadesContext(CommonContext):
     # to be changed to adapt to new game completion conditions
     def on_run_completion(self, message):
         #parse message
-        counters = message.split("-") #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
+        counters = message.split("-") 
+        #counters[0] is number of clears, counters[1] is number of different weapons with runs clears.
         
-        hasEnoughRuns = self.hades_slot_data['hades_defeats_needed'] <= int(counters[0])
-        hasEnoughWeapons = self.hades_slot_data['weapons_clears_needed'] <= int(counters[1])
-        hasEnoughKeepsakes = self.hades_slot_data['keepsakes_needed'] <= int(counters[2])
-        hasEnoughFates = self.hades_slot_data['fates_needed'] <= int(counters[3])
+        hasEnoughRuns = self.hades_slot_data["hades_defeats_needed"] <= int(counters[0])
+        hasEnoughWeapons = self.hades_slot_data["weapons_clears_needed"] <= int(counters[1])
+        hasEnoughKeepsakes = self.hades_slot_data["keepsakes_needed"] <= int(counters[2])
+        hasEnoughFates = self.hades_slot_data["fates_needed"] <= int(counters[3])
         print("DEBUG NUMBERS: " + counters[0] + " AND " + counters[1] + " AND " + counters[2] + " AND " + counters[3])
         if (hasEnoughRuns and hasEnoughWeapons and hasEnoughKeepsakes and hasEnoughFates):
             asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
