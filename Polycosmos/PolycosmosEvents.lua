@@ -335,7 +335,9 @@ end)
 
 -- Wrapper for room loading
 ModUtil.LoadOnce(function ()
-    GameState.ClientDataIsLoaded = false
+    if (GameState.ClientDataIsLoaded == nil) then
+        GameState.ClientDataIsLoaded = false
+    end
     PolycosmosEvents.LoadData()
     PolycosmosMessages.PrintInformationMessage("Mod loaded")
 end)

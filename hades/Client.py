@@ -252,12 +252,18 @@ class HadesContext(CommonContext):
     async def create_location_to_item_dictionary(self, itemsdict):
         locationItemMapping = ""
         for networkitem in itemsdict:
-            locationItemMapping += self.location_names[networkitem.location] + "--" \
-            + self.player_names[networkitem.player] + "--" + self.item_names[networkitem.item] + "||"
+            locationItemMapping += self.clear_invalid_char(self.location_names[networkitem.location]) + "--" \
+            + self.clear_invalid_char(self.player_names[networkitem.player]) + "--" \
+            + self.clear_invalid_char(self.item_names[networkitem.item]) + "||"
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         self.creating_location_to_item_dictionary = False
         subsume.Send(styx_scribe_send_prefix + "Data finished")
+    
+    def clear_invalid_char(self, inputstring: str):
+        newstr = inputstring.replace("{", "")
+        newstr = newstr.replace("}","")
+        return newstr
 
     # ----------------- Package Management section ends --------------------------------
 
