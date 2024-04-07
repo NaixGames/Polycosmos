@@ -83,7 +83,6 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        PolycosmosEvents.LoadData()
         wait( bufferTime )
         if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
@@ -112,7 +111,6 @@ function PolycosmosEvents.GiveScore(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        PolycosmosEvents.LoadData()
         wait( bufferTime )
         if not ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
@@ -175,7 +173,6 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        PolycosmosEvents.LoadData()
         wait( bufferTime )
         if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
@@ -401,7 +398,7 @@ StyxScribe.AddHook( PolycosmosEvents.RecievedLocationsReminders, styx_scribe_rec
 -------------- Method to store Client info on save file. Avoid desyncs and problems with exiting and reintering.
 
 function PolycosmosEvents.SaveClientData( message )
-    if (GameState.ClientDataIsLoaded) then
+    if (GameState.ClientDataIsLoaded == true) then
         PolycosmosEvents.SetUpGameWithData()
     end
     GameState.HeatSettings = {}
