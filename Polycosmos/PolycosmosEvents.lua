@@ -86,9 +86,9 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         --In this case this would be the second location desynced, and I really believe at this point there is nothing I can do
         if (checkToProcess ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
-            return
         end
         checkToProcess = roomNumber
+        return
     end
 
     if (GameState.ClientGameSettings["LocationMode"] ~= 1) then
@@ -121,9 +121,9 @@ function PolycosmosEvents.GiveScore(roomNumber)
         --In this case this would be the second location desynced, and I really believe at this point there is nothing I can do
         if (checkToProcess ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
-            return
         end
         checkToProcess = roomNumber
+        return
     end
 
     if (GameState.ClientGameSettings["LocationMode"] ~= 2) then
@@ -189,9 +189,9 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
         if (checkToProcess ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
-            return
         end
         checkToProcess = roomNumber
+        return
     end
 
     if (GameState.ClientGameSettings["LocationMode"] ~= 3) then
