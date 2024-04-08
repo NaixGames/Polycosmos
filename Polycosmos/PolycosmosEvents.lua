@@ -2,7 +2,7 @@ ModUtil.Mod.Register( "PolycosmosEvents" )
 
 loaded = false
 
-local checkToProcess = "" --TODO: Change this for array and process the whole array. This could help with desyncs.
+local checkToProcess = "" --THIS IS USED TO HELP DESYNCS WITH CLIENT
 
 locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
 
@@ -83,17 +83,24 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        wait( bufferTime )
-        if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
+        --In this case this would be the second location desynced, and I really believe at this point there is nothing I can do
+        if (checkToProcess ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
+        checkToProcess = roomNumber
     end
 
     if (GameState.ClientGameSettings["LocationMode"] ~= 1) then
         return
     end
     
+    if (checkToProcess ~= "") then
+        local bufferProcess = checkToProcess
+        checkToProcess = ""
+        PolycosmosEvents.GiveRoomCheck(bufferProcess)
+    end
+
     roomString = roomNumber
     if (roomNumber < 10) then
         roomString = "0"..roomNumber
@@ -111,15 +118,22 @@ function PolycosmosEvents.GiveScore(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        wait( bufferTime )
-        if not ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
+        --In this case this would be the second location desynced, and I really believe at this point there is nothing I can do
+        if (checkToProcess ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
+        checkToProcess = roomNumber
     end
 
     if (GameState.ClientGameSettings["LocationMode"] ~= 2) then
         return
+    end
+
+    if (checkToProcess ~= "") then
+        local bufferProcess = checkToProcess
+        checkToProcess = ""
+        PolycosmosEvents.GiveScore(bufferProcess)
     end
 
     -- initialize the variables we need in case we havent done that
@@ -173,15 +187,21 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        wait( bufferTime )
-        if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
+        if (checkToProcess ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
             return
         end
+        checkToProcess = roomNumber
     end
 
     if (GameState.ClientGameSettings["LocationMode"] ~= 3) then
         return
+    end
+
+    if (checkToProcess ~= "") then
+        local bufferProcess = checkToProcess
+        checkToProcess = ""
+        PolycosmosEvents.GiveWeaponRoomCheck(bufferProcess)
     end
     
     roomString = roomNumber
