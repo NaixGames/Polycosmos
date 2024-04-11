@@ -2,7 +2,7 @@ ModUtil.Mod.Register( "PolycosmosEvents" )
 
 loaded = false
 
-local checkToProcess = "" --THIS IS USED TO HELP DESYNCS WITH CLIENT
+local queuedCheck = "" --THIS IS USED TO HELP DESYNCS WITH CLIENT
 
 locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
 
@@ -49,7 +49,7 @@ is_greece_death = false
 ------------ General function to process location checks
 
 function PolycosmosEvents.UnlockLocationCheck(checkName)
-    checkToProcess = checkName
+    local checkToProcess = checkName
     if (checkToProcess == "") then
         return
     end
@@ -84,10 +84,10 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
         --In this case this would be the second location desynced, and I really believe at this point there is nothing I can do
-        if (checkToProcess ~= "") then
+        if (queuedCheck ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
         end
-        checkToProcess = roomNumber
+        queuedCheck = roomNumber
         return
     end
 
@@ -95,9 +95,9 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         return
     end
     
-    if (checkToProcess ~= "") then
-        local bufferProcess = checkToProcess
-        checkToProcess = ""
+    if (queuedCheck ~= "") then
+        local bufferProcess = queuedCheck
+        queuedCheck = ""
         PolycosmosEvents.GiveRoomCheck(bufferProcess)
     end
 
@@ -119,10 +119,10 @@ function PolycosmosEvents.GiveScore(roomNumber)
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
         --In this case this would be the second location desynced, and I really believe at this point there is nothing I can do
-        if (checkToProcess ~= "") then
+        if (queuedCheck ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
         end
-        checkToProcess = roomNumber
+        queuedCheck = roomNumber
         return
     end
 
@@ -130,9 +130,9 @@ function PolycosmosEvents.GiveScore(roomNumber)
         return
     end
 
-    if (checkToProcess ~= "") then
-        local bufferProcess = checkToProcess
-        checkToProcess = ""
+    if (queuedCheck ~= "") then
+        local bufferProcess = queuedCheck
+        queuedCheck = ""
         PolycosmosEvents.GiveScore(bufferProcess)
     end
 
@@ -187,10 +187,10 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
     end
     --if some weird shenanigan made StyxScribe not load (like exiting in the wrong moment), try to load, if that fails abort and send an error message
     if ((not PolycosmosEvents.IsItemMappingInitiliazed()) or (not GameState.ClientDataIsLoaded)) then
-        if (checkToProcess ~= "") then
+        if (queuedCheck ~= "") then
             PolycosmosMessages.PrintToPlayer("Polycosmos in a desync state. Enter and exit the save file again!")
         end
-        checkToProcess = roomNumber
+        queuedCheck = roomNumber
         return
     end
 
@@ -198,9 +198,9 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
         return
     end
 
-    if (checkToProcess ~= "") then
-        local bufferProcess = checkToProcess
-        checkToProcess = ""
+    if (queuedCheck ~= "") then
+        local bufferProcess = queuedCheck
+        queuedCheck = ""
         PolycosmosEvents.GiveWeaponRoomCheck(bufferProcess)
     end
     
@@ -481,6 +481,10 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.SaveUserIntededHeat()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
+
+    if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0) then
+        CurrentRun.ActiveBiomeTimer = false
+    end
 end
 
 --Set hook to load Boss data once informacion of setting is loaded
@@ -491,8 +495,8 @@ ModUtil.WrapBaseFunction("StartNewRun",
     function ( baseFunc, prevRun, args )
         if (GameState ~= nil and GameState.ClientDataIsLoaded) then
             PolycosmosEvents.SetUpGameWithData()
-        else --if this is the first run we should run this to get the timer on the UI
-            GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] = 1
         end
-        return baseFunc( prevRun, args )
+        local run = baseFunc( prevRun, args )
+        run.ActiveBiomeTimer = true
+        return run
     end, PolycosmosEvents)
