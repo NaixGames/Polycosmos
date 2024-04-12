@@ -482,7 +482,7 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
 
-    if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0) then
+    if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0 and CurrentRun ~= nil) then
         CurrentRun.ActiveBiomeTimer = false
     end
 end
