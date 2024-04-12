@@ -484,6 +484,11 @@ function PolycosmosEvents.SetUpGameWithData()
 
     if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0 and CurrentRun ~= nil) then
         CurrentRun.ActiveBiomeTimer = false
+        return
+    end
+    --if having some heat for TightDeadline, force the timer.
+    if (CurrentRun ~= nil) then
+        CurrentRun.ActiveBiomeTimer = true
     end
 end
 
@@ -493,10 +498,10 @@ StyxScribe.AddHook( PolycosmosEvents.SaveClientData, styx_scribe_recieve_prefix.
 
 ModUtil.WrapBaseFunction("StartNewRun", 
     function ( baseFunc, prevRun, args )
+        run = baseFunc( prevRun, args )
         if (GameState ~= nil and GameState.ClientDataIsLoaded) then
             PolycosmosEvents.SetUpGameWithData()
         end
-        local run = baseFunc( prevRun, args )
-        run.ActiveBiomeTimer = true
+        --Avoid doing things to the run here, since it can create racing conditions.
         return run
     end, PolycosmosEvents)
