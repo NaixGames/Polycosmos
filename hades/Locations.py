@@ -207,7 +207,6 @@ def give_all_locations_table():
         **location_store_gemstones,
         **location_store_diamonds,
         **location_table_fates,
-        **location_table_fates_events,
     }
 
 def clear_tables():
@@ -242,7 +241,6 @@ def clear_tables():
 def setup_location_table_with_settings(options):
     clear_tables()
     total_table = {}
-    total_table.update(location_table_fates_events)
     
     if (options.keepsakesanity.value == 1):
         total_table.update(location_keepsakes)

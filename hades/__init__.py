@@ -65,15 +65,14 @@ class HadesWorld(World):
     location_table = give_all_locations_table()
     location_name_to_id = location_table
 
-    local_location_table = []
-
     def generate_early(self):
-        self.local_location_table = setup_location_table_with_settings(self.options)
         if (self.options.initial_weapon == 6):
             # Randomized initial weapon if needed
             self.options.initial_weapon = InitialWeapon(random.randint(0, 5))
 
     def create_items(self):
+        local_location_table = setup_location_table_with_settings(self.options).copy()
+        
         pool = []
 
         # Fill pact items
@@ -111,19 +110,6 @@ class HadesWorld(World):
                 item = HadesItem(name, self.player)
                 pool.append(item)
 
-        # create the pack of filler options
-        filler_options = create_filler_pool_options(self.options)
-
-        # Fill filler items uniformly. Maybe later we can tweak this.
-        index = 0
-        for amount in range(0, len(self.local_location_table)-len(pool)-len(event_item_pairs)):
-            item_name = filler_options[index]
-            item = HadesItem(item_name, self.player)
-            pool.append(item)
-            index = (index+1) % len(filler_options)
-
-        self.multiworld.itempool += pool
-
         # Pair up our event locations with our event items
         if (self.options.location_system.value == 3):
             for event, item in event_item_pairs_weapon_mode.items():
@@ -135,6 +121,28 @@ class HadesWorld(World):
                 event_item = HadesItem(item, self.player)
                 self.multiworld.get_location(
                     event, self.player).place_locked_item(event_item)
+                
+
+        # create the pack of filler options
+        filler_options = create_filler_pool_options(self.options)
+
+        # Fill filler items uniformly. Maybe later we can tweak this.
+        index = 0
+        fillers_needed = len(local_location_table)-len(pool)
+        if (self.options.location_system.value == 3):
+            #Substract the 4 bosses for each of the 6 weapons = 24
+            fillers_needed = fillers_needed - 24
+        else:
+            #Substract the 4 bosses
+            fillers_needed = fillers_needed - 4
+
+        for amount in range(0, fillers_needed):
+            item_name = filler_options[index]
+            item = HadesItem(item_name, self.player)
+            pool.append(item)
+            index = (index+1) % len(filler_options)
+
+        self.multiworld.itempool += pool
 
     def should_ignore_weapon(self, name):
         if (self.options.initial_weapon == 0 and name == "SwordWeaponUnlockItem"):
@@ -152,8 +160,9 @@ class HadesWorld(World):
         return False
 
     def set_rules(self):
+        local_location_table = setup_location_table_with_settings(self.options).copy()
         set_rules(self.multiworld, self.player, self.calculate_number_of_pact_items(
-        ), self.local_location_table, self.options)
+        ), local_location_table, self.options)
 
     def calculate_number_of_pact_items(self):
         # Go thorugh every option and count what is the chosen level
@@ -179,7 +188,8 @@ class HadesWorld(World):
         return HadesItem(name, self.player)
 
     def create_regions(self):
-        create_regions(self, self.local_location_table)
+        local_location_table = setup_location_table_with_settings(self.options).copy()
+        create_regions(self, local_location_table)
 
     def fill_slot_data(self) -> dict:
         slot_data = {
