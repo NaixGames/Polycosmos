@@ -65,18 +65,15 @@ class HadesWorld(World):
     location_table = give_all_locations_table()
     location_name_to_id = location_table
 
+    local_location_table = []
+
     def generate_early(self):
+        self.local_location_table = setup_location_table_with_settings(self.options)
         if (self.options.initial_weapon == 6):
             # Randomized initial weapon if needed
             self.options.initial_weapon = InitialWeapon(random.randint(0, 5))
 
-        self.location_table = setup_location_table_with_settings(self.options)
-        self.location_name_to_id = self.location_table
-
     def create_items(self):
-        self.location_table = setup_location_table_with_settings(self.options)
-        self.location_name_to_id = self.location_table
-
         pool = []
 
         # Fill pact items
@@ -119,7 +116,7 @@ class HadesWorld(World):
 
         # Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
-        for amount in range(0, len(self.location_name_to_id)-len(pool)-len(event_item_pairs)):
+        for amount in range(0, len(self.local_location_table)-len(pool)-len(event_item_pairs)):
             item_name = filler_options[index]
             item = HadesItem(item_name, self.player)
             pool.append(item)
@@ -155,11 +152,8 @@ class HadesWorld(World):
         return False
 
     def set_rules(self):
-        self.location_table = setup_location_table_with_settings(self.options)
-        self.location_name_to_id = self.location_table
-
         set_rules(self.multiworld, self.player, self.calculate_number_of_pact_items(
-        ), self.location_table, self.options)
+        ), self.local_location_table, self.options)
 
     def calculate_number_of_pact_items(self):
         # Go thorugh every option and count what is the chosen level
@@ -185,10 +179,7 @@ class HadesWorld(World):
         return HadesItem(name, self.player)
 
     def create_regions(self):
-        self.location_table = setup_location_table_with_settings(self.options)
-        self.location_name_to_id = self.location_table
-
-        create_regions(self, self.location_table)
+        create_regions(self, self.local_location_table)
 
     def fill_slot_data(self) -> dict:
         slot_data = {

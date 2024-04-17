@@ -128,7 +128,7 @@ def create_regions(ctx, location_database):
                                                 [location for location in location_store_diamonds], 
                                                 ["ExitDiamondStore"])] 
     
-    fates_location = location_table_fates_events
+    fates_location = location_table_fates_events.copy()
     if (ctx.options.fatesanity.value==1):
         fates_location.update(location_table_fates)
     ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "FatedList", 
