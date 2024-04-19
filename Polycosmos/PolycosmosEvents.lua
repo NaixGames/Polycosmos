@@ -221,10 +221,11 @@ end
 
 --When more features are added this is the function we need to extend!
 function PolycosmosEvents.UpdateItemsRun( message )
-    if (not GameState.ClientDataIsLoaded) then
-        --If this is not loaded then the player just started the game.
-        --We can return. Items will be sent again at the end of the first room, which happens 
-        --automatically, so we can return in this case.
+    if not (GameState.ClientDataIsLoaded == true) then
+        --If data was not loaded for some reason, request the data again.
+        --If this is not loaded then the player just started the game or did something really unexpected (start from a non fresh file?)
+        --All items will be sent again eventually, so we ask the data and return 
+        PolycosmosEvents.LoadData()
         return
     end
     local itemList = PolycosmosUtils.ParseStringToArray(message)
