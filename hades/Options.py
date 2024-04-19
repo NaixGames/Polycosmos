@@ -1,6 +1,110 @@
 import typing
 from Options import TextChoice, Option, Range, Toggle, DeathLink, Choice
 
+# -----------------------Settings for Gameplay decisions ---------------
+
+class InitialWeapon(Choice):
+    """Chose your initial weapon. Note you are not be able to equip the sword in the weapon hub in WeaponSanity
+     """
+    display_name = "Weapon"
+    option_Sword = 0
+    option_Bow = 1
+    option_Spear = 2
+    option_Shield = 3
+    option_Fist = 4
+    option_Gun = 5
+
+class LocationSystem(Choice):
+    """Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
+    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
+    items on every new room completed with a new weapon (so more locations than the original room based system)"""
+    display_name = "Location System"
+    option_roombased = 1
+    option_scorebased = 2
+    option_roomweaponbased = 3
+    default = 1
+    
+
+class ScoreRewardsAmount(Range):
+    """When using socre based system, this sets how many locations the score can give. 
+    Each room gives "its depth" in score and each new location need one more points to be unlocked 
+    (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)"""
+    display_name = "ScoreRewardsAmount"
+    range_start = 72
+    range_end = 1000
+    default = 300
+
+class KeepsakeSanity(Toggle):
+    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. 
+    For simplicity this does not affects Hades and Persephone."""
+    display_name = "KeepsakeSanity"
+    option_true = 1
+    option_false = 0
+    default = 1
+    
+class WeaponSanity(Toggle):
+    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. 
+    Need to be sent the weapon item to gain the skill to equip them."""
+    display_name = "WeaponSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
+    
+class HiddenAspectSanity(Toggle):
+    """If hidden aspects of weapons are shuffled into the item pool to be unlocked before being able to be bought."""
+    display_name = "HiddenAspectSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
+
+class StoreSanity(Toggle):
+    """If Important item from the store are shuffled in the item pool.
+      Need to be sent the items to gain the different perks that make runs easier."""
+    display_name = "StoreSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
+    
+class FateSanity(Toggle):
+    """If most of the locations of the fated list are considered AP locations. 
+    Can make the games significantly longer"""
+    display_name = "FateSanity"
+    option_true = 1
+    option_false = 0
+    default = 1 
+
+
+# -------------------- Endgame settings
+
+class HadesDefeatsNeeded(Range):
+    """How many times you need to defeat Hades to win the world. 10 is for credits."""
+    display_name = "HadesDefeatsNeeded"
+    range_start = 1
+    range_end = 20
+    default = 1
+
+class WeaponsClearsNeeded(Range):
+    """How many different weapons clears are needed to win the world."""
+    display_name = "WeaponsClearsNeeded"
+    range_start = 1
+    range_end = 6
+    default = 1
+    
+class KeepsakesNeeded(Range):
+    """How many different keepsakes unlocked are needed to win the world."""
+    display_name = "KeepsakesNeeded"
+    range_start = 0
+    range_end = 23
+    default = 0
+
+class FatesNeeded(Range):
+    """How many different Fated List completed are needed to win the world."""
+    display_name = "FatesNeeded"
+    range_start = 0
+    range_end = 35
+    default = 0
+
+
 # -----------------------Settings for Pact levels ---------------
 
 class HeatSystem(Choice):
@@ -144,6 +248,9 @@ class PersonalLiabilityPactAmount(Range):
     default = 0
     internal_name = "PersonalLiabilityPactLevel"
 
+
+# -----------------------Settings for Filler items ---------------
+
 class DarknessPackValue(Range):
     """Choose the value(amount of darkness) of each darkness pack in the pool. 
     If set to 0 Darkness will not appear in the pool."""
@@ -208,28 +315,7 @@ class AmbrosiaPackValue(Range):
     internal_name = "AmbrosiaPackValue"
 
 
-# -----------------------------------------------------------------
-
-class LocationSystem(Choice):
-    """Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
-    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
-    items on every new room completed with a new weapon (so more locations than the original room based system)"""
-    display_name = "Location System"
-    option_roombased = 1
-    option_scorebased = 2
-    option_roomweaponbased = 3
-    default = 1
-    
-
-class ScoreRewardsAmount(Range):
-    """When using socre based system, this sets how many locations the score can give. 
-    Each room gives "its depth" in score and each new location need one more points to be unlocked 
-    (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)"""
-    display_name = "ScoreRewardsAmount"
-    range_start = 72
-    range_end = 1000
-    default = 300
-
+# -----------------------Settings for QoL -------------------------
 
 class ReverseOrderExtremeMeasure(Toggle):
     """When true the order in which extreme meassures applied is reverse 
@@ -239,106 +325,32 @@ class ReverseOrderExtremeMeasure(Toggle):
     option_true = 1
     option_false = 0
     default = 1
-    
-# -----------------------------------------------------------------
-
-class KeepsakeSanity(Toggle):
-    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. 
-    For simplicity this does not affects Hades and Persephone."""
-    display_name = "KeepsakeSanity"
-    option_true = 1
-    option_false = 0
-    default = 1
-    
-class WeaponSanity(Toggle):
-    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. 
-    Need to be sent the weapon item to gain the skill to equip them."""
-    display_name = "WeaponSanity"
-    option_true = 1
-    option_false = 0
-    default = 1 
-
-class StoreSanity(Toggle):
-    """If Important item from the store are shuffled in the item pool.
-      Need to be sent the items to gain the different perks that make runs easier."""
-    display_name = "StoreSanity"
-    option_true = 1
-    option_false = 0
-    default = 1 
-
-class InitialWeapon(Choice):
-    """Chose your initial weapon. Note you might not be able to equip the sword in the weapon hub in WeaponSanity
-     """
-    display_name = "Weapon"
-    option_Sword = 0
-    option_Bow = 1
-    option_Spear = 2
-    option_Shield = 3
-    option_Fist = 4
-    option_Gun = 5
-    option_RandomWeapon = 6
-    
-class FateSanity(Toggle):
-    """If most of the locations of the fated list are considered AP locations. 
-    Can make the games significantly longer"""
-    display_name = "FateSanity"
-    option_true = 1
-    option_false = 0
-    default = 1 
-    
-class HiddenAspectSanity(Toggle):
-    """If hidden aspects of weapons are shuffled into the item pool to be unlocked before being able to be used."""
-    display_name = "HiddenAspectSanity"
-    option_true = 1
-    option_false = 0
-    default = 1 
-
-# -----------------------------------------------------------------
-
-class HadesDefeatsNeeded(Range):
-    """How many times you need to defeat Hades to win the world. 10 is for credits."""
-    display_name = "HadesDefeatsNeeded"
-    range_start = 1
-    range_end = 20
-    default = 1
-
-class WeaponsClearsNeeded(Range):
-    """How many different weapons clears are needed to win the world."""
-    display_name = "WeaponsClearsNeeded"
-    range_start = 1
-    range_end = 6
-    default = 1
-    
-class KeepsakesNeeded(Range):
-    """How many different keepsakes unlocked are needed to win the world."""
-    display_name = "KeepsakesNeeded"
-    range_start = 0
-    range_end = 23
-    default = 0
-
-class FatesNeeded(Range):
-    """How many different Fated List completed are needed to win the world."""
-    display_name = "FatesNeeded"
-    range_start = 0
-    range_end = 35
-    default = 0
-
-
-# -----------------------------------------------------------------
 
 class IgnoreGreeceDeaths(Toggle):
-    """If deaths on Greece are ignored for deathlink. Leave off for the memes.."""
+    """If deaths on Greece are ignored for deathlink. Leave off for the memes."""
     display_name = "IgnoreGreeceDeaths"
     option_true = 1
     option_false = 0
     default = 1
 
 
+
 # ------------------------------ Building dictionary ------------------------
 
 
 hades_options: typing.Dict[str, type(Option)] = {
-    "death_link": DeathLink,
+    "initial_weapon": InitialWeapon,
+    "location_system": LocationSystem,
+    "score_rewards_amount": ScoreRewardsAmount,
+    "keepsakesanity": KeepsakeSanity,
+    "weaponsanity": WeaponSanity,
+    "hidden_aspectsanity": HiddenAspectSanity,
+    "storesanity": StoreSanity,
+    "fatesanity": FateSanity,
+    "hades_defeats_needed" : HadesDefeatsNeeded,
+    "weapons_clears_needed": WeaponsClearsNeeded,
+    "keepsakes_needed": KeepsakesNeeded,
+    "fates_needed": FatesNeeded,
     "heat_system": HeatSystem,
     "hard_labor_pact_amount": HardLaborPactAmount,
     "lasting_consequences_pact_amount": LastingConsequencesPactAmount,
@@ -363,18 +375,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "titan_blood_pack_value": TitanBloodPackValue,
     "nectar_pack_value": NectarPackValue,
     "ambrosia_pack_value": AmbrosiaPackValue,
-    "location_system": LocationSystem,
-    "score_rewards_amount": ScoreRewardsAmount,
     "reverse_order_em": ReverseOrderExtremeMeasure,
-    "hades_defeats_needed" : HadesDefeatsNeeded,
-    "weapons_clears_needed": WeaponsClearsNeeded,
-    "keepsakes_needed": KeepsakesNeeded,
-    "fates_needed": FatesNeeded,
-    "keepsakesanity": KeepsakeSanity,
-    "initial_weapon": InitialWeapon,
-    "weaponsanity": WeaponSanity,
-    "storesanity": StoreSanity,
-    "fatesanity": FateSanity,
-    "hidden_aspectsanity": HiddenAspectSanity,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
+    "death_link": DeathLink,
 }

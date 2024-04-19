@@ -1,0 +1,481 @@
+﻿# Q. What is this file?
+# A. This file contains options which allow you to configure your multiworld experience while allowing
+#    others to play how they want as well.
+#
+# Q. How do I use it?
+# A. The options in this file are weighted. This means the higher number you assign to a value, the
+#    more chances you have for that option to be chosen. For example, an option like this:
+#
+#    map_shuffle:
+#      on: 5
+#      off: 15
+#
+#    Means you have 5 chances for map shuffle to occur, and 15 chances for map shuffle to be turned
+#    off.
+#
+# Q. I've never seen a file like this before. What characters am I allowed to use?
+# A. This is a .yaml file. You are allowed to use most characters.
+#    To test if your yaml is valid or not, you can use this website:
+#        http://www.yamllint.com/
+#    You can also verify that your Archipelago options are valid at this site:
+#        https://archipelago.gg/check
+
+# Your name in-game, limited to 16 characters.
+#     {player} will be replaced with the player's slot number.
+#     {PLAYER} will be replaced with the player's slot number, if that slot number is greater than 1.
+#     {number} will be replaced with the counter value of the name.
+#     {NUMBER} will be replaced with the counter value of the name, if the counter value is greater than 1.
+name: PlayerName
+
+# Used to describe your yaml. Useful if you have multiple files.
+description: Default Hades Template
+
+game: Hades
+requires:
+  version: 0.4.5 # Version of Archipelago required for this yaml to work as expected.
+
+Hades:
+  progression_balancing:
+    # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
+    # A lower setting means more getting stuck. A higher setting means less getting stuck.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 99
+    random: 0
+    random-low: 0
+    random-high: 0
+    disabled: 0 # equivalent to 0
+    normal: 50 # equivalent to 50
+    extreme: 0 # equivalent to 99
+
+  accessibility:
+    # Set rules for reachability of your items/locations.
+    # Locations: ensure everything can be reached and acquired.
+    # Items: ensure all logically relevant items can be acquired.
+    # Minimal: ensure what is needed to reach your goal can be acquired.
+    locations: 0
+    items: 50
+    minimal: 0
+
+  local_items:
+    # Forces these items to be in their native world.
+    []
+
+  non_local_items:
+    # Forces these items to be outside their native world.
+    []
+
+  start_inventory:
+    # Start with these items.
+    {}
+
+  start_hints:
+    # Start with these item's locations prefilled into the !hint command.
+    []
+
+  start_location_hints:
+    # Start with these locations and their item prefilled into the !hint command
+    []
+
+  exclude_locations:
+    # Prevent these locations from having an important item
+    []
+
+  priority_locations:
+    # Prevent these locations from having an unimportant item
+    []
+
+  item_links:
+    # Share part of your item pool with other players.
+    []
+
+  initial_weapon:
+    # Chose your initial weapon. Note you are not be able to equip the sword in the weapon hub in WeaponSanity
+    sword: 50
+    bow: 0
+    spear: 0
+    shield: 0
+    fist: 0
+    gun: 0
+
+  location_system:
+    # Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
+    # gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
+    # items on every new room completed with a new weapon (so more locations than the original room based system)
+    roombased: 0
+    scorebased: 50
+    roomweaponbased: 0
+
+  score_rewards_amount:
+    # When using socre based system, this sets how many locations the score can give. 
+    # Each room gives "its depth" in score and each new location need one more points to be unlocked 
+    # (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 72
+    # Maximum value is 1000
+    150: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  keepsakesanity:
+    # If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. 
+    # For simplicity this does not affects Hades and Persephone.
+    false: 0
+    true: 50
+
+  weaponsanity:
+    # If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. 
+    # Need to be sent the weapon item to gain the skill to equip them.
+    false: 0
+    true: 50
+
+  hidden_aspectsanity:
+    # If hidden aspects of weapons are shuffled into the item pool to be unlocked before being able to be bought.
+    false: 0
+    true: 50
+
+  storesanity:
+    # If Important item from the store are shuffled in the item pool.
+    #   Need to be sent the items to gain the different perks that make runs easier.
+    false: 0
+    true: 50
+
+  fatesanity:
+    # If most of the locations of the fated list are considered AP locations. 
+    # Can make the games significantly longer
+    false: 0
+    true: 50
+
+  hades_defeats_needed:
+    # How many times you need to defeat Hades to win the world. 10 is for credits.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 1
+    # Maximum value is 20
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  weapons_clears_needed:
+    # How many different weapons clears are needed to win the world.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 1
+    # Maximum value is 6
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  keepsakes_needed:
+    # How many different keepsakes unlocked are needed to win the world.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 23
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  fates_needed:
+    # How many different Fated List completed are needed to win the world.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 35
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  heat_system:
+    # Choose either ReverseHeat (1), MinimalHeat (2) or VainillaHeat(3) for the game.
+    # In ReverseHeat you start with heat pacts that cannot be disabled until you get the corresponding pact item.
+    # In Minimal the settings for the PactsAmmounts below set your minimal heat to be set, and cannot go below that level.
+    # If not wanting to have one of this heat systems on, chose Vanilla heat 
+    # (then the following options related to pacts do nothing).
+    reverseheat: 50
+    minimalheat: 0
+    vanilllaheat: 0
+
+  hard_labor_pact_amount:
+    # Choose the amount of Hard Labor pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 5
+    3: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  lasting_consequences_pact_amount:
+    # Choose the amount of Lasting Consequences pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 4
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  convenience_fee_pact_amount:
+    # Choose the amount of Convenience Fee pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  jury_summons_pact_amount:
+    # Choose the amount of Jury Summons pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 3
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  extreme_measures_pact_amount:
+    # Choose the amount of Extreme Measures pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 4
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  calisthenics_program_pact_amount:
+    # Choose the amount of Calisthenics Program pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  benefits_package_pact_amount:
+    # Choose the amount of Benefits Package pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  middle_management_pact_amount:
+    # Choose the amount of Middle Management pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  underworld_customs_pact_amount:
+    # Choose the amount of Underworld Customs pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  forced_overtime_pact_amount:
+    # Choose the amount of Forced Overtime pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  heightened_security_pact_amount:
+    # Choose the amount of Heightened Security pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  routine_inspection_pact_amount:
+    # Choose the amount of Routine Inspection pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 4
+    3: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  damage_control_pact_amount:
+    # Choose the amount of Damage Control pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  approval_process_pact_amount:
+    # Choose the amount of Approval Process pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2
+    1: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  tight_deadline_pact_amount:
+    # Choose the amount of Tight Deadline pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 3
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  personal_liability_pact_amount:
+    # Choose the amount of Personal Liability pacts in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 1
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  darkness_pack_value:
+    # Choose the value(amount of darkness) of each darkness pack in the pool. 
+    # If set to 0 Darkness will not appear in the pool.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 10000
+    500: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  keys_pack_value:
+    # Choose the value(amount of Keys) of each Keys pack in the pool.
+    # If set to 0 Keys will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 500
+    10: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  gemstones_pack_value:
+    # Choose the value(amount of Gemstones) of each Gemstone pack in the pool. 
+    # If set to 0 Gems will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 2500
+    50: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  diamonds_pack_value:
+    # Choose the value(amount of diamonds) of each diamonds pack in the pool. 
+    # If set to 0 Diamonds will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 100
+    5: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  titan_blood_pack_value:
+    # Choose the value(amount of Titan blood) of each Titan blood pack in the pool. 
+    # If set to 0 Titan blood will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 50
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  nectar_pack_value:
+    # Choose the value(amount of Nectar) of each Nectar pack in the pool. 
+    # If set to 0 Nectar will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 50
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  ambrosia_pack_value:
+    # Choose the value(amount of Ambrosia) of each Ambrosia pack in the pool. 
+    # If set to 0 Ambrosia will not appear in the pool
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 50
+    2: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  reverse_order_em:
+    # When true the order in which extreme meassures applied is reverse 
+    # so level 1 is applied to Hades, instead to Meg/The Furies). 
+    # For a more balanced experience
+    false: 0
+    true: 50
+
+  ignore_greece_deaths:
+    # If deaths on Greece are ignored for deathlink. Leave off for the memes.
+    false: 0
+    true: 50
+
+  death_link:
+    # When you die, everyone dies. Of course the reverse is true too.
+    false: 50
+    true: 0
