@@ -1,6 +1,7 @@
 from __future__ import annotations
 import atexit
 import os
+from pdb import run
 import sys
 import asyncio
 import random
@@ -38,8 +39,8 @@ styx_scribe_send_prefix = "Client to Polycosmos:"
 class HadesClientCommandProcessor(ClientCommandProcessor):
     def _cmd_resync(self):
         """Manually trigger a resync."""
-        self.output(f"Syncing items.")
-        self.ctx.syncing = True
+        #This is a really stupid solution, but it works so idk
+        asyncio.create_task(self.ctx.check_connection_and_send_items_and_request_starting_info(""))
 
 
 class HadesContext(CommonContext):
