@@ -8,7 +8,7 @@ from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
       create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, \
         item_table_store, item_table_hidden_aspects
-from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation
+from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, location_table_fates_events
 from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
 from .Rules import set_rules
@@ -128,7 +128,7 @@ class HadesWorld(World):
 
         # Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
-        fillers_needed = len(local_location_table)-len(pool)
+        fillers_needed = len(local_location_table)-len(pool)-len(location_table_fates_events)
         if (self.options.location_system.value == 3):
             #Substract the 4 bosses for each of the 6 weapons = 24
             fillers_needed = fillers_needed - 24
