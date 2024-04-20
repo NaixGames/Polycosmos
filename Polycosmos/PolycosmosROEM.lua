@@ -34,14 +34,14 @@ function PolycosmosROEM.LoadBossData()
 
     loaded = true
 
-    if (not StyxScribeShared.Root.GameSettings) then
+    if (not GameState.ClientGameSettings) then
         wait( bufferTime )
-        if (not StyxScribeShared.Root.GameSettings) then
+        if (not GameState.ClientGameSettings) then
             print("Cant load REOM because of lack of data. Sorry.")
             return
         end
     end
-    if (StyxScribeShared.Root.GameSettings["ReverseOrderEM"] == 0) then
+    if (GameState.ClientGameSettings["ReverseOrderEM"] == 0) then
         print("Rever order EM is off. Not loaded.")
         return
     end

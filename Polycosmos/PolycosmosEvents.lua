@@ -420,50 +420,52 @@ function PolycosmosEvents.SaveClientData( message )
 
     local codified_settings = StyxScribeShared.Root.Settings
 
-    local array_settings = PolycosmosUtils.ParseStringToArray(codified_settings)
+    local array_settings = PolycosmosUtils.NewParseStringToArray(codified_settings)
 
+    print("here")
+    PolycosmosUtils.PrintTableDebug(array_settings)
 
     GameState.HeatSettings = {}
-    GameState.ClientGameSettings["HeatMode"] = array_settings[1]
-    GameState.HeatSettings["HardLaborPactLevel"] = array_settings[2]
-    GameState.HeatSettings["LastingConsequencesPactLevel"] = array_settings[3]
-    GameState.HeatSettings["ConvenienceFeePactLevel"] = array_settings[4]
-    GameState.HeatSettings["JurySummonsPactLevel"] = array_settings[5]
-    GameState.HeatSettings["ExtremeMeasuresPactLevel"] = array_settings[6]
-    GameState.HeatSettings["CalisthenicsProgramPactLevel"] = array_settings[7]
-    GameState.HeatSettings["BenefitsPackagePactLevel"] = array_settings[8]
-    GameState.HeatSettings["MiddleManagementPactLevel"] = array_settings[9]
-    GameState.HeatSettings["UnderworldCustomsPactLevel"] = array_settings[10]
-    GameState.HeatSettings["ForcedOvertimePactLevel"] = array_settings[11]
-    GameState.HeatSettings["HeightenedSecurityPactLevel"] = array_settings[12]
-    GameState.HeatSettings["RoutineInspectionPactLevel"] = array_settings[13]
-    GameState.HeatSettings["DamageControlPactLevel"] = array_settings[14]
-    GameState.HeatSettings["ApprovalProcessPactLevel"] = array_settings[15]
-    GameState.HeatSettings["TightDeadlinePactLevel"] = array_settings[16]
-    GameState.HeatSettings["PersonalLiabilityPactLevel"] = array_settings[17]
-
-    GameState.ClientFillerValues = {}
-    GameState.ClientFillerValues["DarknessPackValue"] = array_settings[18]
-    GameState.ClientFillerValues["KeysPackValue"] = array_settings[19]
-    GameState.ClientFillerValues["GemstonesPackValue"] = array_settings[20]
-    GameState.ClientFillerValues["DiamondsPackValue"] = array_settings[21]
-    GameState.ClientFillerValues["TitanBloodPackValue"] = array_settings[22]
-    GameState.ClientFillerValues["NectarPackValue"] = array_settings[23]
-    GameState.ClientFillerValues["AmbrosiaPackValue"] = array_settings[24]
-
     GameState.ClientGameSettings = {}
-    GameState.ClientGameSettings["LocationMode"] = array_settings[25]
-    GameState.ClientGameSettings["ReverseOrderEM"] = array_settings[26]
-    GameState.ClientGameSettings["KeepsakeSanity"] = array_settings[27]
-    GameState.ClientGameSettings["WeaponSanity"] = array_settings[28]
-    GameState.ClientGameSettings["StoreSanity"] = array_settings[29]
-    GameState.ClientGameSettings["InitialWeapon"] = array_settings[30]
-    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = array_settings[31]
-    GameState.ClientGameSettings["FateSanity"] = array_settings[32]
-    GameState.ClientGameSettings["HiddenAspectSanity"] = array_settings[33]
-    GameState.ClientGameSettings["PolycosmosVersion"] = array_settings[34]
-
+    GameState.ClientFillerValues = {}
     GameState.LocationsChecked = {}
+
+    GameState.ClientGameSettings["HeatMode"] = tonumber(array_settings[1])
+    GameState.HeatSettings["HardLaborPactLevel"] = tonumber(array_settings[2])
+    GameState.HeatSettings["LastingConsequencesPactLevel"] = tonumber(array_settings[3])
+    GameState.HeatSettings["ConvenienceFeePactLevel"] = tonumber(array_settings[4])
+    GameState.HeatSettings["JurySummonsPactLevel"] = tonumber(array_settings[5])
+    GameState.HeatSettings["ExtremeMeasuresPactLevel"] = tonumber(array_settings[6])
+    GameState.HeatSettings["CalisthenicsProgramPactLevel"] = tonumber(array_settings[7])
+    GameState.HeatSettings["BenefitsPackagePactLevel"] = tonumber(array_settings[8])
+    GameState.HeatSettings["MiddleManagementPactLevel"] = tonumber(array_settings[9])
+    GameState.HeatSettings["UnderworldCustomsPactLevel"] = tonumber(array_settings[10])
+    GameState.HeatSettings["ForcedOvertimePactLevel"] = tonumber(array_settings[11])
+    GameState.HeatSettings["HeightenedSecurityPactLevel"] = tonumber(array_settings[12])
+    GameState.HeatSettings["RoutineInspectionPactLevel"] = tonumber(array_settings[13])
+    GameState.HeatSettings["DamageControlPactLevel"] = tonumber(array_settings[14])
+    GameState.HeatSettings["ApprovalProcessPactLevel"] = tonumber(array_settings[15])
+    GameState.HeatSettings["TightDeadlinePactLevel"] = tonumber(array_settings[16])
+    GameState.HeatSettings["PersonalLiabilityPactLevel"] = tonumber(array_settings[17])
+
+    GameState.ClientFillerValues["DarknessPackValue"] = tonumber(array_settings[18])
+    GameState.ClientFillerValues["KeysPackValue"] = tonumber(array_settings[19])
+    GameState.ClientFillerValues["GemstonesPackValue"] = tonumber(array_settings[20])
+    GameState.ClientFillerValues["DiamondsPackValue"] = tonumber(array_settings[21])
+    GameState.ClientFillerValues["TitanBloodPackValue"] = tonumber(array_settings[22])
+    GameState.ClientFillerValues["NectarPackValue"] = tonumber(array_settings[23])
+    GameState.ClientFillerValues["AmbrosiaPackValue"] = tonumber(array_settings[24])
+
+    GameState.ClientGameSettings["LocationMode"] = tonumber(array_settings[25])
+    GameState.ClientGameSettings["ReverseOrderEM"] = tonumber(array_settings[26])
+    GameState.ClientGameSettings["KeepsakeSanity"] = tonumber(array_settings[27])
+    GameState.ClientGameSettings["WeaponSanity"] = tonumber(array_settings[28])
+    GameState.ClientGameSettings["StoreSanity"] = tonumber(array_settings[29])
+    GameState.ClientGameSettings["InitialWeapon"] = tonumber(array_settings[30])
+    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = tonumber(array_settings[31])
+    GameState.ClientGameSettings["FateSanity"] = tonumber(array_settings[32])
+    GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[33])
+    GameState.ClientGameSettings["PolycosmosVersion"] = tonumber(array_settings[34])
 
     GameState.ClientDataIsLoaded = true
 
