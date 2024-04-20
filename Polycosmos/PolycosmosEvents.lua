@@ -44,6 +44,10 @@ last_room_completed=0
 
 is_greece_death = false
 
+--variable for avoid racing problems
+
+is_saving_client_data = false
+
 
 
 ------------ General function to process location checks
@@ -422,6 +426,13 @@ function PolycosmosEvents.SaveClientData( message )
     if (GameState.ClientDataIsLoaded == true) then
         PolycosmosEvents.SetUpGameWithData()
     end
+    
+    if (is_saving_client_data) then
+        return
+    end
+
+    is_saving_client_data = true
+
     GameState.HeatSettings = {}
     GameState.HeatSettings["HardLaborPactLevel"] = StyxScribeShared.Root.HeatSettings['HardLaborPactLevel']
     GameState.HeatSettings["LastingConsequencesPactLevel"] = StyxScribeShared.Root.HeatSettings['LastingConsequencesPactLevel']
@@ -470,6 +481,8 @@ function PolycosmosEvents.SaveClientData( message )
     ValidateCheckpoint({ Valid = true })
 
     Save()
+
+    is_saving_client_data = false
 
     PolycosmosEvents.SetUpGameWithData()
 end
