@@ -60,7 +60,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.9.1"
+    polycosmos_version = "0.9.2"
 
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
@@ -185,65 +185,56 @@ class HadesContext(CommonContext):
             await self.send_items_and_request_starting_info(message)
 
     async def send_items_and_request_starting_info(self, message):
-        # Construct location to item mapping
-        location_reminders = ""
-        for location in self.checked_locations_cache:
-            location_reminders += self.location_names[location]
-            location_reminders += ","
-            
-        subsume.Send(styx_scribe_send_prefix + "Location checked reminder:"+location_reminders)        
-
         self.store_settings_data()
         # send items that were already cached in connect
         self.send_items()
         self.request_location_to_item_dictionary()
 
     def store_settings_data(self):
-        heat_dictionary = {
-            "HardLaborPactLevel": self.hades_slot_data["hard_labor_pact_amount"],
-            "LastingConsequencesPactLevel": self.hades_slot_data["lasting_consequences_pact_amount"],
-            "ConvenienceFeePactLevel": self.hades_slot_data["convenience_fee_pact_amount"],
-            "JurySummonsPactLevel": self.hades_slot_data["jury_summons_pact_amount"],
-            "ExtremeMeasuresPactLevel": self.hades_slot_data["extreme_measures_pact_amount"],
-            "CalisthenicsProgramPactLevel": self.hades_slot_data["calisthenics_program_pact_amount"],
-            "BenefitsPackagePactLevel": self.hades_slot_data["benefits_package_pact_amount"],
-            "MiddleManagementPactLevel": self.hades_slot_data["middle_management_pact_amount"],
-            "UnderworldCustomsPactLevel": self.hades_slot_data["underworld_customs_pact_amount"],
-            "ForcedOvertimePactLevel": self.hades_slot_data["forced_overtime_pact_amount"],
-            "HeightenedSecurityPactLevel": self.hades_slot_data["heightened_security_pact_amount"],
-            "RoutineInspectionPactLevel": self.hades_slot_data["routine_inspection_pact_amount"],
-            "DamageControlPactLevel": self.hades_slot_data["damage_control_pact_amount"],
-            "ApprovalProcessPactLevel": self.hades_slot_data["approval_process_pact_amount"],
-            "TightDeadlinePactLevel": self.hades_slot_data["tight_deadline_pact_amount"],
-            "PersonalLiabilityPactLevel": self.hades_slot_data["personal_liability_pact_amount"],
-        }
-        subsume.Modules.StyxScribeShared.Root["HeatSettings"] = heat_dictionary
-        filler_dictionary = {
-            "DarknessPackValue": self.hades_slot_data["darkness_pack_value"],
-            "KeysPackValue": self.hades_slot_data["keys_pack_value"],
-            "GemstonesPackValue": self.hades_slot_data["gemstones_pack_value"],
-            "DiamondsPackValue": self.hades_slot_data["diamonds_pack_value"],
-            "TitanBloodPackValue": self.hades_slot_data["titan_blood_pack_value"],
-            "NectarPackValue": self.hades_slot_data["nectar_pack_value"],
-            "AmbrosiaPackValue": self.hades_slot_data["ambrosia_pack_value"],
-        }
-        subsume.Modules.StyxScribeShared.Root["FillerValues"] = filler_dictionary
-        game_settings = {
-            "HeatMode": self.hades_slot_data["heat_system"],
-            "LocationMode": self.hades_slot_data["location_system"],
-            "ReverseOrderEM": self.hades_slot_data["reverse_order_em"],
-            "KeepsakeSanity": self.hades_slot_data["keepsakesanity"],
-            "WeaponSanity": self.hades_slot_data["weaponsanity"],
-            "StoreSanity": self.hades_slot_data["storesanity"],
-            "InitialWeapon": self.hades_slot_data["initial_weapon"],
-            "IgnoreGreeceDeaths": self.hades_slot_data["ignore_greece_deaths"],
-            "FateSanity": self.hades_slot_data["fatesanity"],
-            "HiddenAspectSanity": self.hades_slot_data["hidden_aspectsanity"],
-            "PolycosmosVersion": self.polycosmos_version,
-        }
-        subsume.Modules.StyxScribeShared.Root["GameSettings"] = game_settings
+        hades_settings_string = ""
+        #codify in the string all heat settings
+        hades_settings_string += self.hades_slot_data["heat_system"] + "-"
+        hades_settings_string += self.hades_slot_data["hard_labor_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["lasting_consequences_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["convenience_fee_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["jury_summons_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["extreme_measures_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["calisthenics_program_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["benefits_package_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["middle_management_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["underworld_customs_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["forced_overtime_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["heightened_security_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["routine_inspection_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["damage_control_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["approval_process_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["tight_deadline_pact_amount"] + "-"
+        hades_settings_string += self.hades_slot_data["personal_liability_pact_amount"] + "-"
+                
+        #Codify in the string all the fillers values
+        hades_settings_string += self.hades_slot_data["darkness_pack_value"] + "-"
+        hades_settings_string += self.hades_slot_data["keys_pack_value"] + "-"
+        hades_settings_string += self.hades_slot_data["gemstones_pack_value"] + "-"
+        hades_settings_string += self.hades_slot_data["diamonds_pack_value"] + "-"
+        hades_settings_string += self.hades_slot_data["titan_blood_pack_value"] + "-"
+        hades_settings_string += self.hades_slot_data["nectar_pack_value"] + "-"
+        hades_settings_string += self.hades_slot_data["ambrosia_pack_value"] + "-"
 
-        # construct here any other dictionary with settings the main game should know about
+        #Codify in the string all game settings
+        hades_settings_string += self.hades_slot_data["location_system"] + "-"
+        hades_settings_string += self.hades_slot_data["reverse_order_em"] + "-"
+        hades_settings_string += self.hades_slot_data["keepsakesanity"] + "-"
+        hades_settings_string += self.hades_slot_data["weaponsanity"] + "-"
+        hades_settings_string += self.hades_slot_data["storesanity"] + "-"
+        hades_settings_string += self.hades_slot_data["initial_weapon"] + "-"
+        hades_settings_string += self.hades_slot_data["ignore_greece_deaths"] + "-"
+        hades_settings_string += self.hades_slot_data["fatesanity"] + "-"
+        hades_settings_string += self.hades_slot_data["hidden_aspectsanity"] + "-"
+        hades_settings_string += self.polycosmos_version + "-"
+            
+        #Send the codify setting to Hades
+        subsume.Modules.StyxScribeShared.Root["Settings"] = hades_settings_string
+        
 
     def request_location_to_item_dictionary(self):
         self.creating_location_to_item_mapping = True

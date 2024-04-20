@@ -7,7 +7,7 @@ import random
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
       create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, \
-        item_table_store, item_table_hidden_aspects
+        item_table_store, item_table_hidden_aspects, create_trap_pool
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, location_table_fates_events
 from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
@@ -59,7 +59,7 @@ class HadesWorld(World):
     web = HadesWeb()
     required_client_version = (0, 4, 4)
 
-    polycosmos_version = "0.9.1"
+    polycosmos_version = "0.9.2"
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_table = give_all_locations_table()
@@ -128,20 +128,34 @@ class HadesWorld(World):
 
         # Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
-        fillers_needed = len(local_location_table)-len(pool)-len(location_table_fates_events)
+        total_fillers_needed = len(local_location_table)-len(pool)-len(location_table_fates_events)
+        
         if (self.options.location_system.value == 3):
             #Substract the 4 bosses for each of the 6 weapons = 24
-            fillers_needed = fillers_needed - 24
+            total_fillers_needed = total_fillers_needed - 24
         else:
             #Substract the 4 bosses
-            fillers_needed = fillers_needed - 4
+            total_fillers_needed = total_fillers_needed - 4
 
+        trap_porcentage = self.options.filler_trap_porcentage.value
+        trap_fillers_needed = int(total_fillers_needed*trap_porcentage/100)
+        trap_pool = create_trap_pool()
+
+        fillers_needed = total_fillers_needed-trap_fillers_needed
         for amount in range(0, fillers_needed):
             item_name = filler_options[index]
             item = HadesItem(item_name, self.player)
             pool.append(item)
             index = (index+1) % len(filler_options)
 
+        index = 0
+        
+        for amount in range(0,trap_fillers_needed):
+            item_name = trap_pool[index]
+            item = HadesItem(item_name, self.player)
+            pool.append(item)
+            index = (index+1) % len(trap_pool)
+            
         self.multiworld.itempool += pool
 
     def should_ignore_weapon(self, name):

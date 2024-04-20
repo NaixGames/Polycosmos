@@ -4,8 +4,6 @@ loaded = false
 
 local queuedCheck = "" --THIS IS USED TO HELP DESYNCS WITH CLIENT
 
-locationsCheckedThisPlay = {} --This is basically a local copy of the locations checked to avoid writting on StyxScribeShared.Root at runtime
-
 locationToItemMapping = {} --This is used to have the location to item mapping.
 --When having too many locations StyxScribe.Root wouldnt work. The writting speed was too slow. Having the dictionary being handled by strings works much better.
 
@@ -72,7 +70,7 @@ function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
     if not itemObtained then --if nothing tangible is in this room, just return
         return
     end
-    table.insert(locationsCheckedThisPlay, checkName)
+    table.insert(GameState.LocationsChecked, checkName)
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..checkName)
     if  printToPlayer then  --This is to avoid overflowing the print stack if by any chance we print a set of locations in the future
         PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
@@ -326,9 +324,7 @@ end)
 ------------ On connection error, send warning to player to reconnect
 
 function PolycosmosEvents.ConnectionError( message )
-    PolycosmosMessages.PrintErrorMessage("Connection error detected. Go back to menu and reconnect the Client!", 9)
-    PolycosmosMessages.PrintErrorMessage("Connection error detected. Go back to menu and reconnect the Client!", 9)
-    PolycosmosMessages.PrintErrorMessage("Connection error detected. Go back to menu and reconnect the Client!", 9)
+    PolycosmosMessages.PrintErrorMessage("Connection error detected.", 9)
 end
 
 StyxScribe.AddHook( PolycosmosEvents.ConnectionError, styx_scribe_recieve_prefix.."Connection Error", PolycosmosEvents )
@@ -368,7 +364,7 @@ end)
 
 -------------- Checked if a location has been checked
 function PolycosmosEvents.HasLocationBeenChecked( location )
-   return PolycosmosUtils.HasValue(locationsCheckedThisPlay, location)
+   return PolycosmosUtils.HasValue(GameState.LocationsChecked, location)
 end
 
 
@@ -404,20 +400,9 @@ StyxScribe.AddHook( PolycosmosEvents.ReceiveLocationToItemMap, styx_scribe_recie
 
 -------------- method to reconstruct the mapping of checked Location
 
-function PolycosmosEvents.RecievedLocationsReminders( message )
-    local Locations = PolycosmosUtils.ParseStringToArray(message)
-    for i=1,#Locations do
-        local location = Locations[i]
-        PolycosmosEvents.AddCheckedLocation(location)
-    end
-end
-
 function PolycosmosEvents.AddCheckedLocation( location )
-    table.insert(locationsCheckedThisPlay, location)
+    table.insert(GameState.LocationsChecked, location)
 end
-
-StyxScribe.AddHook( PolycosmosEvents.RecievedLocationsReminders, styx_scribe_recieve_prefix.."Location checked reminder:", PolycosmosEvents )
-
 
 
 -------------- Method to store Client info on save file. Avoid desyncs and problems with exiting and reintering.
@@ -433,45 +418,52 @@ function PolycosmosEvents.SaveClientData( message )
 
     is_saving_client_data = true
 
+    local codified_settings = StyxScribeShared.Root.Settings
+
+    local array_settings = PolycosmosUtils.ParseStringToArray(codified_settings)
+
+
     GameState.HeatSettings = {}
-    GameState.HeatSettings["HardLaborPactLevel"] = StyxScribeShared.Root.HeatSettings['HardLaborPactLevel']
-    GameState.HeatSettings["LastingConsequencesPactLevel"] = StyxScribeShared.Root.HeatSettings['LastingConsequencesPactLevel']
-    GameState.HeatSettings["ConvenienceFeePactLevel"] = StyxScribeShared.Root.HeatSettings['ConvenienceFeePactLevel']
-    GameState.HeatSettings["JurySummonsPactLevel"] = StyxScribeShared.Root.HeatSettings['JurySummonsPactLevel']
-    GameState.HeatSettings["ExtremeMeasuresPactLevel"] = StyxScribeShared.Root.HeatSettings['ExtremeMeasuresPactLevel']
-    GameState.HeatSettings["CalisthenicsProgramPactLevel"] = StyxScribeShared.Root.HeatSettings['CalisthenicsProgramPactLevel']
-    GameState.HeatSettings["BenefitsPackagePactLevel"] = StyxScribeShared.Root.HeatSettings['BenefitsPackagePactLevel']
-    GameState.HeatSettings["MiddleManagementPactLevel"] = StyxScribeShared.Root.HeatSettings['MiddleManagementPactLevel']
-    GameState.HeatSettings["UnderworldCustomsPactLevel"] = StyxScribeShared.Root.HeatSettings['UnderworldCustomsPactLevel']
-    GameState.HeatSettings["ForcedOvertimePactLevel"] = StyxScribeShared.Root.HeatSettings['ForcedOvertimePactLevel']
-    GameState.HeatSettings["HeightenedSecurityPactLevel"] = StyxScribeShared.Root.HeatSettings['HeightenedSecurityPactLevel']
-    GameState.HeatSettings["RoutineInspectionPactLevel"] = StyxScribeShared.Root.HeatSettings['RoutineInspectionPactLevel']
-    GameState.HeatSettings["DamageControlPactLevel"] = StyxScribeShared.Root.HeatSettings['DamageControlPactLevel']
-    GameState.HeatSettings["ApprovalProcessPactLevel"] = StyxScribeShared.Root.HeatSettings['ApprovalProcessPactLevel']
-    GameState.HeatSettings["TightDeadlinePactLevel"] = StyxScribeShared.Root.HeatSettings['TightDeadlinePactLevel']
-    GameState.HeatSettings["PersonalLiabilityPactLevel"] = StyxScribeShared.Root.HeatSettings['PersonalLiabilityPactLevel']
+    GameState.ClientGameSettings["HeatMode"] = array_settings[1]
+    GameState.HeatSettings["HardLaborPactLevel"] = array_settings[2]
+    GameState.HeatSettings["LastingConsequencesPactLevel"] = array_settings[3]
+    GameState.HeatSettings["ConvenienceFeePactLevel"] = array_settings[4]
+    GameState.HeatSettings["JurySummonsPactLevel"] = array_settings[5]
+    GameState.HeatSettings["ExtremeMeasuresPactLevel"] = array_settings[6]
+    GameState.HeatSettings["CalisthenicsProgramPactLevel"] = array_settings[7]
+    GameState.HeatSettings["BenefitsPackagePactLevel"] = array_settings[8]
+    GameState.HeatSettings["MiddleManagementPactLevel"] = array_settings[9]
+    GameState.HeatSettings["UnderworldCustomsPactLevel"] = array_settings[10]
+    GameState.HeatSettings["ForcedOvertimePactLevel"] = array_settings[11]
+    GameState.HeatSettings["HeightenedSecurityPactLevel"] = array_settings[12]
+    GameState.HeatSettings["RoutineInspectionPactLevel"] = array_settings[13]
+    GameState.HeatSettings["DamageControlPactLevel"] = array_settings[14]
+    GameState.HeatSettings["ApprovalProcessPactLevel"] = array_settings[15]
+    GameState.HeatSettings["TightDeadlinePactLevel"] = array_settings[16]
+    GameState.HeatSettings["PersonalLiabilityPactLevel"] = array_settings[17]
 
     GameState.ClientFillerValues = {}
-    GameState.ClientFillerValues["DarknessPackValue"] = StyxScribeShared.Root.FillerValues['DarknessPackValue']
-    GameState.ClientFillerValues["KeysPackValue"] = StyxScribeShared.Root.FillerValues['KeysPackValue']
-    GameState.ClientFillerValues["GemstonesPackValue"] = StyxScribeShared.Root.FillerValues['GemstonesPackValue']
-    GameState.ClientFillerValues["DiamondsPackValue"] = StyxScribeShared.Root.FillerValues['DiamondsPackValue']
-    GameState.ClientFillerValues["TitanBloodPackValue"] = StyxScribeShared.Root.FillerValues['TitanBloodPackValue']
-    GameState.ClientFillerValues["NectarPackValue"] = StyxScribeShared.Root.FillerValues['NectarPackValue']
-    GameState.ClientFillerValues["AmbrosiaPackValue"] = StyxScribeShared.Root.FillerValues['AmbrosiaPackValue']
+    GameState.ClientFillerValues["DarknessPackValue"] = array_settings[18]
+    GameState.ClientFillerValues["KeysPackValue"] = array_settings[19]
+    GameState.ClientFillerValues["GemstonesPackValue"] = array_settings[20]
+    GameState.ClientFillerValues["DiamondsPackValue"] = array_settings[21]
+    GameState.ClientFillerValues["TitanBloodPackValue"] = array_settings[22]
+    GameState.ClientFillerValues["NectarPackValue"] = array_settings[23]
+    GameState.ClientFillerValues["AmbrosiaPackValue"] = array_settings[24]
 
     GameState.ClientGameSettings = {}
-    GameState.ClientGameSettings["HeatMode"] = StyxScribeShared.Root.GameSettings['HeatMode']
-    GameState.ClientGameSettings["LocationMode"] = StyxScribeShared.Root.GameSettings['LocationMode']
-    GameState.ClientGameSettings["ReverseOrderEM"] = StyxScribeShared.Root.GameSettings['ReverseOrderEM']
-    GameState.ClientGameSettings["KeepsakeSanity"] = StyxScribeShared.Root.GameSettings['KeepsakeSanity']
-    GameState.ClientGameSettings["WeaponSanity"] = StyxScribeShared.Root.GameSettings['WeaponSanity']
-    GameState.ClientGameSettings["StoreSanity"] = StyxScribeShared.Root.GameSettings['StoreSanity']
-    GameState.ClientGameSettings["InitialWeapon"] = StyxScribeShared.Root.GameSettings['InitialWeapon']
-    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = StyxScribeShared.Root.GameSettings['IgnoreGreeceDeaths']
-    GameState.ClientGameSettings["FateSanity"] = StyxScribeShared.Root.GameSettings['FateSanity']
-    GameState.ClientGameSettings["HiddenAspectSanity"] = StyxScribeShared.Root.GameSettings['HiddenAspectSanity']
-    GameState.ClientGameSettings["PolycosmosVersion"] = StyxScribeShared.Root.GameSettings['PolycosmosVersion']
+    GameState.ClientGameSettings["LocationMode"] = array_settings[25]
+    GameState.ClientGameSettings["ReverseOrderEM"] = array_settings[26]
+    GameState.ClientGameSettings["KeepsakeSanity"] = array_settings[27]
+    GameState.ClientGameSettings["WeaponSanity"] = array_settings[28]
+    GameState.ClientGameSettings["StoreSanity"] = array_settings[29]
+    GameState.ClientGameSettings["InitialWeapon"] = array_settings[30]
+    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = array_settings[31]
+    GameState.ClientGameSettings["FateSanity"] = array_settings[32]
+    GameState.ClientGameSettings["HiddenAspectSanity"] = array_settings[33]
+    GameState.ClientGameSettings["PolycosmosVersion"] = array_settings[34]
+
+    GameState.LocationsChecked = {}
 
     GameState.ClientDataIsLoaded = true
 
@@ -495,6 +487,11 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.SaveUserIntededHeat()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
+
+    --Send all locations to server to resync
+    for i,value in ipairs(GameState.LocationsChecked) do
+        StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..value)
+    end
 
     if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0 and CurrentRun ~= nil) then
         CurrentRun.ActiveBiomeTimer = false

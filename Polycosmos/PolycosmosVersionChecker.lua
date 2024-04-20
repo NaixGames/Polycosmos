@@ -1,6 +1,6 @@
 ModUtil.Mod.Register( "PolycosmosVersionChecker" )
 
-polycosmos_version = "0.9.1"
+polycosmos_version = "0.9.2"
 
 -- Auxiliary function to check if an array has a value
 function PolycosmosVersionChecker.CheckVersion(message)

@@ -314,6 +314,16 @@ class AmbrosiaPackValue(Range):
     default = 3
     internal_name = "AmbrosiaPackValue"
 
+# -----------------------Settings for Trap -------------------------
+
+class FillerTrapPorcentage(Range):
+    """Choose the porcentage of filler items in the pool that will be traps instead. 
+    Traps diminish your money or health during a run."""
+    display_name = "Filler Trap Porcentage"
+    range_start = 0
+    range_end = 100
+    default = 5
+    internal_name = "FillerTrapPorcentage"
 
 # -----------------------Settings for QoL -------------------------
 
@@ -375,6 +385,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "titan_blood_pack_value": TitanBloodPackValue,
     "nectar_pack_value": NectarPackValue,
     "ambrosia_pack_value": AmbrosiaPackValue,
+    "filler_trap_porcentage": FillerTrapPorcentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
     "death_link": DeathLink,

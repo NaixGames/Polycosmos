@@ -179,7 +179,10 @@ item_table_hidden_aspects : Dict[str, ItemData] ={
 	"GunHiddenAspect": ItemData(hades_base_item_id+79, True)
 }
 
-
+item_table_traps : Dict[str, ItemData] ={
+    "MoneyPunishment" : ItemData(hades_base_item_id+80, False),
+	"HealthPunishment": ItemData(hades_base_item_id+81, False),
+}
 
 def create_filler_pool_options(options):
     item_filler_options = []
@@ -200,6 +203,12 @@ def create_filler_pool_options(options):
     if (len(item_filler_options)==0):
         item_filler_options.append("Darkness")
     return item_filler_options
+
+def create_trap_pool():
+    item_traps = []
+    item_traps.append("MoneyPunishment")
+    item_traps.append("HealthPunishment")
+    return item_traps
 
 #Here we have 39 items
 #This should be replace with a method that construct the dictionary from the settings.
@@ -363,6 +372,7 @@ item_table = {
     **item_table_weapons,
     **item_table_store,
     **item_table_hidden_aspects,
+    **item_table_traps,
 }
 
 class HadesItem(Item):
