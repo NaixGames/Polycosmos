@@ -463,6 +463,18 @@ Hades:
     random-low: 0
     random-high: 0
 
+  filler_trap_porcentage:
+    # Choose the porcentage of filler items in the pool that will be traps instead. 
+    # Traps diminish your money or health during a run.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 100
+    5: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
   reverse_order_em:
     # When true the order in which extreme meassures applied is reverse 
     # so level 1 is applied to Hades, instead to Meg/The Furies). 
