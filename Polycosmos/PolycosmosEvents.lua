@@ -70,7 +70,7 @@ function PolycosmosEvents.ProcessLocationCheck(checkName, printToPlayer)
     if not itemObtained then --if nothing tangible is in this room, just return
         return
     end
-    table.insert(GameState.LocationsChecked, checkName)
+    PolycosmosEvents.AddCheckedLocation( checkName )
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..checkName)
     if  printToPlayer then  --This is to avoid overflowing the print stack if by any chance we print a set of locations in the future
         PolycosmosMessages.PrintToPlayer("Obtained "..itemObtained)
@@ -401,6 +401,9 @@ StyxScribe.AddHook( PolycosmosEvents.ReceiveLocationToItemMap, styx_scribe_recie
 -------------- method to reconstruct the mapping of checked Location
 
 function PolycosmosEvents.AddCheckedLocation( location )
+    if PolycosmosEvents.HasLocationBeenChecked( location ) then
+        return
+    end
     table.insert(GameState.LocationsChecked, location)
 end
 
@@ -421,9 +424,6 @@ function PolycosmosEvents.SaveClientData( message )
     local codified_settings = StyxScribeShared.Root.Settings
 
     local array_settings = PolycosmosUtils.NewParseStringToArray(codified_settings)
-
-    print("here")
-    PolycosmosUtils.PrintTableDebug(array_settings)
 
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
@@ -490,8 +490,9 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
 
-    --Send all locations to server to resync
+    --Send all locations to server to resync, jic
     for i,value in ipairs(GameState.LocationsChecked) do
+        --Note this should not overlead styxscribe since the python side is really robust to receiving multiple requests
         StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..value)
     end
 
@@ -518,3 +519,22 @@ ModUtil.WrapBaseFunction("StartNewRun",
         --Avoid doing things to the run here, since it can create racing conditions.
         return run
     end, PolycosmosEvents)
+
+
+-------------- Methods for locations collection
+
+function PolycosmosEvents.CollectLocations(message)
+    if not (GameState ~= nil and GameState.ClientDataIsLoaded) then
+        return
+    end
+
+    local collected_locations = PolycosmosUtils.NewParseStringToArray(message)
+    for i,value in ipairs(collected_locations) do
+        if (PolycosmosCosmeticsManager.IsCosmeticLocation(value) or PolycosmosWeaponManager.IsWeaponLocation(value)) then
+            GameState.CosmeticsAdded[value] = true
+        end
+        PolycosmosEvents.AddCheckedLocation(value) 
+    end
+end
+
+StyxScribe.AddHook( PolycosmosEvents.CollectLocations, styx_scribe_recieve_prefix.."Locations collected:", PolycosmosEvents )

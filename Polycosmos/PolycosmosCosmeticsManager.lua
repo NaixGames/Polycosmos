@@ -210,6 +210,16 @@ function PolycosmosCosmeticsManager.IsCosmeticItem(itemName)
     return false
 end
 
+function PolycosmosCosmeticsManager.IsCosmeticLocation(locationName)
+    for name, data in pairs(StoreUnlockCosmeticNames) do
+        if data.ClientNameLocation == locationName then
+            return true
+        end
+    end
+    return false
+end
+
+
 ------------------------------------------
 
 function PolycosmosCosmeticsManager.GiveCorrespondingProgressiveName(progressiveName)

@@ -217,7 +217,7 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 
 	for k, questName in ipairs( QuestOrderData ) do
 		local questData = QuestData[questName]
-		if GameState.QuestStatus[questData.Name] == "CashedOut" then
+		if (GameState.QuestStatus[questData.Name] == "CashedOut" or PolycosmosEvents.HasLocationBeenChecked(FatedListNames[questData.Name].ClientNameLocation) )then
 			table.insert( cashedOutQuests, questData )
 		elseif IsGameStateEligible( CurrentRun, questData, questData.UnlockGameStateRequirements ) then
 			if IsGameStateEligible( CurrentRun, questData, questData.CompleteGameStateRequirements ) then

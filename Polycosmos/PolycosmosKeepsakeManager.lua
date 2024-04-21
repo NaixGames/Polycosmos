@@ -266,8 +266,6 @@ function PolycosmosKeepsakeManager.GiveCorrectedCodexName(codexEntry)
 end
 
 
-
-
 function CodexOpenEntryOverride( screen, button )
 	if not IsScreenOpen( "Codex" ) or IsScreenOpen("BoonInfoScreen") then
 		return
