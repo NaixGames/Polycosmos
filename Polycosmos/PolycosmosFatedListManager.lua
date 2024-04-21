@@ -132,6 +132,13 @@ function PolycosmosFatedListManager.GiveItemTitle(displayName)
 	end
 end
 
+function PolycosmosFatedListManager.HasFateBeenChecked(displayName)
+	if (FatedListNames[displayName]) then
+		return PolycosmosEvents.HasLocationBeenChecked(FatedListNames[displayName].ClientNameLocation)
+	end
+	return false
+end
+
 -------------------------------------------------------
 
 
@@ -217,7 +224,7 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 
 	for k, questName in ipairs( QuestOrderData ) do
 		local questData = QuestData[questName]
-		if (GameState.QuestStatus[questData.Name] == "CashedOut" or PolycosmosEvents.HasLocationBeenChecked(FatedListNames[questData.Name].ClientNameLocation) )then
+		if (GameState.QuestStatus[questData.Name] == "CashedOut" or PolycosmosFatedListManager.HasFateBeenChecked(questData.Name) ) then
 			table.insert( cashedOutQuests, questData )
 		elseif IsGameStateEligible( CurrentRun, questData, questData.UnlockGameStateRequirements ) then
 			if IsGameStateEligible( CurrentRun, questData, questData.CompleteGameStateRequirements ) then

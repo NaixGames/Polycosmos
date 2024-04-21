@@ -49,11 +49,11 @@ function PolycosmosTrapManager.ProcessTrapItems()
         if (CurrentRun.Money < 50) then
             break
         else
-            CurrentRun.Money = mathf.max(CurrentRun.Money - 100,0)
+            CurrentRun.Money = math.max(CurrentRun.Money - 100,0)
 		    ShowResourceUIs({ CombatOnly = false, UpdateIfShowing = true })
 		    UpdateMoneyUI( CurrentRun.Money )
 
-            PolycosmosMessages.PrintToPlayer("Someone sent you a Money punishment")
+            PolycosmosMessages.PrintToPlayer("You got a Money punishment")
 
             GameState.TrapLedger["MoneyPunishment"] = GameState.TrapLedger["MoneyPunishment"] + 1
         end
@@ -61,9 +61,9 @@ function PolycosmosTrapManager.ProcessTrapItems()
 
     while (HealthPunishmentRequest > GameState.TrapLedger["HealthPunishment"]) do
         damage = CurrentRun.Hero.MaxHealth/4
-        CurrentRun.Hero.Health  = mathf.max(CurrentRun.Hero.Health  - damage,0)
+        CurrentRun.Hero.Health  = math.max(CurrentRun.Hero.Health  - damage,0)
 
-        PolycosmosMessages.PrintToPlayer("Someone sent you a Health punishment")
+        PolycosmosMessages.PrintToPlayer("You got a Health punishment")
 
         GameState.TrapLedger["HealthPunishment"] = GameState.TrapLedger["HealthPunishment"] + 1
     end
