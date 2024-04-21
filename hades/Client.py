@@ -6,6 +6,7 @@ import sys
 import asyncio
 import random
 import shutil
+from telnetlib import theNULL
 from typing import Tuple, List, Iterable, Dict
 import threading
 import importlib.util
@@ -133,6 +134,12 @@ class HadesContext(CommonContext):
         if cmd in {"RoomInfo"}:
             # What should be done when room info is sent.
             self.seed_name = args["seed_name"]
+            collect_locations_cache = ""
+            for location in args["checked_locations"]:
+                collect_locations_cache += location + "-"
+            if (len(collect_locations_cache) > 0):
+                collect_locations_cache = collect_locations_cache[:-1]
+                subsume.Send(styx_scribe_send_prefix + "Locations collected:" + collect_locations_cache)
 
         if cmd in {"ReceivedItems"}:
             # What should be done when an Item is recieved.

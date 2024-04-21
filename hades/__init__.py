@@ -7,8 +7,8 @@ import random
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
       create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, \
-        item_table_store, item_table_hidden_aspects, create_trap_pool
-from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, location_table_fates_events
+        item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups
+from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, location_table_fates_events, location_name_groups
 from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
 from .Rules import set_rules
@@ -64,6 +64,9 @@ class HadesWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_table = give_all_locations_table()
     location_name_to_id = location_table
+
+    item_name_groups = item_name_groups
+    location_name_groups = location_name_groups
 
     def generate_early(self):
         if (self.options.initial_weapon == 6):

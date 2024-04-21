@@ -1,3 +1,4 @@
+from tokenize import group
 import typing
 
 from BaseClasses import Item, ItemClassification
@@ -373,6 +374,22 @@ item_table = {
     **item_table_store,
     **item_table_hidden_aspects,
     **item_table_traps,
+}
+
+group_pacts = {"pacts":item_name for item_name in item_pool_pacts.keys()}
+group_fillers = {"fillers":item_name for item_name in item_table_filler.keys()}
+group_contractor = {"contractor":item_name for item_name in item_table_store.keys()}
+group_weapons = {"weapons":item_name for item_name in item_table_weapons.keys()}
+group_aspects = {"aspects":item_name for item_name in item_table_hidden_aspects.keys()}
+group_keepsakes = {"keepsakes":item_name for item_name in item_table_keepsake.keys()}
+
+item_name_groups = {
+    **group_pacts,
+    **group_fillers,
+    **group_contractor,
+    **group_weapons,
+    **group_aspects,
+    **group_keepsakes,
 }
 
 class HadesItem(Item):
