@@ -258,6 +258,9 @@ end
 --------------------------------------------
 
 function PolycosmosCosmeticsManager.ResolveQueueCosmetics()
+    if (not GameState.ClientDataIsLoaded) then
+        return
+    end
 	for k, name in ipairs(cachedCosmetics) do
         AddCosmetic(name)
     end
