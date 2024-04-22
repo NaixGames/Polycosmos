@@ -415,6 +415,7 @@ end
 function PolycosmosEvents.SaveClientData( message )
     if (GameState.ClientDataIsLoaded == true) then
         PolycosmosEvents.SetUpGameWithData()
+        return
     end
     
     if (is_saving_client_data) then
@@ -471,8 +472,6 @@ function PolycosmosEvents.SaveClientData( message )
 
     GameState.ClientDataIsLoaded = true
 
-    PolycosmosROEM.LoadBossData()
-
     SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
     ValidateCheckpoint({ Valid = true })
 
@@ -491,7 +490,6 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.SaveUserIntededHeat()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-
     --Send all locations to server to resync, jic
     for i,value in ipairs(GameState.LocationsChecked) do
         --Note this should not overlead styxscribe since the python side is really robust to receiving multiple requests

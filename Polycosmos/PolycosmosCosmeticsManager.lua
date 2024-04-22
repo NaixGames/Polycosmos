@@ -146,12 +146,12 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
         return
     end
 
-    if (not StyxScribeShared.Root.GameSettings) then
+    if (not GameState.ClientDataIsLoaded) then
         table.insert(cachedCosmetics, name)
         return
     end
 
-    if StyxScribeShared.Root.GameSettings["StoreSanity"]==0 then
+    if GameState.ClientGameSettings["StoreSanity"]==0 then
          return baseFunc(name, status)
     end
 
