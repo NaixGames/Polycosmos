@@ -135,12 +135,13 @@ class HadesContext(CommonContext):
             self.seed_name = args["seed_name"]
         
         if cmd in {"RoomUpdate"}:
-            collect_locations_cache = ""
-            for location in args["checked_locations"]:
-                collect_locations_cache += self.location_names[location] + "-"
-            if (len(collect_locations_cache) > 0):
-                collect_locations_cache = collect_locations_cache[:-1]
-                subsume.Send(styx_scribe_send_prefix + "Locations collected:" + collect_locations_cache)
+            if "checked_lodations" in args:
+                collect_locations_cache = ""
+                for location in args["checked_locations"]:
+                    collect_locations_cache += self.location_names[location] + "-"
+                if (len(collect_locations_cache) > 0):
+                    collect_locations_cache = collect_locations_cache[:-1]
+                    subsume.Send(styx_scribe_send_prefix + "Locations collected:" + collect_locations_cache)
 
         if cmd in {"ReceivedItems"}:
             # What should be done when an Item is recieved.
