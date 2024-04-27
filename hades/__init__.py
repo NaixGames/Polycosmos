@@ -68,11 +68,6 @@ class HadesWorld(World):
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
 
-    def generate_early(self):
-        if (self.options.initial_weapon == 6):
-            # Randomized initial weapon if needed
-            self.options.initial_weapon = InitialWeapon(random.randint(0, 5))
-
     def create_items(self):
         local_location_table = setup_location_table_with_settings(self.options).copy()
         
