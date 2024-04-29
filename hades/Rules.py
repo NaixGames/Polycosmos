@@ -141,21 +141,22 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     
     world.completion_condition[player] = lambda state: state._can_get_victory(player, options)
     
-    if (options.keepsakesanity.value==1 and options.nectar_pack_value.value > 0):
+    if (options.keepsakesanity.value==1):
         set_rule(world.get_entrance("NPCS", player), lambda state: True)
         set_rule(world.get_location("EurydiceKeepsake",player), lambda state:  \
-                 state._has_defeated_boss("MegVictory", player, options))
+                 state._has_defeated_boss("LernieVictory", player, options))
         set_rule(world.get_location("ThanatosKeepsake",player), lambda state:  \
                 state._has_defeated_boss("LernieVictory", player, options))
         set_rule(world.get_location("PatroclusKeepsake",player), lambda state:  \
-                state._has_defeated_boss("LernieVictory", player, options))
+                state._has_defeated_boss("BrosVictory", player, options))
+        set_keepsake_balance(world, player, location_table, options)
     if (options.weaponsanity.value==1 and options.keys_pack_value.value >0):
         set_rule(world.get_entrance("Weapon Cache", player), lambda state: True)
     if (options.storesanity.value==1):
-        set_store_rules(world, player, number_items, location_table, options)
+        set_store_rules(world, player, location_table, options)
     if (options.fatesanity.value==1):
-        set_fates_rules(world,player,number_items,location_table,options, "")
-    set_fates_rules(world,player,number_items,location_table,options, "Event")
+        set_fates_rules(world, player, location_table, options, "")
+    set_fates_rules(world, player, location_table, options, "Event")
     
 
     if (options.keepsakesanity.value==1 and options.storesanity.value==1):
@@ -164,8 +165,28 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
 
     visualize_regions(world.get_region("Menu", player), "my_world.puml")
 
+def set_keepsake_balance(world: MultiWorld, player: int, location_table, options):
+    set_rule(world.get_location("ZeusKeepsake", player), lambda state:   \
+            state.has("ZeusKeepsake", player))
+    set_rule(world.get_location("PoseidonKeepsake", player), lambda state:   \
+            state.has("PoseidonKeepsake", player))
+    set_rule(world.get_location("AthenaKeepsake", player), lambda state:   \
+            state.has("AthenaKeepsake", player))
+    set_rule(world.get_location("AphroditeKeepsake", player), lambda state:   \
+            state.has("AphroditeKeepsake", player))
+    set_rule(world.get_location("AresKeepsake", player), lambda state:   \
+            state.has("AresKeepsake", player))
+    set_rule(world.get_location("ArtemisKeepsake", player), lambda state:   \
+            state.has("ArtemisKeepsake", player))
+    set_rule(world.get_location("DionysusKeepsake", player), lambda state:   \
+            state.has("DionysusKeepsake", player))
+    set_rule(world.get_location("DemeterKeepsake", player), lambda state:   \
+            state.has("DemeterKeepsake", player))
+    set_rule(world.get_location("HermesKeepsake", player), lambda state:   \
+            state._has_defeated_boss("MegVictory", player, options))
 
-def set_store_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
+
+def set_store_rules(world: MultiWorld, player: int, location_table, options):
     #set up rules related to locations on the store
 
     #we set the currency we need for each type of store
@@ -232,7 +253,7 @@ def set_store_rules(world: MultiWorld, player: int, number_items: int, location_
             state.has("DeluxeContractorDeskItem", player))
     
 
-def set_fates_rules(world: MultiWorld, player: int, number_items: int, location_table, options, subfix: str):
+def set_fates_rules(world: MultiWorld, player: int, location_table, options, subfix: str):
     #Rules that dont depend on other settings
     set_rule(world.get_location("IsThereNoEscape?"+subfix, player), lambda state: \
             state._has_defeated_boss("HadesVictory", player, options))

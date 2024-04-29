@@ -59,7 +59,6 @@ location_keepsakes ={
     "SisyphusKeepsake": max_number_room_checks+21,
     "EurydiceKeepsake": max_number_room_checks+22,
     "PatroclusKeepsake": max_number_room_checks+23,
-    "DemeterKeepsake": max_number_room_checks+24,
 }
 
 location_weapons ={
