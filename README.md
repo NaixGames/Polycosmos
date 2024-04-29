@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.9.1 and up to this version it possesses the feature detailed below:
+0.10.0 and up to this version it possesses the feature detailed below:
 
 Modes for heat:
 - Reverse Heat: Start the game with high pacts of punishments. Pact of punishments reductions are items in the item pool.
@@ -44,6 +44,9 @@ Victory conditions tweaks:
 - Mininum number of victories with different weapons against before finishing the game counts as victory.
 - Minimum number of keepsakes before finishing the game counts as victory.
 - Minimum number of fated list completed before finishing the game counts as victory.
+
+Traps:
+-Add a number of traps into the item pool to keep you on your toes.
   
 Quality of Life:
 - Contractor have all upgrades available to buy from the start. Fated list available from start. Lounge available from the start. Brooker available from the start. Demeter can appear from the first run.
@@ -90,7 +93,7 @@ Any other bug is not expected and reporting helps a ton :).
 
 # StoreSanity logic
 
-In StoreSanity the "spots" in the store are tied to a location in the original game. You can see the logic for each location below. Note that when obtaining items that have multiple levels, they are managed in a progressive way (so if you get InfernalThrove3Item first that will appear as InternalThrove1Item in your game and managed as such). 
+In StoreSanity the "spots" in the store are tied to a location in the original game. You can see the logic for each location below. Note that when obtaining items that have multiple levels, they are managed in a progressive way (so if you get InfernalTrove3Item first that will appear as InternalThrove1Item in your game and managed as such). 
 
 - FountainUpgrade1Location: Requires FountainTartarusItem
 
@@ -106,9 +109,9 @@ In StoreSanity the "spots" in the store are tied to a location in the original g
 
 - UrnsOfWealth3Location: Requires UrnsOfWealth2Item
 
-- InfernalThrove2Location: Requires FountainElysiumItem, InfernalThrove1Item, KeepsakeRack.
+- InfernalTrove1Location: Requires FountainElysiumItem, InfernalThrove1Item, KeepsakeRack.
 
-- InfernalThrove2Location: Requires FountainElysiumItem, InfernalThrove2Item, KeepsakeRack, DeluxeContractorDeskItem.
+- InfernalTrove2Location: Requires FountainElysiumItem, InfernalThrove2Item, KeepsakeRack, DeluxeContractorDeskItem.
 
 - CodexIndexLocation: Requieres at least 3 runs and advance Achiles Dialogue. Putting it here since it is not that known.
 
@@ -120,7 +123,7 @@ In StoreSanity the "spots" in the store are tied to a location in the original g
 
 - CourtMusicianSentenceLocation: Requires getting to Asphodel, FountainTartarusItem.
 
-- CourtMusicianStandLocation: Requires CourtMusicianSentenceItem.
+- CourtMusicianStandLocation: Requires CourtMusicianSentenceItem and the Scrying Pool (which is not an AP item).
 
 - PitchBlackDarknessLocation, FatedKeysLocation, BrilliantGemstonesLocation, VintageNectarLocation, DarkerThirstLocation: all require DeluxeContractorDeskItem
 
