@@ -84,7 +84,6 @@ location_store_gemstones ={
     "InfernalTrove2Location": max_number_room_checks+40,
     "InfernalTrove3Location": max_number_room_checks+41,
     "KeepsakeCollectionLocation": max_number_room_checks+42,
-    "KeepsakeCollectionLocation": max_number_room_checks+43,
 }
 
 location_store_diamonds ={

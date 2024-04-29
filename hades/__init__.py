@@ -135,7 +135,7 @@ class HadesWorld(World):
             #Substract the 4 bosses
             total_fillers_needed = total_fillers_needed - 4
 
-        trap_porcentage = self.options.filler_trap_porcentage.value
+        trap_porcentage = self.options.filler_trap_percentage.value
         trap_fillers_needed = int(total_fillers_needed*trap_porcentage/100)
         trap_pool = create_trap_pool()
 

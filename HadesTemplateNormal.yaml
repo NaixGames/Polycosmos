@@ -100,18 +100,18 @@ Hades:
     gun: 0
 
   location_system:
-    # Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
-    # gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
+    # Chose how the game gives you items. (1) RoomBased gives items on every new room completed. (2) ScoreBased
+    # gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeaponBased gives
     # items on every new room completed with a new weapon (so more locations than the original room based system)
     roombased: 0
     scorebased: 50
     roomweaponbased: 0
 
   score_rewards_amount:
-    # When using socre based system, this sets how many locations the score can give. 
-    # Each room gives "its depth" in score and each new location need one more points to be unlocked 
-    # (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)
-    #
+    # When using score based system, this sets how many checks are available based on the score. 
+    # Each room in hades gives "its depth" in score when completed, and each new check needs one more 
+    # point to be unlocked (so check 10 needs 10 points, which can be obtained, for example, 
+    # by completing rooms 5 and 6)
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 72
     # Maximum value is 1000
@@ -121,30 +121,33 @@ Hades:
     random-high: 0
 
   keepsakesanity:
-    # If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. 
+    # Shuffles NPCs' keepsakes into the item pool, eand makes each keepsake location a check. 
     # For simplicity this does not affects Hades and Persephone.
     false: 0
     true: 50
 
   weaponsanity:
-    # If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. 
+    # Shuffles weapons (except your initial weapon) into the item pool, and makes obtaining
+    # each weapon at the House Contractor's shop a check. 
     # Need to be sent the weapon item to gain the skill to equip them.
     false: 0
     true: 50
 
   hidden_aspectsanity:
-    # If hidden aspects of weapons are shuffled into the item pool to be unlocked before being able to be bought.
+    # Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check
+    # (which needs to be unlocked before being able to be bought.)
     false: 0
     true: 50
 
   storesanity:
-    # If Important item from the store are shuffled in the item pool.
-    #   Need to be sent the items to gain the different perks that make runs easier.
+    # Shuffles important items from the House Contractor's shop in the item pool.
+    # Need to be sent the items to gain the different perks that make runs easier.
     false: 0
     true: 50
 
   fatesanity:
-    # If most of the locations of the fated list are considered AP locations. 
+    # Shuffles most rewards from the Fated List of Prophecies into the item pool, 
+    # and makes the corresponding items from the list a check. 
     # Can make the games significantly longer
     false: 0
     true: 50
@@ -172,7 +175,7 @@ Hades:
     random-high: 0
 
   keepsakes_needed:
-    # How many different keepsakes unlocked are needed to win the world.
+    # How many different keepsake unlocks are needed to win the world.
     #
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
@@ -183,7 +186,7 @@ Hades:
     random-high: 0
 
   fates_needed:
-    # How many different Fated List completed are needed to win the world.
+    # How many different Fated List completions are needed to win the world.
     #
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
@@ -416,7 +419,7 @@ Hades:
     random-high: 0
 
   diamonds_pack_value:
-    # Choose the value(amount of diamonds) of each diamonds pack in the pool. 
+    # Choose the value(amount of diamonds) of each diamond pack in the pool. 
     # If set to 0 Diamonds will not appear in the pool
     #
     # You can define additional values between the minimum and maximum values.
@@ -463,14 +466,14 @@ Hades:
     random-low: 0
     random-high: 0
 
-  filler_trap_porcentage:
-    # Choose the porcentage of filler items in the pool that will be traps instead. 
+  filler_trap_percentage:
+    # Choose the percentage of filler items in the pool that will be traps instead. 
     # Traps diminish your money or health during a run.
     #
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    5: 50
+    10: 50
     random: 0
     random-low: 0
     random-high: 0
@@ -488,7 +491,8 @@ Hades:
     true: 50
 
   store_give_hints:
-    # If seeing an item on the store/fated list should give a hint for it on the multiworld.
+    # If seeing an item on the House Contractor's shop/Fated List of Prophecies 
+    # should give a hint for it on the multiworld.
     false: 0
     true: 50
 

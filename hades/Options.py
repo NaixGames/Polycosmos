@@ -15,8 +15,8 @@ class InitialWeapon(Choice):
     option_Gun = 5
 
 class LocationSystem(Choice):
-    """Chose how the game gives you items. (1) Room based gives items on every new room completed. (2) Score based
-    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeapon based gives
+    """Chose how the game gives you items. (1) RoomBased gives items on every new room completed. (2) ScoreBased
+    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeaponBased gives
     items on every new room completed with a new weapon (so more locations than the original room based system)"""
     display_name = "Location System"
     option_roombased = 1
@@ -26,16 +26,17 @@ class LocationSystem(Choice):
     
 
 class ScoreRewardsAmount(Range):
-    """When using socre based system, this sets how many locations the score can give. 
-    Each room gives "its depth" in score and each new location need one more points to be unlocked 
-    (so location 10, needs the room 1,2,3,4,5 two times beaten, or get to room 10)"""
+    """When using score based system, this sets how many checks are available based on the score. 
+    Each room in hades gives "its depth" in score when completed, and each new check needs one more 
+    point to be unlocked (so check 10 needs 10 points, which can be obtained, for example, 
+    by completing rooms 5 and 6)"""
     display_name = "ScoreRewardsAmount"
     range_start = 72
     range_end = 1000
     default = 300
 
 class KeepsakeSanity(Toggle):
-    """If Keepsakes are shuffle into the item pool. Obtaining the "keepsake" from each NPC becomes a location. 
+    """Shuffles NPCs' keepsakes into the item pool, eand makes each keepsake location a check. 
     For simplicity this does not affects Hades and Persephone."""
     display_name = "KeepsakeSanity"
     option_true = 1
@@ -43,7 +44,8 @@ class KeepsakeSanity(Toggle):
     default = 1
     
 class WeaponSanity(Toggle):
-    """If Weapons are shuffle into the item pool. Obtaining the weapon in the store is a location check. 
+    """Shuffles weapons (except your initial weapon) into the item pool, and makes obtaining 
+    each weapon at the House Contractor's shop a check. 
     Need to be sent the weapon item to gain the skill to equip them."""
     display_name = "WeaponSanity"
     option_true = 1
@@ -51,22 +53,24 @@ class WeaponSanity(Toggle):
     default = 1 
     
 class HiddenAspectSanity(Toggle):
-    """If hidden aspects of weapons are shuffled into the item pool to be unlocked before being able to be bought."""
+    """Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check 
+    (which needs to be unlocked before being able to be bought)."""
     display_name = "HiddenAspectSanity"
     option_true = 1
     option_false = 0
     default = 1 
 
 class StoreSanity(Toggle):
-    """If Important item from the store are shuffled in the item pool.
-      Need to be sent the items to gain the different perks that make runs easier."""
+    """Shuffles important items from the House Contractor's shop in the item pool.
+    Need to be sent the items to gain the different perks that make runs easier."""
     display_name = "StoreSanity"
     option_true = 1
     option_false = 0
     default = 1 
     
 class FateSanity(Toggle):
-    """If most of the locations of the fated list are considered AP locations. 
+    """Shuffles most rewards from the Fated List of Prophecies into the item pool, 
+    and makes the corresponding items from the list a check. 
     Can make the games significantly longer"""
     display_name = "FateSanity"
     option_true = 1
@@ -91,14 +95,14 @@ class WeaponsClearsNeeded(Range):
     default = 1
     
 class KeepsakesNeeded(Range):
-    """How many different keepsakes unlocked are needed to win the world."""
+    """How many different keepsake unlocks are needed to win the world."""
     display_name = "KeepsakesNeeded"
     range_start = 0
     range_end = 23
     default = 0
 
 class FatesNeeded(Range):
-    """How many different Fated List completed are needed to win the world."""
+    """How many different Fated List completions are needed to win the world."""
     display_name = "FatesNeeded"
     range_start = 0
     range_end = 35
@@ -279,7 +283,7 @@ class GemstonesPackValue(Range):
     internal_name = "GemstonePackValue"
 
 class DiamondsPackValue(Range):
-    """Choose the value(amount of diamonds) of each diamonds pack in the pool. 
+    """Choose the value(amount of diamonds) of each diamond pack in the pool. 
     If set to 0 Diamonds will not appear in the pool"""
     display_name = "Diamonds Pack Value"
     range_start = 0
@@ -316,14 +320,14 @@ class AmbrosiaPackValue(Range):
 
 # -----------------------Settings for Trap -------------------------
 
-class FillerTrapPorcentage(Range):
-    """Choose the porcentage of filler items in the pool that will be traps instead. 
+class FillerTrapPercentage(Range):
+    """Choose the percentage of filler items in the pool that will be traps instead. 
     Traps diminish your money or health during a run."""
-    display_name = "Filler Trap Porcentage"
+    display_name = "Filler Trap Percentage"
     range_start = 0
     range_end = 100
     default = 5
-    internal_name = "FillerTrapPorcentage"
+    internal_name = "FillerTrapPercentage"
 
 # -----------------------Settings for QoL -------------------------
 
@@ -344,7 +348,8 @@ class IgnoreGreeceDeaths(Toggle):
     default = 1
 
 class StoreGiveHints(Toggle):
-    """If seeing an item on the store/fated list should give a hint for it on the multiworld."""
+    """If seeing an item on the House Contractor's shop/Fated List of Prophecies 
+    should give a hint for it on the multiworld."""
     display_name = "StoreGiveHints"
     option_true = 1
     option_false = 0
@@ -391,7 +396,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "titan_blood_pack_value": TitanBloodPackValue,
     "nectar_pack_value": NectarPackValue,
     "ambrosia_pack_value": AmbrosiaPackValue,
-    "filler_trap_porcentage": FillerTrapPorcentage,
+    "filler_trap_percentage": FillerTrapPercentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
     "store_give_hints": StoreGiveHints,
