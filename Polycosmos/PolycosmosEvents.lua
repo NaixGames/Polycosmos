@@ -165,8 +165,8 @@ function PolycosmosEvents.GiveScore(roomNumber)
     last_room_completed = roomNumber
 
     if (actual_score >= next_score_to_complete) then
-        checkString = next_score_to_complete
-        if (next_score_to_complete < 10) then
+        checkString = tostring(next_score_to_complete)
+        while (string.len(checkString) < 4) do
             checkString = "0"..checkString
         end
         PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString) --Need to make sure in this case we reset the score and the last completed room on the client

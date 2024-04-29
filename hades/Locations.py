@@ -334,26 +334,38 @@ def give_score_location_table(locations):
     global location_table_tartarus 
     ##Recall to add a offset for the location to avoid sharing ids if two players play with different settings
     for i in range(locations_first_region):
-        stringInt=i+1;
-        if (stringInt<10):
+        stringInt=str(i+1);
+        while (len(stringInt)<4):
             stringInt = "0"+str(stringInt);
         location_table_tartarus["ClearScore"+str(stringInt)]=hades_base_location_id+i+72 
 
     global location_table_asphodel
     for i in range(locations_first_region, locations_first_region+2*fraction_location):
-        location_table_asphodel["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+        stringInt=str(i+1);
+        while (len(stringInt)<4):
+            stringInt = "0"+str(stringInt);
+        location_table_asphodel["ClearScore"+stringInt]=hades_base_location_id+i+72 
         
     global location_table_elyseum
     for i in range(locations_first_region+2*fraction_location, locations_first_region+4*fraction_location):
-        location_table_elyseum["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+        stringInt=str(i+1);
+        while (len(stringInt)<4):
+            stringInt = "0"+str(stringInt);
+        location_table_elyseum["ClearScore"+stringInt]=hades_base_location_id+i+72 
     
     global location_table_styx
     for i in range(locations_first_region+4*fraction_location, locations_first_region+6*fraction_location):
-        location_table_styx["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+        stringInt=str(i+1);
+        while (len(stringInt)<4):
+            stringInt = "0"+str(stringInt);
+        location_table_styx["ClearScore"+stringInt]=hades_base_location_id+i+72 
         
     global location_table_styx_late
     for i in range(locations_first_region+6*fraction_location, locations):
-        location_table_styx_late["ClearScore"+str(i+1)]=hades_base_location_id+i+72 
+        stringInt=str(i+1);
+        while (len(stringInt)<4):
+            stringInt = "0"+str(stringInt);
+        location_table_styx_late["ClearScore"+stringInt]=hades_base_location_id+i+72 
 
     location_table = {
         **location_table_tartarus, 
