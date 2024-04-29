@@ -1,5 +1,8 @@
 ModUtil.Mod.Register( "PolycosmosGhostAdminOverride" )
 
+
+local cosmeticItemHints = ""
+
 ------------ 
 
 ModUtil.Path.Wrap( "DisplayCosmetics", function(baseFunc, screen, slotName)
@@ -53,6 +56,25 @@ end
 
 -------------------------------------------------------
 
+function PolycosmosGhostAdminOverride.SendCacheHints()
+	StyxScribe.Send(styx_scribe_send_prefix.."Locations hinted:"..cosmeticItemHints)
+	cosmeticItemHints = ""
+end
+
+function PolycosmosGhostAdminOverride.CacheCosmeticHint(cosmeticName)
+	if (PolycosmosWeaponManager.IsWeaponLocation(cosmeticName.."Location") == true) then
+		if (GameState.ClientGameSettings["WeaponSanity"]==1) then
+			cosmeticItemHints = cosmeticItemHints..cosmeticName.."Location-"
+		end
+	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName) ~= nil) then
+		if (GameState.ClientGameSettings["StoreSanity"]==1 and PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName) ~= nil) then
+			cosmeticItemHints = cosmeticItemHints..PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName).ClientNameLocation.."-"
+		end
+	end
+end
+
+-------------------------------------------------------
+
 
 function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName )
 
@@ -81,7 +103,6 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 					purchasedItems[cosmeticData.Slot] = purchasedItems[cosmeticData.Slot] or {}
 					table.insert( purchasedItems[cosmeticData.Slot], cosmeticData )
 				else
-
 					availableItems[cosmeticData.Slot] = availableItems[cosmeticData.Slot] or {}
 					table.insert( availableItems[cosmeticData.Slot], cosmeticData )
 				end
@@ -159,6 +180,7 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 		-------------------------------------------------
 
 		Title = PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
+		PolycosmosGhostAdminOverride.CacheCosmeticHint(displayName)
 
 		-------------------------------------------------
 		-------------------THIS ENDS THE NEW BIT TO SHOW DIFFERENT ITEMS FOR AP
@@ -239,6 +261,8 @@ function PolycosmosGhostAdminOverride.DisplayCosmeticsOverride( screen, slotName
 		itemLocationY = itemLocationY + screen.EntryYSpacer
 
 	end
+
+	PolycosmosGhostAdminOverride.SendCacheHints()
 
 	-- Purchased
 	local itemsToDisplay = purchasedItems[slotName] or {}

@@ -9,6 +9,7 @@ import shutil
 from typing import Tuple, List, Iterable, Dict
 import threading
 import importlib.util
+from urllib import request
 
 import websockets
 import copy
@@ -77,6 +78,7 @@ class HadesContext(CommonContext):
                         styx_scribe_recieve_prefix + "Data requested", "HadesClient")
         # hook to send deathlink to other player when Zag dies
         subsume.AddHook(self.send_death, styx_scribe_recieve_prefix + "Zag died", "HadesClient")
+        subsume.AddHook(self.send_location_hint_to_server, styx_scribe_recieve_prefix + "Locations hinted:", "HadesClient")
 
     async def server_auth(self, password_requested: bool = False):
         # This is called to autentificate with the server.
@@ -268,10 +270,21 @@ class HadesContext(CommonContext):
 
     # ----------------- Package Management section ends --------------------------------
 
+    # ----------------- Hints from game section starts --------------------------------
 
+    # asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 1}]))
 
+    async def send_location_hint_to_server(self, message):
+        if (self.hades_slot_data["store_give_hints"] == 0):
+            return;
+        split_array = message.split("-")
+        request = []
+        for location in split_array:
+            if (len(location)>0):
+                request.append(self.location_name_to_id[location])
+        asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 2}]))
 
-    # ----------------- Filler items section ended --------------------------------
+    # ----------------- Hints from game section ends --------------------------------
 
     # -------------deathlink section started --------------------------------
     def on_deathlink(self, data: dict):

@@ -343,6 +343,12 @@ class IgnoreGreeceDeaths(Toggle):
     option_false = 0
     default = 1
 
+class StoreGiveHints(Toggle):
+    """If seeing an item on the store/fated list should give a hint for it on the multiworld."""
+    display_name = "StoreGiveHints"
+    option_true = 1
+    option_false = 0
+    default = 1
 
 
 # ------------------------------ Building dictionary ------------------------
@@ -388,5 +394,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "filler_trap_porcentage": FillerTrapPorcentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
+    "store_give_hints": StoreGiveHints,
     "death_link": DeathLink,
 }

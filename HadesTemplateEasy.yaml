@@ -486,6 +486,11 @@ Hades:
     # If deaths on Greece are ignored for deathlink. Leave off for the memes.
     false: 0
     true: 50
+    
+  store_give_hints:
+    # If seeing an item on the store/fated list should give a hint for it on the multiworld.
+    false: 0
+    true: 50
 
   death_link:
     # When you die, everyone dies. Of course the reverse is true too.

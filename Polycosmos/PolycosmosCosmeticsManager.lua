@@ -1,6 +1,8 @@
 ModUtil.Mod.Register( "PolycosmosCosmeticsManager" )
 
 
+------------ 
+
 local StoreUnlockCosmeticNames =
 {
     HealthFountainHeal1 = {

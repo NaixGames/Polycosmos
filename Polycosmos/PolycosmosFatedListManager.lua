@@ -1,5 +1,10 @@
 ModUtil.Mod.Register( "PolycosmosFatedListManager" )
 
+
+------------ 
+
+local fatedListHints = ""
+
 ------------ 
 
 local FatedListNames =
@@ -161,6 +166,18 @@ ModUtil.Path.Wrap( "CashOutQuest", function(baseFunc, screen, button)
         return PolycosmosFatedListManager.CashOutQuestOverride(screen, button)
 end)
 
+-------------------------------------------------------
+
+function PolycosmosFatedListManager.SendCacheHints()
+	StyxScribe.Send(styx_scribe_send_prefix.."Locations hinted:"..fatedListHints)
+	fatedListHints = ""
+end
+
+function PolycosmosFatedListManager.CacheFateHint(questName)
+	if (FatedListNames[questName]) then
+		fatedListHints = fatedListHints..FatedListNames[questName].ClientNameLocation.."-"
+	end
+end
 
 -------------------------------------------------------
 
@@ -261,6 +278,8 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 			Attach({ Id = components[newButtonKey].Id, DestinationId = components[questButtonKey].Id, OffsetX = 0, OffsetY = 0 })
 		end
 
+		PolycosmosFatedListManager.CacheFateHint(questData.Name)
+
 		CreateTextBox(MergeTables({ Id = components[questButtonKey].Id,
 			Text = PolycosmosFatedListManager.GiveItemTitle(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
 			Color = {245, 200, 47, 255},
@@ -306,7 +325,7 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 			Attach({ Id = components[newButtonKey].Id, DestinationId = components[questButtonKey].Id, OffsetX = 0, OffsetY = 0 })
 		end
 
-
+		PolycosmosFatedListManager.CacheFateHint(questData.Name)
 
 		CreateTextBox(MergeTables({ Id = components[questButtonKey].Id,
 			Text = PolycosmosFatedListManager.GiveItemTitle(questData.Name), --THIS IS THE NEW BIT FOR OVERRIDING TITLES
@@ -325,8 +344,9 @@ function PolycosmosFatedListManager.OpenQuestLogScreenOverride( args )
 			}, LocalizationData.QuestLogScreen.QuestName))
 
 		itemLocationY = itemLocationY + screen.EntryYSpacer
-
 	end
+
+	PolycosmosFatedListManager.SendCacheHints()
 
 	for k, questData in ipairs( cashedOutQuests ) do
 
