@@ -1,4 +1,4 @@
-﻿# Q. What is this file?
+# Q. What is this file?
 # A. This file contains options which allow you to configure your multiworld experience while allowing
 #    others to play how they want as well.
 #
@@ -194,9 +194,9 @@ Hades:
     random-high: 0
 
   heat_system:
-    # Choose either ReverseHeat (1), MinimalHeat (2) or VainillaHeat(3) for the game.
+    # Choose either ReverseHeat (1), MinimalHeat (2) or VanillaHeat(3) for the game.
     # In ReverseHeat you start with heat pacts that cannot be disabled until you get the corresponding pact item.
-    # In Minimal the settings for the PactsAmmounts below set your minimal heat to be set, and cannot go below that level.
+    # In Minimal the settings for the PactsAmounts below set your minimal heat to be set, and cannot go below that level.
     # If not wanting to have one of this heat systems on, chose Vanilla heat 
     # (then the following options related to pacts do nothing).
     reverseheat: 50

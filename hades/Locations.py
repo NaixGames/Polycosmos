@@ -80,9 +80,9 @@ location_store_gemstones ={
     "UrnsOfWealth1Location": max_number_room_checks+36,
     "UrnsOfWealth2Location": max_number_room_checks+37,
     "UrnsOfWealth3Location": max_number_room_checks+38,
-    "InfernalThrove1Location": max_number_room_checks+39,
-    "InfernalThrove2Location": max_number_room_checks+40,
-    "InfernalThrove3Location": max_number_room_checks+41,
+    "InfernalTrove1Location": max_number_room_checks+39,
+    "InfernalTrove2Location": max_number_room_checks+40,
+    "InfernalTrove3Location": max_number_room_checks+41,
     "KeepsakeCollectionLocation": max_number_room_checks+42,
     "KeepsakeCollectionLocation": max_number_room_checks+43,
 }

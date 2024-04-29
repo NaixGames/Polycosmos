@@ -108,9 +108,9 @@ class FatesNeeded(Range):
 # -----------------------Settings for Pact levels ---------------
 
 class HeatSystem(Choice):
-    """Choose either ReverseHeat (1), MinimalHeat (2) or VainillaHeat(3) for the game.
+    """Choose either ReverseHeat (1), MinimalHeat (2) or VanillaHeat(3) for the game.
     In ReverseHeat you start with heat pacts that cannot be disabled until you get the corresponding pact item.
-    In Minimal the settings for the PactsAmmounts below set your minimal heat to be set, and cannot go below that level.
+    In Minimal the settings for the PactsAmounts below set your minimal heat to be set, and cannot go below that level.
     If not wanting to have one of this heat systems on, chose Vanilla heat 
     (then the following options related to pacts do nothing)."""
     display_name = "Heat System"

@@ -29,8 +29,8 @@ class HadesLogic(LogicMixin):
             + self.count("UrnsOfWealth3Item", player) >=amount
     
     def _has_enough_throve(self, player: int, amount: int) -> bool:
-        return self.count("InfernalThrove1Item", player) + self.count("InfernalThrove2Item", player) \
-            + self.count("InfernalThrove3Item", player) >=amount
+        return self.count("InfernalTrove1Item", player) + self.count("InfernalTrove2Item", player) \
+            + self.count("InfernalTrove3Item", player) >=amount
     
     def _has_enough_weapons(self, player: int, options, amount: int) -> bool:
         if (options.weaponsanity.value==0):
@@ -215,10 +215,10 @@ def set_store_rules(world: MultiWorld, player: int, location_table, options):
     set_rule(world.get_location("UrnsOfWealth2Location", player), lambda state: state._has_enough_urns(player,1))
     set_rule(world.get_location("UrnsOfWealth3Location", player), lambda state: state._has_enough_urns(player,2))
     
-    #Infernal Throve
-    set_rule(world.get_location("UrnsOfWealth2Location", player), lambda state: state._has_enough_throve(player,1) and \
+    #Infernal Trove
+    set_rule(world.get_location("InfernalTrove2Location", player), lambda state: state._has_enough_throve(player,1) and \
             state.has("FountainElysiumItem",player) and state.has("KeepsakeCollectionItem", player))
-    set_rule(world.get_location("UrnsOfWealth3Location", player), lambda state: state._has_enough_throve(player,2) and \
+    set_rule(world.get_location("InfernalTrove3Location", player), lambda state: state._has_enough_throve(player,2) and \
             state.has("FountainElysiumItem",player) and state.has("KeepsakeCollectionItem", player) and  \
             state.has("DeluxeContractorDeskItem", player))
     

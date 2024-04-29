@@ -38,16 +38,16 @@ local StoreUnlockCosmeticNames =
         ClientNameLocation = "UrnsOfWealth3Location", --Requires BreakableValue2Item
     },
     ChallengeSwitches1 = {
-        ClientNameItem = "InfernalThrove1Item", 
-        ClientNameLocation = "InfernalThrove1Location",
+        ClientNameItem = "InfernalTrove1Item", 
+        ClientNameLocation = "InfernalTrove1Location",
     },
     ChallengeSwitches2 = {
-        ClientNameItem = "InfernalThrove2Item", --IsProgressive 
-        ClientNameLocation = "InfernalThrove2Location", --Requires defeating ElysiumReprieve, ChallengeSwitches1Item, PostBossGiftRack
+        ClientNameItem = "InfernalTrove2Item", --IsProgressive 
+        ClientNameLocation = "InfernalTrove2Location", --Requires defeating ElysiumReprieve, ChallengeSwitches1Item, PostBossGiftRack
     },
     ChallengeSwitches3 = {
-        ClientNameItem = "InfernalThrove3Item", --IsProgressive 
-        ClientNameLocation = "InfernalThrove3Location", --Requires defeating ElysiumReprieve, ChallengeSwitches2Item, PostBossGiftRack, GhostAdminDesk
+        ClientNameItem = "InfernalTrove3Item", --IsProgressive 
+        ClientNameLocation = "InfernalTrove3Location", --Requires defeating ElysiumReprieve, ChallengeSwitches2Item, PostBossGiftRack, GhostAdminDesk
     },
 	PostBossGiftRack = {
         ClientNameItem = "KeepsakeCollectionItem",
