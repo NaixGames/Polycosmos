@@ -27,7 +27,7 @@ Any of the items which can be shuffled may also be placed into another player's 
 
 ## When the player receives an item, what happens?
 
-When someone sends you an item you will see on screen a message telling what item you got and how it changes the game.
+When someone sends you an item, you will see on screen a message telling what item you got and how it changes the game.
 If you receive a pact of punishment item you will see the heat level going down, if it is a filler item, how much you get
 and so on.
 

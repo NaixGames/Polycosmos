@@ -21,7 +21,7 @@ an experience customized to their taste, and different players in the same multi
 
 ### Where do I get a YAML file?
 
-you can customize your settings by using the .yaml in the Hades World folder. The repo also has 3 different
+You can customize your settings by using the .yaml in the Hades World folder. The repo also has 3 different
 templates with different difficulties in mind. We recommend starting with the Easy difficulty.
 
 ### Connect to the MultiServer
@@ -30,6 +30,6 @@ For launching the game to play in the multiworld you need to open the Archipelag
 for HadesClient. This opens a window to look for your Hades installation path (the standard steam path being 
 C:\Program Files\Steam\steamapps\common\Hades ). Once the folder is selected the game should open Hades and the Archipelago client.
 
-Use the Client window to connect to the Archipelago server before choosing your save file. If this is done correctly you should
+Use the Client window to connect to the Archipelago server before choosing your save file. If this is done correctly, you should
 be able to start the game and get a location check on the first room, which prints a message on your console. If the connection
 is not successfully made, you will get an error message in the first room. Exit, reconnect and try again.
