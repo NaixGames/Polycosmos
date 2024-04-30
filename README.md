@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.10.0 and up to this version it possesses the feature detailed below:
+0.10.1 and up to this version it possesses the feature detailed below:
 
 Modes for heat:
 - Reverse Heat: Start the game with high pacts of punishments. Pact of punishment reductions are items in the item pool.
@@ -55,6 +55,7 @@ Quality of Life:
 - The ability to choose the initial weapon for Zagreyus. Also allows randomized option.
 - Weapons now getting bought from the house contractor, not from the weapon storage. Needed for getting weaponsanity working.
 - All aspects of weapons can be bought once you unlock the weapon (except for the hidden ones if those are in the item pool).
+- Automatic hint system for items that are seen in store and fated list.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
