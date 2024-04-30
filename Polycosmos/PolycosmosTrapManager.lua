@@ -61,7 +61,7 @@ function PolycosmosTrapManager.ProcessTrapItems()
 
     while (HealthPunishmentRequest > GameState.TrapLedger["HealthPunishment"]) do
         damage = CurrentRun.Hero.MaxHealth/4
-        CurrentRun.Hero.Health  = math.max(CurrentRun.Hero.Health  - damage,0)
+        CurrentRun.Hero.Health  = math.max(CurrentRun.Hero.Health  - damage,1)
 
         PolycosmosMessages.PrintToPlayer("You got a Health punishment")
 
