@@ -25,6 +25,11 @@ function PolycosmosTrapManager.GiveTrapItem(item)
     end
 end
 
+function PolycosmosTrapManager.FlushTrapItems()
+    MoneyPunishmentRequest = 0
+    HealthPunishmentRequest = 0
+end
+
 --------------------
 
 ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, args )

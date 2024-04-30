@@ -230,6 +230,9 @@ function PolycosmosEvents.UpdateItemsRun( message )
         PolycosmosEvents.LoadData()
         return
     end
+
+    PolycosmosTrapManager.FlushTrapItems()
+
     local itemList = PolycosmosUtils.ParseStringToArray(message)
     local pactList = {}
     for i=1,#itemList do
