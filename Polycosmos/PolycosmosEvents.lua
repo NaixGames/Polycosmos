@@ -305,7 +305,12 @@ end)
 function PolycosmosEvents.KillPlayer( message )
     PolycosmosMessages.PrintToPlayer("Deathlink recieved!")
     wait( 2 )
-	KillHero(CurrentRun.Hero,  { }, { })
+    if HasLastStand(CurrentRun.Hero) then
+        CurrentRun.Hero.Health = 0
+        CheckLastStand(CurrentRun.Hero, { })
+    else
+        KillHero(CurrentRun.Hero, { }, { })
+    end
 end
 
 StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."Deathlink recieved", PolycosmosEvents )
