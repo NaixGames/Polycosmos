@@ -8,6 +8,7 @@ class ItemData(typing.NamedTuple):
     code: typing.Optional[int]
     progression: bool
     event: bool = False
+    trap: bool = False
 
 
 hades_base_item_id = 666100
@@ -181,8 +182,8 @@ item_table_hidden_aspects : Dict[str, ItemData] ={
 }
 
 item_table_traps : Dict[str, ItemData] ={
-    "MoneyPunishment" : ItemData(hades_base_item_id+80, False),
-	"HealthPunishment": ItemData(hades_base_item_id+81, False),
+    "MoneyPunishment" : ItemData(hades_base_item_id+80, False, False, True),
+	"HealthPunishment": ItemData(hades_base_item_id+81, False, False, True),
 }
 
 def create_filler_pool_options(options):
@@ -397,8 +398,15 @@ class HadesItem(Item):
 
     def __init__(self, name, player: int = None):
         item_data = item_table[name]
+        if item_data.progression:
+            itemClass = ItemClassification.progression
+        elif item_data.trap:
+            itemClass = ItemClassification.trap
+        else:
+            itemClass = ItemClassification.filler
+            
         super(HadesItem, self).__init__(
             name,
-            ItemClassification.progression if item_data.progression else ItemClassification.filler,
+            itemClass,
             item_data.code, player
         )
