@@ -129,6 +129,82 @@ In StoreSanity the "spots" in the store are tied to a location in the original g
 
 - PitchBlackDarknessLocation, FatedKeysLocation, BrilliantGemstonesLocation, VintageNectarLocation, DarkerThirstLocation: all require DeluxeContractorDeskItem
 
+# Fates names and logic
+
+The following are the fates included in the Archipelago with their name as they show in the client and hints:
+
+- IsThereNoEscape?: Beat Hades Once.
+
+- DistantRelatives: Meet all the olympian gods.
+
+- ChthonicColleagues: Meet all the underworlds NPCs.
+
+- TheReluctantMusician: Release Orpheus. That is, get the Court Musician Sentence Item.
+
+- GoddessOfWisdom: Get all Athenea's Boons.
+  
+- GodOfTheHeavens: Get all Zeus's Boons.
+ 
+- GodOfTheSea: Get all Poseidon's Boons.
+  
+- GoddessOfLove: Get all Aphrodite's Boons.
+
+- GodOfWar: Get all Ares's Boons.
+
+- GoddessOfTheHunt: Get all Arthemis's Boons.
+
+- GodOfWine: Get all Dionysus's Boons.
+
+- GodOfSwiftness: Get all Hermes's Boons.
+
+- GoddessOfSeasons:  Get all Demeter's Boons.
+  
+- PowerWithoutEqual: Obtain a Legendary Boon.
+
+- DivinePairings: Obtain a Duo Boon.
+
+- PrimordialBoons: Get all Chaos's positive effects.
+
+- PrimordialBanes: Get all Chaos's negative effects.
+
+- InfernalArms: Get all the weapons.
+
+- TheStygianBlade: Get all the sword's upgrades using the hammer.
+
+- TheHeartSeekingBow: Get all the bow's upgrades using the hammer.
+
+- TheShieldOfChaos: Get all the shield's upgrades using the hammer.
+
+- TheEternalSpear: Get all the spear's upgrades using the hammer.
+
+- TheTwinFists: Get all the fist's upgrades using the hammer.
+
+- TheAdamantRail: Get all the gun's upgrades using the hammer.
+
+- MasterOfArms: Escape using each one of the six weapons.
+
+- AViolentPast: Get all weapon hidden aspects.
+
+- HarshConditions: Escape the underworld with each one of the pact of punishments active during different runs.
+
+- SlashedBenefits: Kill enemies with all possible Benefits Package buffs.
+
+- WantonRansacking: Slay each one of the twelve mini-bosses.
+
+- ASimpleJob: Buy at least 30 orders from the House Contractor.
+
+- ChthonicKnowledge: Reveal 70 Codex's sections.
+
+- CustomerLoyalty: Buy each one of the goodies of the Well of Charon.
+
+- DarkReflections: Uses each of the mirror's talent to beat a run at least once.
+
+- CloseAtHeart: Equip each keepsake at least once.
+
+- DenizensOfTheDeep: Catch 25 fish and talk to Poseidon.
+
+- TheUselessTrinket: Beat Hades with at least 8 heat.
+
 # Other logic facts
 
 - You get access to the second side of the mirror after getting 300 Darkness and talking to Nyx
