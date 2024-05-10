@@ -57,6 +57,10 @@ end
 -------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.SendCacheHints()
+	if (GameState.ClientGameSettings["StoreSanity"]==0 and GameState.ClientGameSettings["WeaponSanity"]==0) then
+			return
+	end
+
 	StyxScribe.Send(styx_scribe_send_prefix.."Locations hinted:"..cosmeticItemHints)
 	cosmeticItemHints = ""
 end

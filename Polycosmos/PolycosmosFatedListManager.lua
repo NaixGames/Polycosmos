@@ -169,11 +169,19 @@ end)
 -------------------------------------------------------
 
 function PolycosmosFatedListManager.SendCacheHints()
+	if (GameState.ClientGameSettings["FateSanity"]==0) then
+			return
+	end
+
 	StyxScribe.Send(styx_scribe_send_prefix.."Locations hinted:"..fatedListHints)
 	fatedListHints = ""
 end
 
 function PolycosmosFatedListManager.CacheFateHint(questName)
+	if (GameState.ClientGameSettings["FateSanity"]==0) then
+			return
+	end
+
 	if (FatedListNames[questName]) then
 		fatedListHints = fatedListHints..FatedListNames[questName].ClientNameLocation.."-"
 	end
