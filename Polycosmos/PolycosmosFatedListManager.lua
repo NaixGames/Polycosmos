@@ -103,10 +103,10 @@ local FatedListNames =
 		ClientNameLocation = "ASimpleJob", 
 	},
 	WellShopItems = {
-		ClientNameLocation = "Customer Loyalty", 
+		ClientNameLocation = "CustomerLoyalty", 
 	},
 	MirrorUpgrades = {
-		ClientNameLocation = "Dark Reflections", 
+		ClientNameLocation = "DarkReflections", 
 	},
 	KeepsakesQuest = {
 		ClientNameLocation = "CloseAtHeart", 
