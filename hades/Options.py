@@ -355,6 +355,14 @@ class StoreGiveHints(Toggle):
     option_false = 0
     default = 1
 
+class AutomaticRoomsFinishOnHadesDefeat(Toggle):
+    """If defeating Hades should give all room clears on Room based location mode 
+    or all rooms clears with the equipped weapon on Room weapon based location mode. """
+    display_name = "AutomaticRoomFinishOnHadesDefeat"
+    option_true = 1
+    option_false = 0
+    default = 0
+
 
 # ------------------------------ Building dictionary ------------------------
 
@@ -400,5 +408,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
     "store_give_hints": StoreGiveHints,
+    "automatic_rooms_finish_on_hades_defeat": AutomaticRoomsFinishOnHadesDefeat,
     "death_link": DeathLink,
 }

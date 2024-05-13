@@ -59,7 +59,7 @@ class HadesWorld(World):
     web = HadesWeb()
     required_client_version = (0, 4, 4)
 
-    polycosmos_version = "0.10.1"
+    polycosmos_version = "0.10.2"
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_table = give_all_locations_table()

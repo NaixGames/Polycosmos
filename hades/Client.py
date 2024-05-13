@@ -61,7 +61,7 @@ class HadesContext(CommonContext):
     deathlink_enabled = False
     is_connected = False
     is_receiving_items_from_connect_package = False
-    polycosmos_version = "0.10.1"
+    polycosmos_version = "0.10.2"
 
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
@@ -242,6 +242,7 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["fatesanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["hidden_aspectsanity"]) + "-"
         hades_settings_string += str(self.polycosmos_version) + "-"
+        hades_settings_string += str(self.hades_slot_data["automatic_rooms_finish_on_hades_defeat"]) + "-"
             
         #Send the codify setting to Hades
         subsume.Modules.StyxScribeShared.Root["Settings"] = hades_settings_string

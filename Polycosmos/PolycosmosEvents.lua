@@ -289,10 +289,28 @@ function PolycosmosEvents.ProcessHadesDefeat()
 		end
 	end
 
+    if (GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] == 1) then
+        PolycosmosEvents.ProcessAutomaticRooms()
+    end
+
     StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes.."-"..numFates)
 end
 
 table.insert(EncounterData.BossHades.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.ProcessHadesDefeat"})
+
+
+function PolycosmosEvents.ProcessAutomaticRooms()
+    if (GameState.ClientGameSettings["LocationMode"] == 1) then
+        for i=48,72 do
+            PolycosmosEvents.GiveRoomCheck(i)
+        end
+    elseif (GameState.ClientGameSettings["LocationMode"] == 3) then
+        for i=48,72 do
+            PolycosmosEvents.GiveWeaponRoomCheck(i)
+        end
+    end
+end
+
 
 -- Also process victory on credit start, becase in this case Hades is technically not defeated.
 ModUtil.Path.Wrap("StartCredits", function( baseFunc, args )
@@ -480,6 +498,7 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["FateSanity"] = tonumber(array_settings[32])
     GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[33])
     GameState.ClientGameSettings["PolycosmosVersion"] = tonumber(array_settings[34])
+    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[35])
 
     GameState.ClientDataIsLoaded = true
 
