@@ -7,7 +7,7 @@ import random
 from BaseClasses import Entrance, Item, ItemClassification, Location, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
       create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, \
-        item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups
+        item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups, create_helper_pool
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, location_table_fates_events, location_name_groups
 from .Options import hades_options, InitialWeapon
 from .Regions import create_regions
@@ -135,11 +135,15 @@ class HadesWorld(World):
             #Substract the 4 bosses
             total_fillers_needed = total_fillers_needed - 4
 
-        trap_porcentage = self.options.filler_trap_percentage.value
-        trap_fillers_needed = int(total_fillers_needed*trap_porcentage/100)
+        helper_percentage = self.options.filler_helper_percentage.value
+        helper_fillers_needed = int(total_fillers_needed*helper_percentage/100)
+        helper_pool = create_helper_pool()
+
+        trap_percentage = min(self.options.filler_trap_percentage.value, 100-helper_percentage)
+        trap_fillers_needed = int(total_fillers_needed*trap_percentage/100)
         trap_pool = create_trap_pool()
 
-        fillers_needed = total_fillers_needed-trap_fillers_needed
+        fillers_needed = total_fillers_needed-trap_fillers_needed-helper_fillers_needed
         for amount in range(0, fillers_needed):
             item_name = filler_options[index]
             item = HadesItem(item_name, self.player)
@@ -148,6 +152,14 @@ class HadesWorld(World):
 
         index = 0
         
+        for amount in range(0, helper_fillers_needed):
+            item_name = helper_pool[index]
+            item = HadesItem(item_name, self.player)
+            pool.append(item)
+            index = (index+1) % len(helper_pool)
+
+        index = 0
+
         for amount in range(0,trap_fillers_needed):
             item_name = trap_pool[index]
             item = HadesItem(item_name, self.player)

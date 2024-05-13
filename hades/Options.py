@@ -318,6 +318,17 @@ class AmbrosiaPackValue(Range):
     default = 3
     internal_name = "AmbrosiaPackValue"
 
+# -----------------------Settings for Helpers -------------------------
+
+class FillerHelperPercentage(Range):
+    """Choose the percentage of filler items in the pool that will be to helpers instead. 
+    Helpers give a boost to your max Health or boost the chance of obtaining rare Boons."""
+    display_name = "Filler Helper Percentage"
+    range_start = 0
+    range_end = 100
+    default = 5
+    internal_name = "FillerHelperPercentage"
+
 # -----------------------Settings for Trap -------------------------
 
 class FillerTrapPercentage(Range):
@@ -404,6 +415,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "titan_blood_pack_value": TitanBloodPackValue,
     "nectar_pack_value": NectarPackValue,
     "ambrosia_pack_value": AmbrosiaPackValue,
+    "filler_helper_percentage": FillerHelperPercentage,
     "filler_trap_percentage": FillerTrapPercentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
