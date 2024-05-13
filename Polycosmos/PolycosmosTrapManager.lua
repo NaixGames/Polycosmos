@@ -46,7 +46,7 @@ function PolycosmosTrapManager.ProcessTrapItems()
 
     --I swear to god idk how we can get to this state which a null run but enemies, but this
     --game's architecture never cease to surprise me lol
-    if (CurrentRun == nil) then
+    if (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache == 0) then
         return
     end
 
