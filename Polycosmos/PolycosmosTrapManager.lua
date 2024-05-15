@@ -54,13 +54,15 @@ function PolycosmosTrapManager.ProcessTrapItems()
         if (CurrentRun.Money < 50) then
             break
         else
-            CurrentRun.Money = math.max(CurrentRun.Money - 100,0)
+            CurrentRun.Money = math.max(CurrentRun.Money - 100, 1)
 		    ShowResourceUIs({ CombatOnly = false, UpdateIfShowing = true })
 		    UpdateMoneyUI( CurrentRun.Money )
 
             PolycosmosMessages.PrintToPlayer("You got a Money punishment")
 
             GameState.TrapLedger["MoneyPunishment"] = GameState.TrapLedger["MoneyPunishment"] + 1
+
+            break
         end
     end
 

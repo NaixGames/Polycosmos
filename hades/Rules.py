@@ -1,10 +1,10 @@
 from enum import KEEP
-from BaseClasses import MultiWorld
-from .Items import item_table_pacts, item_table_weapons, item_table_keepsake, items_table_fates_completion
+from BaseClasses import MultiWorld, Item, ItemClassification
+from .Items import item_table_pacts, item_table_weapons, item_table_keepsake, items_table_fates_completion, HadesItem
 from ..AutoWorld import LogicMixin
-from ..generic.Rules import set_rule, add_rule
+from ..generic.Rules import set_rule, add_rule, add_item_rule
 from Utils import visualize_regions
-
+from .Locations import location_weapons_subfixes
 
 class HadesLogic(LogicMixin):
     #This is not working as expected
@@ -103,10 +103,13 @@ class HadesLogic(LogicMixin):
         else:
            return self.has(bossVictory, player)
 
+# -----------
+
 def set_rules(world: MultiWorld, player: int, number_items: int, location_table, options):
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
     total_routine_inspection = int(options.routine_inspection_pact_amount.value)
 
+    
 
     if (options.location_system.value == 3):
         set_weapon_region_rules(world, player, number_items, location_table, options, 
@@ -139,27 +142,29 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
                     state._total_heat_level(player, min(number_items,35), options) and  \
                     state._has_enough_weapons(player, options, 6))
     
+
+    forbid_important_items_on_late_styx(world, player, options)
     world.completion_condition[player] = lambda state: state._can_get_victory(player, options)
     
     if (options.keepsakesanity.value==1):
-        set_rule(world.get_entrance("NPCS", player), lambda state: True)
-        set_rule(world.get_location("EurydiceKeepsake",player), lambda state:  \
+        add_rule(world.get_entrance("NPCS", player), lambda state: True)
+        add_rule(world.get_location("EurydiceKeepsake",player), lambda state:  \
                  state._has_defeated_boss("LernieVictory", player, options))
-        set_rule(world.get_location("ThanatosKeepsake",player), lambda state:  \
+        add_rule(world.get_location("ThanatosKeepsake",player), lambda state:  \
                 state._has_defeated_boss("LernieVictory", player, options))
-        set_rule(world.get_location("PatroclusKeepsake",player), lambda state:  \
+        add_rule(world.get_location("PatroclusKeepsake",player), lambda state:  \
                 state._has_defeated_boss("BrosVictory", player, options))
         set_keepsake_balance(world, player, location_table, options)
-    if (options.weaponsanity.value==1 and options.keys_pack_value.value >0):
-        set_rule(world.get_entrance("Weapon Cache", player), lambda state: True)
-    if (options.storesanity.value==1):
+    if (options.weaponsanity.value == 1):
+        add_rule(world.get_entrance("Weapon Cache", player), lambda state: True)
+    if (options.storesanity.value == 1):
         set_store_rules(world, player, location_table, options)
-    if (options.fatesanity.value==1):
+    if (options.fatesanity.value == 1):
         set_fates_rules(world, player, location_table, options, "")
     set_fates_rules(world, player, location_table, options, "Event")
     
 
-    if (options.keepsakesanity.value==1 and options.storesanity.value==1):
+    if (options.keepsakesanity.value == 1 and options.storesanity.value == 1):
         add_rule(world.get_location("CourtMusicianSentenceLocation", player), lambda state: \
                   state.has("OrpheusKeepsake", player))
 
@@ -235,10 +240,12 @@ def set_store_rules(world: MultiWorld, player: int, location_table, options):
             state.has("DeluxeContractorDeskItem", player))
     set_rule(world.get_location("FishingRodLocation", player), lambda state:  \
             state._has_defeated_boss("BrosVictory", player, options) and state.has("FountainTartarusItem", player))
-    set_rule(world.get_location("CourtMusicianSentenceLocation", player), lambda state:  \
-            state._has_defeated_boss("MegVictory", player, options) and state.has("FountainTartarusItem", player))
     set_rule(world.get_location("CourtMusicianStandLocation", player), lambda state:  \
             state.has("CourtMusicianSentenceItem", player))
+    
+    #Orpheus might have other rules depending on settings
+    add_rule(world.get_location("CourtMusicianSentenceLocation", player), lambda state:  \
+            state._has_defeated_boss("MegVictory", player, options) and state.has("FountainTartarusItem", player))
     
     #Upgrades of runs with gems locations
     set_rule(world.get_location("PitchBlackDarknessLocation", player), lambda state:  \
@@ -332,3 +339,15 @@ def set_weapon_region_rules(world: MultiWorld, player: int, number_items: int,
             state._has_enough_weapons(player, options, 6))
     
 
+def forbid_important_items_on_late_styx(world: MultiWorld, player: int, options):
+    if (options.location_system.value == 3):
+        for weaponString in location_weapons_subfixes:
+                late_styx_region = world.get_region("StyxLate"+weaponString, player)
+                for location in late_styx_region.locations:
+                        add_item_rule(location,
+                                lambda item: item.is_progression() == False)
+    else:
+        late_styx_region = world.get_region("StyxLate", player)
+        for location in late_styx_region.locations:
+                add_item_rule(location,
+                        lambda item: item.is_progression() == False)

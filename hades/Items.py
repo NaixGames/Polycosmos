@@ -213,13 +213,13 @@ def create_filler_pool_options(options):
 
 def create_trap_pool():
     item_traps = []
-    for traps in item_table_traps.keys:
+    for traps in item_table_traps.keys():
         item_traps.append(traps)
     return item_traps
 
 def create_helper_pool():
     item_helpers = []
-    for helper in item_table_helpers.keys:
+    for helper in item_table_helpers.keys():
         item_helpers.append(helper)
     return item_helpers
 
@@ -386,6 +386,7 @@ item_table = {
     **item_table_store,
     **item_table_hidden_aspects,
     **item_table_traps,
+    **item_table_helpers,
 }
 
 group_pacts = {"pacts":item_name for item_name in item_pool_pacts.keys()}
@@ -421,3 +422,6 @@ class HadesItem(Item):
             itemClass,
             item_data.code, player
         )
+
+    def is_progression(self):
+        return self.classification == ItemClassification.progression
