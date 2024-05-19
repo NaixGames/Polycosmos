@@ -31,20 +31,20 @@ end
 --------------------
 
 function PolycosmosHelperManager.FlushAndProcessFillerItems()
-    if (GameState.FillerItemLodger == nil) then
-        GameState.FillerItemLodger = {}
-        GameState.FillerItemLodger["MaxHealthHelper"] = 0
-        GameState.FillerItemLodger["BoonBoostHelper"] = 0
+    if (GameState.HelperItemLodger == nil) then
+        GameState.HelperItemLodger = {}
+        GameState.HelperItemLodger["MaxHealthHelper"] = 0
+        GameState.HelperItemLodger["BoonBoostHelper"] = 0
     end
 
-    while (MaxHealthRequests > GameState.FillerItemLodger["MaxHealthHelper"]) do
+    while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
         CurrentRun.Hero.Health = CurrentRun.Hero.Health + 25
-        GameState.FillerItemLodger["MaxHealthHelper"] = GameState.FillerItemLodger["MaxHealthHelper"] + 1
+        GameState.HelperItemLodger["MaxHealthHelper"] = GameState.HelperItemLodger["MaxHealthHelper"] + 1
         PolycosmosMessages.PrintToPlayer("Received a Max Health boost!")
     end
 
-    while (BoonBoostRequests > GameState.FillerItemLodger["BoonBoostHelper"]) do
-        GameState.FillerItemLodger["BoonBoostHelper"] = GameState.FillerItemLodger["BoonBoostHelper"] + 1
+    while (BoonBoostRequests > GameState.HelperItemLodger["BoonBoostHelper"]) do
+        GameState.HelperItemLodger["BoonBoostHelper"] = GameState.HelperItemLodger["BoonBoostHelper"] + 1
         PolycosmosMessages.PrintToPlayer("Received a Boon Rarity boost!")
     end
 
@@ -92,10 +92,10 @@ function GetRarityChancesOverride( args )
 	local metaupgradeEpicBoost = GetNumMetaUpgrades( "EpicBoonDropMetaUpgrade" ) * ( MetaUpgradeData.EpicBoonDropMetaUpgrade.ChangeValue - 1 ) + GetNumMetaUpgrades( "EpicHeroicBoonMetaUpgrade" ) * ( MetaUpgradeData.EpicBoonDropMetaUpgrade.ChangeValue - 1 )
 	local metaupgradeLegendaryBoost = GetNumMetaUpgrades( "DuoRarityBoonDropMetaUpgrade" ) * ( MetaUpgradeData.EpicBoonDropMetaUpgrade.ChangeValue - 1 )
 	local metaupgradeHeroicBoost = GetNumMetaUpgrades( "EpicHeroicBoonMetaUpgrade" ) * ( MetaUpgradeData.EpicBoonDropMetaUpgrade.ChangeValue - 1 )
-	legendaryRoll = legendaryRoll + metaupgradeLegendaryBoost + (GameState.FillerItemLodger["BoonBoostHelper"]*0.01)
-	heroicRoll = heroicRoll + metaupgradeHeroicBoost + (GameState.FillerItemLodger["BoonBoostHelper"]*0.01)
-	rareRoll = rareRoll + metaupgradeRareBoost + (GameState.FillerItemLodger["BoonBoostHelper"]*0.01)
-	epicRoll = epicRoll + metaupgradeEpicBoost + (GameState.FillerItemLodger["BoonBoostHelper"]*0.01)
+	legendaryRoll = legendaryRoll + metaupgradeLegendaryBoost + (GameState.HelperItemLodger["BoonBoostHelper"]*0.01)
+	heroicRoll = heroicRoll + metaupgradeHeroicBoost + (GameState.HelperItemLodger["BoonBoostHelper"]*0.01)
+	rareRoll = rareRoll + metaupgradeRareBoost + (GameState.HelperItemLodger["BoonBoostHelper"]*0.01)
+	epicRoll = epicRoll + metaupgradeEpicBoost + (GameState.HelperItemLodger["BoonBoostHelper"]*0.01)
 
 	local rarityTraits = GetHeroTraitValues("RarityBonus", { UnlimitedOnly = ignoreTempRarityBonus })
 	for i, rarityTraitData in pairs(rarityTraits) do
