@@ -180,14 +180,14 @@ location_table_fates_events = {
 
 #----------------------
 
-location_weapons_subfixes = {
+location_weapons_subfixes = [
     "SwordWeapon",
 	"SpearWeapon",
 	"ShieldWeapon",
 	"BowWeapon",
 	"FistWeapon",
 	"GunWeapon",
-}
+]
 
 #---------------------
 
