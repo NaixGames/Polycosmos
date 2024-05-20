@@ -32,8 +32,6 @@ end, PolycosmosWeaponManager)
 
 ------------
 
-local InitialWeaponRequested = false
-
 local WeaponDatabaseTrait = {
     SwordWeapon =
     {
@@ -175,24 +173,14 @@ end
 
 ------------ 
 
-function PolycosmosWeaponManager.RequestInitialWeapon()
-    InitialWeaponRequested = true
-end
-
------------- 
-
 function PolycosmosWeaponManager.CheckRequestInitialWeapon()
     PolycosmosWeaponManager.ResolveQueueWeapons()
-    if (not InitialWeaponRequested) then
-        return
-    end
     PolycosmosWeaponManager.EquipInitialWeapon()
 end
 
 ------------ 
 
 function PolycosmosWeaponManager.EquipInitialWeapon()
-    InitialWeaponRequested = false
     initialWeapon = GameState.ClientGameSettings["InitialWeapon"]
 
     if (GameState.WeaponsUnlocked and GameState.WeaponsUnlocked["SwordWeapon"]) then
@@ -238,12 +226,6 @@ function PolycosmosWeaponManager.EquipInitialWeapon()
 	EquipPlayerWeapon(WeaponDatabaseTrait[weaponString], { PreLoadBinks = true })
 end
 
-------------
-
-ModUtil.Path.Wrap( "StartNewGame", function(baseFunc)
-        PolycosmosWeaponManager.RequestInitialWeapon()
-        return baseFunc()
-end)
 
 
 ------------
