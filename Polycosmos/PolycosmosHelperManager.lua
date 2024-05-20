@@ -40,6 +40,7 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
 
     while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
         CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + 25
+		HeroData.DefaultHero.MaxHealth = HeroData.DefaultHero.MaxHealth + 25
         GameState.HelperItemLodger["MaxHealthHelper"] = GameState.HelperItemLodger["MaxHealthHelper"] + 1
         PolycosmosMessages.PrintToPlayer("Received a Max Health boost!")
     end
