@@ -253,12 +253,12 @@ function PolycosmosEvents.UpdateItemsRun( message )
         elseif (PolycosmosTrapManager.IsTrapItem(parsedName)) then
             PolycosmosTrapManager.GiveTrapItem(parsedName)
         elseif (PolycosmosHelperManager.IsHelperItem(parsedName)) then
-            PolycosmosHelperManager.GiveHelperItem(item)
+            PolycosmosHelperManager.GiveHelperItem(parsedName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
     PolycosmosItemManager.FlushAndProcessFillerItems()
-    PolycosmosHelperManager.FlushAndProcessFillerItems()
+    PolycosmosHelperManager.FlushAndProcessHelperItems()
 end
 
 StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.."Items Updated:", PolycosmosEvents )

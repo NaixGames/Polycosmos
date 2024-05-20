@@ -4,6 +4,7 @@ ModUtil.Mod.Register( "PolycosmosHelperManager" )
 local HelpersDataArray=
 {
     "MaxHealthHelper",
+	"BoonBoostHelper",
 }
 
 
@@ -30,7 +31,7 @@ end
 
 --------------------
 
-function PolycosmosHelperManager.FlushAndProcessFillerItems()
+function PolycosmosHelperManager.FlushAndProcessHelperItems()
     if (GameState.HelperItemLodger == nil) then
         GameState.HelperItemLodger = {}
         GameState.HelperItemLodger["MaxHealthHelper"] = 0
@@ -38,7 +39,7 @@ function PolycosmosHelperManager.FlushAndProcessFillerItems()
     end
 
     while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
-        CurrentRun.Hero.Health = CurrentRun.Hero.Health + 25
+        CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + 25
         GameState.HelperItemLodger["MaxHealthHelper"] = GameState.HelperItemLodger["MaxHealthHelper"] + 1
         PolycosmosMessages.PrintToPlayer("Received a Max Health boost!")
     end
@@ -60,6 +61,12 @@ end
 --------------------
 
 function GetRarityChancesOverride( args )
+	if (GameState.HelperItemLodger == nil) then
+        GameState.HelperItemLodger = {}
+        GameState.HelperItemLodger["MaxHealthHelper"] = 0
+        GameState.HelperItemLodger["BoonBoostHelper"] = 0
+    end
+
 	local name = args.Name
 	local ignoreTempRarityBonus = args.IgnoreTempRarityBonus
 	local referencedTable = "BoonData"
@@ -124,6 +131,6 @@ function GetRarityChancesOverride( args )
 end
 
 
-ModUtil.Path.Wrap("GetRarityChancesOverride", function(baseFunc, args)
+ModUtil.Path.Wrap("GetRarityChances", function(baseFunc, args)
     return GetRarityChancesOverride( args )
 end, PolycosmosHelperManager)
