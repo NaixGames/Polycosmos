@@ -56,10 +56,12 @@ Quality of Life:
 - Weapons now getting bought from the house contractor, not from the weapon storage. Needed for getting weaponsanity working.
 - All aspects of weapons can be bought once you unlock the weapon (except for the hidden ones if those are in the item pool).
 - Automatic hint system for items that are seen in store and fated list.
+- Missing nectar checks can be seen from the Codex.
+- Can choose to automatically collect all locations from a weapon once Hades is defeated.
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
-- Have [ModUtils v 2.9.0](https://github.com/SGG-Modding/ModUtil/releases) installed. For this download the latest version from the Github link, unzip that folder on Hades/Content/Mods and then Open modimporter.exe in you Hades/Content folder. Note you might need to create the Mods folder.
+- Have [ModUtils v 2.10.1](https://github.com/SGG-Modding/ModUtil/releases/tag/2.10.1) installed. For this download the latest version from the Github link, unzip that folder on Hades/Content/Mods and then Open modimporter.exe in you Hades/Content folder. Note you might need to create the Mods folder.
 - Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL) installed, without the REPL part. For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point, your Mods folder should look like this:
 
