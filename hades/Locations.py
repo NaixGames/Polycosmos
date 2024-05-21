@@ -415,11 +415,11 @@ def give_weapon_based_locations():
 
 
 
-group_fates = {"fates" : item_name for item_name in location_table_fates.keys()}
-group_keepsakes = {"keepsakes" : item_name for item_name in location_keepsakes.keys()}
-group_weapons = {"weapons" : item_name for item_name in location_weapons.keys()}
-group_contractor_gemstones = {"contractor_gems" : item_name for item_name in location_store_gemstones.keys()}
-group_contractor_diamonds = {"contractor_diamonds" : item_name for item_name in location_store_diamonds.keys()}
+group_fates = {"fates" : location_table_fates.keys()}
+group_keepsakes = {"keepsakes" : location_keepsakes.keys()}
+group_weapons = {"weapons" : location_weapons.keys()}
+group_contractor_gemstones = {"contractor_gems" : location_store_gemstones.keys()}
+group_contractor_diamonds = {"contractor_diamonds" : location_store_diamonds.keys()}
 
 location_name_groups = {
     **group_fates,

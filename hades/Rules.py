@@ -192,19 +192,7 @@ def set_keepsake_balance(world: MultiWorld, player: int, location_table, options
 
 
 def set_store_rules(world: MultiWorld, player: int, location_table, options):
-    #set up rules related to locations on the store
-
-    #we set the currency we need for each type of store
-    if (options.gemstones_pack_value.value>0):
-        set_rule(world.get_entrance("Store Gemstones Entrance", player), lambda state:  \
-                state._has_enough_of_item(player, 1, "Gemstones") ) 
-    if (options.diamonds_pack_value.value>0):
-        set_rule(world.get_entrance("Store Diamonds Entrance", player), lambda state:  \
-                state._has_enough_of_item(player, 1, "Diamonds") )
-
     #Fountains
-    set_rule(world.get_location("FountainUpgrade1Location", player), lambda state:   \
-            state.has("FountainTartarusItem", player))
     set_rule(world.get_location("FountainUpgrade2Location", player), lambda state:  \
             state.has("FountainUpgrade1Item", player) or state.has("FountainUpgrade2Item", player))
     set_rule(world.get_location("FountainAsphodelLocation", player), lambda state:  \
