@@ -297,6 +297,13 @@ function PolycosmosEvents.ProcessHadesDefeat()
     end
 
     StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes.."-"..numFates)
+
+    --Send to player all information needed to finish the game
+    PolycosmosMessages.PrintToPlayer("Number of wins "..numruns.." / "..GameState.ClientGameSettings["HadesDefeatsNeeded"])
+    PolycosmosMessages.PrintToPlayer("Number of weapon victories "..weaponsWithVictory.." / "..GameState.ClientGameSettings["WeaponsClearsNeeded"])
+    PolycosmosMessages.PrintToPlayer("Number of Keepsakes "..numKeepsakes.." / "..GameState.ClientGameSettings["KeepsakesNeeded"])
+    PolycosmosMessages.PrintToPlayer("Number of Fates "..numFates.." / "..GameState.ClientGameSettings["FatesNeeded"])
+
 end
 
 table.insert(EncounterData.BossHades.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.ProcessHadesDefeat"})
@@ -502,6 +509,11 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[33])
     GameState.ClientGameSettings["PolycosmosVersion"] = tonumber(array_settings[34])
     GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[35])
+
+    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[36])
+    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[37])
+    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[38])
+    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[39])
 
     GameState.ClientDataIsLoaded = true
 

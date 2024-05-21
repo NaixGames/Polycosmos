@@ -243,6 +243,12 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["hidden_aspectsanity"]) + "-"
         hades_settings_string += str(self.polycosmos_version) + "-"
         hades_settings_string += str(self.hades_slot_data["automatic_rooms_finish_on_hades_defeat"]) + "-"
+
+        #Codify in the string all the finishing conditions
+        hades_settings_string += str(self.hades_slot_data["hades_defeats_needed"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["weapons_clears_needed"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["keepsakes_needed"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["fates_needed"]) + "-"
             
         #Send the codify setting to Hades
         subsume.Modules.StyxScribeShared.Root["Settings"] = hades_settings_string
