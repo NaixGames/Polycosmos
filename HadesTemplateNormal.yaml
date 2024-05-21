@@ -466,6 +466,18 @@ Hades:
     random-low: 0
     random-high: 0
 
+  filler_helper_percentage:
+    # Choose the percentage of filler items in the pool that will be to helpers instead. 
+    # Helpers give a boost to your max Health or boost the chance of obtaining rare Boons.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 100
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
   filler_trap_percentage:
     # Choose the percentage of filler items in the pool that will be traps instead. 
     # Traps diminish your money or health during a run.
@@ -495,6 +507,12 @@ Hades:
     # should give a hint for it on the multiworld.
     false: 0
     true: 50
+
+  automatic_rooms_finish_on_hades_defeat:
+    # If defeating Hades should give all room clears on Room based location mode 
+    # or all rooms clears with the equipped weapon on Room weapon based location mode.
+    false: 50
+    true: 0
 
   death_link:
     # When you die, everyone dies. Of course the reverse is true too.

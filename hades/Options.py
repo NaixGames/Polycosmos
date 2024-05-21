@@ -326,7 +326,7 @@ class FillerHelperPercentage(Range):
     display_name = "Filler Helper Percentage"
     range_start = 0
     range_end = 100
-    default = 5
+    default = 0
     internal_name = "FillerHelperPercentage"
 
 # -----------------------Settings for Trap -------------------------
