@@ -333,9 +333,14 @@ def forbid_important_items_on_late_styx(world: MultiWorld, player: int, options)
                 late_styx_region = world.get_region("StyxLate"+weaponString, player)
                 for location in late_styx_region.locations:
                         add_item_rule(location,
-                                lambda item: item.is_progression() == False)
+                                lambda item: item_is_progression(item) == False)
     else:
         late_styx_region = world.get_region("StyxLate", player)
         for location in late_styx_region.locations:
                 add_item_rule(location,
-                        lambda item: item.is_progression() == False)
+                        lambda item: item_is_progression(item) == False)
+                
+
+#Helper. Thanks Scipio
+def item_is_progression(item: Item) -> bool:
+    return item.classification == ItemClassification.progression
