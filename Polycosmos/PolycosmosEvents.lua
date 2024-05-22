@@ -517,6 +517,8 @@ function PolycosmosEvents.SaveClientData( message )
 
     GameState.ClientDataIsLoaded = true
 
+    PolycosmosWeaponManager.CheckRequestInitialWeapon()
+
     SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
     ValidateCheckpoint({ Valid = true })
 
@@ -529,7 +531,6 @@ end
 
 function PolycosmosEvents.SetUpGameWithData()
     PolycosmosROEM.LoadBossData()
-    PolycosmosWeaponManager.CheckRequestInitialWeapon()
     PolycosmosCosmeticsManager.ResolveQueueCosmetics()
     PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
     PolycosmosHeatManager.SaveUserIntededHeat()
