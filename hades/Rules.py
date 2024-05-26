@@ -350,9 +350,9 @@ def set_fates_rules(world: MultiWorld, player: int, location_table, options, sub
 
     #This is extra balancing rules to avoid fates being a pain in the butt
     add_rule(world.get_location("PrimordialBoons"+subfix, player), lambda state: \
-                state.has("LernieVictory", player))
+                state._has_defeated_boss("LernieVictory", player, options))
     add_rule(world.get_location("PrimordialBanes"+subfix, player), lambda state: \
-                state.has("LernieVictory", player))
+                state._has_defeated_boss("LernieVictory", player, options))
     
     set_rule(world.get_location("PowerWithoutEqual"+subfix, player), lambda state: \
                 state._has_defeated_boss("HadesVictory", player, options))

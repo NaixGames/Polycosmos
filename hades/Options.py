@@ -1,4 +1,5 @@
 import typing
+from typing import Dict, Any
 from Options import TextChoice, Option, Range, Toggle, DeathLink, Choice
 
 # -----------------------Settings for Gameplay decisions ---------------
@@ -426,7 +427,6 @@ hades_options: typing.Dict[str, type(Option)] = {
     "ambrosia_pack_value": AmbrosiaPackValue,
     "filler_helper_percentage": FillerHelperPercentage,
     "max_health_helper_percentage": MaxHealthHelperPercentage,
-    "boon_boost_helper_percentage": BoonBoostHelperPercentage,
     "filler_trap_percentage": FillerTrapPercentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
