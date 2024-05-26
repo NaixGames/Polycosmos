@@ -301,6 +301,63 @@ def set_fates_rules(world: MultiWorld, player: int, location_table, options, sub
     if (options.keepsakesanity.value==1):
         set_rule(world.get_location("CloseAtHeart"+subfix, player), lambda state: \
                 state._has_enough_keepsakes(player, 23, options))
+        #This is balancing rules, so grinding gods is less painful
+        set_rule(world.get_location("GoddessOfWisdom"+subfix, player), lambda state: \
+                state.has("AthenaKeepsake", player))
+        set_rule(world.get_location("GodOfTheHeavens"+subfix, player), lambda state: \
+                state.has("ZeusKeepsake", player))
+        set_rule(world.get_location("GodOfTheSea"+subfix, player), lambda state: \
+                state.has("PoseidonKeepsake", player))
+        set_rule(world.get_location("GoddessOfLove"+subfix, player), lambda state: \
+                state.has("AphroditeKeepsake", player))
+        set_rule(world.get_location("GodOfWar"+subfix, player), lambda state: \
+                state.has("AresKeepsake", player))
+        set_rule(world.get_location("GoddessOfTheHunt"+subfix, player), lambda state: \
+                state.has("ArtemisKeepsake", player))
+        set_rule(world.get_location("GodOfWine"+subfix, player), lambda state: \
+                state.has("DionysusKeepsake", player))
+        set_rule(world.get_location("GodOfSwiftness"+subfix, player), lambda state: \
+                state.has("HermesKeepsake", player))
+        set_rule(world.get_location("GoddessOfSeasons"+subfix, player), lambda state: \
+                state.has("DemeterKeepsake", player))
+        
+        #Balancing rules
+        #Put here a rule that you need to have all God keepsakes for the DivinePairis?
+        set_rule(world.get_location("PrimordialBoons"+subfix, player), lambda state: \
+                state.has("ChaosKeepsake", player))
+        set_rule(world.get_location("PrimordialBanes"+subfix, player), lambda state: \
+                state.has("ChaosKeepsake", player))
+        
+        #Balacing rules for DivinePairings
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("AthenaKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("ZeusKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("PoseidonKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("AphroditeKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("AresKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("ArtemisKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("DionysusKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("HermesKeepsake", player))
+        add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state.has("DemeterKeepsake", player))
+
+    #This is extra balancing rules to avoid fates being a pain in the butt
+    add_rule(world.get_location("PrimordialBoons"+subfix, player), lambda state: \
+                state.has("LernieVictory", player))
+    add_rule(world.get_location("PrimordialBanes"+subfix, player), lambda state: \
+                state.has("LernieVictory", player))
+    
+    set_rule(world.get_location("PowerWithoutEqual"+subfix, player), lambda state: \
+                state._has_defeated_boss("HadesVictory", player, options))
+    add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
+                state._has_defeated_boss("LernieVictory", player, options))
         
 
 def set_weapon_region_rules(world: MultiWorld, player: int, number_items: int, 

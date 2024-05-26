@@ -330,20 +330,13 @@ class FillerHelperPercentage(Range):
     internal_name = "FillerHelperPercentage"
 
 class MaxHealthHelperPercentage(Range):
-    """Choose the percentage of helper items that will boost your max health."""
+    """Choose the percentage of helper items that will boost your max health. 
+    The remaining ones will boost the rarity of the boons you get."""
     display_name = "Max Health Helper Percentage"
     range_start = 0
     range_end = 100
-    default = 0
+    default = 50
     internal_name = "MaxHealthHelperPercentage"
-
-class BoonBoostHelperPercentage(Range):
-    """Choose the percentage of helper items that will boost the rarity of your boons."""
-    display_name = "Boon Boost Helper Percentage"
-    range_start = 0
-    range_end = 100
-    default = 0
-    internal_name = "BoonBoostHelperPercentage"
 
 # -----------------------Settings for Trap -------------------------
 
