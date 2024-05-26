@@ -355,7 +355,7 @@ def set_fates_rules(world: MultiWorld, player: int, location_table, options, sub
                 state._has_defeated_boss("LernieVictory", player, options))
     
     set_rule(world.get_location("PowerWithoutEqual"+subfix, player), lambda state: \
-                state._has_defeated_boss("HadesVictory", player, options))
+                state._has_defeated_boss("BrosVictory", player, options))
     add_rule(world.get_location("DivinePairings"+subfix, player), lambda state: \
                 state._has_defeated_boss("LernieVictory", player, options))
         
