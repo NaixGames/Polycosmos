@@ -9,7 +9,7 @@ from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, H
       create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, \
         item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups, create_helper_pool
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, location_table_fates_events, location_name_groups
-from .Options import hades_options, InitialWeapon
+from .Options import hades_options, InitialWeapon, hades_option_presets
 from .Regions import create_regions
 from .Rules import set_rules
 from worlds.AutoWorld import WebWorld, World
@@ -58,6 +58,7 @@ class HadesWorld(World):
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
     required_client_version = (0, 4, 4)
+    options_presets = hades_option_presets
 
     polycosmos_version = "0.11"
 
