@@ -43,6 +43,7 @@ class HadesWeb(WebWorld):
         "Hades/en",
         ["Naix"]
     )]
+    options_presets = hades_option_presets
 
 
 class HadesWorld(World):
@@ -58,7 +59,6 @@ class HadesWorld(World):
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
     required_client_version = (0, 4, 4)
-    options_presets = hades_option_presets
 
     polycosmos_version = "0.11"
 
