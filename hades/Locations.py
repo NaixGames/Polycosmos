@@ -300,17 +300,17 @@ def give_default_location_table():
         
     #Repopulate asphodel table, rooms from 15 to 28
     global location_table_asphodel
-    for i in range(14,28):
+    for i in range(14,24):
         location_table_asphodel["ClearRoom"+str(i+1)]=hades_base_location_id+i
     
     #Repopulate elyseum table, rooms from 29 to 42
     global location_table_elyseum
-    for i in range(28,42):
+    for i in range(24,36):
         location_table_elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+i
     
     #Repopulate styx table, rooms from 43 to 72. Split into early and late
     global location_table_styx 
-    for i in range(42,60):
+    for i in range(36,60):
         location_table_styx["ClearRoom"+str(i+1)]=hades_base_location_id+i
         
     global location_table_styx_late
@@ -390,16 +390,16 @@ def give_weapon_based_locations():
             weapon_locations["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*73
         weapon_locations["Beat Meg"+weaponSubfix] = None
 
-        for i in range(14,28):
+        for i in range(14,24):
             weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     
         weapon_locations["Beat Lernie"+weaponSubfix] = None
 
-        for i in range(28,42):
+        for i in range(24,36):
             weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
         weapon_locations["Beat Bros"+weaponSubfix] = None    
 
-        for i in range(42,60):
+        for i in range(36,60):
             weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
         
         weapon_locations["Beat Hades"+weaponSubfix] = None
