@@ -152,14 +152,21 @@ class HadesWorld(World):
 
         index = 0
         
-        for amount in range(0, helper_fillers_needed):
-            item_name = helper_pool[index]
-            item = HadesItem(item_name, self.player)
+        #Fill helpers
+        health_helpers_needed = int(helper_fillers_needed*self.options.max_health_helper_percentage/100)
+        boon_helpers_needed = helper_fillers_needed-health_helpers_needed
+
+        for amount in range(0, health_helpers_needed):
+            item = HadesItem("MaxHealthHelper", self.player)
             pool.append(item)
-            index = (index+1) % len(helper_pool)
+
+        for amount in range(0, boon_helpers_needed):
+            item = HadesItem("BoonBoostHelper", self.player)
+            pool.append(item)
 
         index = 0
 
+        #Fill traps
         for amount in range(0,trap_fillers_needed):
             item_name = trap_pool[index]
             item = HadesItem(item_name, self.player)

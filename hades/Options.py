@@ -329,6 +329,22 @@ class FillerHelperPercentage(Range):
     default = 0
     internal_name = "FillerHelperPercentage"
 
+class MaxHealthHelperPercentage(Range):
+    """Choose the percentage of helper items that will boost your max health."""
+    display_name = "Max Health Helper Percentage"
+    range_start = 0
+    range_end = 100
+    default = 0
+    internal_name = "MaxHealthHelperPercentage"
+
+class BoonBoostHelperPercentage(Range):
+    """Choose the percentage of helper items that will boost the rarity of your boons."""
+    display_name = "Boon Boost Helper Percentage"
+    range_start = 0
+    range_end = 100
+    default = 0
+    internal_name = "BoonBoostHelperPercentage"
+
 # -----------------------Settings for Trap -------------------------
 
 class FillerTrapPercentage(Range):
@@ -416,6 +432,8 @@ hades_options: typing.Dict[str, type(Option)] = {
     "nectar_pack_value": NectarPackValue,
     "ambrosia_pack_value": AmbrosiaPackValue,
     "filler_helper_percentage": FillerHelperPercentage,
+    "max_health_helper_percentage": MaxHealthHelperPercentage,
+    "boon_boost_helper_percentage": BoonBoostHelperPercentage,
     "filler_trap_percentage": FillerTrapPercentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,

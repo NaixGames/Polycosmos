@@ -165,8 +165,8 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
     
 
     if (options.keepsakesanity.value == 1 and options.storesanity.value == 1):
-        add_rule(world.get_location("CourtMusicianSentenceLocation", player), lambda state: \
-                  state.has("OrpheusKeepsake", player))
+        add_rule(world.get_location("OrpheusKeepsake", player), lambda state: \
+                state.has("CourtMusicianSentenceItem",player))
 
     visualize_regions(world.get_region("Menu", player), "my_world.puml")
 
@@ -341,6 +341,6 @@ def forbid_important_items_on_late_styx(world: MultiWorld, player: int, options)
                         lambda item: item_is_progression(item) == False)
                 
 
-#Helper. Thanks Scipio
+#Helper for late styx not having important items. Thanks Scipio.
 def item_is_progression(item: Item) -> bool:
     return item.classification == ItemClassification.progression
