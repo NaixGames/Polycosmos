@@ -39,12 +39,13 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
         GameState.HelperItemLodger["BoonBoostHelper"] = 0
     end
 
-	if (GameState.HelperItemLodger["MaxHealthHelper"] > 0) then
-		HeroData.DefaultHero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
-	end
+	PolycosmosHelperManager.SetupMaxHealth()
 
     while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
-        CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + 25
+        if (CurrentRun ~= nil) then
+			CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + 25
+			CurrentRun.Hero.Health = CurrentRun.Hero.Health + 25		
+		end
 		HeroData.DefaultHero.MaxHealth = HeroData.DefaultHero.MaxHealth + 25
         GameState.HelperItemLodger["MaxHealthHelper"] = GameState.HelperItemLodger["MaxHealthHelper"] + 1
         PolycosmosMessages.PrintToPlayer("Received a Max Health boost!")
@@ -144,4 +145,14 @@ ModUtil.Path.Wrap("GetRarityChances", function(baseFunc, args)
     return GetRarityChancesOverride( args )
 end, PolycosmosHelperManager)
 
--- Do something to set max health to what it should be?
+
+function PolycosmosHelperManager.SetupMaxHealth()
+    if (GameState.HelperItemLodger ~= nil and GameState.HelperItemLodger["MaxHealthHelper"] > 0) then
+		if (CurrentRun ~= nil) then
+			local delta = CurrentRun.Hero.MaxHealth - CurrentRun.Hero.Health
+			CurrentRun.Hero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
+			CurrentRun.Hero.Health = CurrentRun.Hero.MaxHealth - delta
+		end
+		HeroData.DefaultHero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
+	end
+end
