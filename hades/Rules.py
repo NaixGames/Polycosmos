@@ -82,7 +82,7 @@ class HadesLogic(LogicMixin):
         can_win = self._has_defeated_boss("HadesVictory", player, options)
         if (options.weaponsanity.value == 1):
             weapons = options.weapons_clears_needed.value
-            can_win = (can_win) and (self._has_enough_weapons(player,options,weapons))
+            can_win = (can_win) and (self._enough_weapons_victories(player,options,weapons))
         if (options.keepsakesanity.value == 1):
             keepsakes = options.keepsakes_needed.value
             can_win = (can_win) and (self._has_enough_keepsakes(player,keepsakes,options))
@@ -102,6 +102,19 @@ class HadesLogic(LogicMixin):
             return counter > 0
         else:
            return self.has(bossVictory, player)
+
+    def _enough_weapons_victories(self,player:int, options, amount: int) -> bool:
+        if (options.location_system.value == 3):
+            counter=0
+            counter += self.count("HadesVictory"+"SwordWeapon", player)
+            counter += self.count("HadesVictory"+"SpearWeapon", player)
+            counter += self.count("HadesVictory"+"BowWeapon", player)
+            counter += self.count("HadesVictory"+"ShieldWeapon", player)
+            counter += self.count("HadesVictory"+"FistWeapon", player)
+            counter += self.count("HadesVictory"+"GunWeapon", player)
+            return counter >= amount
+        else:
+           return self.has("HadesVictory", player) and self._has_enough_weapons(player, options, amount)
 
 # -----------
 
