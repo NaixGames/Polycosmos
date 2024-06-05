@@ -298,7 +298,16 @@ function PolycosmosEvents.ProcessHadesDefeat()
 
     StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes.."-"..numFates)
 
+    local hasFinishInformationMissing = (GameState.ClientGameSettings["HadesDefeatsNeeded"] == nil)
+    hasFinishInformationMissing = hasFinishInformationMissing or (GameState.ClientGameSettings["WeaponsClearsNeeded"] == nil)
+    hasFinishInformationMissing = hasFinishInformationMissing or (GameState.ClientGameSettings["KeepsakesNeeded"] == nil)
+    hasFinishInformationMissing = hasFinishInformationMissing or (GameState.ClientGameSettings["FatesNeeded"] == nil)
+
     --Send to player all information needed to finish the game
+    if (hasFinishInformationMissing) then
+        return
+    end
+    
     PolycosmosMessages.PrintToPlayer("Number of wins "..numruns.." / "..GameState.ClientGameSettings["HadesDefeatsNeeded"])
     PolycosmosMessages.PrintToPlayer("Number of weapon victories "..weaponsWithVictory.." / "..GameState.ClientGameSettings["WeaponsClearsNeeded"])
     PolycosmosMessages.PrintToPlayer("Number of Keepsakes "..numKeepsakes.." / "..GameState.ClientGameSettings["KeepsakesNeeded"])
