@@ -39,8 +39,6 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
         GameState.HelperItemLodger["BoonBoostHelper"] = 0
     end
 
-	PolycosmosHelperManager.SetupMaxHealth()
-
     while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
         if (CurrentRun ~= nil) then
 			CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + 25
@@ -52,6 +50,8 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
     end
 
 	GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
+
+	PolycosmosHelperManager.SetupMaxHealth()
 
     while (BoonBoostRequests > GameState.HelperItemLodger["BoonBoostHelper"]) do
         GameState.HelperItemLodger["BoonBoostHelper"] = GameState.HelperItemLodger["BoonBoostHelper"] + 1
