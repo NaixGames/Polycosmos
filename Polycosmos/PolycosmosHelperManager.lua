@@ -29,15 +29,26 @@ function PolycosmosHelperManager.GiveHelperItem(item)
     end
 end
 
+function PolycosmosHelperManager.MaxHealthSyncUpdate()
+	if (GameState.HelperItemLodger["MaxHealthReminder"] < HeroData.DefaultHero.MaxHealth) then
+		GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
+	end
+end
+
 --------------------
 
 function PolycosmosHelperManager.FlushAndProcessHelperItems()
     if (GameState.HelperItemLodger == nil) then
         GameState.HelperItemLodger = {}
         GameState.HelperItemLodger["MaxHealthHelper"] = 0
-		GameState.HelperItemLodger["MaxHealthReminder"] = 50
+		GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
         GameState.HelperItemLodger["BoonBoostHelper"] = 0
     end
+
+	-- if player has upgraded their max health, record this
+	PolycosmosHelperManager.MaxHealthSyncUpdate()
+
+	local MaxHealthDeltaWithDefault = math.max(CurrentRun.Hero.MaxHealth-HeroData.DefaultHero.MaxHealth,0)
 
     while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
         if (CurrentRun ~= nil) then
@@ -51,7 +62,7 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
 
 	GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
 
-	PolycosmosHelperManager.SetupMaxHealth()
+	PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
 
     while (BoonBoostRequests > GameState.HelperItemLodger["BoonBoostHelper"]) do
         GameState.HelperItemLodger["BoonBoostHelper"] = GameState.HelperItemLodger["BoonBoostHelper"] + 1
@@ -73,7 +84,7 @@ function GetRarityChancesOverride( args )
 	if (GameState.HelperItemLodger == nil) then
         GameState.HelperItemLodger = {}
         GameState.HelperItemLodger["MaxHealthHelper"] = 0
-		GameState.HelperItemLodger["MaxHealthReminder"] = 50
+		GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
         GameState.HelperItemLodger["BoonBoostHelper"] = 0
     end
 
@@ -146,13 +157,17 @@ ModUtil.Path.Wrap("GetRarityChances", function(baseFunc, args)
 end, PolycosmosHelperManager)
 
 
-function PolycosmosHelperManager.SetupMaxHealth()
+function PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
     if (GameState.HelperItemLodger ~= nil and GameState.HelperItemLodger["MaxHealthHelper"] > 0) then
+		-- if player has upgraded their max health, record this
+		PolycosmosHelperManager.MaxHealthSyncUpdate()
+		
+		HeroData.DefaultHero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
+
 		if (CurrentRun ~= nil) then
 			local delta = CurrentRun.Hero.MaxHealth - CurrentRun.Hero.Health
-			CurrentRun.Hero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
+			CurrentRun.Hero.MaxHealth = HeroData.DefaultHero.MaxHealth + MaxHealthDeltaWithDefault
 			CurrentRun.Hero.Health = CurrentRun.Hero.MaxHealth - delta
 		end
-		HeroData.DefaultHero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
 	end
 end

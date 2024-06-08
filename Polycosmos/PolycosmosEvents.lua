@@ -545,7 +545,7 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.SaveUserIntededHeat()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
-    PolycosmosHelperManager.SetupMaxHealth()
+    PolycosmosHelperManager.SetupMaxHealth(0)
     --Send all locations to server to resync, jic
     for i,value in ipairs(GameState.LocationsChecked) do
         --Note this should not overlead styxscribe since the python side is really robust to receiving multiple requests
