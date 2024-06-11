@@ -62,6 +62,7 @@ class HadesContext(CommonContext):
     is_connected = False
     is_receiving_items_from_connect_package = False
     polycosmos_version = "0.11"
+    compact_setting_string = ""
 
     def __init__(self, server_address, password):
         super(HadesContext, self).__init__(server_address, password)
@@ -250,8 +251,8 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["keepsakes_needed"]) + "-"
         hades_settings_string += str(self.hades_slot_data["fates_needed"]) + "-"
             
-        #Send the codify setting to Hades
-        subsume.Modules.StyxScribeShared.Root["Settings"] = hades_settings_string
+        #Store the compact setting string
+        self.compact_setting_string = hades_settings_string
         
 
     def request_location_to_item_dictionary(self):
@@ -268,7 +269,7 @@ class HadesContext(CommonContext):
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         self.creating_location_to_item_dictionary = False
-        subsume.Send(styx_scribe_send_prefix + "Data finished")
+        subsume.Send(styx_scribe_send_prefix + "Data finished"+self.compact_setting_string)
     
     def clear_invalid_char(self, inputstring: str):
         newstr = inputstring.replace("{", "")

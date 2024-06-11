@@ -472,9 +472,7 @@ function PolycosmosEvents.SaveClientData( message )
 
     is_saving_client_data = true
 
-    local codified_settings = StyxScribeShared.Root.Settings
-
-    local array_settings = PolycosmosUtils.NewParseStringToArray(codified_settings)
+    local array_settings = PolycosmosUtils.NewParseStringToArray(message)
 
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
