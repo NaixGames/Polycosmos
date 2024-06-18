@@ -194,6 +194,11 @@ end
 
 -- Wrapper for location checks
 ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
+    -- Add dialogue line to avoid annoying issues with some gods
+    if (PolycosmosKeepsakeManager.GetMeetlineFromHadesName(npcName)) then
+        TextLinesRecord[PolycosmosKeepsakeManager.GetMeetlineFromHadesName(npcName)] = true
+    end
+
     if GameState.ClientGameSettings["KeepsakeSanity"] == 0 then
         return baseFunc(npcName, amount)
     end
@@ -229,6 +234,16 @@ function PolycosmosKeepsakeManager.GetNpcNameFromHadesName(npcName)
     end
     return ""
 end
+
+function PolycosmosKeepsakeManager.GetMeetlineFromHadesName(npcName)
+    for npcTag, npcData in pairs(KeepsakeDataTable) do
+        if (npcData.HadesName == npcName) then
+            return npcData.MeetLine
+        end
+    end
+    return ""
+end
+
 
 function PolycosmosKeepsakeManager.GiveNumberOfKeesakes()
     numberKeepsakes = 0
