@@ -463,12 +463,15 @@ end
 -------------- Method to store Client info on save file. Avoid desyncs and problems with exiting and reintering.
 
 function PolycosmosEvents.SaveClientData( message )
+    print("Settings data obtained")
     if (GameState.ClientDataIsLoaded == true) then
+        print("Data was already loaded, setting up game")
         PolycosmosEvents.SetUpGameWithData()
         return
     end
     
     if (is_saving_client_data) then
+        print("Data was being processed, skipping process new data")
         return
     end
 
@@ -476,11 +479,15 @@ function PolycosmosEvents.SaveClientData( message )
 
     local array_settings = PolycosmosUtils.NewParseStringToArray(message)
 
+    print("Parsed array to string. Length is "..#array_settings) --This should be 39
+
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
     GameState.ClientFillerValues = {}
     GameState.LocationsChecked = {}
     GameState.HadesVictory = ""
+
+    print("Created game state. Saving options")
 
     GameState.ClientGameSettings["HeatMode"] = tonumber(array_settings[1])
     GameState.HeatSettings["HardLaborPactLevel"] = tonumber(array_settings[2])
@@ -527,14 +534,22 @@ function PolycosmosEvents.SaveClientData( message )
 
     GameState.ClientDataIsLoaded = true
 
+    print("Options saved")
+    print("Requesting initial weapon")
     PolycosmosWeaponManager.CheckRequestInitialWeapon()
+    print("Initial weapon equipped")
 
+    print("Saving")
     SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
     ValidateCheckpoint({ Valid = true })
 
     Save()
 
+    print("Saved finished")
+
     is_saving_client_data = false
+
+    print("Finished set up process. Starting game with the data")
 
     PolycosmosEvents.SetUpGameWithData()
 end
