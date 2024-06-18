@@ -107,7 +107,7 @@ In StoreSanity the "spots" in the store are tied to a location in the original g
 
 - FountainAsphodelLocation: Requires FountainTartarusItem, Arriving to Asphodel, KeepsakeRack.
 
-- FountainElysiumLocation: Requires FountainAsphodelItem, Arriving to Elysium, KeepsakeRack.
+- FountainElysiumLocation: Requires FountainTartarusItem, Arriving to Elysium, KeepsakeRack.
 
 - UrnsOfWealth1Location: Requires FountainTartarusItem
 
@@ -137,7 +137,8 @@ The following are the fates included in the Archipelago with their name as they 
 
 - IsThereNoEscape?: Beat Hades Once.
 
-- DistantRelatives: Meet all the olympian gods.
+- DistantRelatives: Meet all the olympian gods. Note Gods will automatically "unlocked" their first line when receiving their nectar if you already have their
+keepsake. Avoids the game being annoying with not giving the first line on some cases (especially Athenea and Artemis).
 
 - ChthonicColleagues: Meet all the underworlds NPCs.
 

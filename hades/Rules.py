@@ -212,7 +212,7 @@ def set_store_rules(world: MultiWorld, player: int, location_table, options):
             state.has("FountainTartarusItem", player) and state.has("KeepsakeCollectionItem", player) and  \
             state._has_defeated_boss("MegVictory", player, options))
     set_rule(world.get_location("FountainElysiumLocation", player), lambda state: \
-            state.has("FountainAsphodelItem", player) and state.has("KeepsakeCollectionItem", player) and  \
+            state.has("FountainTartarusItem", player) and state.has("KeepsakeCollectionItem", player) and  \
             state._has_defeated_boss("LernieVictory", player, options))
     
     #Urns
