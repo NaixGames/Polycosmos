@@ -290,27 +290,27 @@ def should_ignore_weapon_location(weaponLocation, options):
 #-----------------------------------------------
 
 def give_default_location_table():
-    #Repopulate tartarus table; rooms from 1 to 14.
+    #Repopulate tartarus table; rooms from 1 to 13.
     global location_table_tartarus 
-    for i in range(14):
+    for i in range(13):
         stringInt=i+1;
         if (stringInt<10):
             stringInt = "0"+str(stringInt);
         location_table_tartarus["ClearRoom"+str(stringInt)] = hades_base_location_id+i
         
-    #Repopulate asphodel table, rooms from 15 to 28
+    #Repopulate asphodel table, rooms from 14 to 23
     global location_table_asphodel
-    for i in range(14,24):
+    for i in range(13,23):
         location_table_asphodel["ClearRoom"+str(i+1)]=hades_base_location_id+i
     
-    #Repopulate elyseum table, rooms from 29 to 42
+    #Repopulate elyseum table, rooms from 24 to 35
     global location_table_elyseum
-    for i in range(24,36):
+    for i in range(23,35):
         location_table_elyseum["ClearRoom"+str(i+1)]=hades_base_location_id+i
     
-    #Repopulate styx table, rooms from 43 to 72. Split into early and late
+    #Repopulate styx table, rooms from 35 to 72. Split into early and late
     global location_table_styx 
-    for i in range(36,60):
+    for i in range(35,60):
         location_table_styx["ClearRoom"+str(i+1)]=hades_base_location_id+i
         
     global location_table_styx_late
@@ -383,23 +383,23 @@ def give_weapon_based_locations():
     
     for weaponSubfix in location_weapons_subfixes:
     
-        for i in range(14):
+        for i in range(13):
             stringInt=i+1;
             if (stringInt<10):
                 stringInt = "0"+str(stringInt);
             weapon_locations["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*73
         weapon_locations["Beat Meg"+weaponSubfix] = None
 
-        for i in range(14,24):
+        for i in range(13,23):
             weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     
         weapon_locations["Beat Lernie"+weaponSubfix] = None
 
-        for i in range(24,36):
+        for i in range(23,35):
             weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
         weapon_locations["Beat Bros"+weaponSubfix] = None    
 
-        for i in range(36,60):
+        for i in range(35,60):
             weapon_locations["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
         
         weapon_locations["Beat Hades"+weaponSubfix] = None

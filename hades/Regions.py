@@ -9,23 +9,23 @@ def create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_databa
     styx = {}
     styx_late = {}
     
-    for i in range(14):
+    for i in range(13):
         stringInt=i+1;
         if (stringInt<10):
             stringInt = "0"+str(stringInt);
         tartarus["ClearRoom"+str(stringInt)+weaponSubfix] = hades_base_location_id+1073+i+subfixCounter*73
     tartarus["Beat Meg"+weaponSubfix] = None
 
-    for i in range(14,24):
+    for i in range(13,23):
         asphodel["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     
     asphodel["Beat Lernie"+weaponSubfix] = None
 
-    for i in range(24,36):
+    for i in range(23,35):
         elyseum["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
     elyseum["Beat Bros"+weaponSubfix] = None    
 
-    for i in range(36,60):
+    for i in range(35,60):
         styx["ClearRoom"+str(i+1)+weaponSubfix]=hades_base_location_id+1073+i+subfixCounter*73
         
     styx["Beat Hades"+weaponSubfix] = None
