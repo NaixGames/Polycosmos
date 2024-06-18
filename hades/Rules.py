@@ -413,4 +413,4 @@ def forbid_important_items_on_late_styx(world: MultiWorld, player: int, options)
 
 #Helper for late styx not having important items. Thanks Scipio.
 def item_is_progression(item: Item) -> bool:
-    return item.classification == ItemClassification.progression
+    return (item.classification == ItemClassification.progression) or (item.classification == ItemClassification.progression_skip_balancing)
