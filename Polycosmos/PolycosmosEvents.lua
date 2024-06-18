@@ -298,6 +298,8 @@ function PolycosmosEvents.ProcessHadesDefeat()
 
     StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..numruns.."-"..weaponsWithVictory.."-"..numKeepsakes.."-"..numFates)
 
+    GameState.HadesVictory = numruns.."-"..weaponsWithVictory.."-"..numKeepsakes.."-"..numFates
+
     local hasFinishInformationMissing = (GameState.ClientGameSettings["HadesDefeatsNeeded"] == nil)
     hasFinishInformationMissing = hasFinishInformationMissing or (GameState.ClientGameSettings["WeaponsClearsNeeded"] == nil)
     hasFinishInformationMissing = hasFinishInformationMissing or (GameState.ClientGameSettings["KeepsakesNeeded"] == nil)
@@ -478,6 +480,7 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings = {}
     GameState.ClientFillerValues = {}
     GameState.LocationsChecked = {}
+    GameState.HadesVictory = ""
 
     GameState.ClientGameSettings["HeatMode"] = tonumber(array_settings[1])
     GameState.HeatSettings["HardLaborPactLevel"] = tonumber(array_settings[2])
@@ -548,6 +551,10 @@ function PolycosmosEvents.SetUpGameWithData()
     for i,value in ipairs(GameState.LocationsChecked) do
         --Note this should not overlead styxscribe since the python side is really robust to receiving multiple requests
         StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..value)
+    end
+
+    if (GameState.HadesVictory ~= nil and GameState.HadesVictory ~= "") then
+        StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..GameState.HadesVictory)
     end
 
     if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0 and CurrentRun ~= nil) then
