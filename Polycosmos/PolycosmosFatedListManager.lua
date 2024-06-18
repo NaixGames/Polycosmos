@@ -82,25 +82,25 @@ local FatedListNames =
 		ClientNameLocation = "TheAdamantRail", 
 	},
 	WeaponClears = {
-		ClientNameLocation = "WeaponClears", 
-	},
-	WeaponAspects = {
 		ClientNameLocation = "MasterOfArms", 
 	},
-	PactUpgrades = {
+	WeaponAspects = {
 		ClientNameLocation = "AViolentPast", 
 	},
-	EliteAttributeKills = {
+	PactUpgrades = {
 		ClientNameLocation = "HarshConditions", 
 	},
-	MiniBossKills = {
+	EliteAttributeKills = {
 		ClientNameLocation = "SlashedBenefits", 
 	},
-	CosmeticsSmall = {
+	MiniBossKills = {
 		ClientNameLocation = "WantonRansacking", 
 	},
-	CodexSmall = {
+	CosmeticsSmall = {
 		ClientNameLocation = "ASimpleJob", 
+	},
+	CodexSmall = {
+		ClientNameLocation = "ChthonicKnowledge", 
 	},
 	WellShopItems = {
 		ClientNameLocation = "CustomerLoyalty", 
