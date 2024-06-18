@@ -137,8 +137,7 @@ The following are the fates included in the Archipelago with their name as they 
 
 - IsThereNoEscape?: Beat Hades Once.
 
-- DistantRelatives: Meet all the olympian gods. Note Gods will automatically "unlocked" their first line when receiving their nectar if you already have their
-keepsake. Avoids the game being annoying with not giving the first line on some cases (especially Athenea and Artemis).
+- DistantRelatives: Meet all the olympian gods. Note Gods will automatically "unlock" their first line when receiving nectar or obtaining their keepsake. Avoids the game being annoying with not giving the first line on some cases (especially Athenea and Artemis).
 
 - ChthonicColleagues: Meet all the underworlds NPCs.
 
