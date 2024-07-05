@@ -469,7 +469,6 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "ambrosia_pack_value": 3,
         "filler_helper_percentage": 10,
         "max_health_helper_percentage": 50,
-        "boon_boost_helper_percentage": 50,
         "filler_trap_percentage": 0,
         "automatic_rooms_finish_on_hades_defeat": True,
     },
