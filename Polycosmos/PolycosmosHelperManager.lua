@@ -169,5 +169,11 @@ function PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
 			CurrentRun.Hero.MaxHealth = HeroData.DefaultHero.MaxHealth + MaxHealthDeltaWithDefault
 			CurrentRun.Hero.Health = CurrentRun.Hero.MaxHealth - delta
 		end
+
+		SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+    ValidateCheckpoint({ Valid = true })
+
+    Save()
+
 	end
 end
