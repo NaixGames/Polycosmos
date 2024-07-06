@@ -58,7 +58,7 @@ class HadesWorld(World):
     data_version = 1
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
-    required_client_version = (0, 4, 4)
+    required_client_version = (0, 5, 0)
 
     polycosmos_version = "0.11"
 
