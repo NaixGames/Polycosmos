@@ -349,7 +349,7 @@ class HadesContext(CommonContext):
     def get_location_name_to_id(self):
         table = {}
         for locationid in self.server_locations:
-            table[locationid] = self.location_names.lookup_in_slot(id)
+            table[self.location_names.lookup_in_slot(locationid)] = locationid
         return table
 
     # ------------ gui section ------------------------------------------------
