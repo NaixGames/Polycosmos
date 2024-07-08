@@ -164,7 +164,7 @@ def set_rules(world: MultiWorld, player: int, number_items: int, location_table,
         add_rule(world.get_location("EurydiceKeepsake",player), lambda state:  \
                  state._has_defeated_boss("LernieVictory", player, options))
         add_rule(world.get_location("ThanatosKeepsake",player), lambda state:  \
-                state._has_defeated_boss("LernieVictory", player, options))
+                state._has_defeated_boss("HadesVictory", player, options))
         add_rule(world.get_location("PatroclusKeepsake",player), lambda state:  \
                 state._has_defeated_boss("BrosVictory", player, options))
         set_keepsake_balance(world, player, location_table, options)
@@ -403,17 +403,17 @@ def forbid_important_items_on_late_styx(world: MultiWorld, player: int, options)
                 late_styx_region = world.get_region("StyxLate"+weaponString, player)
                 for location in late_styx_region.locations:
                         add_item_rule(location,
-                                lambda item: item_is_progression(item) == False or item_is_plando(world, item))
+                                lambda item: item_is_progression(item) == False or item_is_plando(world, item, player))
     else:
         late_styx_region = world.get_region("StyxLate", player)
         for location in late_styx_region.locations:
                 add_item_rule(location,
-                        lambda item: item_is_progression(item) == False or item_is_plando(world, item))
+                        lambda item: item_is_progression(item) == False or item_is_plando(world, item, player))
                 
 
 #Helper for late styx not having important items. Thanks Scipio.
 def item_is_progression(item: Item) -> bool:
     return (item.classification == ItemClassification.progression) or (item.classification == ItemClassification.progression_skip_balancing)
 
-def item_is_plando(world: MultiWorld, item: Item) -> bool:
-    return item in world.multiworld.plando_items[world.player]
+def item_is_plando(world: MultiWorld, item: Item, player: int) -> bool:
+    return item in world.plando_items[player]
