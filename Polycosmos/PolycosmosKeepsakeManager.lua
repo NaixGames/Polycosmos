@@ -201,7 +201,7 @@ ModUtil.Path.Wrap("IncrementGiftMeter", function (baseFunc, npcName, amount)
         return baseFunc(npcName, amount)
     end
     
-    local cacheNPCName = not PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
+    local cacheNPCName = PolycosmosKeepsakeManager.GetClientNameFromHadesName(npcName)
 
     if not cacheNPCName then
         return baseFunc(npcName, amount)
