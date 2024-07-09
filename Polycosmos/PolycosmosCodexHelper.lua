@@ -129,7 +129,7 @@ function PolycosmosCodexHelper.CodexOpenEntryOverride( screen, button )
 
     --THIS IS TO MAKE IT CODEX TELL YOU IF THE NPC NEEDS NECTAR
 
-    local fixedText = PolycosmosKeepsakeManager.GiveCorrectedCodexName(button.EntryName)
+    local fixedText = PolycosmosCodexManager.GiveCorrectedCodexName(button.EntryName)
 
 	CreateTextBox({
 		Id = screen.Components.EntryTitle.Id,
