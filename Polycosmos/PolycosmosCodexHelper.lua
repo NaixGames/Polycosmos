@@ -129,7 +129,7 @@ function PolycosmosCodexHelper.CodexOpenEntryOverride( screen, button )
 
     --THIS IS TO MAKE IT CODEX TELL YOU IF THE NPC NEEDS NECTAR
 
-    local fixedText = PolycosmosCodexManager.GiveCorrectedCodexName(button.EntryName)
+    local fixedText = PolycosmosCodexHelper.GiveCorrectedCodexName(button.EntryName)
 
 	CreateTextBox({
 		Id = screen.Components.EntryTitle.Id,
@@ -169,21 +169,22 @@ end
 
 
 function PolycosmosCodexHelper.GiveCorrectedCodexName(codexEntry)
-	local cacheNPCName = PolycosmosKeepsakeManager.GetClientNameFromHadesName(codexEntry)
-	if not (cacheNPCName or PolycosmosWeaponManager.IsWeaponItem(codexEntry)) then
-        return codexEntry
-    end
-
-	if (PolycosmosWeaponManager.IsWeaponItem(codexEntry)) then
+	if (PolycosmosWeaponManager.IsWeaponItem(codexEntry.."UnlockItem")) then
 		if (GetNumRunsClearedWithWeapon(codexEntry)>0) then
 			return codexEntry.."(used for Hades defeat)"
 		end
 		return codexEntry.."(Hades defeat missing)"
 	end
 
-    if (PolycosmosEvents.HasLocationBeenChecked( cacheNPCName )) then
+	local cacheNPCName = PolycosmosKeepsakeManager.GetClientNameFromHadesName(codexEntry)
+
+	if (PolycosmosEvents.HasLocationBeenChecked( cacheNPCName )) then
         return codexEntry
     end
 
-    return PolycosmosKeepsakeManager.GetNpcNameFromHadesName(codexEntry).."(Missing Nectar Check)"
+	if (cacheNPCName) then
+		return PolycosmosKeepsakeManager.GetNpcNameFromHadesName(codexEntry).."(Missing Nectar Check)"
+	end
+
+	return codexEntry
 end
