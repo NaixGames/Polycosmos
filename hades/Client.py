@@ -265,7 +265,7 @@ class HadesContext(CommonContext):
         for networkitem in itemsdict:
             locationItemMapping += self.clear_invalid_char(self.location_names.lookup_in_slot(networkitem.location)) + "--" \
             + self.clear_invalid_char(self.player_names[networkitem.player]) + "--" \
-            + self.clear_invalid_char(self.item_names.lookup_in_slot(networkitem.item)) + "||"
+            + self.clear_invalid_char(self.item_names.lookup_in_slot(networkitem.item, networkitem.player)) + "||"
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         self.creating_location_to_item_dictionary = False
@@ -279,8 +279,6 @@ class HadesContext(CommonContext):
     # ----------------- Package Management section ends --------------------------------
 
     # ----------------- Hints from game section starts --------------------------------
-
-    # asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 1}]))
 
     async def send_location_hint_to_server(self, message):
         if (self.hades_slot_data["store_give_hints"] == 0):
