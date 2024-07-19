@@ -138,16 +138,11 @@ if config.NoExtremerMeasures then
 end
 
 if config.UnlockDemeterEarly then
-	ModUtil.Path.Wrap("HandleDeath", function(baseFunc)
-		baseFunc()
-		-- remove seeing the surface requirement, but hide behind second run to avoid demeter taking Athenea space
-		-- on first run. When that happens a bunch of artifacts happen, and best to avoid it.
-		ModUtil.Table.NilMerge( LootData, {
-			DemeterUpgrade = {
-				RequiredSeenRooms = true
-			}
-		})
-	end, PolycosmosQoL)
+	ModUtil.Table.NilMerge( LootData, {
+		DemeterUpgrade = {
+			RequiredSeenRooms = "DeathArea"
+		}
+	})
 end
 
 
