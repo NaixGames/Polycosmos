@@ -66,8 +66,8 @@ Quality of Life:
 
 # Requirements
 - Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
-- Have [ModUtils v 2.10.1](https://github.com/SGG-Modding/ModUtil/releases/tag/2.10.1) installed. For this download this version from the Github link, unzip that folder on Hades/Content/Mods and then Open modimporter.exe in you Hades/Content folder. Note you might need to create the Mods folder.
-- Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL) installed, without the REPL part. For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
+- Have [ModUtils v 2.10.1](https://github.com/SGG-Modding/ModUtil/releases/tag/2.10.1) installed. For this download this version from the Github link, unzip that folder on Hades/Content/Mods. Note you might need to create the Mods folder.
+- Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL), without the REPL part. For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point, your Mods folder should look like this:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
@@ -216,11 +216,13 @@ The following are the fates included in the Archipelago with their name as they 
 
 - You get access to the second side of the mirror after getting 300 Darkness and talking to Nyx
 
-- In keepsakesanity the multiworld expects you to have the keepsake item before getting the keepsake location for each Olympian god.
+- In Keepsakesanity the Multiworld expects you to have the keepsake item before getting the keepsake location for each Olympian god.
 
 - You need to talk to Achilles a couple of times to get the Codex. Speak to him after each run and you should get it between runs 3 and 5.
 
 - The Codex tells you which NPCs still have a check behind giving them nectar.
+
+- To progress Patroclus dialogue and give him a nectar you need to check his entry on the Codex after meeting him.
 
 # How this mod works
 
@@ -233,7 +235,7 @@ is what Communicate with the AP Server, and can communicate messages to other cl
 The StyxScribe is what can communicate the Polycosmos mod with the ArchipleagoCLient.
 
 - Polycosmos mod works like a standard Hades mod. It is written in .lua with some stripped-down capabilities (in particular no access to
-"require" or related commands). Up to the time of 0.5.0 compromised a bunch of modules, which we explain a few here:
+"require" or related commands). Up to the time of 0.12.0 this compromised a bunch of modules, which we explain a few here:
 
 PolycosmosEvents: reacts to certain important events in the game (location reached, game loaded) by notifying other modules.
 PolycosmosHeatManager: manages the current Heat level according to the settings and items it receives

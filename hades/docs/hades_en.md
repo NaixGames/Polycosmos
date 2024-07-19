@@ -5,7 +5,7 @@
 Install the game through Steam. Then install the following mods:
 
 - [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2)
-- [ModUtils v 2.9.0](https://github.com/SGG-Modding/ModUtil)
+- [ModUtils v 2.10.1](https://github.com/SGG-Modding/ModUtil/releases/tag/2.10.1)
 - [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL).
 - [Polycosmos](https://github.com/Naix99/Polycosmos/tree/main/Polycosmos)
 
