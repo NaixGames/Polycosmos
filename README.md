@@ -257,3 +257,7 @@ itself.
 
 - Archipelago Client is a .py app that can communicate with an Archipelago server to send and receive items. This server also
 deals with game randomization (ie, what item corresponds to which other player item).
+
+# Financial support
+
+I do not expect financial support from this, but in case you want to support this or my GameDev adventures, you can give a TwitchSub on https://www.twitch.tv/naixsgames
