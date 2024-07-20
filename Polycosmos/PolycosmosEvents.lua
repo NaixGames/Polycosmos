@@ -390,15 +390,28 @@ end
 
 ------------ Wrappers to send checks
 
--- Wrapper for room completion
-ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
+-- Helper function
+
+function PolycosmosEvents.SendFinishRoomChecks()
+    local run = CurrentRun
+    if (run == nil) then
+        return
+    end
     if (run and run.RunDepthCache) then
         PolycosmosEvents.GiveRoomCheck(run.RunDepthCache)
         PolycosmosEvents.GiveScore(run.RunDepthCache)
         PolycosmosEvents.GiveWeaponRoomCheck(run.RunDepthCache)
     end
+end
+
+-- Wrapper for room completion
+ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
+    PolycosmosEvents.SendFinishRoomChecks()
     return baseFunc(run, room)
 end)
+
+-- Wrapper for sending room check if player fights Charon
+table.insert(EncounterData.BossCharon.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.SendFinishRoomChecks"})
 
 -- Wrapper for room loading
 ModUtil.LoadOnce(function ()
