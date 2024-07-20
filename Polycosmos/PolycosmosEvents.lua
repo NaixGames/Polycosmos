@@ -320,6 +320,8 @@ end
 table.insert(EncounterData.BossHades.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.ProcessHadesDefeat"})
 
 
+
+
 function PolycosmosEvents.ProcessAutomaticRooms()
     if (GameState.ClientGameSettings["LocationMode"] == 1) then
         for i=48,72 do
@@ -411,7 +413,12 @@ ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
 end)
 
 -- Wrapper for sending room check if player fights Charon
-table.insert(EncounterData.BossCharon.PostUnthreadedEvents, {FunctionName = "PolycosmosEvents.SendFinishRoomChecks"})
+ModUtil.Table.NilMerge( EncounterData, {
+    BossCharon = {
+        PostUnthreadedEvents = {FunctionName = "PolycosmosEvents.SendFinishRoomChecks"}
+    }
+})
+
 
 -- Wrapper for room loading
 ModUtil.LoadOnce(function ()
