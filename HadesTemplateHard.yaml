@@ -480,12 +480,25 @@ Hades:
 
   max_health_helper_percentage:
     # Choose the percentage of helper items that will boost your max health. 
-    # The remaining ones will boost the rarity of the boons you get.
     #
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    50: 50
+    0: 50
+    random: 0
+    random-low: 0
+    random-high: 0
+
+  initial_money_helper_percentage:
+    # Choose the percentage of helper items that will boost your initial money by 25 each run.
+    # This gets capped by the percentage being left from the MaxHealthHelpers. 
+    # What percentage remains from this and the MaxHealthHelpers will give you items that boost the 
+    # rarity of the boons obtained in runs
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 100
+    0: 50
     random: 0
     random-low: 0
     random-high: 0

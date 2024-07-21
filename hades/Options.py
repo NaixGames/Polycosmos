@@ -339,9 +339,10 @@ class MaxHealthHelperPercentage(Range):
     internal_name = "MaxHealthHelperPercentage"
 
 class InitialMoneyHelperPercentage(Range):
-    """Choose the percentage of helper items that will boost your intial money each round.
-    This is capped by what is left after assigning the MaxHealthHelpers. 
-    What remains from this and the MaxHealthHelpers will give you items that boost the rarity of the boons you get."""
+    """Choose the percentage of helper items that will boost your initial money by 25 each run.
+    This gets capped by the percentage being left from the MaxHealthHelpers. 
+    What percentage remains from this and the MaxHealthHelpers will give you items that boost the 
+    rarity of the boons obtained in runs."""
     display_name = "Max Health Helper Percentage"
     range_start = 0
     range_end = 100

@@ -12,6 +12,7 @@ local HelpersDataArray=
 local valueLoaded = false
 
 local MaxHealthRequests = 0
+local InitialMoneyRequests = 0
 local BoonBoostRequests = 0
 
 
@@ -28,9 +29,7 @@ function PolycosmosHelperManager.GiveHelperItem(item)
     elseif (item == "BoonBoostHelper") then
         BoonBoostRequests = BoonBoostRequests + 1
 	elseif (item == "InitialMoneyHelper") then
-		PolycosmosHelperManager.InitializeHelperItemLodger()
-		GameState.HelperItemLodger["InitialMoneyHelper"] = GameState.HelperItemLodger["InitialMoneyHelper"] + 1
-		PolycosmosMessages.PrintToPlayer("You got more initial money!")
+		InitialMoneyRequests = InitialMoneyRequests + 1
     end
 end
 
@@ -86,8 +85,15 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
         PolycosmosMessages.PrintToPlayer("Received a Boon Rarity boost!")
     end
 
+	while (InitialMoneyRequests > GameState.HelperItemLodger["InitialMoneyHelper"]) do
+        GameState.HelperItemLodger["InitialMoneyHelper"] = GameState.HelperItemLodger["InitialMoneyHelper"] + 1
+        PolycosmosMessages.PrintToPlayer("Received more initial Money!")
+    end
+
+
     MaxHealthRequests = 0
     BoonBoostRequests = 0
+	InitialMoneyRequests = 0
 
     SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
     ValidateCheckpoint({ Valid = true })
