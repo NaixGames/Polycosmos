@@ -189,6 +189,7 @@ item_table_traps : Dict[str, ItemData] ={
 item_table_helpers : Dict[str, ItemData] ={
     "MaxHealthHelper" : ItemData(hades_base_item_id+82, False, False, False),
     "BoonBoostHelper" : ItemData(hades_base_item_id+83, False, False, False),
+    "InitialMoneyHelper" : ItemData(hades_base_item_id+83, False, False, False),
 }
 
 def create_filler_pool_options(options):
@@ -216,12 +217,6 @@ def create_trap_pool():
     for traps in item_table_traps.keys():
         item_traps.append(traps)
     return item_traps
-
-def create_helper_pool():
-    item_helpers = []
-    for helper in item_table_helpers.keys():
-        item_helpers.append(helper)
-    return item_helpers
 
 #Here we have 39 items
 #This should be replace with a method that construct the dictionary from the settings.

@@ -138,7 +138,6 @@ class HadesWorld(World):
 
         helper_percentage = self.options.filler_helper_percentage.value
         helper_fillers_needed = int(total_fillers_needed*helper_percentage/100)
-        helper_pool = create_helper_pool()
 
         trap_percentage = min(self.options.filler_trap_percentage.value, 100-helper_percentage)
         trap_fillers_needed = int(total_fillers_needed*trap_percentage/100)
@@ -151,17 +150,21 @@ class HadesWorld(World):
             pool.append(item)
             index = (index+1) % len(filler_options)
 
-        index = 0
-        
         #Fill helpers
         health_helpers_needed = int(helper_fillers_needed*self.options.max_health_helper_percentage/100)
-        boon_helpers_needed = helper_fillers_needed-health_helpers_needed
+        money_helpers_needed = int(helper_fillers_needed*self.options.initial_money_helper_percentage/100)
+        boon_helpers_needed = helper_fillers_needed-health_helpers_needed-money_helpers_needed
 
         for amount in range(0, health_helpers_needed):
             item = HadesItem("MaxHealthHelper", self.player)
             pool.append(item)
 
-        for amount in range(0, boon_helpers_needed):
+        for amount in range(0, min(money_helpers_needed, helper_fillers_needed-health_helpers_needed)):
+            item = HadesItem("InitialMoneyHelper", self.player)
+            pool.append(item)
+
+        helpers_available = max(boon_helpers_needed,0)
+        for amount in range(0, max(boon_helpers_needed,0)):
             item = HadesItem("BoonBoostHelper", self.player)
             pool.append(item)
 

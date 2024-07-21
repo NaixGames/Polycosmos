@@ -396,13 +396,14 @@ end
 
 function PolycosmosEvents.SendFinishRoomChecks()
     local run = CurrentRun
-    if (run == nil) then
-        return
-    end
     if (run and run.RunDepthCache) then
         PolycosmosEvents.GiveRoomCheck(run.RunDepthCache)
         PolycosmosEvents.GiveScore(run.RunDepthCache)
         PolycosmosEvents.GiveWeaponRoomCheck(run.RunDepthCache)
+
+        if (run.RunDepthCache == 1) then
+            PolycosmosHelperManager.GetExtraInitialMoney()
+        end
     end
 end
 

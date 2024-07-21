@@ -331,13 +331,22 @@ class FillerHelperPercentage(Range):
     internal_name = "FillerHelperPercentage"
 
 class MaxHealthHelperPercentage(Range):
-    """Choose the percentage of helper items that will boost your max health. 
-    The remaining ones will boost the rarity of the boons you get."""
+    """Choose the percentage of helper items that will boost your max health."""
     display_name = "Max Health Helper Percentage"
     range_start = 0
     range_end = 100
-    default = 50
+    default = 35
     internal_name = "MaxHealthHelperPercentage"
+
+class InitialMoneyHelperPercentage(Range):
+    """Choose the percentage of helper items that will boost your intial money each round.
+    This is capped by what is left after assigning the MaxHealthHelpers. 
+    What remains from this and the MaxHealthHelpers will give you items that boost the rarity of the boons you get."""
+    display_name = "Max Health Helper Percentage"
+    range_start = 0
+    range_end = 100
+    default = 35
+    internal_name = "InitialMoneyHelperPercentage"
 
 # -----------------------Settings for Trap -------------------------
 
@@ -427,6 +436,7 @@ hades_options: typing.Dict[str, type(Option)] = {
     "ambrosia_pack_value": AmbrosiaPackValue,
     "filler_helper_percentage": FillerHelperPercentage,
     "max_health_helper_percentage": MaxHealthHelperPercentage,
+    "initial_money_helper_percentage": InitialMoneyHelperPercentage,
     "filler_trap_percentage": FillerTrapPercentage,
     "reverse_order_em": ReverseOrderExtremeMeasure,
     "ignore_greece_deaths": IgnoreGreeceDeaths,
@@ -468,7 +478,8 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "nectar_pack_value": 3,
         "ambrosia_pack_value": 3,
         "filler_helper_percentage": 10,
-        "max_health_helper_percentage": 50,
+        "max_health_helper_percentage": 40,
+        "initial_money_helper_percentage": 30,
         "filler_trap_percentage": 0,
         "automatic_rooms_finish_on_hades_defeat": True,
     },

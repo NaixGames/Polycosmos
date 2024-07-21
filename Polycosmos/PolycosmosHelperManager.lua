@@ -5,6 +5,7 @@ local HelpersDataArray=
 {
     "MaxHealthHelper",
 	"BoonBoostHelper",
+	"InitialMoneyHelper",
 }
 
 
@@ -26,6 +27,10 @@ function PolycosmosHelperManager.GiveHelperItem(item)
         MaxHealthRequests = MaxHealthRequests + 1
     elseif (item == "BoonBoostHelper") then
         BoonBoostRequests = BoonBoostRequests + 1
+	elseif (item == "InitialMoneyHelper") then
+		PolycosmosHelperManager.InitializeHelperItemLodger()
+		GameState.HelperItemLodger["InitialMoneyHelper"] = GameState.HelperItemLodger["InitialMoneyHelper"] + 1
+		PolycosmosMessages.PrintToPlayer("You got more initial money!")
     end
 end
 
@@ -35,15 +40,27 @@ function PolycosmosHelperManager.MaxHealthSyncUpdate()
 	end
 end
 
+function PolycosmosHelperManager.GetExtraInitialMoney()
+	PolycosmosHelperManager.InitializeHelperItemLodger()
+	CurrentRun.Money = CurrentRun.Money + GameState.HelperItemLodger["InitialMoneyHelper"]*25
+	ShowResourceUIs({ CombatOnly = false, UpdateIfShowing = true })
+	UpdateMoneyUI( CurrentRun.Money )
+end
+
 --------------------
 
-function PolycosmosHelperManager.FlushAndProcessHelperItems()
-    if (GameState.HelperItemLodger == nil) then
+function PolycosmosHelperManager.InitializeHelperItemLodger()
+	if (GameState.HelperItemLodger == nil) then
         GameState.HelperItemLodger = {}
         GameState.HelperItemLodger["MaxHealthHelper"] = 0
 		GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
         GameState.HelperItemLodger["BoonBoostHelper"] = 0
+		GameState.HelperItemLodger["InitialMoneyHelper"] = 0
     end
+end
+
+function PolycosmosHelperManager.FlushAndProcessHelperItems()
+    PolycosmosHelperManager.InitializeHelperItemLodger()
 
 	-- if player has upgraded their max health, record this
 	PolycosmosHelperManager.MaxHealthSyncUpdate()
@@ -81,12 +98,7 @@ end
 --------------------
 
 function GetRarityChancesOverride( args )
-	if (GameState.HelperItemLodger == nil) then
-        GameState.HelperItemLodger = {}
-        GameState.HelperItemLodger["MaxHealthHelper"] = 0
-		GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
-        GameState.HelperItemLodger["BoonBoostHelper"] = 0
-    end
+	PolycosmosHelperManager.InitializeHelperItemLodger()
 
 	local name = args.Name
 	local ignoreTempRarityBonus = args.IgnoreTempRarityBonus
@@ -171,9 +183,8 @@ function PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
 		end
 
 		SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
-    ValidateCheckpoint({ Valid = true })
+    	ValidateCheckpoint({ Valid = true })
 
-    Save()
-
+    	Save()
 	end
 end
