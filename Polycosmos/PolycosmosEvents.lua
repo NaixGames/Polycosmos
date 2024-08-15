@@ -411,6 +411,7 @@ end
 ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
     PolycosmosEvents.SendFinishRoomChecks()
     PolycosmosHelperManager.FlushAndProcessHelperItems()
+    PolycosmosMessages.ClearBufferFlag()
     return baseFunc(run, room)
 end)
 
