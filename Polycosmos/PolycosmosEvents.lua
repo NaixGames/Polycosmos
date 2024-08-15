@@ -410,6 +410,7 @@ end
 -- Wrapper for room completion
 ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
     PolycosmosEvents.SendFinishRoomChecks()
+    PolycosmosHelperManager.FlushAndProcessHelperItems()
     return baseFunc(run, room)
 end)
 
