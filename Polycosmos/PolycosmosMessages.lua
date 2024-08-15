@@ -6,9 +6,8 @@ ModUtil.Table.Merge( ModUtil.Hades, {
 	PrintStackHeight = 4
 } )
 
-local maxPrintBuffer = 4
+local maxPrintBuffer = 6
 local actualPrintBuffer = 0
-local timeBuffer = 0.2
 local fullBuffer = false
 ------------ Utils to uniformly change how we desplay messages
 
@@ -23,17 +22,13 @@ function PolycosmosMessages.PrintToPlayer(message)
     end
     ModUtil.Hades.PrintStack(message, 5, {1,0.9,0.1,1}, {0,0,0,1}, 20)
     actualPrintBuffer = actualPrintBuffer + 1
-    wait( timeBuffer )
-    actualPrintBuffer = actualPrintBuffer - 1
-    if (actualPrintBuffer == 0 and fullBuffer) then
-        fullBuffer = false
-    end
 end
 
 function PolycosmosMessages.ClearBufferFlags()
     fullBuffer = false
     actualPrintBuffer = 0
 end
+
 
 function PolycosmosMessages.PrintInformationMessage(message)
     ModUtil.Hades.PrintStack(message, 5, {0.3,0.9,1,1}, {0,0,0,1}, 20)

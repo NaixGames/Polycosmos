@@ -259,6 +259,7 @@ function PolycosmosEvents.UpdateItemsRun( message )
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
     PolycosmosItemManager.FlushAndProcessFillerItems()
     PolycosmosHelperManager.FlushAndProcessHelperItems()
+    PolycosmosMessages.ClearBufferFlags()
 end
 
 StyxScribe.AddHook( PolycosmosEvents.UpdateItemsRun, styx_scribe_recieve_prefix.."Items Updated:", PolycosmosEvents )
@@ -411,7 +412,7 @@ end
 ModUtil.Path.Wrap("DoUnlockRoomExits", function (baseFunc, run, room)
     PolycosmosEvents.SendFinishRoomChecks()
     PolycosmosHelperManager.FlushAndProcessHelperItems()
-    PolycosmosMessages.ClearBufferFlag()
+    PolycosmosMessages.ClearBufferFlags()
     return baseFunc(run, room)
 end)
 
