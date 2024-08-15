@@ -206,6 +206,8 @@ def set_keepsake_balance(world: MultiWorld, player: int, location_table, options
 
 def set_store_rules(world: MultiWorld, player: int, location_table, options):
     #Fountains
+    set_rule(world.get_location("FountainUpgrade1Location", player), lambda state:  \
+            state.has("FountainTartarusItem", player))
     set_rule(world.get_location("FountainUpgrade2Location", player), lambda state:  \
             state.has("FountainUpgrade1Item", player) or state.has("FountainUpgrade2Item", player))
     set_rule(world.get_location("FountainAsphodelLocation", player), lambda state:  \
