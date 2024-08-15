@@ -164,7 +164,7 @@ function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
 
     PolycosmosKeepsakeManager.IncrementGift(gameNPCName)
 
-    PolycosmosMessages.PrintToPlayer("Recieved keepsake "..item)
+    PolycosmosMessages.PrintToPlayer("Received keepsake "..item)
     
     SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
     ValidateCheckpoint({ Valid = true })
