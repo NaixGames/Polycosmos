@@ -192,7 +192,7 @@ function PolycosmosCosmeticsManager.UnlockCosmetics(cosmeticClientName)
 	-- Record of it ever being added
 	GameState.CosmeticsAdded[cosmeticHadesName] = true
 
-    PolycosmosMessages.PrintToPlayer("Recieved cosmetic" .. cosmeticHadesName)
+    PolycosmosMessages.PrintToPlayer("Received cosmetic " .. cosmeticHadesName)
 end
 
 ------------------------------------------

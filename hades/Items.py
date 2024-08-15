@@ -189,7 +189,7 @@ item_table_traps : Dict[str, ItemData] ={
 item_table_helpers : Dict[str, ItemData] ={
     "MaxHealthHelper" : ItemData(hades_base_item_id+82, False, False, False),
     "BoonBoostHelper" : ItemData(hades_base_item_id+83, False, False, False),
-    "InitialMoneyHelper" : ItemData(hades_base_item_id+83, False, False, False),
+    "InitialMoneyHelper" : ItemData(hades_base_item_id+84, False, False, False),
 }
 
 def create_filler_pool_options(options):

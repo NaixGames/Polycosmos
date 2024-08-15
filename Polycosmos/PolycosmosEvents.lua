@@ -344,7 +344,7 @@ end)
 ------------ On deathlink, kill Zag
 
 function PolycosmosEvents.KillPlayer( message )
-    PolycosmosMessages.PrintToPlayer("Deathlink recieved!")
+    PolycosmosMessages.PrintToPlayer("Deathlink received!")
     wait( 2 )
     if HasLastStand(CurrentRun.Hero) then
         CurrentRun.Hero.Health = 0
@@ -354,7 +354,7 @@ function PolycosmosEvents.KillPlayer( message )
     end
 end
 
-StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."Deathlink recieved", PolycosmosEvents )
+StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."Deathlink received", PolycosmosEvents )
 
 ------------ On death, send deathlink to players
 

@@ -146,7 +146,7 @@ function PolycosmosWeaponManager.UnlockWeapon(weaponClientName)
     -- Record of it ever being added
 	GameState.CosmeticsAdded[weaponHadesName] = true
 
-    PolycosmosMessages.PrintToPlayer("Recieved weapon" .. weaponHadesName)
+    PolycosmosMessages.PrintToPlayer("Received weapon" .. weaponHadesName)
 end
 
 ------------ 

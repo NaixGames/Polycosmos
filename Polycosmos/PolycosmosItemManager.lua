@@ -162,5 +162,5 @@ end
 function PolycosmosItemManager.ProcessFillerItem(internalItemName, packValue, name)
     AddResource(internalItemName, packValue)
     CurrentRun[internalItemName] = GameState.Resources[internalItemName]
-    PolycosmosMessages.PrintToPlayer("Recieved a pack of "..packValue.." "..name)
+    PolycosmosMessages.PrintToPlayer("Received a pack of "..packValue.." "..name)
 end

@@ -111,7 +111,7 @@ function PolycosmosAspectsManager.UnlockHiddenAspect(aspectName, shouldPrint)
 	if (GameState.CosmeticsAdded[aspectName] == nil or GameState.CosmeticsAdded[aspectName] == false) then
 		AddCosmetic(aspectName)
 		if (shouldPrint == true) then
-			PolycosmosMessages.PrintToPlayer("Recieved hidden aspect " .. aspectName)
+			PolycosmosMessages.PrintToPlayer("Received hidden aspect " .. aspectName)
 		end
 	end
 end
