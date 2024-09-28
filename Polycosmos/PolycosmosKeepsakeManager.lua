@@ -166,8 +166,12 @@ function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
 
     PolycosmosMessages.PrintToPlayer("Received keepsake "..item)
     
-    SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
-    ValidateCheckpoint({ Valid = true })
+    if (CurrentRun ~= nil) then
+        SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+        ValidateCheckpoint({ Valid = true })
+
+        Save()
+    end
 
     Save()
 end

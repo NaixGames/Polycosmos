@@ -151,10 +151,12 @@ function PolycosmosItemManager.FlushAndProcessFillerItems()
     NectarRequests = 0
     AmbrosiaRequests = 0
 
-    SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
-    ValidateCheckpoint({ Valid = true })
+    if (CurrentRun ~= nil) then
+        SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+        ValidateCheckpoint({ Valid = true })
 
-    Save()
+        Save()
+    end
 end
 
 --------------------

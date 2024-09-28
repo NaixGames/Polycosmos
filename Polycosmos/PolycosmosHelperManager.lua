@@ -95,10 +95,12 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
     BoonBoostRequests = 0
 	InitialMoneyRequests = 0
 
-    SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
-    ValidateCheckpoint({ Valid = true })
+    if (CurrentRun ~= nil) then
+        SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+        ValidateCheckpoint({ Valid = true })
 
-    Save()
+        Save()
+    end
 end
 
 --------------------
@@ -186,11 +188,11 @@ function PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
 			local delta = CurrentRun.Hero.MaxHealth - CurrentRun.Hero.Health
 			CurrentRun.Hero.MaxHealth = HeroData.DefaultHero.MaxHealth + MaxHealthDeltaWithDefault
 			CurrentRun.Hero.Health = CurrentRun.Hero.MaxHealth - delta
+
+			SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+			ValidateCheckpoint({ Valid = true })
+
+			Save()
 		end
-
-		SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
-    	ValidateCheckpoint({ Valid = true })
-
-    	Save()
 	end
 end

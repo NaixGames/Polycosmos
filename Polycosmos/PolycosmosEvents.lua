@@ -564,8 +564,13 @@ function PolycosmosEvents.SaveClientData( message )
     print("Initial weapon equipped")
 
     print("Saving")
-    SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
-    ValidateCheckpoint({ Valid = true })
+    
+    if (CurrentRun ~= nil) then
+        SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
+        ValidateCheckpoint({ Valid = true })
+
+        Save()
+    end
 
     Save()
 
