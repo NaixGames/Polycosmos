@@ -9,8 +9,6 @@ local HelpersDataArray=
 }
 
 
-local valueLoaded = false
-
 local MaxHealthRequests = 0
 local InitialMoneyRequests = 0
 local BoonBoostRequests = 0
@@ -66,13 +64,14 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
 
 	local MaxHealthDeltaWithDefault = math.max(CurrentRun.Hero.MaxHealth-HeroData.DefaultHero.MaxHealth,0)
 
-    while (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) do
-        if (CurrentRun ~= nil) then
-			CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + 25
-			CurrentRun.Hero.Health = CurrentRun.Hero.Health + 25		
+    if (MaxHealthRequests > GameState.HelperItemLodger["MaxHealthHelper"]) then
+        local healthIncrease = 25*(MaxHealthRequests - GameState.HelperItemLodger["MaxHealthHelper"])
+		if (CurrentRun ~= nil) then
+			CurrentRun.Hero.MaxHealth = CurrentRun.Hero.MaxHealth + healthIncrease
+			CurrentRun.Hero.Health = CurrentRun.Hero.Health + healthIncrease		
 		end
-		HeroData.DefaultHero.MaxHealth = HeroData.DefaultHero.MaxHealth + 25
-        GameState.HelperItemLodger["MaxHealthHelper"] = GameState.HelperItemLodger["MaxHealthHelper"] + 1
+		HeroData.DefaultHero.MaxHealth = HeroData.DefaultHero.MaxHealth + healthIncrease
+        GameState.HelperItemLodger["MaxHealthHelper"] = MaxHealthRequests
         PolycosmosMessages.PrintToPlayer("Received a Max Health boost!")
     end
 
@@ -80,13 +79,13 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
 
 	PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
 
-    while (BoonBoostRequests > GameState.HelperItemLodger["BoonBoostHelper"]) do
-        GameState.HelperItemLodger["BoonBoostHelper"] = GameState.HelperItemLodger["BoonBoostHelper"] + 1
+    if (BoonBoostRequests > GameState.HelperItemLodger["BoonBoostHelper"]) then
+        GameState.HelperItemLodger["BoonBoostHelper"] = BoonBoostRequests
         PolycosmosMessages.PrintToPlayer("Received a Boon Rarity boost!")
     end
 
-	while (InitialMoneyRequests > GameState.HelperItemLodger["InitialMoneyHelper"]) do
-        GameState.HelperItemLodger["InitialMoneyHelper"] = GameState.HelperItemLodger["InitialMoneyHelper"] + 1
+	if (InitialMoneyRequests > GameState.HelperItemLodger["InitialMoneyHelper"]) then
+        GameState.HelperItemLodger["InitialMoneyHelper"] = GameState.HelperItemLodger["InitialMoneyHelper"] + InitialMoneyRequests
         PolycosmosMessages.PrintToPlayer("Received more initial Money!")
     end
 

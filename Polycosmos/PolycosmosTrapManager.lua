@@ -50,29 +50,33 @@ function PolycosmosTrapManager.ProcessTrapItems()
         return
     end
 
-    while (MoneyPunishmentRequest > GameState.TrapLedger["MoneyPunishment"]) do
-        if (CurrentRun.Money < 50) then
-            break
-        else
-            CurrentRun.Money = math.max(CurrentRun.Money - 100, 1)
+    if (MoneyPunishmentRequest > GameState.TrapLedger["MoneyPunishment"]) then
+        local difLedger = MoneyPunishmentRequest - GameState.TrapLedger["MoneyPunishment"]
+        local maxNumberPunishment = math.floor(CurrentRun.Money/100)
+        local numberOfPunishments = math.min(maxNumberPunishment, difLedger)
+
+        if (numberOfPunishments > 0) then
+            CurrentRun.Money = math.max(CurrentRun.Money - 100*numberOfPunishments, 1)
 		    ShowResourceUIs({ CombatOnly = false, UpdateIfShowing = true })
 		    UpdateMoneyUI( CurrentRun.Money )
 
             PolycosmosMessages.PrintToPlayer("You got a Money punishment")
 
-            GameState.TrapLedger["MoneyPunishment"] = GameState.TrapLedger["MoneyPunishment"] + 1
-
-            break
+            GameState.TrapLedger["MoneyPunishment"] = GameState.TrapLedger["MoneyPunishment"] + numberOfPunishments
         end
     end
 
-    while (HealthPunishmentRequest > GameState.TrapLedger["HealthPunishment"]) do
-        damage = CurrentRun.Hero.MaxHealth/4
-        CurrentRun.Hero.Health  = math.max(CurrentRun.Hero.Health  - damage,1)
+    if (HealthPunishmentRequest > GameState.TrapLedger["HealthPunishment"]) then
+        local difLedger = MoneyPunishmentRequest - GameState.TrapLedger["MoneyPunishment"]
+        local damage = CurrentRun.Hero.MaxHealth/4
+        local maxNumberPunishment = math.floor(CurrentRun.Hero.MaxHealth/damage)
+        local numberOfPunishments = math.min(maxNumberPunishment, difLedger)
+
+        CurrentRun.Hero.Health  = math.max(CurrentRun.Hero.Health  - damage*numberOfPunishments,1)
 
         PolycosmosMessages.PrintToPlayer("You got a Health punishment")
 
-        GameState.TrapLedger["HealthPunishment"] = GameState.TrapLedger["HealthPunishment"] + 1
+        GameState.TrapLedger["HealthPunishment"] = GameState.TrapLedger["HealthPunishment"] + numberOfPunishments
     end
 
     MoneyPunishmentRequest = 0
