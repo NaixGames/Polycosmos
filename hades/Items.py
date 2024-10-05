@@ -1,11 +1,10 @@
-from tokenize import group
-import typing
+from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
-from typing import Dict
 
-class ItemData(typing.NamedTuple):
-    code: typing.Optional[int]
+
+class ItemData(NamedTuple):
+    code: Optional[int]
     progression: bool
     event: bool = False
     trap: bool = False
@@ -33,9 +32,9 @@ item_table_pacts: Dict[str, ItemData] = {
 }
 
 items_table_event: Dict[str, ItemData] = {
-    "MegVictory": ItemData(None,True,True),
-    "LernieVictory": ItemData(None,True,True),
-    "BrosVictory": ItemData(None,True,True),
+    "MegVictory": ItemData(None, True, True),
+    "LernieVictory": ItemData(None, True, True),
+    "BrosVictory": ItemData(None, True, True),
     "HadesVictory": ItemData(None, True, True),
     "HadesVictorySwordWeapon": ItemData(None, True, True),
     "MegVictorySwordWeapon": ItemData(None, True, True),
@@ -174,16 +173,16 @@ item_table_store: Dict[str, ItemData] ={
 
 item_table_hidden_aspects : Dict[str, ItemData] ={
     "SwordHiddenAspect" : ItemData(hades_base_item_id+74, True),
-	"BowHiddenAspect": ItemData(hades_base_item_id+75, True),
-	"SpearHiddenAspect": ItemData(hades_base_item_id+76, True),
-	"ShieldHiddenAspect": ItemData(hades_base_item_id+77, True),
-	"FistHiddenAspect": ItemData(hades_base_item_id+78, True),
-	"GunHiddenAspect": ItemData(hades_base_item_id+79, True)
+    "BowHiddenAspect": ItemData(hades_base_item_id+75, True),
+    "SpearHiddenAspect": ItemData(hades_base_item_id+76, True),
+    "ShieldHiddenAspect": ItemData(hades_base_item_id+77, True),
+    "FistHiddenAspect": ItemData(hades_base_item_id+78, True),
+    "GunHiddenAspect": ItemData(hades_base_item_id+79, True)
 }
 
 item_table_traps : Dict[str, ItemData] ={
     "MoneyPunishment" : ItemData(hades_base_item_id+80, False, False, True),
-	"HealthPunishment": ItemData(hades_base_item_id+81, False, False, True),
+    "HealthPunishment": ItemData(hades_base_item_id+81, False, False, True),
 }
 
 item_table_helpers : Dict[str, ItemData] ={
@@ -194,73 +193,48 @@ item_table_helpers : Dict[str, ItemData] ={
 
 def create_filler_pool_options(options):
     item_filler_options = []
-    if (options.darkness_pack_value.value > 0):
+    if options.darkness_pack_value.value:
         item_filler_options.append("Darkness")
-    if (options.keys_pack_value.value > 0):
+    if options.keys_pack_value.value:
         item_filler_options.append("Keys")
-    if (options.gemstones_pack_value.value > 0):
+    if options.gemstones_pack_value.value:
         item_filler_options.append("Gemstones")
-    if (options.diamonds_pack_value.value > 0):
+    if options.diamonds_pack_value.value:
         item_filler_options.append("Diamonds")
-    if (options.titan_blood_pack_value.value > 0):
+    if options.titan_blood_pack_value.value:
         item_filler_options.append("TitanBlood")
-    if (options.nectar_pack_value.value > 0):
+    if options.nectar_pack_value.value:
         item_filler_options.append("Nectar")
-    if (options.ambrosia_pack_value.value > 0):
+    if options.ambrosia_pack_value.value:
         item_filler_options.append("Ambrosia")
-    if (len(item_filler_options)==0):
+    if not item_filler_options:
         item_filler_options.append("Darkness")
     return item_filler_options
 
 def create_trap_pool():
-    item_traps = []
-    for traps in item_table_traps.keys():
-        item_traps.append(traps)
-    return item_traps
+    return [trap for trap in item_table_traps.keys()]
 
-#Here we have 39 items
-#This should be replace with a method that construct the dictionary from the settings.
-item_pool_pacts: Dict[str, int] = {
-    "HardLaborPactLevel": 5,
-    "LastingConsequencesPactLevel": 4,
-    "ConvenienceFeePactLevel": 2,
-    "JurySummonsPactLevel": 3,
-    "ExtremeMeasuresPactLevel": 4,
-    "CalisthenicsProgramPactLevel": 2,
-    "BenefitsPackagePactLevel": 2,
-    "MiddleManagementPactLevel": 1,
-    "UnderworldCustomsPactLevel": 1,
-    "ForcedOvertimePactLevel": 2,
-    "HeightenedSecurityPactLevel": 1,
-    "RoutineInspectionPactLevel": 4,
-    "DamageControlPactLevel": 2,
-    "ApprovalProcessPactLevel": 2,
-    "TightDeadlinePactLevel": 2,
-    "PersonalLiabilityPactLevel": 1,
-}
 
 def create_pact_pool_amount(options) -> Dict[str, int]:
     item_pool_pacts = {
-        "HardLaborPactLevel": int(options.hard_labor_pact_amount.value),
-        "LastingConsequencesPactLevel": int(options.lasting_consequences_pact_amount.value),
-        "ConvenienceFeePactLevel": int(options.convenience_fee_pact_amount.value),
-        "JurySummonsPactLevel": int(options.jury_summons_pact_amount.value),
-        "ExtremeMeasuresPactLevel": int(options.extreme_measures_pact_amount.value),
-        "CalisthenicsProgramPactLevel": int(options.calisthenics_program_pact_amount.value),
-        "BenefitsPackagePactLevel": int(options.benefits_package_pact_amount.value),
-        "MiddleManagementPactLevel": int(options.middle_management_pact_amount.value),
-        "UnderworldCustomsPactLevel": int(options.underworld_customs_pact_amount.value),
-        "ForcedOvertimePactLevel": int(options.forced_overtime_pact_amount.value),
-        "HeightenedSecurityPactLevel": int(options.heightened_security_pact_amount.value),
-        "RoutineInspectionPactLevel": int(options.routine_inspection_pact_amount.value),
-        "DamageControlPactLevel": int(options.damage_control_pact_amount.value),
-        "ApprovalProcessPactLevel": int(options.approval_process_pact_amount.value),
-        "TightDeadlinePactLevel": int(options.tight_deadline_pact_amount.value),
-        "PersonalLiabilityPactLevel": int(options.personal_liability_pact_amount.value),
+        "HardLaborPactLevel": int(options.hard_labor_pact_amount),
+        "LastingConsequencesPactLevel": int(options.lasting_consequences_pact_amount),
+        "ConvenienceFeePactLevel": int(options.convenience_fee_pact_amount),
+        "JurySummonsPactLevel": int(options.jury_summons_pact_amount),
+        "ExtremeMeasuresPactLevel": int(options.extreme_measures_pact_amount),
+        "CalisthenicsProgramPactLevel": int(options.calisthenics_program_pact_amount),
+        "BenefitsPackagePactLevel": int(options.benefits_package_pact_amount),
+        "MiddleManagementPactLevel": int(options.middle_management_pact_amount),
+        "UnderworldCustomsPactLevel": int(options.underworld_customs_pact_amount),
+        "ForcedOvertimePactLevel": int(options.forced_overtime_pact_amount),
+        "HeightenedSecurityPactLevel": int(options.heightened_security_pact_amount),
+        "RoutineInspectionPactLevel": int(options.routine_inspection_pact_amount),
+        "DamageControlPactLevel": int(options.damage_control_pact_amount),
+        "ApprovalProcessPactLevel": int(options.approval_process_pact_amount),
+        "TightDeadlinePactLevel": int(options.tight_deadline_pact_amount),
+        "PersonalLiabilityPactLevel": int(options.personal_liability_pact_amount),
     }
     return item_pool_pacts
-
-
 
 
 event_item_pairs: Dict[str, str] = {
@@ -384,7 +358,7 @@ item_table = {
     **item_table_helpers,
 }
 
-group_pacts = {"pacts":item_pool_pacts.keys()}
+group_pacts = {"pacts":item_table_pacts.keys()}
 group_fillers = {"fillers":item_table_filler.keys()}
 group_contractor = {"contractor":item_table_store.keys()}
 group_weapons = {"weapons":item_table_weapons.keys()}

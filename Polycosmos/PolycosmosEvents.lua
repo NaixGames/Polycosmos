@@ -238,6 +238,7 @@ function PolycosmosEvents.UpdateItemsRun( message )
     for i=1,#itemList do
         local itemName = itemList[i]
         local parsedName = (itemName):gsub("PactLevel", "")
+        parsedName = parsedName:gsub(" ", "")
         if (PolycosmosHeatManager.IsHeatLevel(parsedName)) then
             table.insert(pactList, parsedName)
         elseif (PolycosmosItemManager.IsFillerItem(parsedName)) then

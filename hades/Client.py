@@ -86,6 +86,7 @@ class HadesContext(CommonContext):
         if password_requested and not self.password:
             await super(HadesContext, self).server_auth(password_requested)
         await self.get_username()
+        self.tags = set()
         await self.send_connect()
 
     async def connection_closed(self):
@@ -115,7 +116,7 @@ class HadesContext(CommonContext):
 
     def on_package(self, cmd: str, args: dict):
         # This is what is done when a package arrives.
-        if cmd in {"Connected"}:
+        if cmd == "Connected":
             # What should be done in a connection package
             self.cache_items_received_names.clear()
             self.missing_locations_cache = args["missing_locations"]
@@ -133,20 +134,20 @@ class HadesContext(CommonContext):
             self.is_connected = True
             self.is_receiving_items_from_connect_package = True 
 
-        if cmd in {"RoomInfo"}:
+        if cmd == "RoomInfo":
             # What should be done when room info is sent.
             self.seed_name = args["seed_name"]
         
-        if cmd in {"RoomUpdate"}:
+        if cmd == "RoomUpdate":
             if "checked_lodations" in args:
                 collect_locations_cache = ""
                 for location in args["checked_locations"]:
                     collect_locations_cache += self.location_names.lookup_in_slot(location) + "-"
-                if (len(collect_locations_cache) > 0):
+                if len(collect_locations_cache) > 0:
                     collect_locations_cache = collect_locations_cache[:-1]
                     subsume.Send(styx_scribe_send_prefix + "Locations collected:" + collect_locations_cache)
 
-        if cmd in {"ReceivedItems"}:
+        if cmd == "ReceivedItems":
             # What should be done when an Item is recieved.
             # NOTE THIS GETS ALL ITEMS THAT HAVE BEEN RECIEVED! WE USE THIS FOR RESYNCS!
             for item in args["items"]:
@@ -154,18 +155,18 @@ class HadesContext(CommonContext):
             msg =  f"Received {', '.join([self.item_names.lookup_in_slot(item.item) for item in args['items']])}"
             # We ignore sending the package to hades if just connected, 
             #since the game is not ready for it (and will request it itself later)
-            if (self.is_receiving_items_from_connect_package):
+            if self.is_receiving_items_from_connect_package:
                 return;
             self.send_items()
 
-        if cmd in {"LocationInfo"}:
+        if cmd == "LocationInfo":
             if self.creating_location_to_item_mapping:
                 self.creating_location_to_item_mapping = False
                 asyncio.create_task(self.create_location_to_item_dictionary(args["locations"]))
                 return
             super().on_package(cmd, args)
             
-        if cmd in {"Bounced"}:
+        if cmd == "Bounced":
             if "tags" in args:
                 if "DeathLink" in args["tags"]:
                     self.on_deathlink(args["data"])
@@ -192,7 +193,7 @@ class HadesContext(CommonContext):
 
 
     async def check_connection_and_send_items_and_request_starting_info(self, message):
-        if (self.check_for_connection()):
+        if self.check_for_connection():
             self.is_receiving_items_from_connect_package = False
             await self.send_items_and_request_starting_info(message)
 
@@ -281,12 +282,12 @@ class HadesContext(CommonContext):
     # ----------------- Hints from game section starts --------------------------------
 
     async def send_location_hint_to_server(self, message):
-        if (self.hades_slot_data["store_give_hints"] == 0):
+        if self.hades_slot_data["store_give_hints"] == 0:
             return;
         split_array = message.split("-")
         request = []
         for location in split_array:
-            if (len(location)>0):
+            if len(location)>0:
                 request.append(self.location_name_to_id[location])
         asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 2}]))
 
@@ -295,7 +296,7 @@ class HadesContext(CommonContext):
     # -------------deathlink section started --------------------------------
     def on_deathlink(self, data: dict):
         # What should be done when a deathlink message is recieved
-        if (self.deathlink_pending):
+        if self.deathlink_pending:
             return
         self.deathlink_pending = True
         subsume.Send(styx_scribe_send_prefix + "Deathlink recieved")
@@ -305,7 +306,7 @@ class HadesContext(CommonContext):
     def send_death(self, death_text: str = ""):
         # What should be done to send a death link
         # Avoid sending death if we died from a deathlink
-        if (self.deathlink_enabled == False or self.deathlink_pending == True):
+        if self.deathlink_pending or not self.deathlink_enabled:
             return
         self.deathlink_pending = True
         asyncio.create_task(super().send_death(death_text))
@@ -329,7 +330,7 @@ class HadesContext(CommonContext):
         hasEnoughWeapons = self.hades_slot_data["weapons_clears_needed"] <= int(counters[1])
         hasEnoughKeepsakes = self.hades_slot_data["keepsakes_needed"] <= int(counters[2])
         hasEnoughFates = self.hades_slot_data["fates_needed"] <= int(counters[3])
-        if (hasEnoughRuns and hasEnoughWeapons and hasEnoughKeepsakes and hasEnoughFates):
+        if hasEnoughRuns and hasEnoughWeapons and hasEnoughKeepsakes and hasEnoughFates:
             asyncio.create_task(self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]))
             self.finished_game = True
 
@@ -337,7 +338,7 @@ class HadesContext(CommonContext):
 
     # ------------ game connection QoL handling
     def check_for_connection(self):
-        if (self.is_connected == False):
+        if self.is_connected == False:
             subsume.Send(styx_scribe_send_prefix + "Connection Error")
             return False
         return True
