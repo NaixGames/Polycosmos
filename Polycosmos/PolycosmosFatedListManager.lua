@@ -10,112 +10,112 @@ local fatedListHints = ""
 local FatedListNames =
 {
     FirstClear = {
-        ClientNameLocation = "IsThereNoEscape?",
+        ClientNameLocation = "Is There No Escape?",
     },
 	MeetOlympians = {
-		ClientNameLocation = "DistantRelatives", 
+		ClientNameLocation = "Distant Relatives", 
 	},
 	MeetChthonicGods = {
-		ClientNameLocation = "ChthonicColleagues", 
+		ClientNameLocation = "Chthonic Colleagues", 
 	},
 	OrpheusRelease = {
-		ClientNameLocation = "TheReluctantMusician", 
+		ClientNameLocation = "The Reluctant Musician", 
 	},
 	AthenaUpgrades = {
-		ClientNameLocation = "GoddessOfWisdom", 
+		ClientNameLocation = "Goddess Of Wisdom", 
 	},
 	ZeusUpgrades = {
-		ClientNameLocation = "GodOfTheHeavens", 
+		ClientNameLocation = "God Of The Heavens", 
 	},
 	PoseidonUpgrades = {
-		ClientNameLocation = "GodOfTheSea", 
+		ClientNameLocation = "God Of The Sea", 
 	},
 	AphroditeUpgrades = {
-		ClientNameLocation = "GoddessOfLove", 
+		ClientNameLocation = "Goddess Of Love", 
 	},
 	AresUpgrades = {
-		ClientNameLocation = "GodOfWar", 
+		ClientNameLocation = "God Of War", 
 	},
 	ArtemisUpgrades = {
-		ClientNameLocation = "GoddessOfTheHunt", 
+		ClientNameLocation = "Goddess Of The Hunt", 
 	},
 	DionysusUpgrades = {
-		ClientNameLocation = "GodOfWine", 
+		ClientNameLocation = "God Of Wine", 
 	},
 	HermesUpgrades = {
-		ClientNameLocation = "GodOfSwiftness", 
+		ClientNameLocation = "God Of Swiftness", 
 	},
 	DemeterUpgrades = {
-		ClientNameLocation = "GoddessOfSeasons", 
+		ClientNameLocation = "Goddess Of Seasons", 
 	},
 	LegendaryUpgrades = {
-		ClientNameLocation = "PowerWithoutEqual", 
+		ClientNameLocation = "Power Without Equal", 
 	},
 	SynergyUpgrades = {
-		ClientNameLocation = "DivinePairings", 
+		ClientNameLocation = "Divine Pairings", 
 	},
 	ChaosBlessings = {
-		ClientNameLocation = "PrimordialBoons", 
+		ClientNameLocation = "Primordial Boons", 
 	},
 	ChaosCurses = {
-		ClientNameLocation = "PrimordialBanes", 
+		ClientNameLocation = "Primordial Banes", 
 	},
 	WeaponUnlocks = {
-		ClientNameLocation = "InfernalArms",
+		ClientNameLocation = "Infernal Arms",
 	},
 	SwordHammerUpgrades = {
-		ClientNameLocation = "TheStygianBlade", 
+		ClientNameLocation = "The Stygian Blade", 
 	},
 	BowHammerUpgrades = {
-		ClientNameLocation = "TheHeartSeekingBow", 
+		ClientNameLocation = "The Heart Seeking Bow", 
 	},
 	ShieldHammerUpgrades = {
-		ClientNameLocation = "TheShieldOfChaos", 
+		ClientNameLocation = "The Shield Of Chaos", 
 	},
 	SpearHammerUpgrades = {
-		ClientNameLocation = "TheEternalSpear", 
+		ClientNameLocation = "The Eternal Spear", 
 	},
 	FistHammerUpgrades = {
-		ClientNameLocation = "TheTwinFists", 
+		ClientNameLocation = "The Twin Fists", 
 	},
 	GunHammerUpgrades = {
-		ClientNameLocation = "TheAdamantRail", 
+		ClientNameLocation = "The Adamant Rail", 
 	},
 	WeaponClears = {
-		ClientNameLocation = "MasterOfArms", 
+		ClientNameLocation = "Master Of Arms", 
 	},
 	WeaponAspects = {
-		ClientNameLocation = "AViolentPast", 
+		ClientNameLocation = "A Violent Past", 
 	},
 	PactUpgrades = {
-		ClientNameLocation = "HarshConditions", 
+		ClientNameLocation = "Harsh Conditions", 
 	},
 	EliteAttributeKills = {
-		ClientNameLocation = "SlashedBenefits", 
+		ClientNameLocation = "Slashed Benefits", 
 	},
 	MiniBossKills = {
-		ClientNameLocation = "WantonRansacking", 
+		ClientNameLocation = "Wanton Ransacking", 
 	},
 	CosmeticsSmall = {
-		ClientNameLocation = "ASimpleJob", 
+		ClientNameLocation = "A Simple Job", 
 	},
 	CodexSmall = {
-		ClientNameLocation = "ChthonicKnowledge", 
+		ClientNameLocation = "Chthonic Knowledge", 
 	},
 	WellShopItems = {
-		ClientNameLocation = "CustomerLoyalty", 
+		ClientNameLocation = "Customer Loyalty", 
 	},
 	MirrorUpgrades = {
-		ClientNameLocation = "DarkReflections", 
+		ClientNameLocation = "Dark Reflections", 
 	},
 	KeepsakesQuest = {
-		ClientNameLocation = "CloseAtHeart", 
+		ClientNameLocation = "Close At Heart", 
 	},
 	PoseidonFish = {
-		ClientNameLocation = "DenizensOfTheDeep", 
+		ClientNameLocation = "Denizens Of The Deep", 
 	},
 	FirstSkellyStatue = {
-		ClientNameLocation = "TheUselessTrinket", 
+		ClientNameLocation = "The Useless Trinket", 
 	},
 }
 

@@ -6,125 +6,125 @@ ModUtil.Mod.Register( "PolycosmosKeepsakeManager" )
 local KeepsakeDataTable =
 {
     CerberusKeepsake = {
-        ClientName = "CerberusKeepsake",
+        ClientName = "Cerberus Keepsake",
         HadesName = "NPC_Cerberus_01", 
         NPCName = "Cerberus"
     },
     AchillesKeepsake = {
-        ClientName = "AchillesKeepsake",
+        ClientName = "Achilles Keepsake",
         HadesName = "NPC_Achilles_01",
         NPCName = "Achilles"
     },
     NyxKeepsake = {
-        ClientName = "NyxKeepsake",
+        ClientName = "Nyx Keepsake",
         HadesName = "NPC_Nyx_01",
         NPCName = "Nyx"
     },
     ThanatosKeepsake = {
-        ClientName = "ThanatosKeepsake",
+        ClientName = "Thanatos Keepsake",
         HadesName = "NPC_Thanatos_01",
         NPCName = "Thanatos"
     },
     CharonKeepsake = {
-        ClientName = "CharonKeepsake",
+        ClientName = "Charon Keepsake",
         HadesName = "NPC_Charon_01",
         NPCName = "Charon"
     },
     HypnosKeepsake = {
-        ClientName = "HypnosKeepsake",
+        ClientName = "Hypnos Keepsake",
         HadesName = "NPC_Hypnos_01",
         NPCName = "Hypnos"
     },
     MegaeraKeepsake = {
-        ClientName = "MegaeraKeepsake",
+        ClientName = "Megaera Keepsake",
         HadesName = "NPC_FurySister_01",
         NPCName = "Megaera"
     },
     OrpheusKeepsake = {
-        ClientName = "OrpheusKeepsake",
+        ClientName = "Orpheus Keepsake",
         HadesName = "NPC_Orpheus_01",
         NPCName = "Orpheus"
     },
     DusaKeepsake = {
-        ClientName = "DusaKeepsake",
+        ClientName = "Dusa Keepsake",
         HadesName = "NPC_Dusa_01",
         NPCName = "Dusa"
     },
     SkellyKeepsake = {
-        ClientName = "SkellyKeepsake",
+        ClientName = "Skelly Keepsake",
         HadesName = "NPC_Skelly_01",
         NPCName = "Skelly"
     },
     ZeusKeepsake = {
-        ClientName = "ZeusKeepsake",
+        ClientName = "Zeus Keepsake",
         HadesName = "ZeusUpgrade",
         MeetLine = "ZeusFirstPickUp",
         NPCName = "Zeus"
     },
     PoseidonKeepsake = {
-        ClientName = "PoseidonKeepsake",
+        ClientName = "Poseidon Keepsake",
         HadesName = "PoseidonUpgrade",
         MeetLine = "PoseidonFirstPickUp",
         NPCName = "Poseidon"
     },
     AthenaKeepsake = {
-        ClientName = "AthenaKeepsake",
+        ClientName = "Athena Keepsake",
         HadesName = "AthenaUpgrade",
         MeetLine = "AthenaFirstPickUp",
         NPCName = "Athena"
     },
     AphroditeKeepsake = {
-        ClientName = "AphroditeKeepsake",
+        ClientName = "Aphrodite Keepsake",
         HadesName = "AphroditeUpgrade",
         MeetLine = "AphroditeFirstPickUp",
         NPCName = "Aphrodite"
     },
     AresKeepsake = {
-        ClientName = "AresKeepsake",
+        ClientName = "Ares Keepsake",
         HadesName = "AresUpgrade",
         MeetLine = "AresFirstPickUp",
         NPCName = "Ares"
     },
     ArtemisKeepsake = {
-        ClientName = "ArtemisKeepsake",
+        ClientName = "Artemis Keepsake",
         HadesName = "ArtemisUpgrade",
         MeetLine = "ArtemisFirstPickUp",
         NPCName = "Artemis"
     },
     DionysusKeepsake = {
-        ClientName = "DionysusKeepsake",
+        ClientName = "Dionysus Keepsake",
         HadesName = "DionysusUpgrade",
         MeetLine = "DionysusFirstPickUp",
         NPCName = "Dionysus"
     },
     HermesKeepsake = {
-        ClientName = "HermesKeepsake",
+        ClientName = "Hermes Keepsake",
         HadesName = "HermesUpgrade",
         NPCName = "Hermes"
     },
     DemeterKeepsake = {
-        ClientName = "DemeterKeepsake",
+        ClientName = "Demeter Keepsake",
         HadesName = "DemeterUpgrade",
         NPCName = "Demeter"
     },
     ChaosKeepsake = {
-        ClientName = "ChaosKeepsake",
+        ClientName = "Chaos Keepsake",
         HadesName = "TrialUpgrade",
         MeetLine = "ChaosFirstPickUp",
         NPCName = "Chaos"
     },
     SisyphusKeepsake = {
-        ClientName = "SisyphusKeepsake",
+        ClientName = "Sisyphus Keepsake",
         HadesName = "NPC_Sisyphus_01",
         NPCName = "Sisyphus"
     },
     EurydiceKeepsake = {
-        ClientName = "EurydiceKeepsake",
+        ClientName = "Eurydice Keepsake",
         HadesName = "NPC_Eurydice_01",
         NPCName = "Eurydice"
     },
     PatroclusKeepsake = {
-        ClientName = "PatroclusKeepsake",
+        ClientName = "Patroclus Keepsake",
         HadesName = "NPC_Patroclus_01",
         NPCName = "Patroclus"
     },

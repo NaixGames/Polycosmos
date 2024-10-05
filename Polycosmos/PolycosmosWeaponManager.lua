@@ -36,65 +36,81 @@ local WeaponDatabaseTrait = {
     SwordWeapon =
     {
         Name = "SwordWeapon",
+        ClientName = "Sword Weapon",
         TraitName = "SwordBaseUpgradeTrait"
     },
     SpearWeapon = 
     {
         Name = "SpearWeapon",
+        ClientName = "Spear Weapon",
         TraitName = "SpearBaseUpgradeTrait"
     },
     ShieldWeapon = 
     {
         Name = "ShieldWeapon",
+        ClientName = "Shield Weapon",
         TraitName = "ShieldBaseUpgradeTrait"
     },
     BowWeapon = 
     {
         Name = "BowWeapon",
+        ClientName = "Bow Weapon",
         TraitName = "BowBaseUpgradeTrait"
     },
     FistWeapon = 
     {
         Name = "FistWeapon",
+        ClientName = "Fist Weapon",
         TraitName = "FistBaseUpgradeTrait"
     },
     GunWeapon = 
     {
         Name = "GunWeapon",
+        ClientName = "Gun Weapon",
         TraitName = "GunBaseUpgradeTrait"
     }
 }
+
+
+function PolycosmosWeaponManager.GiveClientWeaponTraitName(weaponName)
+    for name, data in pairs(WeaponDatabaseTrait) do
+        if data.Name == weaponName then
+            return data.ClientName
+        end
+    end
+end
+
 
 local WeaponsUnlockCosmeticNames =
 {
     SwordWeaponUnlock = {
         ClientNameItem = "SwordWeaponUnlockItem",
-        ClientNameLocation = "SwordWeaponUnlockLocation",
+        ClientNameLocation = "Sword Weapon Unlock Location",
         HadesName = "SwordWeaponUnlock", 
     },
     BowWeaponUnlock = {
         ClientNameItem = "BowWeaponUnlockItem",
-        ClientNameLocation = "BowWeaponUnlockLocation",
+        ClientNameLocation = "Bow Weapon Unlock Location",
         HadesName = "BowWeaponUnlock", 
     },
     ShieldWeaponUnlock = {
         ClientNameItem = "ShieldWeaponUnlockItem",
-        ClientNameLocation = "ShieldWeaponUnlockLocation",
+        ClientNameLocation = "Shield Weapon Unlock Location",
         HadesName = "ShieldWeaponUnlock", 
     },
     SpearWeaponUnlock = {
         ClientNameItem = "SpearWeaponUnlockItem",
-        ClientNameLocation = "SpearWeaponUnlockLocation",
+        ClientNameLocation = "Spear Weapon Unlock Location",
         HadesName = "SpearWeaponUnlock", 
     },
     FistWeaponUnlock = {
         ClientNameItem = "FistWeaponUnlockItem",
-        ClientNameLocation = "FistWeaponUnlockLocation",
+        ClientNameLocation = "Fist Weapon Unlock Location",
         HadesName = "FistWeaponUnlock", 
     },
     GunWeaponUnlock = {
         ClientNameItem = "GunWeaponUnlockItem",
-        ClientNameLocation = "GunWeaponUnlockLocation",
+        ClientNameLocation = "Gun Weapon Unlock Location",
         HadesName = "GunWeaponUnlock", 
     },
 }

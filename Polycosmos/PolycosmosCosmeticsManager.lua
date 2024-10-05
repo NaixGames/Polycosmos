@@ -7,91 +7,91 @@ local StoreUnlockCosmeticNames =
 {
     HealthFountainHeal1 = {
         ClientNameItem = "FountainUpgrade1Item", 
-        ClientNameLocation = "FountainUpgrade1Location", --Requires TartarusReprieveItem
+        ClientNameLocation = "Fountain Upgrade1 Location", --Requires TartarusReprieveItem
     },
     HealthFountainHeal2 = {
         ClientNameItem = "FountainUpgrade2Item", --IsProgressive
-        ClientNameLocation = "FountainUpgrade2Location", --Requires HealthFountainHeal1
+        ClientNameLocation = "Fountain Upgrade2 Location", --Requires HealthFountainHeal1
     },
     TartarusReprieve = {
         ClientNameItem = "FountainTartarusItem",
-        ClientNameLocation = "FountainTartarusLocation",
+        ClientNameLocation = "Fountain Tartarus Location",
     },
     AsphodelReprieve = {
         ClientNameItem = "FountainAsphodelItem",
-        ClientNameLocation = "FountainAsphodelLocation", --Requires TartarusReprieveItem, defeating Meg, requires PostBossGiftRack
+        ClientNameLocation = "Fountain Asphodel Location", --Requires TartarusReprieveItem, defeating Meg, requires PostBossGiftRack
     },
     ElysiumReprieve = {
         ClientNameItem = "FountainElysiumItem",
-        ClientNameLocation = "FountainElysiumLocation", --Requires AsphodelReprieveItem, defeating Lernie, requires PostBossGiftRack
+        ClientNameLocation = "Fountain Elysium Location", --Requires AsphodelReprieveItem, defeating Lernie, requires PostBossGiftRack
     },
     BreakableValue1 = {
         ClientNameItem = "UrnsOfWealth1Item",
-        ClientNameLocation = "UrnsOfWealth1Location", --Requires TartarusReprieveItem
+        ClientNameLocation = "Urns Of Wealth1 Location", --Requires TartarusReprieveItem
     },
     BreakableValue2 = {
         ClientNameItem = "UrnsOfWealth2Item", --IsProgressive
-        ClientNameLocation = "UrnsOfWealth2Location", --Requires BreakableValue1Item
+        ClientNameLocation = "Urns Of Wealth2 Location", --Requires BreakableValue1Item
     },
     BreakableValue3 = {
         ClientNameItem = "UrnsOfWealth3Item", --IsProgressive
-        ClientNameLocation = "UrnsOfWealth3Location", --Requires BreakableValue2Item
+        ClientNameLocation = "Urns Of Wealth3 Location", --Requires BreakableValue2Item
     },
     ChallengeSwitches1 = {
         ClientNameItem = "InfernalTrove1Item", 
-        ClientNameLocation = "InfernalTrove1Location",
+        ClientNameLocation = "Infernal Trove1 Location",
     },
     ChallengeSwitches2 = {
         ClientNameItem = "InfernalTrove2Item", --IsProgressive 
-        ClientNameLocation = "InfernalTrove2Location", --Requires defeating ElysiumReprieve, ChallengeSwitches1Item, PostBossGiftRack
+        ClientNameLocation = "Infernal Trove2 Location", --Requires defeating ElysiumReprieve, ChallengeSwitches1Item, PostBossGiftRack
     },
     ChallengeSwitches3 = {
         ClientNameItem = "InfernalTrove3Item", --IsProgressive 
-        ClientNameLocation = "InfernalTrove3Location", --Requires defeating ElysiumReprieve, ChallengeSwitches2Item, PostBossGiftRack, GhostAdminDesk
+        ClientNameLocation = "Infernal Trove3 Location", --Requires defeating ElysiumReprieve, ChallengeSwitches2Item, PostBossGiftRack, GhostAdminDesk
     },
 	PostBossGiftRack = {
         ClientNameItem = "KeepsakeCollectionItem",
-        ClientNameLocation = "KeepsakeCollectionLocation", --Requires defeating Meg, TartarusReprieve
+        ClientNameLocation = "Keepsake Collection Location", --Requires defeating Meg, TartarusReprieve
     },
     GhostAdminDesk = { --Everything here and below needs diamonds.
         ClientNameItem = "DeluxeContractorDeskItem",
-        ClientNameLocation = "DeluxeContractorDeskLocation", --Requires ElysiumReprieve, CourtMusicianSentenceItem
+        ClientNameLocation = "Deluxe Contractor Desk Location", --Requires ElysiumReprieve, CourtMusicianSentenceItem
     },
     BossAddGems = {
         ClientNameItem = "VanquishersKeepItem",
-        ClientNameLocation = "VanquishersKeepLocation", -- Requires GhostAdminDesk
+        ClientNameLocation = "Vanquishers Keep Location", -- Requires GhostAdminDesk
     },
     FishingUnlockItem = {
         ClientNameItem = "FishingRodItem",
-        ClientNameLocation = "FishingRodLocation", --Requires defeating Heros, TartartarusRepriveItem
+        ClientNameLocation = "Fishing Rod Location", --Requires defeating Heros, TartartarusRepriveItem
     },
     OrpheusUnlockItem = {
         ClientNameItem = "CourtMusicianSentenceItem",
-        ClientNameLocation = "CourtMusicianSentenceLocation", --Requires defeating Meg, TartarusReprieveItem
+        ClientNameLocation = "Court Musician Sentence Location", --Requires defeating Meg, TartarusReprieveItem
     },
     Cosmetic_MusicPlayer = {
         ClientNameItem = "CourtMusicianStandItem",
-        ClientNameLocation = "CourtMusicianStandLocation", --Requires OrpheusUnlockItem
+        ClientNameLocation = "Court Musician Stand Location", --Requires OrpheusUnlockItem
     }, 
     RoomRewardMetaPointDropRunProgress = {
         ClientNameItem = "PitchBlackDarknessItem",
-        ClientNameLocation = "PitchBlackDarknessLocation", -- Requires DeluxeContractorDeskItem
+        ClientNameLocation = "Pitch Black Darkness Location", -- Requires DeluxeContractorDeskItem
     },
     LockKeyDropRunProgress = {
         ClientNameItem = "FatedKeysItem",
-        ClientNameLocation = "FatedKeysLocation", -- Requires DeluxeContractorDeskItem
+        ClientNameLocation = "Fated Keys Location", -- Requires DeluxeContractorDeskItem
     },
     GemDropRunProgress = {
         ClientNameItem = "BrilliantGemstonesItem",
-        ClientNameLocation = "BrilliantGemstonesLocation", -- Requires DeluxeContractorDeskItem
+        ClientNameLocation = "Brilliant Gemstones Location", -- Requires DeluxeContractorDeskItem
     },
     GiftDropRunProgress = {
         ClientNameItem = "VintageNectarItem", 
-        ClientNameLocation = "VintageNectarLocation", -- Requires DeluxeContractorDeskItem
+        ClientNameLocation = "Vintage Nectar Location", -- Requires DeluxeContractorDeskItem
     },
     UnusedWeaponBonusAddGems = {
         ClientNameItem = "DarkerThirstItem",
-        ClientNameLocation = "DarkerThirstLocation", -- Requires DeluxeContractorDeskItem
+        ClientNameLocation = "Darker Thirst Location", -- Requires DeluxeContractorDeskItem
     },
 }
 

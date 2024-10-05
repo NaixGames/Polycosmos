@@ -108,7 +108,7 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         roomString = "0"..roomNumber
     end
 
-    PolycosmosEvents.UnlockLocationCheck("ClearRoom"..roomString)
+    PolycosmosEvents.UnlockLocationCheck("Clear Room "..roomString)
 end
 
 ----------- When using score based checks, we use this function instead of give room check
@@ -169,7 +169,7 @@ function PolycosmosEvents.GiveScore(roomNumber)
         while (string.len(checkString) < 4) do
             checkString = "0"..checkString
         end
-        PolycosmosEvents.UnlockLocationCheck("ClearScore"..checkString) --Need to make sure in this case we reset the score and the last completed room on the client
+        PolycosmosEvents.UnlockLocationCheck("Clear Score "..checkString) --Need to make sure in this case we reset the score and the last completed room on the client
         actual_score = actual_score - next_score_to_complete
         PolycosmosMessages.PrintToPlayer("Cleared score "..next_score_to_complete.." you now got "..actual_score.." points")
         next_score_to_complete = next_score_to_complete+1
@@ -211,9 +211,11 @@ function PolycosmosEvents.GiveWeaponRoomCheck(roomNumber)
         roomString = "0"..roomNumber
     end
 
-    roomString = roomString..GetEquippedWeapon()
+    local parsedWeaponName = PolycosmosWeaponManager.GiveClientWeaponTraitName(GetEquippedWeapon())
 
-    PolycosmosEvents.UnlockLocationCheck("ClearRoom"..roomString)
+    roomString = roomString.." "..parsedWeaponName
+
+    PolycosmosEvents.UnlockLocationCheck("Clear Room "..roomString)
 end
 
 
