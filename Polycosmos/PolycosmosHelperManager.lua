@@ -34,6 +34,8 @@ end
 function PolycosmosHelperManager.MaxHealthSyncUpdate()
 	if (GameState.HelperItemLodger["MaxHealthReminder"] < HeroData.DefaultHero.MaxHealth) then
 		GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
+	else
+		HeroData.DefaultHero.MaxHealth = GameState.HelperItemLodger["MaxHealthReminder"]
 	end
 end
 
