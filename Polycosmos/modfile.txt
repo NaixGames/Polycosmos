@@ -24,3 +24,24 @@ Import "Data/ConditionalItemData.lua"
 
 To "Scripts/TextLineSets.lua"
 Import "Data/TextLineSets.lua"
+
+To "Scripts/Main.lua"
+Import PolyCosmosLogoInject.lua
+
+To "Game/Animations/ObstacleAnimations.sjson"
+SJSON "Game/Animations/ObstacleAnimations.sjson"
+
+To "Game/GUI/MainMenuScreen.sjson"
+SJSON "Game/GUI/MainMenuScreen.sjson"
+
+To Win/Packages/LogoInject.pkg_manifest
+Replace "Packages/LogoInject.pkg_manifest"
+
+To Win/Packages/720p/LogoInject.pkg_manifest
+Replace "Packages/LogoInject.pkg_manifest"
+
+To Win/Packages/LogoInject.pkg
+Replace "Packages/LogoInject.pkg"
+
+To Win/Packages/720p/LogoInject.pkg
+Replace "Packages/LogoInject.pkg"

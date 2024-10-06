@@ -1,0 +1,18 @@
+{
+  MainMenuScreen =
+	{
+		Character =
+		{
+		  X = 526
+		  Y = 252
+		  Graphic = "AP_MainMenuLogo"
+		  Justification = "Center"
+		  VerticalJustification = "Center"
+		  FadeOpacity = 0.0
+		  FadeTarget = 1.0
+		  FadeDelayMin = 2.55
+		  FadeDelayMax = 2.551
+		  FadeSpeed = 99.0
+		}
+	}
+}
