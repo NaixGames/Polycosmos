@@ -92,6 +92,8 @@ DoesBoKnow for proposing the multiworld and providing tons of resources and test
 The AP discord and all the people in the Hades subthread have pitched in with ideas and helped keep me motivated. That includes but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping add proper APWorld support. Also thanks to all the testers for providing information about the bugs they encountered. I could 
 have not made this without you.
 
+Thanks to HauntyHogeez for the amazing custom title screen and the custom icon for the client. And Ael for actually implementing the custom title screen into the mod.
+
 Also, thanks to RobinLSL for having the patience to report a large number of typos.
 
 # Bugs 
