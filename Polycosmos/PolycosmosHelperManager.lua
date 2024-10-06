@@ -75,6 +75,8 @@ function PolycosmosHelperManager.FlushAndProcessHelperItems()
 		HeroData.DefaultHero.MaxHealth = HeroData.DefaultHero.MaxHealth + healthIncrease
         GameState.HelperItemLodger["MaxHealthHelper"] = MaxHealthRequests
         PolycosmosMessages.PrintToPlayer("Received a Max Health boost!")
+
+		ShowHealthUI()
     end
 
 	GameState.HelperItemLodger["MaxHealthReminder"] = HeroData.DefaultHero.MaxHealth
@@ -195,5 +197,8 @@ function PolycosmosHelperManager.SetupMaxHealth(MaxHealthDeltaWithDefault)
 
 			Save()
 		end
+
+		ShowHealthUI()
+		
 	end
 end
