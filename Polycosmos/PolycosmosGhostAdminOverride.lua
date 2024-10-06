@@ -22,11 +22,11 @@ end
 -------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
-	if (PolycosmosWeaponManager.IsWeaponLocation(displayName.."Location") == true) then
+	if (PolycosmosWeaponManager.IsWeaponLocation(displayName.." Location") == true) then
 		if (GameState.ClientGameSettings["WeaponSanity"]==0) then
 			return displayName
 		else
-			return PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.."Location")
+			return PolycosmosGhostAdminOverride.GiveAPItemAtLocation(displayName.." Location")
 		end
 	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(displayName) ~= nil) then
 		if (GameState.ClientGameSettings["StoreSanity"]==0) then

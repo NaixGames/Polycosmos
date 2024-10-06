@@ -1,34 +1,34 @@
-ConditionalItemData.SwordWeaponUnlock =
+ConditionalItemData["Sword Weapon Unlock"] =
 {
     InheritFrom = { "DefaultCriticalItem" },
     ResourceName = "LockKeys",
     ResourceCost = 1,
 }
-ConditionalItemData.SpearWeaponUnlock = 
+ConditionalItemData["Spear Weapon Unlock"] = 
 {
     InheritFrom = { "DefaultCriticalItem" },
     ResourceName = "LockKeys",
     ResourceCost = 4,
 }
-ConditionalItemData.ShieldWeaponUnlock = 
+ConditionalItemData["Shield Weapon Unlock"] = 
 {
     InheritFrom = { "DefaultCriticalItem" },
     ResourceName = "LockKeys",
     ResourceCost = 3,
 }
-ConditionalItemData.BowWeaponUnlock = 
+ConditionalItemData["Bow Weapon Unlock"] = 
 {
     InheritFrom = { "DefaultCriticalItem" },
     ResourceName = "LockKeys",
     ResourceCost = 1,
 }
-ConditionalItemData.FistWeaponUnlock = 
+ConditionalItemData["Fist Weapon Unlock"] = 
 {
     InheritFrom = { "DefaultCriticalItem" },
     ResourceName = "LockKeys",
     ResourceCost = 8,
 }
-ConditionalItemData.GunWeaponUnlock = 
+ConditionalItemData["Gun Weapon Unlock"] = 
 {
     InheritFrom = { "DefaultCriticalItem" },
     ResourceName = "LockKeys",

@@ -177,17 +177,17 @@ class HadesWorld(World):
         self.multiworld.itempool += pool
 
     def should_ignore_weapon(self, name):
-        if self.options.initial_weapon == "Sword" and name == "Sword Weapon Unlock Item":
+        if self.options.initial_weapon == 0 and name == "Sword Weapon Unlock Item":
             return True
-        if self.options.initial_weapon == "Bow" and name == "Bow Weapon Unlock Item":
+        if self.options.initial_weapon == 1 and name == "Bow Weapon Unlock Item":
             return True
-        if self.options.initial_weapon == "Spear" and name == "Spear Weapon Unlock Item":
+        if self.options.initial_weapon == 2 and name == "Spear Weapon Unlock Item":
             return True
-        if self.options.initial_weapon == "Shield" and name == "Shield Weapon Unlock Item":
+        if self.options.initial_weapon == 3 and name == "Shield Weapon Unlock Item":
             return True
-        if self.options.initial_weapon == "Fist" and name == "Fist Weapon Unlock Item":
+        if self.options.initial_weapon == 4 and name == "Fist Weapon Unlock Item":
             return True
-        if self.options.initial_weapon == "Gun" and name == "Gun Weapon Unlock Item":
+        if self.options.initial_weapon == 5 and name == "Gun Weapon Unlock Item":
             return True
         return False
 

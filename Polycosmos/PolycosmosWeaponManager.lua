@@ -86,32 +86,32 @@ local WeaponsUnlockCosmeticNames =
     SwordWeaponUnlock = {
         ClientNameItem = "SwordWeaponUnlockItem",
         ClientNameLocation = "Sword Weapon Unlock Location",
-        HadesName = "SwordWeaponUnlock", 
+        HadesName = "Sword Weapon Unlock", 
     },
     BowWeaponUnlock = {
         ClientNameItem = "BowWeaponUnlockItem",
         ClientNameLocation = "Bow Weapon Unlock Location",
-        HadesName = "BowWeaponUnlock", 
+        HadesName = "Bow Weapon Unlock", 
     },
     ShieldWeaponUnlock = {
         ClientNameItem = "ShieldWeaponUnlockItem",
         ClientNameLocation = "Shield Weapon Unlock Location",
-        HadesName = "ShieldWeaponUnlock", 
+        HadesName = "Shield Weapon Unlock", 
     },
     SpearWeaponUnlock = {
         ClientNameItem = "SpearWeaponUnlockItem",
         ClientNameLocation = "Spear Weapon Unlock Location",
-        HadesName = "SpearWeaponUnlock", 
+        HadesName = "Spear Weapon Unlock", 
     },
     FistWeaponUnlock = {
         ClientNameItem = "FistWeaponUnlockItem",
         ClientNameLocation = "Fist Weapon Unlock Location",
-        HadesName = "FistWeaponUnlock", 
+        HadesName = "Fist Weapon Unlock", 
     },
     GunWeaponUnlock = {
         ClientNameItem = "GunWeaponUnlockItem",
         ClientNameLocation = "Gun Weapon Unlock Location",
-        HadesName = "GunWeaponUnlock", 
+        HadesName = "Gun Weapon Unlock", 
     },
 }
 
@@ -123,7 +123,7 @@ local cachedWeapons = {}
 
 ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     -- There should not be ANY scenario in which we call this before the data is loaded, so I will assume the datain Root is always updated
-    if (not WeaponsUnlockCosmeticNames[name]) then
+    if (not PolycosmosWeaponManager.IsWeaponCosmetic(name)) then
         return baseFunc(name, status)
     end
 
@@ -137,7 +137,7 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
         return baseFunc(name, status)
     end
 
-    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..name.."Location")
+    StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..name.." Location")
     return baseFunc(name, status)
 end)
 
@@ -189,6 +189,17 @@ end
 
 ------------ 
 
+function PolycosmosWeaponManager.IsWeaponCosmetic(locationName)
+    for name, data in pairs(WeaponsUnlockCosmeticNames) do
+        if data.HadesName == locationName then
+            return true
+        end
+    end
+    return false
+end
+
+------------ 
+
 function PolycosmosWeaponManager.CheckRequestInitialWeapon()
     PolycosmosWeaponManager.ResolveQueueWeapons()
     PolycosmosWeaponManager.EquipInitialWeapon()
@@ -209,27 +220,33 @@ function PolycosmosWeaponManager.EquipInitialWeapon()
     if (initialWeapon == 0) then
         weaponString = "SwordWeapon"
         weaponCosmetic = "SwordWeaponUnlock"
+        weaponClientString = "Sword Weapon Unlock"
     elseif (initialWeapon == 1) then
         weaponString = "BowWeapon"
         weaponCosmetic = "BowWeaponUnlock"
+        weaponClientString = "Bow Weapon Unlock"
     elseif (initialWeapon == 2) then
         weaponString = "SpearWeapon"
         weaponCosmetic = "SpearWeaponUnlock"
+        weaponClientString = "Spear Weapon Unlock"
     elseif (initialWeapon == 3) then
         weaponString = "ShieldWeapon"
         weaponCosmetic = "ShieldWeaponUnlock"
+        weaponClientString = "Shield Weapon Unlock"
     elseif (initialWeapon == 4) then
         weaponString = "FistWeapon"
         weaponCosmetic = "FistWeaponUnlock"
+        weaponClientString = "Fist Weapon Unlock"
     else
         weaponString = "GunWeapon"
         weaponCosmetic = "GunWeaponUnlock"
+        weaponClientString = "Gun Weapon Unlock"
     end
 
     -- Current ownership
-	GameState.Cosmetics[weaponCosmetic] = true
+	GameState.Cosmetics[weaponClientString] = true
 	-- Record of it ever being added
-	GameState.CosmeticsAdded[weaponCosmetic] = true
+	GameState.CosmeticsAdded[weaponClientString] = true
      -- Current ownership
 	GameState.Cosmetics[weaponCosmetic.."Item"] = true
 	-- Record of it ever being added
