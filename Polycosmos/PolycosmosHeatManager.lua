@@ -114,6 +114,7 @@ end
 ---if we eventually want to do other heat settings, this is the function we should modify
 function PolycosmosHeatManager.UpdatePactsLevel()
 	PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
+    BuildMetaupgradeCache()
     GameState.SpentShrinePointsCache = GetTotalSpentShrinePoints()
     UpdateActiveShrinePoints()
 end
@@ -147,6 +148,37 @@ function PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
             CurrentRun.MetaUpgradeCache[pactName] = math.max(pactLevel, GameState.UserStoredHeat[pactName])
         end
     end
+
+    PolycosmosHeatManager.UpdateDamageModifier()
+end
+
+
+function PolycosmosHeatManager.UpdateDamageModifier()
+    if (CurrentRun == nil) then
+        return
+    end
+	
+    if (HasIncomingDamageModifier(CurrentRun.Hero, "EnemyDamageShrineUpgrade")) then
+        RemoveIncomingDamageModifier(CurrentRun.Hero, "EnemyDamageShrineUpgrade")
+    end
+
+    local damageIncrease = 1 + GetNumMetaUpgrades( "EnemyDamageShrineUpgrade" ) * ( MetaUpgradeData.EnemyDamageShrineUpgrade.ChangeValue - 1 )
+    AddIncomingDamageModifier( CurrentRun.Hero,
+	{
+		Name = "EnemyDamageShrineUpgrade",
+		NonTrapDamageTakenMultiplier = damageIncrease
+	})
+
+	if (HasIncomingDamageModifier(CurrentRun.Hero, "TrapDamageShrineUpgrade")) then
+        RemoveIncomingDamageModifier(CurrentRun.Hero, "TrapDamageShrineUpgrade")
+    end
+
+    local trapDamageIncrease = 1 + GetNumMetaUpgrades( "TrapDamageShrineUpgrade" ) * ( MetaUpgradeData.TrapDamageShrineUpgrade.ChangeValue - 1 )
+    AddIncomingDamageModifier( CurrentRun.Hero,
+	{
+		Name = "TrapDamageShrineUpgrade",
+		TrapDamageTakenMultiplier = trapDamageIncrease
+	})
 end
 
 function PolycosmosHeatManager.UpdateMaxLevelFunctionFromData()
