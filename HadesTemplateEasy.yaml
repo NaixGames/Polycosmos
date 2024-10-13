@@ -32,7 +32,7 @@ description: Default Hades Template
 
 game: Hades
 requires:
-  version: 0.4.5 # Version of Archipelago required for this yaml to work as expected.
+  version: 0.5.0 # Version of Archipelago required for this yaml to work as expected.
 
 Hades:
   progression_balancing:
@@ -103,9 +103,9 @@ Hades:
     # Chose how the game gives you items. (1) RoomBased gives items on every new room completed. (2) ScoreBased
     # gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeaponBased gives
     # items on every new room completed with a new weapon (so more locations than the original room based system)
-    roombased: 50
-    scorebased: 0
-    roomweaponbased: 0
+    room_based: 50
+    score_based: 0
+    room_weapon_based: 0
 
   score_rewards_amount:
     # When using score based system, this sets how many checks are available based on the score. 
@@ -202,9 +202,9 @@ Hades:
     # In Minimal the settings for the PactsAmounts below set your minimal heat to be set, and cannot go below that level.
     # If not wanting to have one of this heat systems on, chose Vanilla heat 
     # (then the following options related to pacts do nothing).
-    reverseheat: 50
-    minimalheat: 0
-    vanilllaheat: 0
+    reverse_heat: 50
+    minimal_heat: 0
+    vanillla_heat: 0
 
   hard_labor_pact_amount:
     # Choose the amount of Hard Labor pacts in the pool.
