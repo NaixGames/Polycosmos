@@ -66,9 +66,9 @@ function PolycosmosGhostAdminOverride.SendCacheHints()
 end
 
 function PolycosmosGhostAdminOverride.CacheCosmeticHint(cosmeticName)
-	if (PolycosmosWeaponManager.IsWeaponLocation(cosmeticName.."Location") == true) then
+	if (PolycosmosWeaponManager.IsWeaponLocation(cosmeticName.." Location") == true) then
 		if (GameState.ClientGameSettings["WeaponSanity"]==1) then
-			cosmeticItemHints = cosmeticItemHints..cosmeticName.."Location-"
+			cosmeticItemHints = cosmeticItemHints..cosmeticName.." Location-"
 		end
 	elseif (PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName) ~= nil) then
 		if (GameState.ClientGameSettings["StoreSanity"]==1 and PolycosmosCosmeticsManager.GiveCosmeticLocationData(cosmeticName) ~= nil) then
