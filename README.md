@@ -71,7 +71,7 @@ Quality of Life:
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point, your Mods folder should look like this:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
-- Copy hades.apworld into your lib/worlds folder inside your Archipelago install.
+- Copy hades.apworld into your custom_worlds folder inside your Archipelago install.
 - After doing this you should be able to generate and play multiword with Hades! (Note that generating Hades games on the website is still not supported. You need to generate locally. Ask in Discord if you need help
 for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
