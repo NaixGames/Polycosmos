@@ -67,7 +67,7 @@ function PolycosmosTrapManager.ProcessTrapItems()
     end
 
     if (HealthPunishmentRequest > GameState.TrapLedger["HealthPunishment"]) then
-        local difLedger = MoneyPunishmentRequest - GameState.TrapLedger["MoneyPunishment"]
+        local difLedger = HealthPunishmentRequest - GameState.TrapLedger["HealthPunishment"]
         local damage = CurrentRun.Hero.MaxHealth/4
         local maxNumberPunishment = math.floor(CurrentRun.Hero.MaxHealth/damage)
         local numberOfPunishments = math.min(maxNumberPunishment, difLedger)
