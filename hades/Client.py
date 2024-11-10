@@ -284,7 +284,7 @@ class HadesContext(CommonContext):
         if self.deathlink_pending:
             return
         self.deathlink_pending = True
-        subsume.Send(styx_scribe_send_prefix + "Deathlink recieved")
+        subsume.Send(styx_scribe_send_prefix + "Deathlink received")
         super().on_deathlink(data)
         asyncio.create_task(self.wait_and_lower_deathlink_flag())
 
