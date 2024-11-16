@@ -209,7 +209,7 @@ def set_store_rules(world: "HadesWorld", player: int, location_table, options):
     set_rule(world.get_location("Fountain Upgrade1 Location", player), lambda state:  \
             state.has("Fountain Tartarus Item", player))
     set_rule(world.get_location("Fountain Upgrade2 Location", player), lambda state:  \
-            state.has("Fountain Upgrade1 Item", player) or state.has("Fountain Upgrade2 Item", player))
+            state.has("Fountain Upgrade1 Item", player) and state.has("Fountain Tartarus Item", player))
     set_rule(world.get_location("Fountain Asphodel Location", player), lambda state:  \
             state.has("Fountain Tartarus Item", player) and state.has("Keepsake Collection Item", player) and  \
             state._has_defeated_boss("Meg Victory", player, options))
@@ -236,7 +236,9 @@ def set_store_rules(world: "HadesWorld", player: int, location_table, options):
     
     #Deluxe contractor desk
     set_rule(world.get_location("Deluxe Contractor Desk Location", player), lambda state:  \
-            state.has("Fountain Elysium Item", player) and state.has("Court Musician Sentence Item", player))
+            state.has("Fountain Elysium Item", player) and state.has("Court Musician Sentence Item", player) and \
+            state.has("Urns Of Wealth1 Item", player) and state.has("Keepsake Collection Item", player) and \
+            state.has("Infernal Trove1 Item", player))
     
     #Other random stuff
     set_rule(world.get_location("Vanquishers Keep Location", player), lambda state:\
