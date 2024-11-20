@@ -1,0 +1,10 @@
+{
+  Texts = [
+	"_append"
+	{
+      Id = "DevBuildWatermark"
+      DisplayName = "AP v.0.13.0 | Game v1."
+	  OverwriteLocalization = true
+    }
+  ]
+}
