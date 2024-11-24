@@ -34,6 +34,9 @@ SJSON "Game/Animations/ObstacleAnimations.sjson"
 To "Game/GUI/MainMenuScreen.sjson"
 SJSON "Game/GUI/MainMenuScreen.sjson"
 
+To "Game/Text/en/PatchNotes.en.sjson"
+SJSON "Game/Text/en/PatchNotes.en.sjson"
+
 To Win/Packages/LogoInject.pkg_manifest
 Replace "Packages/LogoInject.pkg_manifest"
 
