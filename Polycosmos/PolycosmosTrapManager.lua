@@ -8,6 +8,7 @@ local TrapDataArray=
 
 local MoneyPunishmentRequest = 0
 local HealthPunishmentRequest = 0
+local DeathPunishmentRequest = 0
 
 -------------------- Auxiliary function for checking if a item is a filler item
 function PolycosmosTrapManager.IsTrapItem(string)
@@ -23,11 +24,37 @@ function PolycosmosTrapManager.GiveTrapItem(item)
     if (item == "HealthPunishment") then
         HealthPunishmentRequest = HealthPunishmentRequest + 1
     end
+    if (item == "DeathPunishment") then
+        PolycosmosTrapManager.CreateLedger()
+        --Only allowing one deathtrap to avoid traps accumulating in short time. Also, annoying if they are too many.
+        GameState.TrapLedger["DeathPunishment"] = 1
+    end
 end
 
 function PolycosmosTrapManager.FlushTrapItems()
     MoneyPunishmentRequest = 0
     HealthPunishmentRequest = 0
+end
+
+function PolycosmosTrapManager.ProcessDeathTrap()
+    PolycosmosMessages.PrintToPlayer("Deathlink received!")
+    if HasLastStand(CurrentRun.Hero) then
+        CurrentRun.Hero.Health = 0
+        CheckLastStand(CurrentRun.Hero, { })
+        return false
+    else
+        KillHero(CurrentRun.Hero, { }, { })
+        return true
+    end
+end
+
+function  PolycosmosTrapManager.CreateLedger()
+    if (GameState.TrapLedger == nil) then
+        GameState.TrapLedger = {}
+        GameState.TrapLedger["MoneyPunishment"] = 0
+        GameState.TrapLedger["HealthPunishment"] = 0
+        GameState.TrapLedger["DeathPunishment"] = 0
+    end
 end
 
 --------------------
@@ -38,16 +65,21 @@ ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, 
 end)
 
 function PolycosmosTrapManager.ProcessTrapItems()
-    if (GameState.TrapLedger == nil) then
-        GameState.TrapLedger = {}
-        GameState.TrapLedger["MoneyPunishment"] = 0
-        GameState.TrapLedger["HealthPunishment"] = 0
-    end
+    PolycosmosTrapManager.CreateLedger()
 
     --I swear to god idk how we can get to this state which a null run but enemies, but this
     --game's architecture never cease to surprise me lol
     if (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache == 0) then
         return
+    end
+
+    if (GameState.TrapLedge["DeathPunishment"] > 0) then
+        PolycosmosEvents.RaiseDeathlinkFlag()
+        GameState.TrapLedge["DeathPunishment"] = 0
+        killedPlayer = PolycosmosTrapManager.ProcessDeathTrap()
+        if (killedPlayer) then
+            return
+        end
     end
 
     if (MoneyPunishmentRequest > GameState.TrapLedger["MoneyPunishment"]) then
