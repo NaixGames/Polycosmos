@@ -364,8 +364,8 @@ StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."De
 
 local deathlink_flag = false
 
-function PolycosmosEvents.RaiseDeathlinkFlat()
-    deathlink_flag = true
+function PolycosmosEvents.SetDeathlinkFlag(val)
+    deathlink_flag = val
 end
 
 function PolycosmosEvents.SendDeathlink()
@@ -380,8 +380,8 @@ end
 ModUtil.Path.Wrap("HandleDeath", function( baseFunc, currentRun, killer, killingUnitWeapon )
     if not deathlink_flag then
         PolycosmosEvents.SendDeathlink()
-        deathlink_flag = false
     end
+    deathlink_flag = false
 	return baseFunc(currentRun, killer, killingUnitWeapon)
 end)
 
