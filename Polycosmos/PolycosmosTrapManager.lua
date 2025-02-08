@@ -69,7 +69,9 @@ end)
 --Also procesing traps when removing timer block in case the trap was triggered during loading.
 ModUtil.Path.Wrap("RemoveTimerBlock", function( baseFunc, run, flag )
 	local res = baseFunc(run, flag)
-    PolycosmosTrapManager.ProcessTrapItems()
+    if flag == "StartRoom" then
+        PolycosmosTrapManager.ProcessTrapItems()
+    end
 	return res
 end)
 
@@ -84,7 +86,7 @@ function PolycosmosTrapManager.ProcessTrapItems()
     local isItEarly = (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 1)
     local isInTransition = CurrentRun ~= nil and CurrentRun.CurrentRoom ~= nil and CurrentRun.CurrentRoom.ExitsUnlocked ~= nil
     local isInLoad = CurrentRun ~= nil and not IsEmpty( CurrentRun.BlockTimerFlags )
-    if isItEarly or isInTransition or isInLoad then
+    if isItEarly or isInTransition or isInLoad or (not IsInputAllowed({})) then
         return
     end
 
