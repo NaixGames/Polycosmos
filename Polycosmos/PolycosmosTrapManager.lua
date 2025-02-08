@@ -59,8 +59,9 @@ end
 --------------------
 
 ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, args )
-	PolycosmosTrapManager.ProcessTrapItems()
-	return baseFunc(newEnemy, currentRun, args)
+	local res = baseFunc(newEnemy, currentRun, args)
+    PolycosmosTrapManager.ProcessTrapItems()
+	return res
 end)
 
 --------------------
