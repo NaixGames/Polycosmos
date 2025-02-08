@@ -82,7 +82,7 @@ function PolycosmosTrapManager.ProcessTrapItems()
     --game's architecture never cease to surprise me lol. Anyway, puttin ga couple of early exists for safety
 
     local isItEarly = (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 1)
-    local isInTransition = CurrentRun.CurrentRoom == nil and CurrentRun.CurrentRoom.ExitsUnlocked ~= nil
+    local isInTransition = CurrentRun ~= nil and CurrentRun.CurrentRoom ~= nil and CurrentRun.CurrentRoom.ExitsUnlocked ~= nil
     local isInLoad = CurrentRun ~= nil and not IsEmpty( CurrentRun.BlockTimerFlags )
     if isItEarly or isInTransition or isInLoad then
         return
