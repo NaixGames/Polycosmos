@@ -129,12 +129,11 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
 
     if (not GameState.ClientDataIsLoaded) then
         table.insert(cachedWeapons, name)
-        return
+        return baseFunc(name, status)
     end
     
     if GameState.ClientGameSettings["WeaponSanity"] == 0 then
-        AddCosmetic(WeaponsUnlockCosmeticNames[name].ClientNameItem)
-        return baseFunc(name, status)
+        return PolycosmosWeaponManager.UnlockWeapon(WeaponsUnlockCosmeticNames[name].ClientNameItem) 
     end
 
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..name.." Location")
