@@ -42,7 +42,7 @@ function PolycosmosTrapManager.ProcessDeathTrap()
         CheckLastStand(CurrentRun.Hero, { })
         return false
     else
-        KillHero(CurrentRun.Hero, { }, { })
+        Kill(CurrentRun.Hero, { }, { })
         return true
     end
 end
