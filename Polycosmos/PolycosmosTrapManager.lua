@@ -73,9 +73,9 @@ function PolycosmosTrapManager.ProcessTrapItems()
         return
     end
 
-    if (GameState.TrapLedge["DeathPunishment"] > 0) then
+    if (GameState.TrapLedger["DeathPunishment"] > 0) then
         PolycosmosEvents.SetDeathlinkFlag(true)
-        GameState.TrapLedge["DeathPunishment"] = 0
+        GameState.TrapLedger["DeathPunishment"] = 0
         killedPlayer = PolycosmosTrapManager.ProcessDeathTrap()
         if (killedPlayer) then
             return
