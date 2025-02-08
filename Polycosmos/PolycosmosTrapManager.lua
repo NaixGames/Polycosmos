@@ -8,7 +8,6 @@ local TrapDataArray=
 
 local MoneyPunishmentRequest = 0
 local HealthPunishmentRequest = 0
-local DeathPunishmentRequest = 0
 
 -------------------- Auxiliary function for checking if a item is a filler item
 function PolycosmosTrapManager.IsTrapItem(string)
@@ -38,7 +37,6 @@ end
 
 function PolycosmosTrapManager.ProcessDeathTrap()
     PolycosmosMessages.PrintToPlayer("Deathlink received!")
-    wait( 3 )
     if HasLastStand(CurrentRun.Hero) then
         CurrentRun.Hero.Health = 0
         CheckLastStand(CurrentRun.Hero, { })
@@ -65,12 +63,28 @@ ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, 
 	return baseFunc(newEnemy, currentRun, args)
 end)
 
+--------------------
+
+
+--Also procesing traps when removing timer block in case the trap was triggered during loading.
+ModUtil.Path.Wrap("RemoveTimerBlock", function( baseFunc, run, flag )
+	local res = baseFunc(run, flag)
+    PolycosmosTrapManager.ProcessTrapItems()
+	return res
+end)
+
+--------------------
+
 function PolycosmosTrapManager.ProcessTrapItems()
     PolycosmosTrapManager.CreateLedger()
 
     --I swear to god idk how we can get to this state which a null run but enemies, but this
-    --game's architecture never cease to surprise me lol
-    if (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 2) then
+    --game's architecture never cease to surprise me lol. Anyway, puttin ga couple of early exists for safety
+
+    local isItEarly = (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 1)
+    local isInTransition = CurrentRun.CurrentRoom == nil and CurrentRun.CurrentRoom.ExitsUnlocked ~= nil
+    local isInLoad = CurrentRun ~= nil and not IsEmpty( CurrentRun.BlockTimerFlags )
+    if isItEarly or isInTransition or isInLoad then
         return
     end
 
