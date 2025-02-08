@@ -38,6 +38,7 @@ end
 
 function PolycosmosTrapManager.ProcessDeathTrap()
     PolycosmosMessages.PrintToPlayer("Deathlink received!")
+    wait( 3 )
     if HasLastStand(CurrentRun.Hero) then
         CurrentRun.Hero.Health = 0
         CheckLastStand(CurrentRun.Hero, { })
@@ -69,7 +70,7 @@ function PolycosmosTrapManager.ProcessTrapItems()
 
     --I swear to god idk how we can get to this state which a null run but enemies, but this
     --game's architecture never cease to surprise me lol
-    if (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache == 0) then
+    if (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 2) then
         return
     end
 
