@@ -133,12 +133,27 @@ ModUtil.Path.Wrap("AddCosmetic", function (baseFunc, name, status)
     end
     
     if GameState.ClientGameSettings["WeaponSanity"] == 0 then
-        return PolycosmosWeaponManager.UnlockWeapon(WeaponsUnlockCosmeticNames[name].ClientNameItem) 
+        PolycosmosWeaponManager.GiveWeaponInLocation(name)
+        return baseFunc(name, status)
     end
 
     StyxScribe.Send(styx_scribe_send_prefix.."Locations updated:"..name.." Location")
     return baseFunc(name, status)
 end)
+
+------------ 
+
+function PolycosmosWeaponManager.GiveWeaponInLocation(cosmeticLocation)
+    weaponName = ""
+    for name, data in pairs(WeaponsUnlockCosmeticNames) do
+        if data.HadesName == cosmeticLocation then
+            weaponName = name
+            break
+        end
+    end
+
+    AddCosmetic(weaponName.."Item",true)
+end
 
 ------------ 
 
