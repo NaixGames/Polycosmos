@@ -349,19 +349,24 @@ end)
 ------------ On deathlink, kill Zag
 
 function PolycosmosEvents.KillPlayer( message )
-    PolycosmosMessages.PrintToPlayer("Deathlink received!")
-    wait( 2 )
-    if HasLastStand(CurrentRun.Hero) then
-        CurrentRun.Hero.Health = 0
-        CheckLastStand(CurrentRun.Hero, { })
-    else
-        KillHero(CurrentRun.Hero, { }, { })
+    if (CurrentRun == nil or CurrentRun.Hero == nil) then
+        PolycosmosMessages.PrintToPlayer("Deathlink avoided ... for now.")
+        return
     end
+    PolycosmosMessages.PrintToPlayer("Death is looming ... ")
+    wait( 1 )
+    PolycosmosTrapManager.GiveTrapItem("DeathPunishment")
 end
 
 StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."Deathlink received", PolycosmosEvents )
 
 ------------ On death, send deathlink to players
+
+local deathlink_flag = false
+
+function PolycosmosEvents.SetDeathlinkFlag(val)
+    deathlink_flag = val
+end
 
 function PolycosmosEvents.SendDeathlink()
     if (is_greece_death == true) then
@@ -373,7 +378,10 @@ end
 
 
 ModUtil.Path.Wrap("HandleDeath", function( baseFunc, currentRun, killer, killingUnitWeapon )
-	PolycosmosEvents.SendDeathlink()
+    if not deathlink_flag then
+        PolycosmosEvents.SendDeathlink()
+    end
+    deathlink_flag = false
 	return baseFunc(currentRun, killer, killingUnitWeapon)
 end)
 
