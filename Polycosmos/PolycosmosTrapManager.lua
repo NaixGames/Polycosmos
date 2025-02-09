@@ -64,6 +64,11 @@ function  PolycosmosTrapManager.CreateLedger()
         GameState.TrapLedger["HealthPunishment"] = 0
         GameState.TrapLedger["DeathPunishment"] = 0
     end
+    --This is to mantain compatibility from 0.13.0 to newer version. Can erase in 0.14.0.
+    if (GameState.TrapLedger["DeathPunishment"] == nil) then
+        GameState.TrapLedger["DeathPunishment"] = 0
+    end
+
 end
 
 --------------------
