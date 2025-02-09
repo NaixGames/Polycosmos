@@ -58,21 +58,19 @@ end
 
 --------------------
 
-ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, args )
-	local res = baseFunc(newEnemy, currentRun, args)
-    PolycosmosTrapManager.ProcessTrapItems()
-	return res
-end)
+--ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, args )
+--	local res = baseFunc(newEnemy, currentRun, args)
+--    PolycosmosTrapManager.ProcessTrapItems()
+--	return res
+--end)
 
 --------------------
 
 
 --Also procesing traps when removing timer block in case the trap was triggered during loading.
-ModUtil.Path.Wrap("RemoveTimerBlock", function( baseFunc, run, flag )
-	local res = baseFunc(run, flag)
-    if flag == "StartRoom" then
-        PolycosmosTrapManager.ProcessTrapItems()
-    end
+ModUtil.Path.Wrap("StartRoom", function( baseFunc, currentRun, currentRoom )
+	local res = baseFunc(currentRun, currentRoom)
+    PolycosmosTrapManager.ProcessTrapItems()
 	return res
 end)
 
