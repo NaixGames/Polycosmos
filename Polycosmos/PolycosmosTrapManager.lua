@@ -25,8 +25,18 @@ function PolycosmosTrapManager.GiveTrapItem(item)
     end
     if (item == "DeathPunishment") then
         PolycosmosTrapManager.CreateLedger()
+        
+        --Activate if we can. If not, queue it as a trap
+        if PolycosmosTrapManager.ShouldAvoidTriggerTraps() then
+            GameState.TrapLedger["DeathPunishment"] = 1
+        else
+            PolycosmosEvents.SetDeathlinkFlag(true)
+            GameState.TrapLedger["DeathPunishment"] = 0
+            PolycosmosTrapManager.ProcessDeathTrap()
+            PolycosmosEvents.SetDeathlinkFlag(false)
+        end
         --Only allowing one deathtrap to avoid traps accumulating in short time. Also, annoying if they are too many.
-        GameState.TrapLedger["DeathPunishment"] = 1
+
     end
 end
 
@@ -58,16 +68,9 @@ end
 
 --------------------
 
---ModUtil.Path.Wrap("SetupEnemyObject", function( baseFunc, newEnemy, currentRun, args )
---	local res = baseFunc(newEnemy, currentRun, args)
---    PolycosmosTrapManager.ProcessTrapItems()
---	return res
---end)
-
---------------------
-
-
---Also procesing traps when removing timer block in case the trap was triggered during loading.
+--Also procesing traps when room has finished setup. This seems to avoid corrupted save states.
+--I would LOVE to have more control over this, but I literally cannot get it to work without annoying
+-- issues :/
 ModUtil.Path.Wrap("StartRoom", function( baseFunc, currentRun, currentRoom )
 	local res = baseFunc(currentRun, currentRoom)
     PolycosmosTrapManager.ProcessTrapItems()
@@ -76,16 +79,20 @@ end)
 
 --------------------
 
+function PolycosmosTrapManager.ShouldAvoidTriggerTraps()
+    local isItEarly = (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 1)
+    local isInTransition = CurrentRun ~= nil and CurrentRun.CurrentRoom ~= nil and CurrentRun.CurrentRoom.ExitsUnlocked ~= nil
+    local isInLoad = CurrentRun ~= nil and not IsEmpty( CurrentRun.BlockTimerFlags )
+    return isItEarly or isInTransition or isInLoad or (not IsInputAllowed({}))
+end
+
 function PolycosmosTrapManager.ProcessTrapItems()
     PolycosmosTrapManager.CreateLedger()
 
     --I swear to god idk how we can get to this state which a null run but enemies, but this
     --game's architecture never cease to surprise me lol. Anyway, puttin ga couple of early exists for safety
 
-    local isItEarly = (CurrentRun == nil) or (CurrentRun.RunDepthCache == nil) or (CurrentRun.RunDepthCache < 1)
-    local isInTransition = CurrentRun ~= nil and CurrentRun.CurrentRoom ~= nil and CurrentRun.CurrentRoom.ExitsUnlocked ~= nil
-    local isInLoad = CurrentRun ~= nil and not IsEmpty( CurrentRun.BlockTimerFlags )
-    if isItEarly or isInTransition or isInLoad or (not IsInputAllowed({})) then
+    if PolycosmosTrapManager.ShouldAvoidTriggerTraps() then
         return
     end
 
@@ -93,10 +100,10 @@ function PolycosmosTrapManager.ProcessTrapItems()
         PolycosmosEvents.SetDeathlinkFlag(true)
         GameState.TrapLedger["DeathPunishment"] = 0
         killedPlayer = PolycosmosTrapManager.ProcessDeathTrap()
+        PolycosmosEvents.SetDeathlinkFlag(false)
         if (killedPlayer) then
             return
         end
-        PolycosmosEvents.SetDeathlinkFlag(false)
     end
 
     if (MoneyPunishmentRequest > GameState.TrapLedger["MoneyPunishment"]) then
