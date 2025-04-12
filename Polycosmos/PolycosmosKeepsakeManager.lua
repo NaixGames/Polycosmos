@@ -169,8 +169,6 @@ function PolycosmosKeepsakeManager.GiveKeepsakeItem(item)
     if (CurrentRun ~= nil) then
         SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
         ValidateCheckpoint({ Valid = true })
-
-        Save()
     end
 
     Save()
