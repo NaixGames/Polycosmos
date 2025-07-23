@@ -410,13 +410,13 @@ def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, option
                 late_styx_region = world.get_region("Styx Late " + weaponString, player)
                 for location in late_styx_region.locations:
                         add_item_rule(location,
-                                lambda item: not item.advancement or item_is_plando(world, item, player))
+                                lambda item: not item.advancement or item_is_plando(item, options))
     else:
         late_styx_region = world.get_region("Styx Late", player)
         for location in late_styx_region.locations:
                 add_item_rule(location,
-                        lambda item: not item.advancement or item_is_plando(world, item, player))
+                        lambda item: not item.advancement or item_is_plando(item, options))
                 
 
-def item_is_plando(world: "HadesWorld", item: Item, player: int) -> bool:
-    return item in world.plando_items[player]
+def item_is_plando(item: Item, options) -> bool:
+    return item in options.plando_items
