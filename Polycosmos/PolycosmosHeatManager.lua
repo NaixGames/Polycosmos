@@ -244,11 +244,11 @@ end
 function PolycosmosHeatManager.PactDataTableTestPrint()
     print("Starting Pact Data table print")
     for pactKey, pactData in pairs(PactDataTable) do
-         print("This is the pact "..pactKey)
-         print("The maximum level is "..pactData.MaxLevel)
-         print("This is the obtaiend item count "..pactData.ObtainedPactItems)
-         print("This is the actual level "..GameState.MetaUpgrades[pactData.Name])
-         print("")
+        print("This is the pact "..pactKey)
+        print("The maximum level is "..pactData.MaxLevel)
+        print("This is the obtaiend item count "..pactData.ObtainedPactItems)
+        print("This is the actual level "..GameState.MetaUpgrades[pactData.Name])
+        print("")
     end
     print("Print ended")
 end
