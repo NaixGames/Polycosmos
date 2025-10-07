@@ -64,8 +64,16 @@ Quality of Life:
 - Codex will tell you if you have used a weapon to beat Hades or not.
 - Can choose to automatically collect all locations from a weapon once Hades is defeated.
 
-# Requirements
-- Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
+# Requirements and instalation #
+
+Requirement: This mod is intended for Windows, while there is support for Linux. This mod also needs the Steam or EGS version of Hades. Before proceeding, make sure Hades is installed.
+There is two instalation methods:
+1.- Use the Polycosmos mod installer: https://github.com/NaixGames/PolycosmosInstaller
+
+However, in case that fails, you can do the instalation manually.
+
+2.- Manual instalation:
+- Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
 - Have [ModUtils v 2.10.1](https://github.com/SGG-Modding/ModUtil/releases/tag/2.10.1) installed. For this download this version from the Github link, unzip that folder on Hades/Content/Mods. Note you might need to create the Mods folder.
 - Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL), without the REPL part. For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point, your Mods folder should look like this:
