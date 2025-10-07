@@ -50,6 +50,7 @@ Victory conditions tweaks:
 - Minimum number of fated lists completed before finishing a run counts as a victory.
 
 Traps:
+
 -Add some traps into the item pool to keep you on your toes.
   
 Quality of Life:
