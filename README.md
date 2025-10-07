@@ -66,8 +66,8 @@ Quality of Life:
 
 # Requirements and instalation #
 
-Requirement: This mod is intended for Windows, while there is support for Linux. This mod also needs the Steam or EGS version of Hades. Before proceeding, make sure Hades is installed.
-There is two instalation methods:
+Requirement: This mod is intended for Windows, with partial support for Linux. This mod needs the Steam or EGS version of Hades. Before proceeding, make sure Hades is installed.
+There are two instalation methods:
 1.- Use the Polycosmos mod installer: https://github.com/NaixGames/PolycosmosInstaller
 
 However, in case that fails, you can do the instalation manually.
@@ -84,6 +84,8 @@ However, in case that fails, you can do the instalation manually.
 for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
 NOTE: up to the time of writing this mod does not guarantee any type of compatibility with other Hades mods. You have been warned!
+
+In case of support, please proceed to the [Archipelago discord in the Hades thread](https://discord.com/channels/731205301247803413/1367914798519550024).
 
 # How to use Polycosmos
 
