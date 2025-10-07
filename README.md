@@ -50,8 +50,7 @@ Victory conditions tweaks:
 - Minimum number of fated lists completed before finishing a run counts as a victory.
 
 Traps:
-
--Add some traps into the item pool to keep you on your toes.
+- Add some traps into the item pool to keep you on your toes.
   
 Quality of Life:
 - Contractor has some extra upgrades available to buy from the start. Fated list is available from the start. The lounge is available from the start. Brooker is available from the start. Demeter can appear from the second run.
@@ -69,6 +68,7 @@ Quality of Life:
 
 Requirement: This mod is intended for Windows, with partial support for Linux. This mod needs the Steam or EGS version of Hades. Before proceeding, make sure Hades is installed.
 There are two instalation methods:
+
 1.- Use the Polycosmos mod installer: https://github.com/NaixGames/PolycosmosInstaller
 
 However, in case that fails, you can do the instalation manually.
