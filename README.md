@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.12.0 and up to this version it possesses the feature detailed below:
+0.13.2 and up to this version it possesses the feature detailed below:
 
 Modes for heat:
 - Reverse Heat: Start the game with high pacts of punishments. Pact of punishment reductions are items in the item pool.
@@ -50,7 +50,7 @@ Victory conditions tweaks:
 - Minimum number of fated lists completed before finishing a run counts as a victory.
 
 Traps:
--Add some traps into the item pool to keep you on your toes.
+- Add some traps into the item pool to keep you on your toes.
   
 Quality of Life:
 - Contractor has some extra upgrades available to buy from the start. Fated list is available from the start. The lounge is available from the start. Brooker is available from the start. Demeter can appear from the second run.
@@ -64,10 +64,19 @@ Quality of Life:
 - Codex will tell you if you have used a weapon to beat Hades or not.
 - Can choose to automatically collect all locations from a weapon once Hades is defeated.
 
-# Requirements
-- Have Hades installed (duh!). Download what version you need of [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
+# Requirements and instalation #
+
+Requirement: This mod is intended for Windows, with partial support for Linux. This mod needs the Steam or EGS version of Hades. Before proceeding, make sure Hades is installed.
+There are two instalation methods:
+
+1.- Use the Polycosmos mod installer: https://github.com/NaixGames/PolycosmosInstaller
+
+However, in case that fails, you can do the instalation manually.
+
+2.- Manual instalation:
+- Download [ModImporter](https://github.com/SGG-Modding/ModImporter/releases/tag/1.5.2) and put modimporter.exe in your Hades/Content folder.
 - Have [ModUtils v 2.10.1](https://github.com/SGG-Modding/ModUtil/releases/tag/2.10.1) installed. For this download this version from the Github link, unzip that folder on Hades/Content/Mods. Note you might need to create the Mods folder.
-- Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL), without the REPL part. For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
+- Have [StyxScribe without the REPL](https://github.com/NaixGames/StyxScribeWithoutREPL). For this download the mod from the link and put StyxScribe.py and SubsumeHades.py in your Hades folder, put the folders StyxScribe and StyxScribeShared in Hades/Content/Mods folder. Run modimporter.exe. If you have Python installed you can check everything is working fine here by executing SubsumeHades.py in Hades folder. That should open Hades.
 - Now you can use the modimporter.exe to install the Polycosmos mod folder in this repository. That is, put the Polycosmos folder in Hades/Content/Mods folder and open modimporter.exe. At this point, your Mods folder should look like this:
 
 ![](https://github.com/NaixGames/Polycosmos/blob/main/FolderStructure.png?raw=true)
@@ -76,6 +85,8 @@ Quality of Life:
 for this step. To start you can use the Template.yaml, which also includes some explanation of the settings.)
 
 NOTE: up to the time of writing this mod does not guarantee any type of compatibility with other Hades mods. You have been warned!
+
+In case of support, please proceed to the [Archipelago discord in the Hades thread](https://discord.com/channels/731205301247803413/1367914798519550024).
 
 # How to use Polycosmos
 
