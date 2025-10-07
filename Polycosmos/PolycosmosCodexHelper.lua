@@ -6,8 +6,7 @@ ModUtil.Mod.Register( "PolycosmosCodexHelper" )
 
 ModUtil.Path.Wrap("CodexOpenEntry", function (baseFunc, screen, button)
 	if not GameState.ClientDataIsLoaded then:
-		baseFunc(screen, button)
-
+		return baseFunc(screen, button)
 
     if GameState.ClientGameSettings["KeepsakeSanity"] == 0 then
         return baseFunc(screen, button)
