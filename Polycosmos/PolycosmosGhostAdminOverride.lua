@@ -22,6 +22,9 @@ end
 -------------------------------------------------------
 
 function PolycosmosGhostAdminOverride.GiveItemTitle(displayName)
+	if not GameState.ClientDataIsLoaded then:
+		return "Polycosmos data not loaded. Connect to server before opening this menu."
+		
 	if (PolycosmosWeaponManager.IsWeaponLocation(displayName.." Location") == true) then
 		if (GameState.ClientGameSettings["WeaponSanity"]==0) then
 			return displayName
