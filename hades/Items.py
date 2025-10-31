@@ -394,5 +394,5 @@ class HadesItem(Item):
             item_data.code, player
         )
 
-    def is_progression(self):
+    def is_progression(self) -> bool:
         return self.classification == ItemClassification.progression

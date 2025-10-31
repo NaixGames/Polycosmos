@@ -71,7 +71,7 @@ class HadesWorld(World):
     item_name_groups = item_name_groups
     location_name_groups = location_name_groups
 
-    def create_items(self):
+    def create_items(self) -> None:
         local_location_table = setup_location_table_with_settings(self.options).copy()
         
         pool = []
@@ -178,7 +178,7 @@ class HadesWorld(World):
             
         self.multiworld.itempool += pool
 
-    def should_ignore_weapon(self, name):
+    def should_ignore_weapon(self, name : str) -> bool:
         if self.options.initial_weapon.value == 0 and name == "Sword Weapon Unlock Item":
             return True
         if self.options.initial_weapon.value == 1 and name == "Bow Weapon Unlock Item":
@@ -193,12 +193,12 @@ class HadesWorld(World):
             return True
         return False
 
-    def set_rules(self):
+    def set_rules(self) -> None:
         local_location_table = setup_location_table_with_settings(self.options).copy()
         set_rules(self.multiworld, self.player, self.calculate_number_of_pact_items(
         ), local_location_table, self.options)
 
-    def calculate_number_of_pact_items(self):
+    def calculate_number_of_pact_items(self) -> int:
         # Go thorugh every option and count what is the chosen level
         total = int(self.options.hard_labor_pact_amount)
         total += int(self.options.lasting_consequences_pact_amount)
@@ -221,7 +221,7 @@ class HadesWorld(World):
     def create_item(self, name: str) -> Item:
         return HadesItem(name, self.player)
 
-    def create_regions(self):
+    def create_regions(self) -> None:
         local_location_table = setup_location_table_with_settings(self.options).copy()
         create_regions(self, local_location_table)
 
@@ -251,7 +251,7 @@ class HadesWorld(World):
         return "Darkness"
 
 
-def create_region(multiworld: MultiWorld, player: int, location_database, name: str, locations=None, exits=None):
+def create_region(multiworld: MultiWorld, player: int, location_database, name: str, locations=None, exits=None) -> Region:
     ret = Region(name, player, multiworld)
     if locations:
         for location in locations:

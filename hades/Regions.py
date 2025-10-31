@@ -1,4 +1,4 @@
-def create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_database):
+def create_main_weapon_regions(ctx, weaponSubfix : str, subfixCounter : int, location_database : dict) -> None:
     from . import create_region
     
     hades_base_location_id = 5093427000
@@ -62,7 +62,7 @@ def create_main_weapon_regions(ctx, weaponSubfix, subfixCounter, location_databa
     styx_late = {}
 
 
-def create_regions(ctx, location_database):
+def create_regions(ctx, location_database : dict) -> None:
     from . import create_region
     from .Locations import location_table_tartarus, location_table_asphodel, location_table_elysium, \
         location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, \

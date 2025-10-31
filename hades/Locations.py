@@ -189,7 +189,7 @@ location_weapons_subfixes = [
 # ---------------------
 
 
-def give_all_locations_table():
+def give_all_locations_table() -> dict:
     table_rooms = give_default_location_table()
     table_score = give_score_location_table(1000)
     table_weaponlocation = give_weapon_based_locations()    
@@ -207,7 +207,7 @@ def give_all_locations_table():
     }
 
 
-def clear_tables():
+def clear_tables() -> None:
     global location_table_tartarus 
     location_table_tartarus = {
         "Beat Meg": None,
@@ -236,7 +236,7 @@ def clear_tables():
 # Change parameters so they include the settings of the player
 # Chose between old and new system. And for the new system we want to be able
 # to choose how many "locations" we have.
-def setup_location_table_with_settings(options):
+def setup_location_table_with_settings(options) -> None:
     clear_tables()
     total_table = {}
  
@@ -271,7 +271,7 @@ def setup_location_table_with_settings(options):
 # -----------------------------------------------
 
 
-def should_ignore_weapon_location(weaponLocation, options):
+def should_ignore_weapon_location(weaponLocation : str, options) -> None:
     if options.initial_weapon.value == 0 and weaponLocation == "Sword Weapon Unlock Location":
         return True
     if options.initial_weapon.value == 1 and weaponLocation == "Bow Weapon Unlock Location":
@@ -289,7 +289,7 @@ def should_ignore_weapon_location(weaponLocation, options):
 
 # -----------------------------------------------
 
-def give_default_location_table():
+def give_default_location_table() -> dict:
     #Repopulate tartarus table; rooms from 1 to 13.
     global location_table_tartarus
     for i in range(13):
@@ -327,7 +327,7 @@ def give_default_location_table():
     return location_table
 
 
-def give_score_location_table(locations):
+def give_score_location_table(locations : int) -> dict:
     fraction_location = int(locations/8)
     locations_first_region = locations - 7 * fraction_location
 
@@ -378,7 +378,7 @@ def give_score_location_table(locations):
     return location_table
     
 
-def give_weapon_based_locations():
+def give_weapon_based_locations() -> dict:
     subfixCounter = 0
     weapon_locations = {}
     

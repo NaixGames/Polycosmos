@@ -64,7 +64,7 @@ class HadesLogic(LogicMixin):
             amount_fates += self.count(fates_names, player)
         return amount_fates >= amount
     
-    def _has_weapon(self, weaponSubfix, player: int, option) -> bool:
+    def _has_weapon(self, weaponSubfix : str, player: int, option) -> bool:
         if not option.weaponsanity:
             return True
         if weaponSubfix == "Sword Weapon":
@@ -92,7 +92,7 @@ class HadesLogic(LogicMixin):
         can_win = (can_win) and (self._has_enough_fates_done(player, fates, options))
         return can_win
     
-    def _has_defeated_boss(self, bossVictory, player: int, options) -> bool:
+    def _has_defeated_boss(self, bossVictory : str, player: int, options) -> bool:
         if options.location_system == "room_weapon_based":
             counter = 0
             counter += self.count(bossVictory + " Sword Weapon", player)
@@ -121,7 +121,7 @@ class HadesLogic(LogicMixin):
 # -----------
 
 
-def set_rules(world: "HadesWorld", player: int, number_items: int, location_table, options):
+def set_rules(world: "HadesWorld", player: int, number_items: int, location_table: dict, options) -> None:
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
     total_routine_inspection = int(options.routine_inspection_pact_amount.value)
 
@@ -183,7 +183,7 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
                 state.has("Court Musician Sentence Item",player))
         
 
-def set_keepsake_balance(world: "HadesWorld", player: int, location_table, options):
+def set_keepsake_balance(world: "HadesWorld", player: int, location_table : dict, options) -> None:
     set_rule(world.get_location("Zeus Keepsake", player), lambda state:   \
             state.has("Zeus Keepsake", player))
     set_rule(world.get_location("Poseidon Keepsake", player), lambda state:   \
@@ -204,7 +204,7 @@ def set_keepsake_balance(world: "HadesWorld", player: int, location_table, optio
             state._has_defeated_boss("Meg Victory", player, options))
 
 
-def set_store_rules(world: "HadesWorld", player: int, location_table, options):
+def set_store_rules(world: "HadesWorld", player: int, location_table : dict, options) -> None:
     #Fountains
     set_rule(world.get_location("Fountain Upgrade1 Location", player), lambda state:  \
             state.has("Fountain Tartarus Item", player))
@@ -268,7 +268,7 @@ def set_store_rules(world: "HadesWorld", player: int, location_table, options):
             state.has("Deluxe Contractor Desk Item", player))
     
 
-def set_fates_rules(world: "HadesWorld", player: int, location_table, options, subfix: str):
+def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, options, subfix: str) -> None:
     #Rules that dont depend on other settings
     set_rule(world.get_location("Is There No Escape?" + subfix, player), lambda state: \
             state._has_defeated_boss("Hades Victory", player, options))
@@ -381,7 +381,8 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table, options, s
         
 
 def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int, 
-                            location_table, options, weaponSubfix: str, total_routine_inspection: int):
+                            location_table : list, options, weaponSubfix: str, 
+                            total_routine_inspection: int) -> None:
     set_rule(world.get_entrance("Zags room " + weaponSubfix, player), lambda state: \
             state._has_weapon(weaponSubfix, player, options))
     set_rule(world.get_entrance("Exit Tartarus " + weaponSubfix, player), lambda state: \
@@ -404,7 +405,7 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
             state._has_enough_weapons(player, options, 6))
     
 
-def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, options):
+def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, options) -> None:
     if options.location_system == "room_weapon_based":
         for weaponString in location_weapons_subfixes:
                 late_styx_region = world.get_region("Styx Late " + weaponString, player)
