@@ -143,7 +143,7 @@ class HeatSystem(Choice):
     display_name = "Heat System"
     option_reverse_heat = 1
     option_minimal_heat = 2
-    option_vanillla_heat = 3
+    option_vanilla_heat = 3
     default = 1
 
 
