@@ -1,7 +1,7 @@
 from BaseClasses import Location
 
 
-hades_base_location_id = 5093427000
+hades_base_location_id = 0
 
 # This is basically location + score checks. Keeping this as a variable to have easier time keeping
 max_number_room_checks = 1700 + hades_base_location_id

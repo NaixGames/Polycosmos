@@ -10,7 +10,7 @@ class ItemData(NamedTuple):
     trap: bool = False
 
 
-hades_base_item_id = 666100
+hades_base_item_id = 0
 
 item_table_pacts: Dict[str, ItemData] = {  
     "Hard Labor Pact Level": ItemData(hades_base_item_id, True),
