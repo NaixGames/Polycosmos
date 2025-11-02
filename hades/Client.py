@@ -152,7 +152,7 @@ class HadesContext(CommonContext):
         subsume.Send(styx_scribe_send_prefix + "Items Updated:" + payload_message)
 
     async def send_location_check_to_server(self, message : str) -> None:
-        await self.check_locations([self.location_names.lookup_in_slot[[message]])
+        await self.check_locations(self.location_names.lookup_in_slot[message])
 
     async def check_connection_and_send_items_and_request_starting_info(self, message : str) -> None:
         if self.check_for_connection():

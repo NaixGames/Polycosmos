@@ -61,9 +61,9 @@ class HadesWorld(World):
     topology_present = False
     settings: typing.ClassVar[HadesSettings]
     web = HadesWeb()
-    required_client_version = (0, 6, 2)
+    required_client_version = (0, 6, 3)
 
-    polycosmos_version = "0.13"
+    polycosmos_version = "0.14"
 
     item_name_to_id = {name: data.code for name, data in item_table.items()}
     location_name_to_id = give_all_locations_table()
