@@ -36,7 +36,7 @@ class HadesContext(CommonContext):
     command_processor = HadesClientCommandProcessor
     game = "Hades"
     items_handling = 0b111  # full remote
-    polycosmos_version = "0.13"
+    polycosmos_version = "0.14"
     
     is_connected : bool
     deathlink_pending : bool
@@ -153,7 +153,7 @@ class HadesContext(CommonContext):
         subsume.Send(styx_scribe_send_prefix + "Items Updated:" + payload_message)
 
     async def send_location_check_to_server(self, message : str) -> None:
-        await self.check_locations(self.location_names.lookup_in_slot[message])
+        await self.check_locations([self.location_names.lookup_in_slot[message]])
 
     async def check_connection_and_send_items_and_request_starting_info(self, message : str) -> None:
         if self.check_for_connection():
@@ -214,6 +214,7 @@ class HadesContext(CommonContext):
         return hades_settings_string
 
     def request_location_to_item_dictionary(self) -> None:
+        self.creating_location_to_item_mapping = True
         request = self.server_locations
         Utils.async_start(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 0}]))
 
