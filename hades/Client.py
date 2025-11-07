@@ -5,6 +5,7 @@ import threading
 import importlib.util
 import Utils
 import pathlib
+from typing import Dict, NamedTuple, Optional
 
 from NetUtils import ClientStatus
 from CommonClient import gui_enabled, logger, get_base_parser, ClientCommandProcessor, \
@@ -43,7 +44,7 @@ class HadesContext(CommonContext):
     creating_location_to_item_mapping : bool
     is_receiving_items_from_connect_package : bool    
 
-    def __init__(self, server_address: typing.Optional[str] = None, password: typing.Optional[str] = None):
+    def __init__(self, server_address: Optional[str] = None, password: Optional[str] = None):
         super(HadesContext, self).__init__(server_address, password)
         self.hades_slot_data = None
         
