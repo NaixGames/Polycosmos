@@ -5,8 +5,9 @@ ModUtil.Mod.Register( "PolycosmosCodexHelper" )
 -- What follows is to make codex tell you if a particular npc still needs their nectar for a check or not.
 
 ModUtil.Path.Wrap("CodexOpenEntry", function (baseFunc, screen, button)
-	if not GameState.ClientDataIsLoaded then:
+	if not GameState.ClientDataIsLoaded then
 		return baseFunc(screen, button)
+	end
 
     if GameState.ClientGameSettings["KeepsakeSanity"] == 0 then
         return baseFunc(screen, button)
