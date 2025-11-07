@@ -72,20 +72,20 @@ function PolycosmosUtils.ParseStringToArrayWithLenghts( message )
     end
 
 
-    j = 1
-    while true do 
+    local j = 1
+    while j <= message:len() do 
         --First get the length of next message
-        sepindex = 0
-        for i=j, #message do
-            local ichar = string.sub(message, i,i)
+        local sepindex = 1
+        for i=j, message:len() do
+            local ichar = message:sub(i,i)
             if ichar == "|" then
                 sepindex = i
                 break
             end
         end
 
-        local lenmessage = tonumber(string.sub(message, j,sepindex-1))
-        local word = string.sub(message, sepindex, sepindex + lenmessage - 1)
+        local lenmessage = tonumber(message:sub(j,sepindex-1))
+        local word = message:sub(sepindex, sepindex + lenmessage - 1)
         table.insert(resultTable, word)
 
         j = math.max(1, sepindex + lenmessage)
