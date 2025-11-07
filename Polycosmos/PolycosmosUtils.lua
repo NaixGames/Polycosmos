@@ -64,6 +64,41 @@ function PolycosmosUtils.ParseStringToArrayWithDash( message )
     return resultTable
 end
 
+
+function PolycosmosUtils.ParseStringToArrayWithLenghts( message )
+    local resultTable = {}
+    if (message == nil or message == "") then
+        return resultTable
+    end
+
+
+    j = 1
+    while true do 
+        --First get the length of next message
+        sepindex = 0
+        for i=j, #message do
+            local ichar = string.sub(message, i,i)
+            if ichar == "|" then
+                sepindex = i
+                break
+            end
+        end
+
+        local lenmessage = tonumber(string.sub(message, j,sepindex-1))
+        local word = string.sub(message, sepindex, sepindex + lenmessage - 1)
+        table.insert(resultTable, word)
+
+        j = math.max(1, sepindex + lenmessage)
+
+    end
+
+
+    return resultTable
+
+
+end
+
+
 function PolycosmosUtils.PrintTableDebug( table )
     for key, data in pairs(table) do
         print(key .. " - " .. data)

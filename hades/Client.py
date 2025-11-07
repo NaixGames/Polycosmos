@@ -221,13 +221,20 @@ class HadesContext(CommonContext):
     def create_location_to_item_dictionary(self, itemsdict : Optional[dict]) -> None:
         locationItemMapping = ""
         for networkitem in itemsdict:
-            locationItemMapping += self.clear_invalid_char(self.location_names.lookup_in_slot(networkitem.location)) \
-                + "--" + self.clear_invalid_char(self.player_names[networkitem.player]) + "--" \
-                + self.clear_invalid_char(self.item_names.lookup_in_slot(networkitem.item, networkitem.player)) + "||"
+
+            location = self.parse_to_len_encode(self.location_names.lookup_in_slot(networkitem.location))
+            player_name = self.parse_to_len_encode(self.player_names[networkitem.player])
+            item_name = self.parse_to_len_encode(self.item_names.lookup_in_slot(networkitem.item, networkitem.player))
+                        
+            locationItemMapping += len(next) + "|" + self.parse_to_len_encode(location+player_name+item_name)
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         subsume.Send(styx_scribe_send_prefix + "Data finished" + self.store_settings_data())
     
+    def parse_to_len_encode(self, inputstring: str) -> str:
+        output = self.clear_invalid_char(inputstring)
+        return len(output) + "|" + output
+
     def clear_invalid_char(self, inputstring: str) -> str:
         newstr = inputstring.replace("{", "")
         newstr = newstr.replace("}", "")

@@ -467,7 +467,7 @@ end
 --------------- method to reconstruct location to item mapping
 
 function PolycosmosEvents.ReceiveLocationToItemMap(message)
-    local LocationToItemMap = PolycosmosUtils.ParseSeparatingStringToArrayWithDash(message)
+    local LocationToItemMap = PolycosmosUtils.ParseStringToArrayWithLenghts(message)
     for i=1,#LocationToItemMap do
         local map = LocationToItemMap[i]
         PolycosmosEvents.ReceiveLocationToItem(map)
@@ -475,7 +475,7 @@ function PolycosmosEvents.ReceiveLocationToItemMap(message)
 end
 
 function PolycosmosEvents.ReceiveLocationToItem(message)
-    local MessageAsTable = PolycosmosUtils.ParseStringToArrayWithDash(message)
+    local MessageAsTable = PolycosmosUtils.ParseStringToArrayWithLenghts(message)
     local key = MessageAsTable[1]
     local value = MessageAsTable[2]
     if (MessageAsTable[3] ~= nil) then
