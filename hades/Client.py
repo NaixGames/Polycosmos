@@ -331,7 +331,22 @@ def launch():
     import colorama
     # --------------------- Styx Scribe initialization -----------------
     styx_scribe_path = settings.get_settings()["hades_options"]["styx_scribe_path"]
+
+    # Parsing of styxscribe path. This will try to find it on the same folder if it fails.
+    last_slash = styx_scribe_path.rfind("/")
+    if (last_slash == -1):
+        print("Invalid path given to hades client for styxscribe. Cant parse")
+        return
+
+    filesbstr = styx_scribe_path[last_slash + 1 :]
+    if (filesbstr != "StyxScribe.py"):
+        print("Path given does not correspond to StyxScribe. Attempting to parse")
+        styx_scribe_path = styx_scribe_path[:last_slash + 1] + "StyxScribe.py"
+
     hadespath = os.path.dirname(styx_scribe_path)
+
+    if (not os.path.exists(hadespath)):
+        print("Styx scribe not found at path.")
 
     spec = importlib.util.spec_from_file_location("StyxScribe", str(styx_scribe_path))
     styx_scribe = importlib.util.module_from_spec(spec)
