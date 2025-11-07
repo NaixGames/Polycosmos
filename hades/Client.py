@@ -226,14 +226,14 @@ class HadesContext(CommonContext):
             player_name = self.parse_to_len_encode(self.player_names[networkitem.player])
             item_name = self.parse_to_len_encode(self.item_names.lookup_in_slot(networkitem.item, networkitem.player))
                         
-            locationItemMapping += len(next) + "|" + self.parse_to_len_encode(location+player_name+item_name)
+            locationItemMapping += self.parse_to_len_encode(location+player_name+item_name)
             
         subsume.Send(styx_scribe_send_prefix + "Location to Item Map:" + locationItemMapping)
         subsume.Send(styx_scribe_send_prefix + "Data finished" + self.store_settings_data())
     
     def parse_to_len_encode(self, inputstring: str) -> str:
         output = self.clear_invalid_char(inputstring)
-        return len(output) + "|" + output
+        return str(len(output)) + "|" + output
 
     def clear_invalid_char(self, inputstring: str) -> str:
         newstr = inputstring.replace("{", "")

@@ -84,11 +84,14 @@ function PolycosmosUtils.ParseStringToArrayWithLenghts( message )
             end
         end
 
-        local lenmessage = tonumber(string.sub(message, j,sepindex-1))
-        local word = string.sub(message, sepindex, sepindex + lenmessage - 1)
+        print("length")
+        print(string.sub(message, j,sepindex-1))
+
+        local lenmessage = tonumber(string.sub(message, j, sepindex - 1))
+        local word = string.sub(message, sepindex + 1 , sepindex + lenmessage)
         table.insert(resultTable, word)
 
-        j = math.max(1, sepindex + lenmessage)
+        j = math.max(1, sepindex + lenmessage+1)
 
     end
 
