@@ -43,6 +43,8 @@ class HadesContext(CommonContext):
     deathlink_enabled : bool
     creating_location_to_item_mapping : bool
     is_receiving_items_from_connect_package : bool    
+    
+    location_name_to_id : dict
 
     def __init__(self, server_address: Optional[str] = None, password: Optional[str] = None):
         super(HadesContext, self).__init__(server_address, password)
@@ -113,6 +115,8 @@ class HadesContext(CommonContext):
                 stringError += "THESE ARE NOT COMPATIBLE"
                 raise Exception(stringError)
             
+            self.location_name_to_id = self.get_location_name_to_id()
+
             if "death_link" in self.hades_slot_data and self.hades_slot_data["death_link"]:
                 Utils.async_start(self.update_death_link(True))
                 self.deathlink_enabled = True
@@ -126,7 +130,7 @@ class HadesContext(CommonContext):
         if cmd == "RoomUpdate":
              if "checked_lodations" in args and len(args["checked_locations"]) > 0:
                 subsume.Send(styx_scribe_send_prefix + "Locations collected:" + "-".join(
-                    self.location_names.lookup_in_slot(location) for location in args["checked_locations"]
+                    (location) for location in args["checked_locations"]
                 ))
 
         if cmd == "ReceivedItems":
@@ -153,7 +157,7 @@ class HadesContext(CommonContext):
         subsume.Send(styx_scribe_send_prefix + "Items Updated:" + payload_message)
 
     async def send_location_check_to_server(self, message : str) -> None:
-        await self.check_locations([self.location_names.lookup_in_slot(message)])
+        await self.check_locations([self.location_name_to_id[message]])
 
     async def check_connection_and_send_items_and_request_starting_info(self, message : str) -> None:
         if self.check_for_connection():
@@ -251,7 +255,7 @@ class HadesContext(CommonContext):
         request = []
         for location in split_array:
             if len(location) > 0:
-                request.append(self.location_names.lookup_in_slot(location))
+                request.append(self.location_name_to_id[location])
         Utils.async_start(self.send_msgs([{"cmd": "LocationScouts", "locations": request, "create_as_hint": 2}]))
 
     # ----------------- Hints from game section ends ------------------------
@@ -305,6 +309,15 @@ class HadesContext(CommonContext):
             subsume.Send(styx_scribe_send_prefix + "Connection Error")
             return False
         return True
+
+    # ------------ Helper method to invert lookup table. Can erase if AP has its own internal one.
+
+    def get_location_name_to_id(self):
+        table = {}
+        for locationid in self.server_locations:
+            table[self.location_names.lookup_in_slot(locationid)] = locationid
+        return table
+
 
     # ------------ gui section ------------------------------------------------
 

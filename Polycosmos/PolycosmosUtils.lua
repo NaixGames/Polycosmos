@@ -84,8 +84,6 @@ function PolycosmosUtils.ParseStringToArrayWithLenghts( message )
             end
         end
 
-        print("length")
-        print(string.sub(message, j,sepindex-1))
 
         local lenmessage = tonumber(string.sub(message, j, sepindex - 1))
         local word = string.sub(message, sepindex + 1 , sepindex + lenmessage)
