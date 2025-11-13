@@ -165,7 +165,7 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
         add_rule(world.get_location("Eurydice Keepsake", player), lambda state: \
                  state._has_defeated_boss("Lernie Victory", player, options))
         add_rule(world.get_location("Thanatos Keepsake", player), lambda state: \
-                state._has_defeated_boss("Hades Victory", player, options))
+                state._has_defeated_boss("Bros Victory", player, options))
         add_rule(world.get_location("Patroclus Keepsake", player), lambda state: \
                 state._has_defeated_boss("Bros Victory", player, options))
         set_keepsake_balance(world, player, location_table, options)
