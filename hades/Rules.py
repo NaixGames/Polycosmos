@@ -202,6 +202,8 @@ def set_keepsake_balance(world: "HadesWorld", player: int, location_table : dict
             state.has("Demeter Keepsake", player))
     set_rule(world.get_location("Hermes Keepsake", player), lambda state:   \
             state._has_defeated_boss("Meg Victory", player, options))
+    set_rule(world.get_location("Megaera Keepsake", player), lambda state:   \
+            state._has_defeated_boss("Meg Victory", player, options))
 
 
 def set_store_rules(world: "HadesWorld", player: int, location_table : dict, options) -> None:
@@ -346,10 +348,6 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state.has("Chaos Keepsake", player))
         set_rule(world.get_location("Primordial Banes" + subfix, player), lambda state: \
                 state.has("Chaos Keepsake", player))
-        set_rule(world.get_location("Chthonic Colleagues" + subfix, player), lambda state: \
-                state._has_defeated_boss("Bros Victory", player, options))
-        set_rule(world.get_location("Customer Loyalty" + subfix, player), lambda state: \
-                state._has_defeated_boss("Lernie Victory", player, options))
         
         #Balacing rules for DivinePairings
         add_rule(world.get_location("Divine Pairings" + subfix, player), lambda state: \
@@ -380,6 +378,11 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
     set_rule(world.get_location("Power Without Equal" + subfix, player), lambda state: \
                 state._has_defeated_boss("Bros Victory", player, options))
     add_rule(world.get_location("Divine Pairings" + subfix, player), lambda state: \
+                state._has_defeated_boss("Lernie Victory", player, options))
+    
+    add_rule(world.get_location("Chthonic Colleagues" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("Customer Loyalty" + subfix, player), lambda state: \
                 state._has_defeated_boss("Lernie Victory", player, options))
         
 
