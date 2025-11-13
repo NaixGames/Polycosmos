@@ -342,11 +342,14 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state.has("Demeter Keepsake", player))
         
         #Balancing rules
-        #Put here a rule that you need to have all God keepsakes for the DivinePairis?
         set_rule(world.get_location("Primordial Boons" + subfix, player), lambda state: \
                 state.has("Chaos Keepsake", player))
         set_rule(world.get_location("Primordial Banes" + subfix, player), lambda state: \
                 state.has("Chaos Keepsake", player))
+        set_rule(world.get_location("Chthonic Colleagues" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+        set_rule(world.get_location("Customer Loyalty" + subfix, player), lambda state: \
+                state._has_defeated_boss("Lernie Victory", player, options))
         
         #Balacing rules for DivinePairings
         add_rule(world.get_location("Divine Pairings" + subfix, player), lambda state: \
