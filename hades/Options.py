@@ -23,8 +23,10 @@ class InitialWeapon(Choice):
 class LocationSystem(Choice):
     """
     Chooses how the game gives you items. (1) RoomBased gives items on every new room completed. (2) ScoreBased
-    gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeaponBased gives
-    items on every new room completed with a new weapon (so more locations than the original room based system).
+    gives items according to score obtained by clearing rooms (even repeated ones). For example; each time the player
+    completes room 4 it will award 4 points. Getting a new high-score gives an item and resets the score.
+    (3) RoomWeaponBased gives items on every new room completed with a new weapon (so more locations than the 
+    original room based system).
     """
     display_name = "Location System"
     option_room_based = 1
