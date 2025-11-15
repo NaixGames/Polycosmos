@@ -191,28 +191,6 @@ item_table_helpers: Dict[str, ItemData] = {
     "Initial Money Helper": ItemData(hades_base_item_id + 84, False, False, False),
 }
 
-
-def create_filler_pool_options(options):
-    item_filler_options = []
-    if options.darkness_pack_value.value:
-        item_filler_options.append("Darkness")
-    if options.keys_pack_value.value:
-        item_filler_options.append("Keys")
-    if options.gemstones_pack_value.value:
-        item_filler_options.append("Gemstones")
-    if options.diamonds_pack_value.value:
-        item_filler_options.append("Diamonds")
-    if options.titan_blood_pack_value.value:
-        item_filler_options.append("TitanBlood")
-    if options.nectar_pack_value.value:
-        item_filler_options.append("Nectar")
-    if options.ambrosia_pack_value.value:
-        item_filler_options.append("Ambrosia")
-    if not item_filler_options:
-        item_filler_options.append("Darkness")
-    return item_filler_options
-
-
 def create_trap_pool():
     return [trap for trap in item_table_traps.keys()]
 

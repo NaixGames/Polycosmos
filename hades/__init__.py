@@ -123,8 +123,6 @@ class HadesWorld(World):
                 self.multiworld.get_location(
                     event, self.player).place_locked_item(event_item)
 
-        # create the pack of filler options
-        filler_options = create_filler_pool_options(self.options)
 
         # Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
@@ -136,30 +134,80 @@ class HadesWorld(World):
             # Substract the 4 bosses
             total_fillers_needed = total_fillers_needed - 4
 
+        #Get the percentagesa and compute then compute the quantity of each one
+        darkness_percentage = self.options.darkness_pack_percentage
+        keys_pack_percentage = self.options.keys_pack_percentage
+        gemstones_pack_percentage = self.options.gemstones_pack_percentage
+        diamonds_pack_percentage = self.options.diamonds_pack_percentage
+        titan_blood_pack_percentage = self.options.titan_blood_pack_percentage
+        nectar_pack_percentage = self.options.nectar_pack_percentage
+        ambrosia_pack_percentage = self.options.ambrosia_pack_percentage
         helper_percentage = self.options.filler_helper_percentage
-        helper_fillers_needed = int(total_fillers_needed * helper_percentage / 100)
+        trap_percentage = self.options.filler_trap_percentage
 
-        trap_percentage = min(self.options.filler_trap_percentage, 100 - helper_percentage)
-        trap_fillers_needed = int(total_fillers_needed * trap_percentage / 100)
+        total_percentage = darkness_percentage + keys_pack_percentage + gemstones_pack_percentage \
+                        + diamonds_pack_percentage + titan_blood_pack_percentage + nectar_pack_percentage \
+                        + ambrosia_pack_percentage + helper_percentage + trap_percentage
+        
+        if total_percentage == 0:
+            darkness_percentage = 100
+
+        correction = 100/total_percentage
+
+        traps_needed = int(total_fillers_needed * trap_percentage * correction / 100)
+        helpers_needed = int(total_fillers_needed * helper_percentage * correction / 100)
+        ambrosia_needed = int(total_fillers_needed * ambrosia_pack_percentage * correction / 100)
+        nectar_needed = int(total_fillers_needed * nectar_pack_percentage * correction / 100)
+        titan_blood_needed = int(total_fillers_needed * titan_blood_pack_percentage * correction / 100)
+        diamonds_needed = int(total_fillers_needed * diamonds_pack_percentage * correction / 100)
+        gemstones_needed = int(total_fillers_needed * gemstones_pack_percentage * correction / 100)
+        keys_needed = int(total_fillers_needed * keys_pack_percentage * correction / 100)
+        darkness_needed = total_fillers_needed - keys_needed - gemstones_needed - diamonds_needed \
+                        - titan_blood_needed - nectar_needed - ambrosia_needed - helpers_needed - traps_needed
+
+
+
         trap_pool = create_trap_pool()
 
-        fillers_needed = total_fillers_needed-trap_fillers_needed - helper_fillers_needed
-        for amount in range(0, fillers_needed):
-            item_name = filler_options[index]
-            item = HadesItem(item_name, self.player)
+        #Fill the standard fillers
+        for amount in range(0, darkness_needed):
+            item = HadesItem("Darkness", self.player)
             pool.append(item)
-            index = (index + 1) % len(filler_options)
+
+        for amount in range(0, keys_needed):
+            item = HadesItem("Keys", self.player)
+            pool.append(item)
+
+        for amount in range(0, gemstones_needed):
+            item = HadesItem("Gemstones", self.player)
+            pool.append(item)
+
+        for amount in range(0, diamonds_needed):
+            item = HadesItem("Diamonds", self.player)
+            pool.append(item)
+
+        for amount in range(0, titan_blood_needed):
+            item = HadesItem("TitanBlood", self.player)
+            pool.append(item)
+
+        for amount in range(0, nectar_needed):
+            item = HadesItem("Nectar", self.player)
+            pool.append(item)
+
+        for amount in range(0, ambrosia_needed):
+            item = HadesItem("Ambrosia", self.player)
+            pool.append(item)
 
         # Fill helpers
-        health_helpers_needed = int(helper_fillers_needed * self.options.max_health_helper_percentage / 100)
-        money_helpers_needed = int(helper_fillers_needed * self.options.initial_money_helper_percentage / 100)
-        boon_helpers_needed = helper_fillers_needed-health_helpers_needed - money_helpers_needed
+        health_helpers_needed = int(helpers_needed * self.options.max_health_helper_percentage / 100)
+        money_helpers_needed = int(helpers_needed * self.options.initial_money_helper_percentage / 100)
+        boon_helpers_needed = helpers_needed-health_helpers_needed - money_helpers_needed
 
         for amount in range(0, health_helpers_needed):
             item = HadesItem("Max Health Helper", self.player)
             pool.append(item)
 
-        for amount in range(0, min(money_helpers_needed, helper_fillers_needed - health_helpers_needed)):
+        for amount in range(0, min(money_helpers_needed, helpers_needed - health_helpers_needed)):
             item = HadesItem("Initial Money Helper", self.player)
             pool.append(item)
 
@@ -170,7 +218,7 @@ class HadesWorld(World):
         index = 0
 
         # Fill traps
-        for amount in range(0, trap_fillers_needed):
+        for amount in range(0, traps_needed):
             item_name = trap_pool[index]
             item = HadesItem(item_name, self.player)
             pool.append(item)
