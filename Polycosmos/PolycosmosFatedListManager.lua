@@ -117,6 +117,54 @@ local FatedListNames =
 	FirstSkellyStatue = {
 		ClientNameLocation = "The Useless Trinket", 
 	},
+	OrpheusEurydiceReunion = {
+		ClientNameLocation = "Musician and Muse",
+	},
+	SisyphusLiberation = {
+		ClientNameLocation = "End to Torment",
+	},
+	AchillesPatroclusReunion_A = {
+		ClientNameLocation = "Divided by Death",
+	},
+	SkellyTrueDeath = {
+		ClientNameLocation = "Eternal Rest",
+	},
+	DusaLoungeRenovation = {
+		ClientNameLocation = "A Place of Revelry",
+	},
+	ChaosKeepsakeEscape = {
+		ClientNameLocation = "Amusing Chaos",
+	},
+	PoseidonBeatTheseus = {
+		ClientNameLocation = "Sea-God's Spite",
+	},
+	AresEarnKills = {
+		ClientNameLocation = "War-God's Bloodlust",
+	},
+	HermesBeatCharon = {
+		ClientNameLocation = "A Friendly Wager",
+	},
+	ArthurAspectEscape = {
+		ClientNameLocation = "The Holy Liege",
+	},
+	GuanYuAspectEscape = {
+		ClientNameLocation = "The Fated Saint of War",
+	},
+	RamaAspectEscape = {
+		ClientNameLocation = "The Preserver's Avatar",
+	},
+	BeowulfAspectEscape = {
+		ClientNameLocation = "The Dragon's Rival",
+	},
+	GilgameshAspectEscape = {
+		ClientNameLocation = "The God-like King",
+	},
+	LuciferAspectEscape = {
+		ClientNameLocation = "The Dawn Bringer",
+	},
+	MusicLessons = {
+		ClientNameLocation = "The Gift of Song",
+	},
 }
 
 -------------------------------------------------------

@@ -298,6 +298,8 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
         add_rule(world.get_location("Musician and Muse" + subfix, player), lambda state:  \
                 state.has("Court Musician Sentence Item", player) \
                 and state._has_defeated_boss("Hades Victory", player, options))
+        add_rule(world.get_location("The Gift of Song" + subfix, player), lambda state: \
+                state.has("Court Musician Sentence Item", player))
         add_rule(world.get_location("Denizens Of The Deep" + subfix, player), lambda state:  \
                 state._has_defeated_boss("Hades Victory", player, options) and state.has("Fishing Rod Item",player))
         add_rule(world.get_location("A Place of Reverly" + subfix, player), lambda state: \
@@ -488,6 +490,8 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
     add_rule(world.get_location("War-God's Bloodlust" + subfix, player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
     add_rule(world.get_location("A Friendly Wager" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("The Gift of Song" + subfix, player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
     
     #balancing for aspects related fates
