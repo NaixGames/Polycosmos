@@ -295,11 +295,18 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
     if options.storesanity:
         add_rule(world.get_location("The Reluctant Musician" + subfix, player), lambda state:  \
                 state.has("Court Musician Sentence Item", player))
+        add_rule(world.get_location("Musician and Muse" + subfix, player), lambda state:  \
+                state.has("Court Musician Sentence Item", player) \
+                and state._has_defeated_boss("Hades Victory", player, options))
         add_rule(world.get_location("Denizens Of The Deep" + subfix, player), lambda state:  \
                 state._has_defeated_boss("Hades Victory", player, options) and state.has("Fishing Rod Item",player))
+        add_rule(world.get_location("A Place of Reverly" + subfix, player), lambda state: \
+                state.has("Deluxe Contractor Desk Item", player))
     else:
         add_rule(world.get_location("The Reluctant Musician" + subfix, player), lambda state:  \
                 state._has_defeated_boss("Meg Victory", player, options))
+        add_rule(world.get_location("Musician and Muse" + subfix, player), lambda state:  \
+                state._has_defeated_boss("Hades Victory", player, options))
         add_rule(world.get_location("Denizens Of The Deep" + subfix, player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
     #This part depends on weaponsanity, but the false option is handled on has_enough_weapons
@@ -325,6 +332,24 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state.has("Fist Weapon Unlock Item", player) or options.initial_weapon == 4)
         add_rule(world.get_location("The Adamant Rail" + subfix, player), lambda state: \
                 state.has("Gun Weapon Unlock Item", player) or options.initial_weapon == 5)
+        
+        add_rule(world.get_location("Eternal Rest" + subfix, player), lambda state: \
+                state.has("Sword Weapon Unlock Item", player) or options.initial_weapon == 0)
+        
+        #balancing for aspects related fates
+        add_rule(world.get_location("The Holy Liege" + subfix, player), lambda state: \
+                        state.has("Sword Weapon Unlock Item", player) or options.initial_weapon == 0)
+        add_rule(world.get_location("The Preserver's Avatar" + subfix, player), lambda state: \
+                        state.has("Bow Weapon Unlock Item", player) or options.initial_weapon == 1)
+        add_rule(world.get_location("The Fated Saint of War" + subfix, player), lambda state: \
+                        state.has("Spear Weapon Unlock Item", player) or options.initial_weapon == 2)
+        add_rule(world.get_location("The Dragon's Rival" + subfix, player), lambda state: \
+                        state.has("Shield Weapon Unlock Item", player) or options.initial_weapon == 3)
+        add_rule(world.get_location("The God-like King" + subfix, player), lambda state: \
+                        state.has("Fist Weapon Unlock Item", player) or options.initial_weapon == 4)
+        add_rule(world.get_location("The Dawn Bringer" + subfix, player), lambda state: \
+                        state.has("Gun Weapon Unlock Item", player) or options.initial_weapon == 5)
+        
         
     if options.keepsakesanity:
         add_rule(world.get_location("Close At Heart" + subfix, player), lambda state: \
@@ -352,6 +377,12 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state.has("Chaos Keepsake", player))
         add_rule(world.get_location("Primordial Banes" + subfix, player), lambda state: \
                 state.has("Chaos Keepsake", player))
+        add_rule(world.get_location("Amusing Chaos" + subfix, player), lambda state: \
+                state.has("Chaos Keepsake", player))
+        add_rule(world.get_location("Sea-God's Spite" + subfix, player), lambda state: \
+                state.has("Poseidon Keepsake", player))
+        add_rule(world.get_location("War-God's Bloodlust" + subfix, player), lambda state: \
+                state.has("Ares Keepsake", player))
         
         #Balacing rules for DivinePairings
         add_rule(world.get_location("Divine Pairings" + subfix, player), lambda state: \
@@ -370,6 +401,21 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state.has("Dionysus Keepsake", player))
         add_rule(world.get_location("Divine Pairings" + subfix, player), lambda state: \
                 state.has("Demeter Keepsake", player))
+        
+    if options.hidden_aspectsanity:
+        #balancing for aspects related fates
+        add_rule(world.get_location("The Holy Liege" + subfix, player), lambda state: \
+                        state.has("Sword Hidden Aspect", player) or options.initial_weapon == 0)
+        add_rule(world.get_location("The Preserver's Avatar" + subfix, player), lambda state: \
+                        state.has("Bow Hidden Aspect", player) or options.initial_weapon == 1)
+        add_rule(world.get_location("The Fated Saint of War" + subfix, player), lambda state: \
+                        state.has("Spear Hidden Aspect", player) or options.initial_weapon == 2)
+        add_rule(world.get_location("The Dragon's Rival" + subfix, player), lambda state: \
+                        state.has("Shield Hidden Aspect", player) or options.initial_weapon == 3)
+        add_rule(world.get_location("The God-like King" + subfix, player), lambda state: \
+                        state.has("Fist Hidden Aspect", player) or options.initial_weapon == 4)
+        add_rule(world.get_location("The Dawn Bringer" + subfix, player), lambda state: \
+                        state.has("Gun Hidden Aspect", player) or options.initial_weapon == 5)
 
     # This is extra balancing rules to avoid fates being a pain in the butt
     add_rule(world.get_location("Primordial Boons" + subfix, player), lambda state: \
@@ -425,7 +471,38 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state._has_all_approval_process(player, options))
     add_rule(world.get_location("The Adamant Rail" + subfix, player), lambda state: \
                 state._has_all_approval_process(player, options))
-        
+    
+    add_rule(world.get_location("End to Torment" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("Divided by Death" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options) \
+                and state.has("Court Musician Sentence Item", player))   
+    add_rule(world.get_location("Eternal Rest" + subfix, player), lambda state: \
+                state._has_defeated_boss("Lernie Victory", player, options))
+    add_rule(world.get_location("A Place of Reverly" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("Amusing Chaos" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("Sea-God's Spite" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("War-God's Bloodlust" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("A Friendly Wager" + subfix, player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+    
+    #balancing for aspects related fates
+    add_rule(world.get_location("The Holy Liege" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("The Fated Saint of War" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("The Preserver's Avatar" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("The Dragon's Rival" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("The God-like King" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("The Dawn Bringer" + subfix, player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
 
 def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int, 
                             location_table : list, options, weaponSubfix: str, 
