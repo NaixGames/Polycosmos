@@ -221,9 +221,9 @@ location_weapons_subfixes = [
 
 
 def give_all_locations_table() -> dict:
-    table_rooms = give_default_location_table()
+    table_rooms = give_default_location_table(False)
     table_score = give_score_location_table(1000)
-    table_weaponlocation = give_weapon_based_locations()    
+    table_weaponlocation = give_weapon_based_locations(False)    
 
     return {
         **table_rooms,
@@ -286,13 +286,13 @@ def setup_location_table_with_settings(options) -> None:
         total_table.update(location_store_diamonds)
 
     if options.location_system.value == 1:
-        result = give_default_location_table()
+        result = give_default_location_table(options.disable_late_styx_scribe)
         total_table.update(result)
     elif options.location_system.value == 2:
         levels = options.score_rewards_amount.value
         total_table.update(give_score_location_table(levels))
     elif options.location_system.value == 3:
-        total_table.update(give_weapon_based_locations())
+        total_table.update(give_weapon_based_locations(options.disable_late_styx_scribe))
     
     if options.fatesanity == 1:
         total_table.update(location_table_fates)
@@ -320,7 +320,7 @@ def should_ignore_weapon_location(weaponLocation : str, options) -> None:
 
 # -----------------------------------------------
 
-def give_default_location_table() -> dict:
+def give_default_location_table(disable_late_styx : bool) -> dict:
     #Repopulate tartarus table; rooms from 1 to 13.
     global location_table_tartarus
     for i in range(13):
@@ -341,12 +341,13 @@ def give_default_location_table() -> dict:
     
     # Repopulate styx table, rooms from 35 to 72. Split into early and late
     global location_table_styx 
-    for i in range(35, 60):
+    for i in range(35, 55):
         location_table_styx["Clear Room "+str(i + 1)] = hades_base_location_id + i
         
-    global location_table_styx_late
-    for i in range(60, 72):
-        location_table_styx_late["Clear Room "+str(i + 1)] = hades_base_location_id + i
+    if (not disable_late_styx):
+        global location_table_styx_late
+        for i in range(55, 72):
+            location_table_styx_late["Clear Room "+str(i + 1)] = hades_base_location_id + i
     
     location_table = {
         **location_table_tartarus, 
@@ -392,6 +393,7 @@ def give_score_location_table(locations : int) -> dict:
         location_table_styx["Clear Score "+stringInt] = hades_base_location_id + i + 72
         
     global location_table_styx_late
+    location_table_styx_late = {}
     for i in range(locations_first_region+6*fraction_location, locations):
         stringInt = str(i + 1)
         while len(stringInt) < 4:
@@ -409,7 +411,7 @@ def give_score_location_table(locations : int) -> dict:
     return location_table
     
 
-def give_weapon_based_locations() -> dict:
+def give_weapon_based_locations(disable_late_styx : bool) -> dict:
     subfixCounter = 0
     weapon_locations = {}
     
@@ -434,15 +436,16 @@ def give_weapon_based_locations() -> dict:
                 + 73 * subfixCounter
         weapon_locations["Beat Bros "+weaponSubfix] = None    
 
-        for i in range(35, 60):
+        for i in range(35, 55):
             weapon_locations["Clear Room " + str(i + 1) + " " + weaponSubfix] = hades_base_location_id + 1073 + i \
                 + 73 * subfixCounter
         
         weapon_locations["Beat Hades " + weaponSubfix] = None
 
-        for i in range(60, 72):
-            weapon_locations["Clear Room " + str(i + 1) + " " + weaponSubfix] = hades_base_location_id + 1073 + i \
-                + 73 * subfixCounter
+        if (not disable_late_styx):
+            for i in range(55, 72):
+                weapon_locations["Clear Room " + str(i + 1) + " " + weaponSubfix] = hades_base_location_id + 1073 + i \
+                    + 73 * subfixCounter
             
         subfixCounter += 1
     

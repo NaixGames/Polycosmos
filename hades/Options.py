@@ -461,6 +461,13 @@ class StoreGiveHints(DefaultOnToggle):
     display_name = "Store Give Hints"
 
 
+class DisableLateStyxScribe(Toggle):
+    """
+    If true rooms pass room 55 will not have checks on room based settings.  
+    """
+    display_name = "Automatic Room Finish On Hades Defeat"
+    default = 0
+
 class AutomaticRoomsFinishOnHadesDefeat(Toggle):
     """
     If defeating Hades should give all room clears on Room based location mode 
@@ -518,6 +525,7 @@ class HadesOptions(PerGameCommonOptions):
     reverse_order_em: ReverseOrderExtremeMeasure
     ignore_greece_deaths: IgnoreGreeceDeaths
     store_give_hints: StoreGiveHints
+    disable_late_styx_scribe : DisableLateStyxScribe
     automatic_rooms_finish_on_hades_defeat: AutomaticRoomsFinishOnHadesDefeat
     death_link: DeathLink
 
@@ -580,6 +588,7 @@ hades_option_groups = [
         ReverseOrderExtremeMeasure,
         IgnoreGreeceDeaths,
         StoreGiveHints,
+        DisableLateStyxScribe,
         AutomaticRoomsFinishOnHadesDefeat
     ]),
 ]
@@ -620,6 +629,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "max_health_helper_percentage": 40,
         "initial_money_helper_percentage": 30,
         "filler_trap_percentage": 0,
+        "disable_late_styx_scribe" : True,
         "automatic_rooms_finish_on_hades_defeat": True,
     },
     "Normal": {
@@ -652,6 +662,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "ambrosia_pack_value": 2,
         "filler_helper_percentage": 0,
         "filler_trap_percentage": 5,
+        "disable_late_styx_scribe" : True,
         "automatic_rooms_finish_on_hades_defeat": True,
     },
     "Hard": {
@@ -684,6 +695,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "ambrosia_pack_value": 1,
         "filler_helper_percentage": 0,
         "filler_trap_percentage": 10,
+        "disable_late_styx_scribe" : False,
         "automatic_rooms_finish_on_hades_defeat": False,
     },
 }

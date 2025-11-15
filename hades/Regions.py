@@ -28,14 +28,15 @@ def create_main_weapon_regions(ctx, weaponSubfix : str, subfixCounter : int, loc
             + 73 * subfixCounter
     elysium["Beat Bros " + weaponSubfix] = None
 
-    for i in range(35, 60):
+    for i in range(35, 55):
         styx["Clear Room " + str(i + 1) + " " + weaponSubfix] = hades_base_location_id + 1073 + i + 73 * subfixCounter
         
     styx["Beat Hades " + weaponSubfix] = None
 
-    for i in range(60, 72):
-        styx_late["Clear Room " + str(i + 1) + " " + weaponSubfix] = hades_base_location_id + 1073 + i \
-            + 73 * subfixCounter
+    if (not ctx.options.disable_late_styx_scribe):
+        for i in range(55, 72):
+            styx_late["Clear Room " + str(i + 1) + " " + weaponSubfix] = hades_base_location_id + 1073 + i \
+                + 73 * subfixCounter
     
     ctx.multiworld.regions += [
                 create_region(ctx.multiworld, ctx.player, location_database, "Tartarus " + weaponSubfix,
