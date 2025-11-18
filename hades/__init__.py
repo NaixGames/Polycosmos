@@ -126,14 +126,13 @@ class HadesWorld(World):
 
         # Fill filler items uniformly. Maybe later we can tweak this.
         index = 0
-        total_fillers_needed = len(local_location_table)-len(pool)
+        total_fillers_needed = len(local_location_table)-len(pool)-len(location_table_fates_events)
         if self.options.location_system == "room_weapon_based":
             # Substract the 4 bosses for each of the 6 weapons = 24
             total_fillers_needed = total_fillers_needed - 24
         else:
             # Substract the 4 bosses
             total_fillers_needed = total_fillers_needed - 4
-
 
         #Get the percentagesa and compute then compute the quantity of each one
         darkness_percentage = self.options.darkness_pack_percentage
@@ -168,6 +167,8 @@ class HadesWorld(World):
 
 
 
+        trap_pool = create_trap_pool()
+
         #Fill the standard fillers
         for amount in range(0, darkness_needed):
             item = HadesItem("Darkness", self.player)
@@ -200,7 +201,7 @@ class HadesWorld(World):
         # Fill helpers
         health_helpers_needed = int(helpers_needed * self.options.max_health_helper_percentage / 100)
         money_helpers_needed = int(helpers_needed * self.options.initial_money_helper_percentage / 100)
-        boon_helpers_needed = helpers_needed - health_helpers_needed - money_helpers_needed
+        boon_helpers_needed = helpers_needed-health_helpers_needed - money_helpers_needed
 
         for amount in range(0, health_helpers_needed):
             item = HadesItem("Max Health Helper", self.player)
@@ -215,7 +216,6 @@ class HadesWorld(World):
             pool.append(item)
 
         index = 0
-        trap_pool = create_trap_pool()
 
         # Fill traps
         for amount in range(0, traps_needed):
@@ -225,7 +225,6 @@ class HadesWorld(World):
             index = (index + 1) % len(trap_pool)
             
         self.multiworld.itempool += pool
-
 
     def should_ignore_weapon(self, name : str) -> bool:
         if self.options.initial_weapon.value == 0 and name == "Sword Weapon Unlock Item":
