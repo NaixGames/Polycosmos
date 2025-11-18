@@ -99,6 +99,22 @@ items_table_fates_completion: Dict[str, ItemData] = {
     "Close At Heart Event Item": ItemData(None, True, True),
     "Denizens Of The Deep Event Item": ItemData(None, True, True),
     "The Useless Trinket Event Item": ItemData(None, True, True),
+    "Musician and Muse Event" : ItemData(None, True, True),
+    "End to Torment Event" : ItemData(None, True, True),
+    "Divided by Death Event" : ItemData(None, True, True),
+    "Eternal Rest Event" : ItemData(None, True, True),
+    "A Place of Revelry Event" : ItemData(None, True, True),
+    "Amusing Chaos Event" : ItemData(None, True, True),
+    "Sea-God's Spite Event" : ItemData(None, True, True),
+    "War-God's Bloodlust Event" : ItemData(None, True, True), 
+    "A Friendly Wager Event" : ItemData(None, True, True), 
+    "The Holy Liege Event" : ItemData(None, True, True),
+    "The Fated Saint of War Event" : ItemData(None, True, True),
+    "The Preserver's Avatar Event" : ItemData(None, True, True),
+    "The Dragon's Rival Event" : ItemData(None, True, True),
+    "The God-like King Event" : ItemData(None, True, True),
+    "The Dawn Bringer Event" : ItemData(None, True, True),
+    "The Gift of Song Event" : ItemData(None, True, True),
 }
 
 item_table_filler: Dict[str, ItemData] = {
