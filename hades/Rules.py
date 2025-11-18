@@ -127,7 +127,7 @@ class HadesLogic(LogicMixin):
 # -----------
 
 
-def add_rules(world: "HadesWorld", player: int, number_items: int, location_table: dict, options) -> None:
+def set_rules(world: "HadesWorld", player: int, number_items: int, location_table: dict, options) -> None:
     # Set up some logic in areas to avoid having all heats "stack up" as batch in other games.
     total_routine_inspection = int(options.routine_inspection_pact_amount.value)
 

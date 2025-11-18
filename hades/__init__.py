@@ -4,7 +4,7 @@ import settings
 
 from BaseClasses import Entrance, Item, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
-    create_pact_pool_amount, create_filler_pool_options, item_table_keepsake, item_table_weapons, \
+    create_pact_pool_amount, item_table_keepsake, item_table_weapons, \
     item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, \
     location_table_fates_events, location_name_groups
