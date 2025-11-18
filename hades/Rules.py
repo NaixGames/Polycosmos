@@ -302,7 +302,7 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 state.has("Court Musician Sentence Item", player))
         add_rule(world.get_location("Denizens Of The Deep" + subfix, player), lambda state:  \
                 state._has_defeated_boss("Hades Victory", player, options) and state.has("Fishing Rod Item",player))
-        add_rule(world.get_location("A Place of Reverly" + subfix, player), lambda state: \
+        add_rule(world.get_location("A Place of Revelry" + subfix, player), lambda state: \
                 state.has("Deluxe Contractor Desk Item", player))
     else:
         add_rule(world.get_location("The Reluctant Musician" + subfix, player), lambda state:  \
@@ -481,7 +481,7 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                 and state.has("Court Musician Sentence Item", player))   
     add_rule(world.get_location("Eternal Rest" + subfix, player), lambda state: \
                 state._has_defeated_boss("Lernie Victory", player, options))
-    add_rule(world.get_location("A Place of Reverly" + subfix, player), lambda state: \
+    add_rule(world.get_location("A Place of Revelry" + subfix, player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
     add_rule(world.get_location("Amusing Chaos" + subfix, player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
