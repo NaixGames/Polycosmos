@@ -105,6 +105,8 @@ have not made this without you.
 
 Thanks to HauntyHogeez for the amazing custom title screen and the custom icon for the client. And Ael for actually implementing the custom title screen into the mod.
 
+Thanks to OmegaZeron and Selcra for helping people with instalation issues and reporting feedback for the mod. You both do tons of work and I appreciate it.
+
 Also, thanks to RobinLSL for having the patience to report a large number of typos.
 
 # Bugs 
