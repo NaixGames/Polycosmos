@@ -542,9 +542,9 @@ class StoreGiveHints(DefaultOnToggle):
 
 class DisableLateStyxScribe(Toggle):
     """
-    If true rooms pass room 55 will not have checks on room based settings.  
+    If true, rooms past room 55 will not have checks on room based settings.  
     """
-    display_name = "Automatic Room Finish On Hades Defeat"
+    display_name = "Disable Late Styx Scribe"
     default = 0
 
 class AutomaticRoomsFinishOnHadesDefeat(Toggle):
