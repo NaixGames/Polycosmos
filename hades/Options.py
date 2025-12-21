@@ -540,11 +540,11 @@ class StoreGiveHints(DefaultOnToggle):
     display_name = "Store Give Hints"
 
 
-class DisableLateStyxScribe(Toggle):
+class DisableLateStyx(Toggle):
     """
     If true, rooms past room 55 will not have checks on room based settings.  
     """
-    display_name = "Disable Late Styx Scribe"
+    display_name = "Disable Late Styx"
     default = 0
 
 class AutomaticRoomsFinishOnHadesDefeat(Toggle):
@@ -611,7 +611,7 @@ class HadesOptions(PerGameCommonOptions):
     reverse_order_em: ReverseOrderExtremeMeasure
     ignore_greece_deaths: IgnoreGreeceDeaths
     store_give_hints: StoreGiveHints
-    disable_late_styx_scribe : DisableLateStyxScribe
+    disable_late_styx : DisableLateStyx
     automatic_rooms_finish_on_hades_defeat: AutomaticRoomsFinishOnHadesDefeat
     death_link: DeathLink
 
