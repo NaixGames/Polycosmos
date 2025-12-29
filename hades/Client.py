@@ -245,27 +245,28 @@ class HadesContext(CommonContext):
         if (inputstring == ""):
             return result
         
-        run_index = 1
+        run_index = 0
 
         while run_index < len(inputstring):
-            sep_index = 1
+            sep_index = 0
             for i in range(run_index, len(inputstring)):
                 char_index = inputstring[i]
                 if (char_index == "|"):
                     sep_index = i
                     break
 
-            lenmessage = int(inputstring[run_index : sep_index - 1])
-            word = inputstring[sep_index + 1 : sep_index + lenmessage]
+            lenmessage = int(inputstring[run_index : sep_index])
+            word = inputstring[sep_index + 1 : sep_index + lenmessage + 1]
             result.append(word)
             
-            run_index = max(1, sep_index + lenmessage + 1)
+            run_index = max(0, sep_index + lenmessage + 1)
 
         return result
 
     def clear_invalid_char(self, inputstring: str) -> str:
         newstr = inputstring.replace("{", "")
         newstr = newstr.replace("}", "")
+        newstr = newstr.encode("ascii", "replace").decode(encoding="utf-8", errors="ignore")
         return newstr
 
     # ----------------- Package Management section ends --------------------------------

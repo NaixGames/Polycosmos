@@ -231,9 +231,9 @@ function PolycosmosFatedListManager.CacheFateHint(questName)
 	end
 
 	if (FatedListNames[questName]) then
-		local client_name = fatedListHints..FatedListNames[questName].ClientNameLocation
+		local client_name = FatedListNames[questName].ClientNameLocation
 		local word_len = string.len(client_name)
-		fatedListHints = word_len.."|"..client_name
+		fatedListHints = fatedListHints..word_len.."|"..client_name
 	end
 end
 

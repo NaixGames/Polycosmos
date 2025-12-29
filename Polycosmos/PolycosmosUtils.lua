@@ -68,8 +68,6 @@ end
 function PolycosmosUtils.ParseStringToArrayWithLenghts( message )
     local resultTable = {}
 
-    print("DEBUG")
-    print(message)
     if (message == nil or message == "") then
         return resultTable
     end
@@ -87,15 +85,9 @@ function PolycosmosUtils.ParseStringToArrayWithLenghts( message )
             end
         end
 
-
-
-
         local lenmessage = tonumber(string.sub(message, j, sepindex - 1))
-        print(string.sub(message, j, sepindex - 1))
         local word = string.sub(message, sepindex + 1 , sepindex + lenmessage)
         table.insert(resultTable, word)
-        print(word)
-
         j = math.max(1, sepindex + lenmessage+1)
 
     end
