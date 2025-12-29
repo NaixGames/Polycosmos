@@ -681,7 +681,7 @@ hades_option_groups = [
         ReverseOrderExtremeMeasure,
         IgnoreGreeceDeaths,
         StoreGiveHints,
-        DisableLateStyxScribe,
+        DisableLateStyx,
         AutomaticRoomsFinishOnHadesDefeat
     ]),
 ]
@@ -722,7 +722,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "max_health_helper_percentage": 40,
         "initial_money_helper_percentage": 30,
         "filler_trap_percentage": 0,
-        "disable_late_styx_scribe" : True,
+        "disable_late_styx" : True,
         "automatic_rooms_finish_on_hades_defeat": True,
     },
     "Normal": {
@@ -755,7 +755,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "ambrosia_pack_value": 2,
         "filler_helper_percentage": 0,
         "filler_trap_percentage": 5,
-        "disable_late_styx_scribe" : True,
+        "disable_late_styx" : True,
         "automatic_rooms_finish_on_hades_defeat": True,
     },
     "Hard": {
@@ -788,7 +788,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "ambrosia_pack_value": 1,
         "filler_helper_percentage": 0,
         "filler_trap_percentage": 10,
-        "disable_late_styx_scribe" : False,
+        "disable_late_styx" : False,
         "automatic_rooms_finish_on_hades_defeat": False,
     },
 }
