@@ -157,7 +157,8 @@ class HadesContext(CommonContext):
         subsume.Send(styx_scribe_send_prefix + "Items Updated:" + payload_message)
 
     async def send_location_check_to_server(self, message : str) -> None:
-        await self.check_locations([self.location_name_to_id[message]])
+        if (self.location_name_to_id):
+            await self.check_locations([self.location_name_to_id[message]])
 
     async def check_connection_and_send_items_and_request_starting_info(self, message : str) -> None:
         if self.check_for_connection():
@@ -238,6 +239,29 @@ class HadesContext(CommonContext):
     def parse_to_len_encode(self, inputstring: str) -> str:
         output = self.clear_invalid_char(inputstring)
         return str(len(output)) + "|" + output
+    
+    def obtain_array_from_len_encode(self, inputstring: str) -> list:
+        result = []
+        if (inputstring == ""):
+            return result
+        
+        run_index = 1
+
+        while run_index < len(inputstring):
+            sep_index = 1
+            for i in range(run_index, len(inputstring)):
+                char_index = inputstring[i]
+                if (char_index == "|"):
+                    sep_index = i
+                    break
+
+            lenmessage = int(inputstring[run_index : sep_index - 1])
+            word = inputstring[sep_index + 1 : sep_index + lenmessage]
+            result.append(word)
+            
+            run_index = max(1, sep_index + lenmessage + 1)
+
+        return result
 
     def clear_invalid_char(self, inputstring: str) -> str:
         newstr = inputstring.replace("{", "")
@@ -251,7 +275,7 @@ class HadesContext(CommonContext):
     async def send_location_hint_to_server(self, message : str) -> None:
         if self.hades_slot_data["store_give_hints"] == 0:
             return
-        split_array = message.split("-")
+        split_array = self.obtain_array_from_len_encode(message)
         request = []
         for location in split_array:
             if len(location) > 0:
