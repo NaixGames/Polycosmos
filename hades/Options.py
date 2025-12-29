@@ -128,7 +128,7 @@ class FatesNeeded(Range):
     """
     display_name = "FatesNeeded"
     range_start = 0
-    range_end = 35
+    range_end = 52
     default = 0
 
 

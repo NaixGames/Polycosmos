@@ -290,7 +290,7 @@ class HadesWorld(World):
                                          "nectar_pack_value", "ambrosia_pack_value", "filler_helper_percentage",
                                          "max_health_helper_percentage", "initial_money_helper_percentage",
                                          "filler_trap_percentage", "reverse_order_em", "ignore_greece_deaths",
-                                         "store_give_hints", "automatic_rooms_finish_on_hades_defeat", "death_link")
+                                         "store_give_hints", "automatic_rooms_finish_on_hades_defeat", "disable_late_styx", "death_link")
         slot_data['seed'] = "".join(self.random.choice(string.ascii_letters) for i in range(16))
         slot_data["version_check"] = self.polycosmos_version
         return slot_data
