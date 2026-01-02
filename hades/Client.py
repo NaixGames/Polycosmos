@@ -255,11 +255,14 @@ class HadesContext(CommonContext):
                     sep_index = i
                     break
 
+            if (run_index == sep_index):
+                break
+
             lenmessage = int(inputstring[run_index : sep_index])
             word = inputstring[sep_index + 1 : sep_index + lenmessage + 1]
             result.append(word)
             
-            run_index = max(0, sep_index + lenmessage + 1)
+            run_index = sep_index + lenmessage + 1
 
         return result
 
