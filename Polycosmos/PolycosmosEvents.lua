@@ -562,7 +562,7 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["IgnoreGreeceDeaths"] = tonumber(array_settings[31])
     GameState.ClientGameSettings["FateSanity"] = tonumber(array_settings[32])
     GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[33])
-    GameState.ClientGameSettings["PolycosmosVersion"] = tonumber(array_settings[34])
+    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[34])
     GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[35])
 
     GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[36])

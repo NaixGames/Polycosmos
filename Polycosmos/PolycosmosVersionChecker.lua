@@ -10,10 +10,13 @@ function PolycosmosVersionChecker.CheckVersion()
         return
     end
     client_version = GameState.ClientGameSettings["PolycosmosVersion"]
-    if (client_version ~= polycosmos_version) then
+    if (client_version == polycosmos_version) then
+        print("Compatible version are being used")
+    else
         print("INCOMPATIBLE VERSIONS DETECTED")
-        wait(bufferTime)
-        PolycosmosMessages.PrintToPlayer("Hades using Polycosmos version "..polycosmos_version.." and Client using "..client_version..".")
+        print(client_version)
+        print(polycosmos_version)
+        PolycosmosMessages.PrintToPlayer("Hades using Polycosmos version "..polycosmos_version.." and Client using "..client_version)
         PolycosmosMessages.PrintToPlayer("Your game wont correctly. Checks wont be sent or recieved as expected")
         PolycosmosMessages.PrintToPlayer("DONT push through. Use compatible versions.")
     end
