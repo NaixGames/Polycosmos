@@ -93,6 +93,8 @@ function PolycosmosEvents.GiveRoomCheck(roomNumber)
         return
     end
 
+    PolycosmosVersionChecker.CheckVersion() --This is to avoid players ignoring the version checker. Believe me, this happens WAY more than you think.
+
     if (GameState.ClientGameSettings["LocationMode"] ~= 1) then
         return
     end
@@ -576,6 +578,8 @@ function PolycosmosEvents.SaveClientData( message )
     print("Initial weapon equipped")
 
     print("Saving")
+
+    PolycosmosVersionChecker.CheckVersion()
     
     if (CurrentRun ~= nil) then
         SaveCheckpoint({ SaveName = "_Temp", DevSaveName = CreateDevSaveName( CurrentRun, { PostReward = true } ) })
