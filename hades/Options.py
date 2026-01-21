@@ -152,6 +152,7 @@ class HeatSystem(Choice):
 class HardLaborPactAmount(Range):
     """
     Choose the amount of Hard Labor pacts in the pool.
+    Each pact increases enemy damage by 20%.
     """
     display_name = "Hard Labor Pact Amount"
     range_start = 0
@@ -162,6 +163,7 @@ class HardLaborPactAmount(Range):
 class LastingConsequencesPactAmount(Range):
     """
     Choose the amount of Lasting Consequences pacts in the pool.
+    Each rank reduces healing by 25%.
     """
     display_name = "Lasting Consequences Pact Amount"
     range_start = 0
@@ -172,6 +174,7 @@ class LastingConsequencesPactAmount(Range):
 class ConvenienceFeePactAmount(Range):
     """
     Choose the amount of Convenience Fee pacts in the pool.
+    Each rank increases prices by 40%.
     """
     display_name = "Convenience Fee Pact Amount"
     range_start = 0
@@ -182,6 +185,7 @@ class ConvenienceFeePactAmount(Range):
 class JurySummonsPactAmount(Range):
     """
     Choose the amount of Jury Summons pacts in the pool.
+    Each rank adds 20% more enemies in normal encounters.
     """
     display_name = "Jury Summons Pact Amount"
     range_start = 0
@@ -192,6 +196,7 @@ class JurySummonsPactAmount(Range):
 class ExtremeMeasuresPactAmount(Range):
     """
     Choose the amount of Extreme Measures pacts in the pool.
+    Each rank gives a new boss new attacks.
     """
     display_name = "Extreme Measures Pact Amount"
     range_start = 0
@@ -202,6 +207,7 @@ class ExtremeMeasuresPactAmount(Range):
 class CalisthenicsProgramPactAmount(Range):
     """
     Choose the amount of Calisthenics Program pacts in the pool.
+    Each rank gives enemies 15% more health.
     """
     display_name = "Calisthenics Program Pact Amount"
     range_start = 0
@@ -212,6 +218,7 @@ class CalisthenicsProgramPactAmount(Range):
 class BenefitsPackagePactAmount(Range):
     """
     Choose the amount of Benefits Package pacts in the pool.
+    Each rank gives armored enemies 1 extra perk.
     """
     display_name = "Benefits Package Pact Amount"
     range_start = 0
@@ -222,6 +229,7 @@ class BenefitsPackagePactAmount(Range):
 class MiddleManagementPactAmount(Range):
     """
     Choose the amount of Middle Management pacts in the pool.
+    Each rank adds 1 Armored Enemy to mini-bosses.
     """
     display_name = "Middle Management Pact Amount"
     range_start = 0
@@ -232,6 +240,7 @@ class MiddleManagementPactAmount(Range):
 class UnderworldCustomsPactAmount(Range):
     """
     Choose the amount of Underworld Customs pacts in the pool.
+    Each rank requires purging 1 Boon when leaving a region.
     """
     display_name = "Underworld Customs Pact Amount"
     range_start = 0
@@ -242,6 +251,7 @@ class UnderworldCustomsPactAmount(Range):
 class ForcedOvertimePactAmount(Range):
     """
     Choose the amount of Forced Overtime pacts in the pool.
+    Each rank makes enemies move and attack 20% faster.
     """
     display_name = "Forced Overtime Pact Amount"
     range_start = 0
@@ -252,6 +262,7 @@ class ForcedOvertimePactAmount(Range):
 class HeightenedSecurityPactAmount(Range):
     """
     Choose the amount of Heightened Security pacts in the pool.
+    Makes traps and magma deal 400% more damage.
     """
     display_name = "Heightened Security Pact Amount"
     range_start = 0
@@ -262,6 +273,7 @@ class HeightenedSecurityPactAmount(Range):
 class RoutineInspectionPactAmount(Range):
     """
     Choose the amount of Routine Inspection pacts in the pool.
+    Each rank deactivates 3 talents from the Mirror of Night.
     """
     display_name = "Routine Inspection Pact Amount"
     range_start = 0
@@ -272,6 +284,7 @@ class RoutineInspectionPactAmount(Range):
 class DamageControlPactAmount(Range):
     """
     Choose the amount of Damage Control pacts in the pool.
+    Each rank gives enemies 1 shield, protecting them from one attack.
     """
     display_name = "Damage Control Pact Amount"
     range_start = 0
@@ -282,6 +295,7 @@ class DamageControlPactAmount(Range):
 class ApprovalProcessPactAmount(Range):
     """
     Choose the amount of Approval Process pacts in the pool.
+    Each rank removes 1 option from boons and upgrades.
     """
     display_name = "Approval Process Pact Amount"
     range_start = 0
@@ -292,6 +306,8 @@ class ApprovalProcessPactAmount(Range):
 class TightDeadlinePactAmount(Range):
     """
     Choose the amount of Tight Deadline pacts in the pool.
+    Each rank reduces the time you have to clear a region by 2 minutes.
+    1 rank gives you 9 minutes.
     """
     display_name = "Tight Deadline Pact Amount"
     range_start = 0
@@ -302,6 +318,7 @@ class TightDeadlinePactAmount(Range):
 class PersonalLiabilityPactAmount(Range):
     """
     Choose the amount of Personal Liability pacts in the pool.
+    Removes brief invulnerability after taking damage.
     """
     display_name = "Personal Liability Pact Amount"
     range_start = 0
