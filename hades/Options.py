@@ -572,6 +572,16 @@ class AutomaticRoomsFinishOnHadesDefeat(Toggle):
     display_name = "Automatic Room Finish On Hades Defeat"
     default = 0
 
+class DeathLinkAmnesty(Range):
+    """
+    Choose the amount of deaths it takes to send a deathlink. 
+    A value of 1 functions as normal deathlink.
+    """
+    display_name = "Death Link Amnesty"
+    range_start = 1
+    range_end = 10
+    default = 1
+
 
 # ------------------------------ Building dictionary ------------------------
 
@@ -631,6 +641,7 @@ class HadesOptions(PerGameCommonOptions):
     disable_late_styx : DisableLateStyx
     automatic_rooms_finish_on_hades_defeat: AutomaticRoomsFinishOnHadesDefeat
     death_link: DeathLink
+    death_link_amnesty: DeathLinkAmnesty
 
 # ------------------------------ Options groups
 
@@ -646,6 +657,7 @@ hades_option_groups = [
         StoreSanity,
         FateSanity,
         DeathLink,
+        DeathLinkAmnesty,
     ]),
     OptionGroup("Goal Options", [
         HadesDefeatsNeeded,
