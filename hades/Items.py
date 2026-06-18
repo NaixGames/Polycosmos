@@ -207,6 +207,13 @@ item_table_helpers: Dict[str, ItemData] = {
     "Initial Money Helper": ItemData(hades_base_item_id + 84, False, False, False),
 }
 
+item_table_abilities: Dict[str, ItemData] = {
+    "Dash": ItemData(hades_base_item_id + 85, True),
+    "Cast": ItemData(hades_base_item_id + 86, True),
+    "Special": ItemData(hades_base_item_id + 87, True),
+    "Call": ItemData(hades_base_item_id + 88, True),
+}
+
 def create_trap_pool():
     return [trap for trap in item_table_traps.keys()]
 
@@ -383,6 +390,7 @@ item_table = {
     **item_table_hidden_aspects,
     **item_table_traps,
     **item_table_helpers,
+    **item_table_abilities
 }
 
 group_pacts = {"pacts": item_table_pacts.keys()}
@@ -391,6 +399,7 @@ group_contractor = {"contractor": item_table_store.keys()}
 group_weapons = {"weapons": item_table_weapons.keys()}
 group_aspects = {"aspects": item_table_hidden_aspects.keys()}
 group_keepsakes = {"keepsakes": item_table_keepsake.keys()}
+group_abilities = {"abilities": item_table_abilities.keys()}
 
 item_name_groups = {
     **group_pacts,
@@ -399,6 +408,7 @@ item_name_groups = {
     **group_weapons,
     **group_aspects,
     **group_keepsakes,
+    **group_abilities,
 }
 
 

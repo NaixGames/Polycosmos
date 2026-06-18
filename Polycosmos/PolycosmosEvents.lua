@@ -252,6 +252,8 @@ function PolycosmosEvents.UpdateItemsRun( message )
             PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
         elseif (PolycosmosWeaponManager.IsWeaponItem(parsedName)) then
             PolycosmosWeaponManager.UnlockWeapon(parsedName)
+		elseif (PolycosmosAbilityManager.IsAbilityItem(parsedName)) then
+			PolycosmosAbilityManager.UnlockAbility(parsedName)
         elseif (PolycosmosCosmeticsManager.IsCosmeticItem(parsedName)) then
             PolycosmosCosmeticsManager.UnlockCosmetics(parsedName)
         elseif (PolycosmosAspectsManager.IsHiddenAspect(parsedName)) then

@@ -65,6 +65,15 @@ class WeaponSanity(DefaultOnToggle):
     display_name = "WeaponSanity"
     
 
+class AbilitySanity(DefaultOnToggle):
+    """
+    Shuffles abilities (Special, Dash, Cast, and Call) into the item pool. Boons for each
+    ability will not show up until their item is received.
+    Need to be sent the ability item to use each skill.
+    """
+    display_name = "AbilitySanity"
+
+
 class HiddenAspectSanity(DefaultOnToggle):
     """
     Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check 
@@ -593,6 +602,7 @@ class HadesOptions(PerGameCommonOptions):
     score_rewards_amount: ScoreRewardsAmount
     keepsakesanity: KeepsakeSanity
     weaponsanity: WeaponSanity
+    abilitysanity: AbilitySanity
     hidden_aspectsanity: HiddenAspectSanity
     storesanity: StoreSanity
     fatesanity: FateSanity
@@ -653,6 +663,7 @@ hades_option_groups = [
         ScoreRewardsAmount,
         KeepsakeSanity,
         WeaponSanity,
+        AbilitySanity,
         HiddenAspectSanity,
         StoreSanity,
         FateSanity,
@@ -721,6 +732,7 @@ hades_option_groups = [
 hades_option_presets: Dict[str, Dict[str, Any]] = {
     "Easy": {
         "score_rewards_amount": 100,
+        "abilitysanity": False,
         "hidden_aspectsanity": False,
         "fatesanity": False,
         "heat_system": "reverse_heat",
@@ -756,6 +768,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
     },
     "Normal": {
         "score_rewards_amount": 100,
+        "abilitysanity": True,
         "hidden_aspectsanity": True,
         "fatesanity": False,
         "heat_system": "reverse_heat",
@@ -789,6 +802,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
     },
     "Hard": {
         "score_rewards_amount": 100,
+        "abilitysanity": True,
         "hidden_aspectsanity": True,
         "fatesanity": True,
         "heat_system": "reverse_heat",

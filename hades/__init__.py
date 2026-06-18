@@ -4,7 +4,7 @@ import settings
 
 from BaseClasses import Entrance, Item, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
-    create_pact_pool_amount, item_table_keepsake, item_table_weapons, \
+    create_pact_pool_amount, item_table_keepsake, item_table_weapons, item_table_abilities, \
     item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, \
     location_table_fates_events, location_name_groups
@@ -100,6 +100,20 @@ class HadesWorld(World):
                 item = HadesItem(name, self.player)
                 pool.append(item)
 
+        # Fill ability items
+        if self.options.abilitysanity:
+            for name, data in item_table_abilities.items():
+                item = HadesItem(name, self.player)
+                pool.append(item)
+                
+                self.multiworld.early_items[self.player][name] = 1
+
+        else:
+            for name, data in item_table_abilities.items():
+                self.multiworld.push_precollected(
+                    HadesItem(name, self.player)
+                )
+                
         # Fill store items
         if self.options.storesanity:
             for name, data in item_table_store.items():
@@ -107,7 +121,7 @@ class HadesWorld(World):
                 pool.append(item)
 
         if self.options.hidden_aspectsanity:
-            for name, date in item_table_hidden_aspects.items():
+            for name, data in item_table_hidden_aspects.items():
                 item = HadesItem(name, self.player)
                 pool.append(item)
 
@@ -275,7 +289,7 @@ class HadesWorld(World):
 
     def fill_slot_data(self) -> dict:
         slot_data = self.options.as_dict("initial_weapon", "location_system", "score_rewards_amount", "keepsakesanity",
-                                         "weaponsanity", "hidden_aspectsanity", "storesanity", "fatesanity",
+                                         "weaponsanity", "abilitysanity", "hidden_aspectsanity", "storesanity", "fatesanity",
                                          "hades_defeats_needed", "weapons_clears_needed", "keepsakes_needed", 
                                          "fates_needed", "heat_system", "hard_labor_pact_amount",
                                          "lasting_consequences_pact_amount", "convenience_fee_pact_amount",

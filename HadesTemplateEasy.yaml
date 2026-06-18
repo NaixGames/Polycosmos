@@ -133,6 +133,13 @@ Hades:
     false: 0
     true: 50
 
+  abilitysanity:
+    # Shuffles abilities (Special, Dash, Cast, and Call) into the item pool. Boons for each
+    # ability will not show up until their item is received.
+    # Need to be sent the ability item to use each skill.
+    false: 50
+    true: 0
+
   hidden_aspectsanity:
     # Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check
     # (which needs to be unlocked before being able to be bought.)

@@ -104,8 +104,8 @@ Hades:
     # gives items according to score obtained by clearing rooms (even repeated ones). (3) RoomWeaponBased gives
     # items on every new room completed with a new weapon (so more locations than the original room based system)
     room_based: 0
-    score_based: 50
-    room_weapon_based: 0
+    score_based: 0
+    room_weapon_based: 50
 
   score_rewards_amount:
     # When using score based system, this sets how many checks are available based on the score. 
@@ -133,6 +133,13 @@ Hades:
     false: 0
     true: 50
 
+  abilitysanity:
+    # Shuffles abilities (Special, Dash, Cast, and Call) into the item pool. Boons for each
+    # ability will not show up until their item is received.
+    # Need to be sent the ability item to use each skill.
+    false: 0
+    true: 50
+
   hidden_aspectsanity:
     # Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check
     # (which needs to be unlocked before being able to be bought.)
@@ -149,8 +156,8 @@ Hades:
     # Shuffles most rewards from the Fated List of Prophecies into the item pool, 
     # and makes the corresponding items from the list a check. 
     # Can make the games significantly longer
-    false: 0
-    true: 50
+    false: 50
+    true: 0
 
   hades_defeats_needed:
     # How many times you need to defeat Hades to win the world. 10 is for credits.
@@ -158,7 +165,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 1
     # Maximum value is 20
-    1: 50
+    1: 3
     random: 0
     random-low: 0
     random-high: 0
@@ -169,7 +176,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 1
     # Maximum value is 6
-    1: 50
+    1: 3
     random: 0
     random-low: 0
     random-high: 0
@@ -180,7 +187,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 23
-    0: 50
+    0: 23
     random: 0
     random-low: 0
     random-high: 0
@@ -191,7 +198,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 35
-    0: 50
+    0: 0
     random: 0
     random-low: 0
     random-high: 0
@@ -212,7 +219,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 5
-    3: 50
+    3: 5
     random: 0
     random-low: 0
     random-high: 0
@@ -223,7 +230,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 4
-    2: 50
+    2: 4
     random: 0
     random-low: 0
     random-high: 0
@@ -234,7 +241,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 2
-    1: 50
+    1: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -245,7 +252,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 3
-    2: 50
+    2: 3
     random: 0
     random-low: 0
     random-high: 0
@@ -256,7 +263,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 4
-    2: 50
+    2: 4
     random: 0
     random-low: 0
     random-high: 0
@@ -267,7 +274,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 2
-    1: 50
+    1: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -278,7 +285,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 2
-    1: 50
+    1: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -289,7 +296,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 1
-    1: 50
+    1: 1
     random: 0
     random-low: 0
     random-high: 0
@@ -300,7 +307,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 1
-    1: 50
+    1: 1
     random: 0
     random-low: 0
     random-high: 0
@@ -311,7 +318,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 2
-    1: 50
+    1: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -322,7 +329,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 1
-    1: 50
+    1: 1
     random: 0
     random-low: 0
     random-high: 0
@@ -333,7 +340,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 4
-    3: 50
+    3: 4
     random: 0
     random-low: 0
     random-high: 0
@@ -344,7 +351,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 2
-    1: 50
+    1: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -355,7 +362,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 2
-    1: 50
+    1: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -366,7 +373,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 3
-    2: 50
+    2: 0
     random: 0
     random-low: 0
     random-high: 0
@@ -377,7 +384,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 1
-    0: 50
+    0: 1
     random: 0
     random-low: 0
     random-high: 0
@@ -389,7 +396,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 10000
-    500: 50
+    500: 500
     random: 0
     random-low: 0
     random-high: 0
@@ -401,7 +408,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 500
-    10: 50
+    10: 10
     random: 0
     random-low: 0
     random-high: 0
@@ -425,7 +432,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    5: 50
+    5: 5
     random: 0
     random-low: 0
     random-high: 0
@@ -437,7 +444,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 50
-    2: 50
+    2: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -449,7 +456,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 50
-    2: 50
+    2: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -461,7 +468,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 50
-    2: 50
+    2: 2
     random: 0
     random-low: 0
     random-high: 0
@@ -473,7 +480,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    0: 50
+    0: 20
     random: 0
     random-low: 0
     random-high: 0
@@ -484,7 +491,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    40: 50
+    40: 40
     random: 0
     random-low: 0
     random-high: 0
@@ -498,7 +505,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    30: 50
+    30: 30
     random: 0
     random-low: 0
     random-high: 0
@@ -510,7 +517,7 @@ Hades:
     # You can define additional values between the minimum and maximum values.
     # Minimum value is 0
     # Maximum value is 100
-    10: 50
+    10: 0
     random: 0
     random-low: 0
     random-high: 0
