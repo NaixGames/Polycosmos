@@ -101,18 +101,40 @@ class HadesWorld(World):
                 pool.append(item)
 
         # Fill ability items
-        if self.options.abilitysanity:
-            for name, data in item_table_abilities.items():
+        if self.options.abilitysanity.value == 1:
+            for name, (data, category) in item_table_abilities.items():
                 item = HadesItem(name, self.player)
-                pool.append(item)
-                
-                self.multiworld.early_items[self.player][name] = 1
-
+                if category == "shared":
+                    pool.append(item)
+                elif category == "attack":
+                    if self.options.initial_ability.value == 1:
+                        self.multiworld.push_precollected(item)
+                    else:
+                        pool.append(item)
+                elif category == "special":
+                    if self.options.initial_ability.value == 2:
+                        self.multiworld.push_precollected(item)
+                    else:
+                        pool.append(item)
+        elif self.options.abilitysanity.value == 2:
+            for name, (data, category) in item_table_abilities.items():
+                item = HadesItem(name, self.player)
+                if category == "shared":
+                    pool.append(item)
+                elif category == "generic_attack":
+                    if self.options.initial_ability.value == 1:
+                        self.multiworld.push_precollected(item)
+                    else:
+                        pool.append(item)
+                elif category == "generic_special":
+                    if self.options.initial_ability.value == 2:
+                        self.multiworld.push_precollected(item)
+                    else:
+                        pool.append(item)
         else:
-            for name, data in item_table_abilities.items():
-                self.multiworld.push_precollected(
-                    HadesItem(name, self.player)
-                )
+            for name, (data, category) in item_table_abilities.items():
+                if category not in("attack", "special"):
+                    self.multiworld.push_precollected(HadesItem(name, self.player))
                 
         # Fill store items
         if self.options.storesanity:
@@ -289,7 +311,7 @@ class HadesWorld(World):
 
     def fill_slot_data(self) -> dict:
         slot_data = self.options.as_dict("initial_weapon", "location_system", "score_rewards_amount", "keepsakesanity",
-                                         "weaponsanity", "abilitysanity", "hidden_aspectsanity", "storesanity", "fatesanity",
+                                         "weaponsanity", "abilitysanity", "initial_ability", "hidden_aspectsanity", "storesanity", "fatesanity",
                                          "hades_defeats_needed", "weapons_clears_needed", "keepsakes_needed", 
                                          "fates_needed", "heat_system", "hard_labor_pact_amount",
                                          "lasting_consequences_pact_amount", "convenience_fee_pact_amount",

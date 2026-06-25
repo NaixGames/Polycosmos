@@ -252,8 +252,8 @@ function PolycosmosEvents.UpdateItemsRun( message )
             PolycosmosKeepsakeManager.GiveKeepsakeItem(parsedName)
         elseif (PolycosmosWeaponManager.IsWeaponItem(parsedName)) then
             PolycosmosWeaponManager.UnlockWeapon(parsedName)
-		elseif (PolycosmosAbilityManager.IsAbilityItem(parsedName)) then
-			PolycosmosAbilityManager.UnlockAbility(parsedName)
+        elseif PolycosmosAbilityManager.IsAbilityItem(itemName) then
+            PolycosmosAbilityManager.UnlockAbility(itemName)
         elseif (PolycosmosCosmeticsManager.IsCosmeticItem(parsedName)) then
             PolycosmosCosmeticsManager.UnlockCosmetics(parsedName)
         elseif (PolycosmosAspectsManager.IsHiddenAspect(parsedName)) then
@@ -519,7 +519,7 @@ function PolycosmosEvents.SaveClientData( message )
 
     local array_settings = PolycosmosUtils.NewParseStringToArray(message)
 
-    print("Parsed array to string. Length is "..#array_settings) --This should be 39
+    print("Parsed array to string. Length is "..#array_settings) --This should be 41
 
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
@@ -559,18 +559,21 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["ReverseOrderEM"] = tonumber(array_settings[26])
     GameState.ClientGameSettings["KeepsakeSanity"] = tonumber(array_settings[27])
     GameState.ClientGameSettings["WeaponSanity"] = tonumber(array_settings[28])
-    GameState.ClientGameSettings["StoreSanity"] = tonumber(array_settings[29])
-    GameState.ClientGameSettings["InitialWeapon"] = tonumber(array_settings[30])
-    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = tonumber(array_settings[31])
-    GameState.ClientGameSettings["FateSanity"] = tonumber(array_settings[32])
-    GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[33])
-    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[34])
-    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[35])
+    GameState.ClientGameSettings["AbilitySanity"] = tonumber(array_settings[29])
+    GameState.ClientGameSettings["InitialAbility"] = tonumber(array_settings[30])
+    GameState.ClientGameSettings["StoreSanity"] = tonumber(array_settings[31])
+    GameState.ClientGameSettings["InitialWeapon"] = tonumber(array_settings[32])
+    GameState.ClientGameSettings["IgnoreGreeceDeaths"] = tonumber(array_settings[33])
+    GameState.ClientGameSettings["FateSanity"] = tonumber(array_settings[34])
+    GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[35])
+    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[36])
+    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[37])
 
-    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[36])
-    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[37])
-    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[38])
-    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[39])
+    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[38])
+    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[39])
+    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[40])
+    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[41])
+
 
     GameState.ClientDataIsLoaded = true
 

@@ -134,11 +134,21 @@ Hades:
     true: 50
 
   abilitysanity:
-    # Shuffles abilities (Special, Dash, Cast, and Call) into the item pool. Boons for each
-    # ability will not show up until their item is received.
+    # Shuffles abilities (Special, Dash, Cast, and Call) into the item pool.
+    # Boons for each ability will not show up until their item is received.
     # Need to be sent the ability item to use each skill.
-    false: 0
-    true: 50
+    # Weapon Based adds an item for each weapon's Attack and Special.
+    # Default adds one general Attack item and one Special item.
+    # Vanilla leaves abilities unrandomized.
+    random_abilities_weapon_based: 0
+    random_abilities_default: 50
+    vanilla_abilities: 0
+
+  initial_ability:
+    # If AbilitySanity is enabled, choose your starting ability.
+    # Ignored when AbilitySanity is set to Vanilla.
+    starting_attack: 50
+    starting_special: 0
 
   hidden_aspectsanity:
     # Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check

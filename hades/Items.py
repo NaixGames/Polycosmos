@@ -207,11 +207,27 @@ item_table_helpers: Dict[str, ItemData] = {
     "Initial Money Helper": ItemData(hades_base_item_id + 84, False, False, False),
 }
 
-item_table_abilities: Dict[str, ItemData] = {
-    "Dash": ItemData(hades_base_item_id + 85, True),
-    "Cast": ItemData(hades_base_item_id + 86, True),
-    "Special": ItemData(hades_base_item_id + 87, True),
-    "Call": ItemData(hades_base_item_id + 88, True),
+item_table_abilities: Dict[str, tuple[ItemData, str]] = {
+    "Dash": (ItemData(hades_base_item_id + 85, True), "shared"),
+    "Cast": (ItemData(hades_base_item_id + 86, True), "shared"),
+    "Call": (ItemData(hades_base_item_id + 87, True), "shared"),
+
+    "Sword Attack": (ItemData(hades_base_item_id + 88, True), "attack"),
+    "Spear Attack": (ItemData(hades_base_item_id + 89, True), "attack"),
+    "Shield Attack": (ItemData(hades_base_item_id + 90, True), "attack"),
+    "Bow Attack": (ItemData(hades_base_item_id + 91, True), "attack"),
+    "Fist Attack": (ItemData(hades_base_item_id + 92, True), "attack"),
+    "Gun Attack": (ItemData(hades_base_item_id + 93, True), "attack"),
+
+    "Sword Special": (ItemData(hades_base_item_id + 94, True), "special"),
+    "Spear Special": (ItemData(hades_base_item_id + 95, True), "special"),
+    "Shield Special": (ItemData(hades_base_item_id + 96, True), "special"),
+    "Bow Special": (ItemData(hades_base_item_id + 97, True), "special"),
+    "Fist Special": (ItemData(hades_base_item_id + 98, True), "special"),
+    "Gun Special": (ItemData(hades_base_item_id + 99, True), "special"),
+
+    "Attack": (ItemData(hades_base_item_id + 100, True), "generic_attack"),
+    "Special": (ItemData(hades_base_item_id + 101, True), "generic_special"),
 }
 
 def create_trap_pool():
@@ -390,7 +406,7 @@ item_table = {
     **item_table_hidden_aspects,
     **item_table_traps,
     **item_table_helpers,
-    **item_table_abilities
+    **{name: data for name, (data, category) in item_table_abilities.items()}
 }
 
 group_pacts = {"pacts": item_table_pacts.keys()}
