@@ -239,9 +239,11 @@ function PolycosmosEvents.UpdateItemsRun( message )
 
     local itemList = PolycosmosUtils.ParseStringToArray(message)
     local pactList = {}
+    local mirrorUpgradeList = {}
     for i=1,#itemList do
         local itemName = itemList[i]
         local parsedName = (itemName):gsub(" ", "")
+        local mirrorName = itemName:gsub(" Level","")
         parsedName = (parsedName):gsub("PactLevel", "")
         print("HERE:"..parsedName)
         if (PolycosmosHeatManager.IsHeatLevel(parsedName)) then
@@ -262,9 +264,12 @@ function PolycosmosEvents.UpdateItemsRun( message )
             PolycosmosTrapManager.GiveTrapItem(parsedName)
         elseif (PolycosmosHelperManager.IsHelperItem(parsedName)) then
             PolycosmosHelperManager.GiveHelperItem(parsedName)
+        elseif PolycosmosMirrorManager.IsMirrorItem(mirrorName) then
+            table.insert(mirrorUpgradeList,mirrorName)
         end
     end
     PolycosmosHeatManager.SetUpHeatLevelFromPactList(pactList)
+    PolycosmosMirrorManager.RebuildMirrorStateFromUpgradeList(mirrorUpgradeList)
     PolycosmosItemManager.FlushAndProcessFillerItems()
     PolycosmosHelperManager.FlushAndProcessHelperItems()
     PolycosmosMessages.ClearBufferFlags()
@@ -519,7 +524,7 @@ function PolycosmosEvents.SaveClientData( message )
 
     local array_settings = PolycosmosUtils.NewParseStringToArray(message)
 
-    print("Parsed array to string. Length is "..#array_settings) --This should be 41
+    print("Parsed array to string. Length is "..#array_settings) --This should be 42
 
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
@@ -566,13 +571,14 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["IgnoreGreeceDeaths"] = tonumber(array_settings[33])
     GameState.ClientGameSettings["FateSanity"] = tonumber(array_settings[34])
     GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[35])
-    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[36])
-    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[37])
+    GameState.ClientGameSettings["MirrorSanity"] = tonumber(array_settings[36])
+    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[37])
+    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[38])
 
-    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[38])
-    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[39])
-    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[40])
-    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[41])
+    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[39])
+    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[40])
+    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[41])
+    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[42])
 
 
     GameState.ClientDataIsLoaded = true
@@ -611,6 +617,7 @@ function PolycosmosEvents.SetUpGameWithData()
     PolycosmosHeatManager.SaveUserIntededHeat()
     PolycosmosHeatManager.CheckMinimalHeatSetting()
     PolycosmosHeatManager.UpdatePactsLevelWithoutMetaCache()
+    PolycosmosMirrorManager.UpdateMirrorLevels()
     PolycosmosHelperManager.SetupMaxHealth(0)
     --Send all locations to server to resync, jic
     for i,value in ipairs(GameState.LocationsChecked) do

@@ -168,6 +168,12 @@ Hades:
     # Can make the games significantly longer
     false: 0
     true: 50
+    
+  mirrorsanity:
+    # Shuffles upgrades from the Mirror of Night into the item pool, and makes each upgrade
+    # level a check. Adds about 150 locations.
+    false: 0
+    true: 50
 
   hades_defeats_needed:
     # How many times you need to defeat Hades to win the world. 10 is for credits.
