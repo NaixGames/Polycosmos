@@ -1,7 +1,6 @@
 ModUtil.Mod.Register("PolycosmosAbilityManager")
 
 PolycosmosAbilityManager = {}
-DebugPrint({ Text = "PolycosmosAbilityData: "..tostring(PolycosmosAbilityData ~= nil) })
 
 local abilityMap = PolycosmosAbilityData.AbilityMap
 local weaponTraits = PolycosmosAbilityData.WeaponTraits

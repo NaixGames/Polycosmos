@@ -29,28 +29,19 @@ local SurfaceFish =
     }
 
 ModUtil.Path.Wrap("RecordFish", function(baseFunc, fishName)
-    DebugPrint({Text = "Recording"..fishName})
     local fishSanity = GameState.ClientGameSettings["FishSanity"]
-    DebugPrint({Text = "fishSanity = "..tostring(fishSanity)})
     if fishSanity == 0 then
         return baseFunc(fishName)
     end
 
     local firstCatch = GameState.TotalCaughtFish == nil or GameState.TotalCaughtFish[fishName] == nil
-    DebugPrint({Text = "firstCatch = "..tostring(firstCatch)})
     baseFunc(fishName)
-    DebugPrint({Text = "After baseFunc"})
     if not firstCatch then
         return 
     end
-    DebugPrint({Text = "FIRST CATCH"})
     if SurfaceFish[fishName] and fishSanity ~= 2 then
         return
     end
-    DebugPrint({Text = "SENDING "..FishNames[fishName]})
     PolycosmosEvents.ProcessLocationCheck("Catch "..FishNames[fishName], true)
     
 end)
-OnControlPressed{ "Rush",
-function()
-RecordFish("Fish_Tartarus_Common_01")end}
