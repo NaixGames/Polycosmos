@@ -206,6 +206,52 @@ location_table_fates_events = {
     "The Gift of Song Event" : None,
 }
 
+# ----------- Mirror Upgrade Locations -----------
+mirror_upgrade_max_levels = {
+    "Shadow Presence": 5,
+    "Chthonic Vitality": 3,
+    "Death Defiance": 3,
+    "Greater Reflex": 1,
+    "Boiling Blood": 5,
+    "Infernal Soul": 2,
+    "Deep Pockets": 10,
+    "Thick Skin": 10,
+    "Privileged Status": 2,
+    "Olympian Favor": 40,
+    "Gods' Pride": 20,
+    "Fated Authority": 8,
+    "Fiery Presence": 5,
+    "Dark Regeneration": 2,
+    "Stubborn Defiance": 1,
+    "Ruthless Reflex": 1,
+    "Abyssal Blood": 5,
+    "Stygian Soul": 2,
+    "Golden Touch": 3,
+    "High Confidence": 5,
+    "Family Favorite": 2,
+    "Dark Foresight": 10,
+    "Gods' Legacy": 10,
+    "Fated Persuasion": 4,
+}
+location_table_mirror = {}
+def build_mirror_locations(start_id: int) -> dict:
+    locations = {}
+
+    current_id = start_id
+
+    for upgrade_name, max_level in mirror_upgrade_max_levels.items():
+        for level in range(1, max_level + 1):
+            locations[
+                f"Mirror {upgrade_name} - Level {level}"
+            ] = current_id
+
+            current_id += 1
+
+    return locations
+
+location_table_mirror = build_mirror_locations(
+    max_number_room_checks + 106
+)
 # ----------------------
 
 location_weapons_subfixes = [
@@ -235,6 +281,7 @@ def give_all_locations_table() -> dict:
         **location_store_diamonds,
         **location_table_fates,
         **location_table_fates_events,
+        **location_table_mirror,
     }
 
 
@@ -296,6 +343,9 @@ def setup_location_table_with_settings(options) -> None:
     
     if options.fatesanity == 1:
         total_table.update(location_table_fates)
+
+    if options.mirrorsanity.value == 1:
+        total_table.update(location_table_mirror)
     
     return total_table
             
@@ -459,6 +509,7 @@ group_keepsakes = {"keepsakes": location_keepsakes.keys()}
 group_weapons = {"weapons": location_weapons.keys()}
 group_contractor_gemstones = {"contractor_gems": location_store_gemstones.keys()}
 group_contractor_diamonds = {"contractor_diamonds": location_store_diamonds.keys()}
+group_mirror = {"mirror": location_table_mirror.keys()}
 
 location_name_groups = {
     **group_fates,
@@ -466,6 +517,7 @@ location_name_groups = {
     **group_weapons,
     **group_contractor_gemstones,
     **group_contractor_diamonds,
+    **group_mirror,
 }
 
 

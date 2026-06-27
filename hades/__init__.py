@@ -5,9 +5,9 @@ import settings
 from BaseClasses import Entrance, Item, MultiWorld, Region, Tutorial
 from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, HadesItem, event_item_pairs, \
     create_pact_pool_amount, item_table_keepsake, item_table_weapons, item_table_abilities, \
-    item_table_store, item_table_hidden_aspects, create_trap_pool, item_name_groups
+    item_table_store, item_table_hidden_aspects, item_table_mirror, create_trap_pool, item_name_groups
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, \
-    location_table_fates_events, location_name_groups
+    location_table_fates_events, location_name_groups, mirror_upgrade_max_levels
 from .Options import hades_option_presets, hades_option_groups, HadesOptions
 from .Regions import create_regions
 from .Rules import set_rules
@@ -146,6 +146,14 @@ class HadesWorld(World):
             for name, data in item_table_hidden_aspects.items():
                 item = HadesItem(name, self.player)
                 pool.append(item)
+
+        # Fill mirror items
+        if self.options.mirrorsanity:
+            for name, data in item_table_mirror.items():
+                base_name = name.removesuffix(" Level")
+                for _ in range(mirror_upgrade_max_levels.get(base_name,1)):
+                    item = HadesItem(name, self.player)
+                    pool.append(item)
 
         # Pair up our event locations with our event items
         if self.options.location_system == "room_weapon_based":
@@ -312,7 +320,7 @@ class HadesWorld(World):
     def fill_slot_data(self) -> dict:
         slot_data = self.options.as_dict("initial_weapon", "location_system", "score_rewards_amount", "keepsakesanity",
                                          "weaponsanity", "abilitysanity", "initial_ability", "hidden_aspectsanity", "storesanity", "fatesanity",
-                                         "hades_defeats_needed", "weapons_clears_needed", "keepsakes_needed", 
+                                         "mirrorsanity", "hades_defeats_needed", "weapons_clears_needed", "keepsakes_needed", 
                                          "fates_needed", "heat_system", "hard_labor_pact_amount",
                                          "lasting_consequences_pact_amount", "convenience_fee_pact_amount",
                                          "jury_summons_pact_amount", "extreme_measures_pact_amount",

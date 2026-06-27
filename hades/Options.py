@@ -113,6 +113,13 @@ class FateSanity(DefaultOnToggle):
     """
     display_name = "FateSanity"
 
+class MirrorSanity(DefaultOnToggle):
+    """
+    Shuffles upgrades from the Mirror of Night into the item pool, and makes each upgrade
+    level a check. Adds about 150 locations.
+    """
+    display_name = "MirrorSanity"
+
 # -------------------- Endgame settings
 
 
@@ -622,6 +629,7 @@ class HadesOptions(PerGameCommonOptions):
     hidden_aspectsanity: HiddenAspectSanity
     storesanity: StoreSanity
     fatesanity: FateSanity
+    mirrorsanity: MirrorSanity
     hades_defeats_needed: HadesDefeatsNeeded
     weapons_clears_needed: WeaponsClearsNeeded
     keepsakes_needed: KeepsakesNeeded
@@ -684,6 +692,7 @@ hades_option_groups = [
         HiddenAspectSanity,
         StoreSanity,
         FateSanity,
+        MirrorSanity,
         DeathLink,
         DeathLinkAmnesty,
     ]),
@@ -753,6 +762,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "initial_ability": "starting_attack",
         "hidden_aspectsanity": False,
         "fatesanity": False,
+        "mirrorsanity": False,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 2,
         "lasting_consequences_pact_amount": 1,
@@ -790,6 +800,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "initial_ability": "starting_attack",
         "hidden_aspectsanity": True,
         "fatesanity": False,
+        "mirrorsanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 3,
         "lasting_consequences_pact_amount": 2,
@@ -825,6 +836,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "initial_ability": "starting_attack",
         "hidden_aspectsanity": True,
         "fatesanity": True,
+        "mirrorsanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 5,
         "lasting_consequences_pact_amount": 4,

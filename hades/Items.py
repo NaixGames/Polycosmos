@@ -1,6 +1,7 @@
 from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
+from .Locations import mirror_upgrade_max_levels
 
 
 class ItemData(NamedTuple):
@@ -230,6 +231,13 @@ item_table_abilities: Dict[str, tuple[ItemData, str]] = {
     "Special": (ItemData(hades_base_item_id + 101, True), "generic_special"),
 }
 
+item_table_mirror: Dict[str, ItemData] = {}
+next_id = hades_base_item_id + 102
+
+for item_name in mirror_upgrade_max_levels.keys():
+    item_table_mirror[f"{item_name} Level"] = ItemData(next_id, True)
+    next_id += 1
+
 def create_trap_pool():
     return [trap for trap in item_table_traps.keys()]
 
@@ -406,6 +414,7 @@ item_table = {
     **item_table_hidden_aspects,
     **item_table_traps,
     **item_table_helpers,
+    **item_table_mirror,
     **{name: data for name, (data, category) in item_table_abilities.items()}
 }
 
@@ -416,6 +425,7 @@ group_weapons = {"weapons": item_table_weapons.keys()}
 group_aspects = {"aspects": item_table_hidden_aspects.keys()}
 group_keepsakes = {"keepsakes": item_table_keepsake.keys()}
 group_abilities = {"abilities": item_table_abilities.keys()}
+group_mirror = {"mirror": item_table_mirror.keys()}
 
 item_name_groups = {
     **group_pacts,
@@ -425,6 +435,7 @@ item_name_groups = {
     **group_aspects,
     **group_keepsakes,
     **group_abilities,
+    **group_mirror,
 }
 
 
