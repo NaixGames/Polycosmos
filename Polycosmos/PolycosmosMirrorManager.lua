@@ -147,6 +147,11 @@ for clientName, data in pairs(MirrorUpgradeTable) do
 end
 
 function PolycosmosMirrorManager.RebuildMirrorStateFromUpgradeList(mirrorUpgradeList)
+	
+    if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+        return
+    end
+
 	local oldCounts = {}
 	for clientName, data in pairs(MirrorUpgradeTable) do
 		oldCounts[clientName] = data.ObtainedMirrorUpgradeItems
@@ -174,6 +179,11 @@ function PolycosmosMirrorManager.ResetMirrorLevels()
     end
 end
 function PolycosmosMirrorManager.UpdateMirrorLevels()
+	
+    if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+        return
+    end
+
     local mirrorSettingLoader = {}
     --sanity check on the upgrades we've received and print handling for the player
     for clientName, upgradeData in pairs(MirrorUpgradeTable) do
@@ -216,6 +226,11 @@ function PolycosmosMirrorManager.UpdateMirrorLevels()
 end
 
 function PolycosmosMirrorManager.UpdateHeroStatsFromMirror()
+	
+    if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+        return
+    end
+
     Heal( CurrentRun.Hero, { HealAmount = CurrentRun.Hero.MaxHealth, Silent = true } )
 	thread( UpdateHealthUI )
 	CurrentRun.NumRerolls = GetNumMetaUpgrades("RerollMetaUpgrade") + GetNumMetaUpgrades("RerollPanelMetaUpgrade")
@@ -225,7 +240,9 @@ end
 --when the player switches which side of a mirror upgrade is active, apply it with the new logic
 ModUtil.Path.Wrap("SwapMetaupgrade",function(baseFunc,screen, button)
     baseFunc(screen,button)
-    PolycosmosMirrorManager.UpdateMirrorLevels()
+	if GameState.ClientGameSettings["MirrorSanity"] ~= 0 then
+    	PolycosmosMirrorManager.UpdateMirrorLevels()
+	end
 end)
 
 
@@ -292,6 +309,9 @@ end
 -- the main logic. when the player applies a mirror upgrade, sends a check and tracks checks sent separately from mirror upgrades
 -- received to determine upgrade order
 ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
+	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+		return baseFunc(screen, button)
+	end
 
 	local buttonId = button.Id
 	local upgradeData = button.Data
@@ -411,6 +431,9 @@ end)
 --the current levels and stat bonuses on the right will stay consistent, but the costs will be udpated to match
 --sent locations and the name will update to reflect the next location to be sent, for legibility
 ModUtil.Path.Wrap("CreateMetaUpgradeEntry", function(baseFunc, args)
+	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+		return baseFunc(args)
+	end
     if args.Screen.ResourceName == "ShrinePoints" then
 		return baseFunc(args)
     end
@@ -616,6 +639,9 @@ end)
 
 --in this context, refund really doesnt mean anything, so we'll remove the button entirely.
 ModUtil.Path.Wrap("OpenMetaUpgradeMenu", function(baseFunc, args)
+	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+		return baseFunc(args)
+	end
 
     baseFunc(args)
 
@@ -631,6 +657,9 @@ ModUtil.Path.Wrap("OpenMetaUpgradeMenu", function(baseFunc, args)
 end)
 
 ModUtil.Path.Wrap("UpdateButtonStates", function(baseFunc, screen)
+	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
+		return baseFunc(screen)
+	end
 
     local components = screen.Components
 
