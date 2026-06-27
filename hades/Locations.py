@@ -229,6 +229,19 @@ location_table_surface_fish = {
         "Catch Sturgeon": max_number_room_checks + 123,
 }
 
+location_table_troves = {
+        "Infernal Trove in 15 seconds": max_number_room_checks + 124,
+        "Infernal Trove in 30 seconds": max_number_room_checks + 125,
+        "Infernal Trove in 45 seconds": max_number_room_checks + 126,
+        "Infernal Trove in 60 seconds": max_number_room_checks + 127,
+        "First Infernal Trove: Tartarus": max_number_room_checks + 128,
+        "First Infernal Trove: Asphodel": max_number_room_checks + 129,
+        "First Infernal Trove: Elysium": max_number_room_checks + 130,
+        "First Infernal Trove: Styx": max_number_room_checks + 131,
+        "5 Infernal Troves": max_number_room_checks + 132,
+        "10 Infernal Troves": max_number_room_checks + 133,
+}
+
 # ----------- Mirror Upgrade Locations -----------
 mirror_upgrade_max_levels = {
     "Shadow Presence": 5,
@@ -273,7 +286,7 @@ def build_mirror_locations(start_id: int) -> dict:
     return locations
 
 location_table_mirror = build_mirror_locations(
-    max_number_room_checks + 124
+    max_number_room_checks + 134
 )
 # ----------------------
 
@@ -307,6 +320,7 @@ def give_all_locations_table() -> dict:
         **location_table_mirror,
         **location_table_fish,
         **location_table_surface_fish,
+        **location_table_troves,
     }
 
 
@@ -376,6 +390,9 @@ def setup_location_table_with_settings(options) -> None:
         total_table.update(location_table_fish)
     if options.fishsanity.value == 2:
         total_table.update(location_table_surface_fish)
+
+    if options.trovesanity.value == 1:
+        total_table.update(location_table_troves)
     
     return total_table
             
@@ -542,6 +559,7 @@ group_contractor_diamonds = {"contractor_diamonds": location_store_diamonds.keys
 group_mirror = {"mirror": location_table_mirror.keys()}
 group_fish = {"fish": location_table_fish.keys()}
 group_surface_fish = {"surface fish": location_table_surface_fish.keys()}
+group_troves = {"troves": location_table_troves.keys()}
 
 location_name_groups = {
     **group_fates,
@@ -552,6 +570,7 @@ location_name_groups = {
     **group_mirror,
     **group_fish,
     **group_surface_fish,
+    **group_troves,
 }
 
 

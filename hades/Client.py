@@ -227,6 +227,7 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["hidden_aspectsanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["mirrorsanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["fishsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["trovesanity"]) + "-"
         hades_settings_string += str(self.polycosmos_version) + "-"
         hades_settings_string += str(self.hades_slot_data["automatic_rooms_finish_on_hades_defeat"]) + "-"
 

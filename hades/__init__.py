@@ -320,8 +320,8 @@ class HadesWorld(World):
     def fill_slot_data(self) -> dict:
         slot_data = self.options.as_dict("initial_weapon", "location_system", "score_rewards_amount", "keepsakesanity",
                                          "weaponsanity", "abilitysanity", "initial_ability", "hidden_aspectsanity", "storesanity", "fatesanity",
-                                         "mirrorsanity", "fishsanity", "hades_defeats_needed", "weapons_clears_needed", "keepsakes_needed", 
-                                         "fates_needed", "heat_system", "hard_labor_pact_amount",
+                                         "mirrorsanity", "fishsanity", "trovesanity", "hades_defeats_needed", "weapons_clears_needed", 
+                                         "keepsakes_needed", "fates_needed", "heat_system", "hard_labor_pact_amount",
                                          "lasting_consequences_pact_amount", "convenience_fee_pact_amount",
                                          "jury_summons_pact_amount", "extreme_measures_pact_amount",
                                          "calisthenics_program_pact_amount", "benefits_package_pact_amount",

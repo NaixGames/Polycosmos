@@ -524,7 +524,7 @@ function PolycosmosEvents.SaveClientData( message )
 
     local array_settings = PolycosmosUtils.NewParseStringToArray(message)
 
-    print("Parsed array to string. Length is "..#array_settings) --This should be 43
+    print("Parsed array to string. Length is "..#array_settings) --This should be 44
 
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
@@ -573,13 +573,14 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[35])
     GameState.ClientGameSettings["MirrorSanity"] = tonumber(array_settings[36])
     GameState.ClientGameSettings["FishSanity"] = tonumber(array_settings[37])
-    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[38])
-    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[39])
+    GameState.ClientGameSettings["TroveSanity"] = tostring(array_settings[38])
+    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[39])
+    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[40])
 
-    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[40])
-    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[41])
-    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[42])
-    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[43])
+    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[41])
+    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[42])
+    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[43])
+    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[44])
 
 
     GameState.ClientDataIsLoaded = true

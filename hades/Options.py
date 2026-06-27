@@ -136,6 +136,13 @@ class FishSanity(Choice):
     option_full = 2
     default = 1
 
+class TroveSanity(DefaultOnToggle):
+    """
+    Adds locations for opening infernal troves in each Underworld region and completing them at
+    different speeds.
+    """
+    display_name = "TroveSanity" 
+
 # -------------------- Endgame settings
 
 
@@ -647,6 +654,7 @@ class HadesOptions(PerGameCommonOptions):
     fatesanity: FateSanity
     mirrorsanity: MirrorSanity
     fishsanity: FishSanity
+    trovesanity: TroveSanity
     hades_defeats_needed: HadesDefeatsNeeded
     weapons_clears_needed: WeaponsClearsNeeded
     keepsakes_needed: KeepsakesNeeded
@@ -711,6 +719,7 @@ hades_option_groups = [
         FateSanity,
         MirrorSanity,
         FishSanity,
+        TroveSanity,
         DeathLink,
         DeathLinkAmnesty,
     ]),
@@ -782,6 +791,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "fatesanity": False,
         "mirrorsanity": False,
         "fishsanity": 0,
+        "trovesanity": False,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 2,
         "lasting_consequences_pact_amount": 1,
@@ -821,6 +831,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "fatesanity": False,
         "mirrorsanity": True,
         "fishsanity": 1,
+        "trovesanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 3,
         "lasting_consequences_pact_amount": 2,
@@ -858,6 +869,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "fatesanity": True,
         "mirrorsanity": True,
         "fishsanity": 1,
+        "trovesanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 5,
         "lasting_consequences_pact_amount": 4,

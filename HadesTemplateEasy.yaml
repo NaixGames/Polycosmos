@@ -184,6 +184,12 @@ Hades:
     off: 50
     default: 0
     full: 0
+    
+  trovesanity:
+    # Adds locations for completing Infernal Troves in each region of the
+    # Underworld, as well as bonus locations for fast Trove clears.
+    false: 50
+    true: 0
 
   hades_defeats_needed:
     # How many times you need to defeat Hades to win the world. 10 is for credits.

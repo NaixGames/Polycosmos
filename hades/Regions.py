@@ -69,7 +69,7 @@ def create_regions(ctx, location_database : dict) -> None:
         location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, \
         should_ignore_weapon_location, location_store_gemstones, location_store_diamonds, \
         location_table_fates, location_table_fates_events, location_table_mirror, location_weapons_subfixes, \
-        location_table_fish, location_table_surface_fish
+        location_table_fish, location_table_surface_fish, location_table_troves
 
     # create correct underworld exit
     underworldExits = []
@@ -88,6 +88,9 @@ def create_regions(ctx, location_database : dict) -> None:
 
     if ctx.options.fishsanity.value > 0:
         underworldExits += ["Fishing Entrance"]
+
+    if ctx.options.trovesanity:
+        underworldExits += ["Troves Entrance"]
 
     # Add fates list for achievement logic and fatesanity if needed
     underworldExits += ["Fated Lists"]
@@ -158,6 +161,11 @@ def create_regions(ctx, location_database : dict) -> None:
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Fishing Locations",
                                              [location for location in all_fish_locations],
                                              ["Exit Fishing"])]
+
+    if ctx.options.trovesanity:
+        ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Infernal Troves",
+                                             [location for location in location_table_troves],
+                                             ["Exit Troves"])]
 
     # link up regions
     ctx.multiworld.get_entrance("Menu", ctx.player).connect(ctx.multiworld.get_region("Underworld", ctx.player))
@@ -242,4 +250,10 @@ def create_regions(ctx, location_database : dict) -> None:
         ctx.multiworld.get_entrance("Fishing Entrance", ctx.player).connect(
             ctx.multiworld.get_region("Fishing Locations", ctx.player))
         ctx.multiworld.get_entrance("Exit Fishing", ctx.player).connect(
+            ctx.multiworld.get_region("Underworld", ctx.player))
+
+    if ctx.options.trovesanity:
+        ctx.multiworld.get_entrance("Troves Entrance", ctx.player).connect(
+            ctx.multiworld.get_region("Infernal Troves", ctx.player))
+        ctx.multiworld.get_entrance("Exit Troves", ctx.player).connect(
             ctx.multiworld.get_region("Underworld", ctx.player))

@@ -159,6 +159,11 @@ class HadesLogic(LogicMixin):
             return True
         return self.has("Greater Reflex Level", player) and self.has("Ruthless Reflex Level", player) and self.has("Stubborn Defiance Level", player) 
         
+    def _has_unlocked_troves(self, player: int, option) -> bool:
+        if not option.storesanity:
+                return True
+        return self.has("InfernalTrove1Item", player)
+
 
     def _can_get_victory(self, player: int, options) -> bool:
         can_win = self._has_defeated_boss("Hades Victory", player, options)
@@ -258,7 +263,6 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
     set_fates_rules(world, player, location_table, options, " Event")
     if options.fishsanity:
         set_fishing_rules(world, player, options)
-    
 
     if options.keepsakesanity and options.storesanity:
         add_rule(world.get_location("Orpheus Keepsake", player), lambda state: \
@@ -478,6 +482,29 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
         add_rule(world.get_location("Dark Reflections" + subfix, player), lambda state:  \
             state._has_all_mirror_talents(player, options))
         
+    #rules that depend on trovesanity
+    if options.trovesanity:
+        add_rule(world.get_location("Infernal Trove in 15 seconds", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+        add_rule(world.get_location("Infernal Trove in 30 seconds", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+        add_rule(world.get_location("Infernal Trove in 45 seconds", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+        add_rule(world.get_location("Infernal Trove in 60 seconds", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+        add_rule(world.get_location("First Infernal Trove: Tartarus", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+        add_rule(world.get_location("First Infernal Trove: Asphodel", player), lambda state: \
+                state._has_unlocked_troves(player, options) and state._has_defeated_boss("Meg Victory", player, options))
+        add_rule(world.get_location("First Infernal Trove: Elysium", player), lambda state: \
+                state._has_unlocked_troves(player, options) and state._has_defeated_boss("Lernie Victory", player, options))
+        add_rule(world.get_location("First Infernal Trove: Styx", player), lambda state: \
+                state._has_unlocked_troves(player, options) and state._has_defeated_boss("Bros Victory", player, options))
+        add_rule(world.get_location("5 Infernal Troves", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+        add_rule(world.get_location("10 Infernal Troves", player), lambda state: \
+                state._has_unlocked_troves(player, options))
+
     if options.keepsakesanity:
         add_rule(world.get_location("Close At Heart" + subfix, player), lambda state: \
                 state._has_enough_keepsakes(player, 23, options))
