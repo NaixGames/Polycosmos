@@ -86,6 +86,11 @@ class HadesLogic(LogicMixin):
         if weaponSubfix == "Gun Weapon":
             return ((option.initial_weapon == 5) or (self.has("Gun Weapon Unlock Item", player)))
 
+    def _has_fishing_rod(self, player: int, option) -> bool:
+        if not options.storesanity:
+            return True
+        return self._has_enough_of_item(player, 1, "Fishing Rod Item")
+
     def _can_get_victory(self, player: int, options) -> bool:
         can_win = self._has_defeated_boss("Hades Victory", player, options)
         if options.weaponsanity:
@@ -182,6 +187,8 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
     if options.fatesanity:
         set_fates_rules(world, player, location_table, options, "")
     set_fates_rules(world, player, location_table, options, " Event")
+    if options.fishsanity:
+        set_fishing_rules(world, player, options)
     
 
     if options.keepsakesanity and options.storesanity:
@@ -535,6 +542,58 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
             state._total_heat_level(player, min(number_items, 35), options) and \
             state._has_enough_weapons(player, options, 6))
     
+def set_fishing_rules(world: "HadesWorld", player: int, options) -> None:
+
+    # Rod required for everything
+    fish_locations = [
+        "Catch Hellfish",
+        "Catch Knucklehead",
+        "Catch Scyllascion",
+        "Catch Slavug",
+        "Catch Chrustacean",
+        "Catch Flameater",
+        "Catch Chlam",
+        "Catch Charp",
+        "Catch Seamare",
+        "Catch Gupp",
+        "Catch Scuffer",
+        "Catch Stonewhal",
+        "Catch Mati",
+        "Catch Projelly",
+        "Catch Voidskate",
+        "Catch Trout",
+        "Catch Bass",
+        "Catch Sturgeon",
+    ]
+
+    for location in fish_locations:
+        add_rule(world.get_location(location, player), lambda state: state._has_fishing_rod(player, options))
+
+    add_rule(world.get_location("Catch Slavug", player), lambda state: \
+            state._has_defeated_boss("Meg Victory", player, options))
+    add_rule(world.get_location("Catch Chrustacean", player), lambda state: \
+            state._has_defeated_boss("Meg Victory", player, options))
+    add_rule(world.get_location("Catch Flameater", player), lambda state: \
+            state._has_defeated_boss("Meg Victory", player, options))
+    add_rule(world.get_location("Catch Chlam", player), lambda state: \
+            state._has_defeated_boss("Lernie Victory", player, options))
+    add_rule(world.get_location("Catch Charp", player), lambda state: \
+            state._has_defeated_boss("Lernie Victory", player, options))
+    add_rule(world.get_location("Catch Seamare", player), lambda state: \
+            state._has_defeated_boss("Lernie Victory", player, options))
+    add_rule(world.get_location("Catch Gupp", player), lambda state: \
+            state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("Catch Scuffer", player), lambda state: \
+            state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("Catch Stonewhal", player), lambda state: \
+            state._has_defeated_boss("Bros Victory", player, options))
+    add_rule(world.get_location("Catch Trout", player), lambda state: \
+            state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("Catch Bass", player), lambda state: \
+            state._has_defeated_boss("Hades Victory", player, options))
+    add_rule(world.get_location("Catch Sturgeon", player), lambda state: \
+            state._has_defeated_boss("Hades Victory", player, options))
+
 
 def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, options) -> None:
     if options.location_system == "room_weapon_based":
