@@ -206,6 +206,29 @@ location_table_fates_events = {
     "The Gift of Song Event" : None,
 }
 
+location_table_fish = {
+        "Catch Hellfish": max_number_room_checks + 106,
+        "Catch Knucklehead": max_number_room_checks + 107,
+        "Catch Scyllascion": max_number_room_checks + 108,
+        "Catch Slavug": max_number_room_checks + 109,
+        "Catch Chrustacean": max_number_room_checks + 110,
+        "Catch Flameater": max_number_room_checks + 111,
+        "Catch Chlam": max_number_room_checks + 112,
+        "Catch Charp": max_number_room_checks + 113,
+        "Catch Seamare": max_number_room_checks + 114,
+        "Catch Gupp": max_number_room_checks + 115,
+        "Catch Scuffer": max_number_room_checks + 116,
+        "Catch Stonewhal": max_number_room_checks + 117,
+        "Catch Mati": max_number_room_checks + 118,
+        "Catch Projelly": max_number_room_checks + 119,
+        "Catch Voidskate": max_number_room_checks + 120,
+}
+location_table_surface_fish = {
+        "Catch Trout": max_number_room_checks + 121,
+        "Catch Bass": max_number_room_checks + 122,
+        "Catch Sturgeon": max_number_room_checks + 123,
+}
+
 # ----------- Mirror Upgrade Locations -----------
 mirror_upgrade_max_levels = {
     "Shadow Presence": 5,
@@ -250,7 +273,7 @@ def build_mirror_locations(start_id: int) -> dict:
     return locations
 
 location_table_mirror = build_mirror_locations(
-    max_number_room_checks + 106
+    max_number_room_checks + 124
 )
 # ----------------------
 
@@ -282,6 +305,8 @@ def give_all_locations_table() -> dict:
         **location_table_fates,
         **location_table_fates_events,
         **location_table_mirror,
+        **location_table_fish,
+        **location_table_surface_fish,
     }
 
 
@@ -346,6 +371,11 @@ def setup_location_table_with_settings(options) -> None:
 
     if options.mirrorsanity.value == 1:
         total_table.update(location_table_mirror)
+
+    if options.fishsanity.value >= 1:
+        total_table.update(location_table_fish)
+    if options.fishsanity.value == 2:
+        total_table.update(location_table_surface_fish)
     
     return total_table
             
@@ -510,6 +540,8 @@ group_weapons = {"weapons": location_weapons.keys()}
 group_contractor_gemstones = {"contractor_gems": location_store_gemstones.keys()}
 group_contractor_diamonds = {"contractor_diamonds": location_store_diamonds.keys()}
 group_mirror = {"mirror": location_table_mirror.keys()}
+group_fish = {"fish": location_table_fish.keys()}
+group_surface_fish = {"surface fish": location_table_surface_fish.keys()}
 
 location_name_groups = {
     **group_fates,
@@ -518,6 +550,8 @@ location_name_groups = {
     **group_contractor_gemstones,
     **group_contractor_diamonds,
     **group_mirror,
+    **group_fish,
+    **group_surface_fish,
 }
 
 

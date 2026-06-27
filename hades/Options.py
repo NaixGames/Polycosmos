@@ -120,6 +120,22 @@ class MirrorSanity(DefaultOnToggle):
     """
     display_name = "MirrorSanity"
 
+class FishSanity(Choice):
+    """
+    Women want you. Fish fear you.
+    Adds locations for catching each fish for the first time.
+
+    Off: No fish locations.
+    Default: Includes all Underworld and Chaos fish
+    Full: Includes Surface fish as well
+    """
+    display_name = "FishSanity"
+
+    option_off = 0
+    option_default = 1
+    option_full = 2
+    default = 1
+
 # -------------------- Endgame settings
 
 
@@ -630,6 +646,7 @@ class HadesOptions(PerGameCommonOptions):
     storesanity: StoreSanity
     fatesanity: FateSanity
     mirrorsanity: MirrorSanity
+    fishsanity: FishSanity
     hades_defeats_needed: HadesDefeatsNeeded
     weapons_clears_needed: WeaponsClearsNeeded
     keepsakes_needed: KeepsakesNeeded
@@ -693,6 +710,7 @@ hades_option_groups = [
         StoreSanity,
         FateSanity,
         MirrorSanity,
+        FishSanity,
         DeathLink,
         DeathLinkAmnesty,
     ]),
@@ -763,6 +781,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "hidden_aspectsanity": False,
         "fatesanity": False,
         "mirrorsanity": False,
+        "fishsanity": 0,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 2,
         "lasting_consequences_pact_amount": 1,
@@ -801,6 +820,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "hidden_aspectsanity": True,
         "fatesanity": False,
         "mirrorsanity": True,
+        "fishsanity": 1,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 3,
         "lasting_consequences_pact_amount": 2,
@@ -837,6 +857,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "hidden_aspectsanity": True,
         "fatesanity": True,
         "mirrorsanity": True,
+        "fishsanity": 1,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 5,
         "lasting_consequences_pact_amount": 4,

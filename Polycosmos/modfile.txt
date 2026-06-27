@@ -21,6 +21,7 @@ Import "PolycosmosTrapManager.lua"
 Import "PolycosmosHelperManager.lua"
 Import "PolycosmosCodexHelper.lua"
 Import "PolycosmosMirrorManager.lua"
+Import "PolycosmosFishingManager.lua"
 
 
 To "Scripts/ConditionalItemData.lua"

@@ -175,6 +175,16 @@ Hades:
     false: 0
     true: 50
 
+  fishsanity:  
+    #Women want you. Fish fear you.
+    #Adds locations for catching each fish for the first time.
+    #Off : No fish locations.
+    #Default : Includes all Underworld and Chaos fish
+    #Full : Includes Surface fish as well
+    off: 50
+    default: 0
+    full: 0
+    
   hades_defeats_needed:
     # How many times you need to defeat Hades to win the world. 10 is for credits.
     #
