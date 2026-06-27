@@ -20,7 +20,7 @@ def launch_client():
     launch_subprocess(launch, "HadesClient")
 
 
-icon_paths['hades_icon'] = local_path('data', 'hades_icon.png')
+icon_paths['hades_icon'] = f"ap:{__name__}/icons/hades_icon.png"
 
 components.append(Component("Hades Client", "HadesClient",
                   func=launch_client, component_type=Type.CLIENT, icon='hades_icon'))
