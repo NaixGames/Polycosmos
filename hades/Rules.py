@@ -87,7 +87,7 @@ class HadesLogic(LogicMixin):
             return ((option.initial_weapon == 5) or (self.has("Gun Weapon Unlock Item", player)))
 
     def _has_fishing_rod(self, player: int, option) -> bool:
-        if not options.storesanity:
+        if not option.storesanity:
             return True
         return self._has_enough_of_item(player, 1, "Fishing Rod Item")
 
