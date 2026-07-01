@@ -1,4 +1,5 @@
 from BaseClasses import Location
+from .Data import mirror_upgrades
 
 
 hades_base_location_id = 1
@@ -242,43 +243,17 @@ location_table_troves = {
         "10 Infernal Troves": max_number_room_checks + 133,
 }
 
-# ----------- Mirror Upgrade Locations -----------
-mirror_upgrade_max_levels = {
-    "Shadow Presence": 5,
-    "Chthonic Vitality": 3,
-    "Death Defiance": 3,
-    "Greater Reflex": 1,
-    "Boiling Blood": 5,
-    "Infernal Soul": 2,
-    "Deep Pockets": 10,
-    "Thick Skin": 10,
-    "Privileged Status": 2,
-    "Olympian Favor": 40,
-    "Gods' Pride": 20,
-    "Fated Authority": 8,
-    "Fiery Presence": 5,
-    "Dark Regeneration": 2,
-    "Stubborn Defiance": 1,
-    "Ruthless Reflex": 1,
-    "Abyssal Blood": 5,
-    "Stygian Soul": 2,
-    "Golden Touch": 3,
-    "High Confidence": 5,
-    "Family Favorite": 2,
-    "Dark Foresight": 10,
-    "Gods' Legacy": 10,
-    "Fated Persuasion": 4,
-}
+# Place one mirror upgrade item for each of its levels
 location_table_mirror = {}
 def build_mirror_locations(start_id: int) -> dict:
     locations = {}
 
     current_id = start_id
 
-    for upgrade_name, max_level in mirror_upgrade_max_levels.items():
-        for level in range(1, max_level + 1):
+    for upgrade in mirror_upgrades:
+        for level in range(1, upgrade.max_level + 1):
             locations[
-                f"Mirror {upgrade_name} - Level {level}"
+                f"Mirror {upgrade.name} - Level {level}"
             ] = current_id
 
             current_id += 1

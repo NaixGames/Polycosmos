@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
-from .Locations import mirror_upgrade_max_levels
+from .Data import mirror_upgrades
 
 
 class ItemData(NamedTuple):
@@ -234,8 +234,8 @@ item_table_abilities: Dict[str, tuple[ItemData, str]] = {
 item_table_mirror: Dict[str, ItemData] = {}
 next_id = hades_base_item_id + 102
 
-for item_name in mirror_upgrade_max_levels.keys():
-    item_table_mirror[f"{item_name} Level"] = ItemData(next_id, True)
+for upgrade in mirror_upgrades:
+    item_table_mirror[f"{upgrade.name} Level"] = ItemData(next_id, True)
     next_id += 1
 
 def create_trap_pool():

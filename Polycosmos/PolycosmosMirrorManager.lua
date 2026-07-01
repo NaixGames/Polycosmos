@@ -381,7 +381,6 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 			end
 			
 			if upgradeData.DisablesMetaUpgrades then
-                DebugPrint({ Text = "DisablesMetaUpgrades triggered" })
 				local startIndex = TableLength(MetaUpgradeOrder) - GetNulledMetaUpgradeCount() - upgradeData.ChangeValue
 				for i = startIndex, startIndex + upgradeData.ChangeValue + 1, -1 do
 					local metaUpgradeData = MetaUpgradeData[GameState.MetaUpgradesSelected[i]]

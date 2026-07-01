@@ -187,7 +187,7 @@ Hades:
     
   trovesanity:
     # Adds locations for completing Infernal Troves in each region of the
-    # Underworld, as well as bonus locations for fast Trove clears.
+    # Underworld, as well as bonus locations for fast Trove clears. (15s, 30s, 45s, 60s)
     false: 0
     true: 50
     

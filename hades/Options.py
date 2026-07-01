@@ -117,6 +117,8 @@ class MirrorSanity(DefaultOnToggle):
     """
     Shuffles upgrades from the Mirror of Night into the item pool, and makes each upgrade
     level a check. Adds about 150 locations.
+    The first unlocked option in each mirror pair is automatically equipped. Players 
+    can switch between paired upgrades using the normal Mirror of Night interface.
     """
     display_name = "MirrorSanity"
 
@@ -139,7 +141,7 @@ class FishSanity(Choice):
 class TroveSanity(DefaultOnToggle):
     """
     Adds locations for opening infernal troves in each Underworld region and completing them at
-    different speeds.
+    different speeds. Checks for completion under 60 seconds, 45 seconds, 30 seconds, and 15 seconds.
     """
     display_name = "TroveSanity" 
 

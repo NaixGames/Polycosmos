@@ -92,68 +92,36 @@ class HadesLogic(LogicMixin):
         return self.has("Fishing Rod Item", player)
 
     def _has_ability(self, ability: str, player: int, option) -> bool:
-        if ability == "Dash":
-            return self.has("Dash", player)
-        if ability == "Cast":
-            return self.has("Cast", player)
-        if ability == "Call":
-            return self.has("Call", player)
-        if ability == "Any Attack":
-            if option.weaponsanity:
-                return (self._has_weapon("Sword Weapon", player, option) and self.has("Sword Attack", player)) or \
-                        (self._has_weapon("Spear Weapon", player, option) and self.has("Spear Attack", player)) or \
-                        (self._has_weapon("Shield Weapon", player, option) and self.has("Shield Attack", player)) or \
-                        (self._has_weapon("Bow Weapon", player, option) and self.has("Bow Attack", player)) or \
-                        (self._has_weapon("Fist Weapon", player, option) and self.has("Fist Attack", player)) or \
-                        (self._has_weapon("Gun Weapon", player, option) and self.has("Gun Attack", player))
-            else:
-                return self.has("Sword Attack", player) or self.has("Spear Attack", player) or self.has("Shield Attack", player) or \
-                        self.has("Bow Attack", player) or self.has("Fist Attack", player) or self.has("Gun Attack", player)
-        if ability == "Sword Attack":
-            return self.has("Sword Attack", player)
-        if ability == "Spear Attack":
-            return self.has("Spear Attack", player)
-        if ability == "Shield Attack":
-            return self.has("Shield Attack", player)
-        if ability == "Bow Attack":
-            return self.has("Bow Attack", player)
-        if ability == "Fist Attack":
-            return self.has("Fist Attack", player)
-        if ability == "Gun Attack":
-            return self.has("Gun Attack", player)
-        if ability == "Any Special":
-            if option.weaponsanity:
-                return (self._has_weapon("Sword Weapon", player, option) and self.has("Sword Special", player)) or \
-                        (self._has_weapon("Spear Weapon", player, option) and self.has("Spear Special", player)) or \
-                        (self._has_weapon("Shield Weapon", player, option) and self.has("Shield Special", player)) or \
-                        (self._has_weapon("Bow Weapon", player, option) and self.has("Bow Special", player)) or \
-                        (self._has_weapon("Fist Weapon", player, option) and self.has("Fist Special", player)) or \
-                        (self._has_weapon("Gun Weapon", player, option) and self.has("Gun Special", player))
-            else:
-                return self.has("Sword Special", player) or self.has("Spear Special", player) or self.has("Shield Special", player) or \
-                        self.has("Bow Special", player) or self.has("Fist Special", player) or self.has("Gun Special", player)
-        if ability == "Sword Special":
-            return self.has("Sword Special", player)
-        if ability == "Spear Special":
-            return self.has("Spear Special", player)
-        if ability == "Shield Special":
-            return self.has("Shield Special", player)
-        if ability == "Bow Special":
-            return self.has("Bow Special", player)
-        if ability == "Fist Special":
-            return self.has("Fist Special", player)
-        if ability == "Gun Special":
-            return self.has("Gun Special", player)
+        if ability == "Dash" or ability == "Cast" or ability == "Call":
+            return self.has(ability, player)
+        #For any attack or any special, checks if there is a pair of weapon unlocked and its attack/special
+        if ability.startswith("Any "):
+                move = ability[4:] #Cut off the "Any " part
 
-    def _can_access_all_boons(self, player: int, option) -> bool:
-        return (self._has_ability("Dash", player, option) and self._has_ability("Cast", player, option) and \
-                self._has_ability("Call", player, option) and self._has_ability("Any Attack", player, option) and \
-                self._has_ability("Any Special", player, option))
+                if option.weaponsanity:
+                        return any(
+                        self._has_weapon(f"{weapon} Weapon", player, option)
+                        and self.has(f"{weapon} {move}", player)
+                        for weapon in ("Sword", "Spear", "Shield", "Bow", "Fist", "Gun")
+                        )
+                else:
+                        return any(
+                        self.has(f"{weapon} {move}", player)
+                        for weapon in ("Sword", "Spear", "Shield", "Bow", "Fist", "Gun")
+                        )
+        #For a specific attack or special, see if the player can access it
+        if ability.endswith(" Attack") or ability.endswith(" Special"):
+                return self.has(ability, player)
+        return False
 
-    def _can_access_all_chaos(self, player: int, option) -> bool:
+    def _has_all_basic_moves(self, player: int, option) -> bool:
         return (self._has_ability("Dash", player, option) and self._has_ability("Cast", player, option) and \
                 self._has_ability("Any Attack", player, option) and self._has_ability("Any Special", player, option))
 
+    def _can_access_all_boons(self, player: int, option) -> bool:
+        return (self._has_all_basic_moves(player, option) and self._has_ability("Call", player, option))
+
+    #Only a few mirror upgrades have one level. The rest will not be locked behind one location, but we need to check these and enforce them.
     def _has_all_mirror_talents(self, player: int, option) -> bool:
         if not option.mirrorsanity:
             return True
@@ -461,9 +429,9 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
         add_rule(world.get_location("Power Without Equal" + subfix, player), lambda state: \
                 state._can_access_all_boons(player, options))
         add_rule(world.get_location("Primordial Boons" + subfix, player), lambda state: \
-                state._can_access_all_chaos(player, options))
+                state._has_all_basic_moves(player, options))
         add_rule(world.get_location("Primordial Banes" + subfix, player), lambda state: \
-                state._can_access_all_chaos(player, options))
+                state._has_all_basic_moves(player, options))
         add_rule(world.get_location("The Stygian Blade" + subfix, player), lambda state: \
                 state._has_ability("Sword Attack", player, options) and state._has_ability("Sword Special", player, options))
         add_rule(world.get_location("The Heart Seeking Bow" + subfix, player), lambda state: \
