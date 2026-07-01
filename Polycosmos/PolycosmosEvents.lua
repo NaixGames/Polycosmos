@@ -388,7 +388,7 @@ end
 
 ModUtil.Path.Wrap("HandleDeath", function( baseFunc, currentRun, killer, killingUnitWeapon )
 
-    if not deathlink_flag and not QuickRestart.UsedQuickRestart then
+    if not deathlink_flag then
         PolycosmosEvents.SendDeathlink()
     end
     deathlink_flag = false
