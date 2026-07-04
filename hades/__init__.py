@@ -7,10 +7,11 @@ from .Items import event_item_pairs_weapon_mode, item_table, item_table_pacts, H
     create_pact_pool_amount, item_table_keepsake, item_table_weapons, item_table_abilities, \
     item_table_store, item_table_hidden_aspects, item_table_mirror, create_trap_pool, item_name_groups
 from .Locations import setup_location_table_with_settings, give_all_locations_table, HadesLocation, \
-    location_table_fates_events, location_name_groups, mirror_upgrade_max_levels
+    location_table_fates_events, location_name_groups
 from .Options import hades_option_presets, hades_option_groups, HadesOptions
 from .Regions import create_regions
 from .Rules import set_rules
+from .Data import mirror_upgrades
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import icon_paths, Component, components, Type, launch_subprocess
 from Utils import local_path
@@ -149,10 +150,9 @@ class HadesWorld(World):
 
         # Fill mirror items
         if self.options.mirrorsanity:
-            for name, data in item_table_mirror.items():
-                base_name = name.removesuffix(" Level")
-                for _ in range(mirror_upgrade_max_levels.get(base_name,1)):
-                    item = HadesItem(name, self.player)
+            for upgrade in mirror_upgrades:
+                for _ in range(upgrade.max_level):
+                    item = HadesItem(f"{upgrade.name} Level", self.player)
                     pool.append(item)
 
         # Pair up our event locations with our event items

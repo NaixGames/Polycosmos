@@ -130,7 +130,7 @@ class HadesLogic(LogicMixin):
     def _has_unlocked_troves(self, player: int, option) -> bool:
         if not option.storesanity:
                 return True
-        return self.has("InfernalTrove1Item", player)
+        return self.has("Infernal Trove1 Item", player)
 
 
     def _can_get_victory(self, player: int, options) -> bool:
