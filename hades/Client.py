@@ -30,6 +30,18 @@ class HadesClientCommandProcessor(ClientCommandProcessor):
         #This is a really stupid solution, but it works so idk
         Utils.async_start(self.ctx.check_connection_and_send_items_and_request_starting_info(""))
 
+    def _cmd_deathlink(self) -> bool:
+        """Toggle deathlink tag of client."""
+        if isinstance(self.ctx, HadesContext):
+            # Toggle the deathlink enabled state and set the override flag to prevent automatic enabling from server packages
+            self.ctx.deathlink_enabled = not self.ctx.deathlink_enabled
+            self.ctx.deathlink_client_override = True
+
+            # Send the update to the context which changes the tags for the player
+            Utils.async_start(self.ctx.update_death_link(self.ctx.deathlink_enabled))
+
+        return True
+
 
 class HadesContext(CommonContext):
     # ----------------- Client start up and ending section starts  --------------------------------
@@ -41,6 +53,8 @@ class HadesContext(CommonContext):
     is_connected : bool
     deathlink_pending : bool
     deathlink_enabled : bool
+    deathlink_amnesty_counter : int
+    deathlink_client_override : bool
     creating_location_to_item_mapping : bool
     is_receiving_items_from_connect_package : bool    
     
@@ -53,6 +67,8 @@ class HadesContext(CommonContext):
         self.is_connected = False
         self.deathlink_pending = False
         self.deathlink_enabled = False
+        self.deathlink_amnesty_counter = 0
+        self.deathlink_client_override = False
         self.creating_location_to_item_mapping = False
         self.is_receiving_items_from_connect_package = False
 
@@ -117,7 +133,7 @@ class HadesContext(CommonContext):
             
             self.location_name_to_id = self.get_location_name_to_id()
 
-            if "death_link" in self.hades_slot_data and self.hades_slot_data["death_link"]:
+            if "death_link" in self.hades_slot_data and self.hades_slot_data["death_link"] and not self.deathlink_client_override:
                 Utils.async_start(self.update_death_link(True))
                 self.deathlink_enabled = True
             self.is_connected = True
@@ -303,13 +319,23 @@ class HadesContext(CommonContext):
         # Avoid sending death if we died from a deathlink
         if self.deathlink_pending or not self.deathlink_enabled:
             return
+        # Increment the amnesty counter and return if we are still in the amnesty period
+        self.deathlink_amnesty_counter += 1
+        if self.deathlink_amnesty_counter < int(self.hades_slot_data["death_link_amnesty"]):
+            logger.info("DeathLink amnesty saved your friends: {}/{} deaths".format(self.deathlink_amnesty_counter, int(self.hades_slot_data["death_link_amnesty"])))
+            return
+
         self.deathlink_pending = True
         Utils.async_start(super().send_death(death_text))
-        Utils.async_start(self.wait_and_lower_deathlink_flag())
+        Utils.async_start(self.wait_and_lower_deathlink_flag(True))
 
-    async def wait_and_lower_deathlink_flag(self) -> None:
+    async def wait_and_lower_deathlink_flag(self, sent_from_self: bool = False) -> None:
         await asyncio.sleep(3)
         self.deathlink_pending = False
+
+        if sent_from_self:
+            # Reset the amnesty counter after we sent out a deathlink
+            self.deathlink_amnesty_counter = 0
 
     # -------------deathlink section ended
 
