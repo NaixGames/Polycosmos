@@ -45,8 +45,8 @@ class HadesWeb(WebWorld):
         ["Naix"]
     )]
     options_presets = hades_option_presets
-
     option_groups = hades_option_groups
+    game = "Hades"
 
 
 class HadesWorld(World):
