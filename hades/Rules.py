@@ -97,7 +97,8 @@ class HadesLogic(LogicMixin):
         #For any attack or any special, checks if there is a pair of weapon unlocked and its attack/special
         if ability.startswith("Any "):
                 move = ability[4:] #Cut off the "Any " part
-
+                if option.abilitysanity.value == 2:
+                        return self.has(move,player)
                 if option.weaponsanity:
                         return any(
                         self._has_weapon(f"{weapon} Weapon", player, option)
@@ -110,7 +111,14 @@ class HadesLogic(LogicMixin):
                         for weapon in ("Sword", "Spear", "Shield", "Bow", "Fist", "Gun")
                         )
         #For a specific attack or special, see if the player can access it
-        if ability.endswith(" Attack") or ability.endswith(" Special"):
+        
+        if ability.endswith(" Attack"):
+                if option.abilitysanity.value == 2:
+                        return self.has("Attack", player)
+                return self.has(ability, player)
+        if ability.endswith(" Special"):
+                if option.abilitysanity.value == 2:
+                        return self.has("Special", player)
                 return self.has(ability, player)
         return False
 

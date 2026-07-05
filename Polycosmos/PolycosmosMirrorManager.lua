@@ -126,6 +126,7 @@ local MirrorUpgradeTable = {
     },
 }
 
+local mirrorHintsCache = ""
 PolycosmosMirrorManager.ClientToInternal = {}
 PolycosmosMirrorManager.InternalToClient = {}
 for clientName, data in pairs(MirrorUpgradeTable) do
@@ -239,6 +240,14 @@ end
 
 --when the player switches which side of a mirror upgrade is active, apply it with the new logic
 ModUtil.Path.Wrap("SwapMetaupgrade",function(baseFunc,screen, button)
+	
+    local mirrorLevelKey = "MirrorLevel"..button.Index
+
+    if screen.Components[mirrorLevelKey] then
+        Destroy({ Id = screen.Components[mirrorLevelKey].Id })
+        screen.Components[mirrorLevelKey] = nil
+    end
+
     baseFunc(screen,button)
 	if GameState.ClientGameSettings["MirrorSanity"] ~= 0 then
     	PolycosmosMirrorManager.UpdateMirrorLevels()
@@ -306,6 +315,12 @@ function PolycosmosMirrorManager.IsMirrorItem(name)
 	return PolycosmosMirrorManager.ClientToInternal[itemName] ~= nil
 end
 
+function CacheMirrorHint(clientName)
+	if GameState.ClientGameSettings["MirrorSanity"] ~= 0 then
+		local wordLen = string.len(clientName)
+		mirrorHintsCache = mirrorHintsCache..wordLen.."|"..clientName
+	end
+end
 -- the main logic. when the player applies a mirror upgrade, sends a check and tracks checks sent separately from mirror upgrades
 -- received to determine upgrade order
 ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
@@ -370,7 +385,7 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 			local mirrorText = "- Level "..nextMirrorLevel
 
 			if not PolycosmosMirrorManager.GetNextLocationData(upgradeData.Name) then
-				mirrorText = "- All Checks Purchased"
+				mirrorText = "- MAX"
 				FinalMetaUpgradePresentation(button, upgradeData.Name)
 			end
 
@@ -427,7 +442,7 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 end)
 
 --we need to edit most of the UI for the upgrade menu to show the appropriate information
---the current levels and stat bonuses on the right will stay consistent, but the costs will be udpated to match
+--the current levels and stat bonuses on the right will stay consistent, but the costs will be updated to match
 --sent locations and the name will update to reflect the next location to be sent, for legibility
 ModUtil.Path.Wrap("CreateMetaUpgradeEntry", function(baseFunc, args)
 	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
@@ -634,26 +649,22 @@ ModUtil.Path.Wrap("CreateMetaUpgradeEntry", function(baseFunc, args)
 			end
 		end
 	end
+	--after creating an entry, send a hint for the location
+	local locationData = PolycosmosMirrorManager.GetNextLocationData(upgradeName)
+	if locationData then
+		CacheMirrorHint(locationData.ClientLocation)
+		StyxScribe.Send(styx_scribe_send_prefix.."Locations hinted:"..mirrorHintsCache)
+		mirrorHintsCache = ""
+	end
+
+	local screen = ScreenAnchors.LevelUpScreen
+	if screen and screen.Components and screen.Components.RefundButton then
+		Destroy({ Id = screen.Components.RefundButton.Id })
+	end
 end)
 
 --in this context, refund really doesnt mean anything, so we'll remove the button entirely.
-ModUtil.Path.Wrap("OpenMetaUpgradeMenu", function(baseFunc, args)
-	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
-		return baseFunc(args)
-	end
 
-    baseFunc(args)
-
-    local screen = ScreenAnchors.LevelUpScreen
-    if not screen or not screen.Components then
-        return
-    end
-
-    if screen.Components.RefundButton then
-        Destroy({ Id = screen.Components.RefundButton.Id })
-        screen.Components.RefundButton = nil
-    end
-end)
 
 ModUtil.Path.Wrap("UpdateButtonStates", function(baseFunc, screen)
 	if GameState.ClientGameSettings["MirrorSanity"] == 0 then
