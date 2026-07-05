@@ -380,7 +380,13 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
             local purchasedChecks = PolycosmosMirrorManager.GetChecksPurchased(upgradeData.Name)
             GameState.PolycosmosMirrorChecks[upgradeData.Name] = purchasedChecks + 1
             PolycosmosEvents.ProcessLocationCheck(locationData.ClientLocation, true)
+			local nextLocationData = PolycosmosMirrorManager.GetNextLocationData(upgradeData.Name)
 
+			if nextLocationData then
+				CacheMirrorHint(nextLocationData.ClientLocation)
+				StyxScribe.Send(styx_scribe_send_prefix.."Locations hinted:"..mirrorHintsCache)
+				mirrorHintsCache = ""
+			end
 			local nextMirrorLevel = PolycosmosMirrorManager.GetChecksPurchased(upgradeData.Name) + 1
 			local mirrorText = "- Level "..nextMirrorLevel
 
