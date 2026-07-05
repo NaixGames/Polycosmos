@@ -121,7 +121,34 @@ class HadesLogic(LogicMixin):
                         return self.has("Special", player)
                 return self.has(ability, player)
         return False
-
+    def _ability_progression_count(self, player: int, options) -> int:
+        count = 0
+        if self._has_ability("Dash", player, options):
+                count += 1
+        if self._has_ability("Cast", player, options):
+                count += 1
+        if self._has_ability("Call", player, options):
+                count += 1
+        if options.abilitysanity.value == 2:
+                if self.has("Attack", player) and self.has("Special", player):
+                        count += 1
+        else:
+                if any(
+                self._has_ability(f"{weapon} Attack", player, options)
+                and self._has_ability(f"{weapon} Special", player, options)
+                for weapon in ("Sword", "Spear", "Shield", "Bow", "Fist", "Gun")
+                ):
+                        count += 1
+        return count
+    def _has_required_ability_progression(self, player: int, options, amount: int):
+        return self._ability_progression_count(player, options) >= amount
+    def _has_attack_special_pairs(self, player: int, options, amount: int):
+        count = 0
+        for weapon in ("Sword", "Spear", "Shield", "Bow", "Fist", "Gun"):
+                if(self._has_ability(f"{weapon} Attack", player, options)
+                and self._has_ability(f"{weapon} Special", player, options)):
+                        count += 1
+        return count >= amount
     def _has_all_basic_moves(self, player: int, option) -> bool:
         return (self._has_ability("Dash", player, option) and self._has_ability("Cast", player, option) and \
                 self._has_ability("Any Attack", player, option) and self._has_ability("Any Special", player, option))
@@ -204,18 +231,26 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
                  lambda state: state.has("Meg Victory", player) and  \
                     state._total_heat_level(player, min(number_items / 4, 10), options) and  \
                     state._has_enough_routine_inspection(player, total_routine_inspection-2, options) and  \
-                    state._has_enough_weapons(player, options, 2))
+                    state._has_enough_weapons(player, options, 2)) and \
+                    state._has_required_ability_progression(player, options, 1) and \
+                    state._has_attack_special_pairs(player, options, 1)
         add_rule(world.get_entrance("Exit Asphodel", player), lambda state: state.has("Lernie Victory", player) and  \
                     state._total_heat_level(player, min(number_items / 2, 20), options) and \
                     state._has_enough_routine_inspection(player, total_routine_inspection - 1, options) and  \
-                    state._has_enough_weapons(player, options, 3))
+                    state._has_enough_weapons(player, options, 3)) and \
+                    state._has_required_ability_progression(player, options, 2) and \
+                    state._has_attack_special_pairs(player, options, 2)
         add_rule(world.get_entrance("Exit Elysium", player), lambda state: state.has("Bros Victory", player) and  \
                     state._total_heat_level(player, min(number_items * 3 / 4, 30), options) and  \
                     state._has_enough_routine_inspection(player, total_routine_inspection, options) and  \
-                    state._has_enough_weapons(player, options, 5))
+                    state._has_enough_weapons(player, options, 5)) and \
+                    state._has_required_ability_progression(player, options, 3) and \
+                    state._has_attack_special_pairs(player, options, 3)
         add_rule(world.get_location("Beat Hades", player), lambda state: \
                     state._total_heat_level(player, min(number_items, 35), options) and \
-                    state._has_enough_weapons(player, options, 6))
+                    state._has_enough_weapons(player, options, 6)) and \
+                    state._has_required_ability_progression(player, options, 4) and \
+                    state._has_attack_special_pairs(player, options, 4)
     
 
     forbid_important_items_on_late_styx(world, player, options)

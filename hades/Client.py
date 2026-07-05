@@ -48,7 +48,7 @@ class HadesContext(CommonContext):
     command_processor = HadesClientCommandProcessor
     game = "Hades"
     items_handling = 0b111  # full remote
-    polycosmos_version = "0.16"
+    polycosmos_version = "0.15"
     
     is_connected : bool
     deathlink_pending : bool
