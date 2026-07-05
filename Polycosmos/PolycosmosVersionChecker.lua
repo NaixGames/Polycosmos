@@ -1,6 +1,6 @@
 ModUtil.Mod.Register( "PolycosmosVersionChecker" )
 
-polycosmos_version = "0.15"
+polycosmos_version = "0.16"
 
 
 function PolycosmosVersionChecker.CheckVersion()
