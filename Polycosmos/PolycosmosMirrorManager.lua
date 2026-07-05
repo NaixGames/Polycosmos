@@ -232,7 +232,7 @@ function PolycosmosMirrorManager.UpdateHeroStatsFromMirror()
         return
     end
 
-    Heal( CurrentRun.Hero, { HealAmount = CurrentRun.Hero.MaxHealth, Silent = true } )
+    --Heal( CurrentRun.Hero, { HealAmount = CurrentRun.Hero.MaxHealth, Silent = true } )
 	thread( UpdateHealthUI )
 	CurrentRun.NumRerolls = GetNumMetaUpgrades("RerollMetaUpgrade") + GetNumMetaUpgrades("RerollPanelMetaUpgrade")
 	UpdateRerollUI( CurrentRun.NumRerolls )
@@ -414,7 +414,7 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 		return
 	end
 
-	Heal( currentRun.Hero, { HealAmount = currentRun.Hero.MaxHealth, Silent = true } )
+	--Heal( currentRun.Hero, { HealAmount = currentRun.Hero.MaxHealth, Silent = true } )
 	thread( UpdateHealthUI )
 	upgradeData.NextCost = PolycosmosMirrorManager.GetMirrorCost(upgradeData.Name)
 	
