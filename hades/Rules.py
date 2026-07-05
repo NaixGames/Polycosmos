@@ -713,10 +713,13 @@ def set_fishing_rules(world: "HadesWorld", player: int, options) -> None:
         "Catch Mati",
         "Catch Projelly",
         "Catch Voidskate",
+    ]
+    if options.fishsanity.value == 2:
+        fish_locations.extend([
         "Catch Trout",
         "Catch Bass",
         "Catch Sturgeon",
-    ]
+    ])
 
     for location in fish_locations:
         add_rule(world.get_location(location, player), lambda state: state._has_fishing_rod(player, options))
@@ -739,12 +742,13 @@ def set_fishing_rules(world: "HadesWorld", player: int, options) -> None:
             state._has_defeated_boss("Bros Victory", player, options))
     add_rule(world.get_location("Catch Stonewhal", player), lambda state: \
             state._has_defeated_boss("Bros Victory", player, options))
-    add_rule(world.get_location("Catch Trout", player), lambda state: \
-            state._has_defeated_boss("Hades Victory", player, options))
-    add_rule(world.get_location("Catch Bass", player), lambda state: \
-            state._has_defeated_boss("Hades Victory", player, options))
-    add_rule(world.get_location("Catch Sturgeon", player), lambda state: \
-            state._has_defeated_boss("Hades Victory", player, options))
+    if options.fishsanity.value == 2:
+        add_rule(world.get_location("Catch Trout", player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+        add_rule(world.get_location("Catch Bass", player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
+        add_rule(world.get_location("Catch Sturgeon", player), lambda state: \
+                state._has_defeated_boss("Hades Victory", player, options))
 
 
 def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, options) -> None:
