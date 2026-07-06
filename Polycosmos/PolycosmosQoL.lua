@@ -21,6 +21,10 @@ local config = {
 
 	-- allow Demeter to appear at the same time as other gods
 	UnlockDemeterEarly = true,
+
+	-- speed up keepsake upgrades to reasonably level them within an archipelago session
+	FasterKeepsakeLevels = true,
+
 	
 }
 
@@ -145,6 +149,14 @@ if config.UnlockDemeterEarly then
 	})
 end
 
+if config.FasterKeepsakeLevels then
+	ModUtil.Path.Wrap("AdvanceKeepsake", function(baseFunc)
+		for i=1,3 do
+			--level up 3x as fast (around 13 encounters)
+			baseFunc()
+		end
+	end)
+end
 
 -- QoL so that unlocking new levels of the mirror is compatible with routine inspection unlocks
 ModUtil.Path.Wrap("UnlockNextMetaUpgradePanel", function(baseFunc, screen, button)

@@ -48,7 +48,7 @@ class HadesContext(CommonContext):
     command_processor = HadesClientCommandProcessor
     game = "Hades"
     items_handling = 0b111  # full remote
-    polycosmos_version = "0.15"
+    polycosmos_version = "0.16"
     
     is_connected : bool
     deathlink_pending : bool
@@ -218,11 +218,16 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["reverse_order_em"]) + "-"
         hades_settings_string += str(self.hades_slot_data["keepsakesanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["weaponsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["abilitysanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["initial_ability"]) + "-"
         hades_settings_string += str(self.hades_slot_data["storesanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["initial_weapon"]) + "-"
         hades_settings_string += str(self.hades_slot_data["ignore_greece_deaths"]) + "-"
         hades_settings_string += str(self.hades_slot_data["fatesanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["hidden_aspectsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["mirrorsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["fishsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["trovesanity"]) + "-"
         hades_settings_string += str(self.polycosmos_version) + "-"
         hades_settings_string += str(self.hades_slot_data["automatic_rooms_finish_on_hades_defeat"]) + "-"
 

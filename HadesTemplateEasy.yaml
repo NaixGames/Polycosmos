@@ -133,6 +133,23 @@ Hades:
     false: 0
     true: 50
 
+  abilitysanity:
+    # Shuffles abilities (Special, Dash, Cast, and Call) into the item pool.
+    # Boons for each ability will not show up until their item is received.
+    # Need to be sent the ability item to use each skill.
+    # Weapon Based adds an item for each weapon's Attack and Special.
+    # Default adds one general Attack item and one Special item.
+    # Vanilla leaves abilities unrandomized.
+    random_abilities_weapon_based: 0
+    random_abilities_default: 0
+    vanilla_abilities: 50
+
+  initial_ability:
+    # If AbilitySanity is enabled, choose your starting ability.
+    # Ignored when AbilitySanity is set to Vanilla.
+    starting_attack: 50
+    starting_special: 0
+
   hidden_aspectsanity:
     # Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check
     # (which needs to be unlocked before being able to be bought.)
@@ -151,6 +168,28 @@ Hades:
     # Can make the games significantly longer
     false: 0
     true: 50
+    
+  mirrorsanity:
+    # Shuffles upgrades from the Mirror of Night into the item pool, and makes each upgrade
+    # level a check. Adds about 150 locations.
+    false: 50
+    true: 0  
+  
+  fishsanity:  
+    #Women want you. Fish fear you.
+    #Adds locations for catching each fish for the first time.
+    #Off : No fish locations.
+    #Default : Includes all Underworld and Chaos fish
+    #Full : Includes Surface fish as well
+    off: 50
+    default: 0
+    full: 0
+    
+  trovesanity:
+    # Adds locations for completing Infernal Troves in each region of the
+    # Underworld, as well as bonus locations for fast Trove clears. (15s, 30s, 45s, 60s)
+    false: 50
+    true: 0
 
   hades_defeats_needed:
     # How many times you need to defeat Hades to win the world. 10 is for credits.

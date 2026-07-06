@@ -65,6 +65,30 @@ class WeaponSanity(DefaultOnToggle):
     display_name = "WeaponSanity"
     
 
+class AbilitySanity(Choice):
+    """
+    Shuffles abilities (Special, Dash, Cast, and Call) into the item pool. Boons for each
+    ability will not show up until their item is received.
+    Need to be sent the ability item to use each skill.
+    (1) Weapon-based will add an item for each weapon's attack or special, requiring you to receive its item before the weapon can be used.
+    (2) Default will include all attacks and specials together as one item each. (3) Vanilla will not randomize abilities.
+    """
+    display_name = "AbilitySanity"
+    option_random_abilities_weapon_based = 1
+    option_random_abilities_default = 2
+    option_vanilla_abilities = 3
+    default = 1
+
+class InitialAbility(Choice):
+    """
+    If ability randomization is turned on, choose your initial ability. (1)Attack (2)Special
+    If you chose vanilla AbilitySanity settings above, this does nothing.
+    """
+    display_name = "InitialAbility"
+    option_starting_attack = 1
+    option_starting_special = 2
+    default = 1
+
 class HiddenAspectSanity(DefaultOnToggle):
     """
     Shuffles weapon aspects into the item pool, and makes obtaining each aspect a check 
@@ -88,6 +112,38 @@ class FateSanity(DefaultOnToggle):
     Can make the games significantly longer.
     """
     display_name = "FateSanity"
+
+class MirrorSanity(DefaultOnToggle):
+    """
+    Shuffles upgrades from the Mirror of Night into the item pool, and makes each upgrade
+    level a check. Adds about 150 locations.
+    The first unlocked option in each mirror pair is automatically equipped. Players 
+    can switch between paired upgrades using the normal Mirror of Night interface.
+    """
+    display_name = "MirrorSanity"
+
+class FishSanity(Choice):
+    """
+    Women want you. Fish fear you.
+    Adds locations for catching each fish for the first time.
+
+    Off: No fish locations.
+    Default: Includes all Underworld and Chaos fish
+    Full: Includes Surface fish as well
+    """
+    display_name = "FishSanity"
+
+    option_off = 0
+    option_default = 1
+    option_full = 2
+    default = 1
+
+class TroveSanity(DefaultOnToggle):
+    """
+    Adds locations for opening infernal troves in each Underworld region and completing them at
+    different speeds. Checks for completion under 60 seconds, 45 seconds, 30 seconds, and 15 seconds.
+    """
+    display_name = "TroveSanity" 
 
 # -------------------- Endgame settings
 
@@ -593,9 +649,14 @@ class HadesOptions(PerGameCommonOptions):
     score_rewards_amount: ScoreRewardsAmount
     keepsakesanity: KeepsakeSanity
     weaponsanity: WeaponSanity
+    abilitysanity: AbilitySanity
+    initial_ability: InitialAbility
     hidden_aspectsanity: HiddenAspectSanity
     storesanity: StoreSanity
     fatesanity: FateSanity
+    mirrorsanity: MirrorSanity
+    fishsanity: FishSanity
+    trovesanity: TroveSanity
     hades_defeats_needed: HadesDefeatsNeeded
     weapons_clears_needed: WeaponsClearsNeeded
     keepsakes_needed: KeepsakesNeeded
@@ -653,9 +714,14 @@ hades_option_groups = [
         ScoreRewardsAmount,
         KeepsakeSanity,
         WeaponSanity,
+        AbilitySanity,
+        InitialAbility,
         HiddenAspectSanity,
         StoreSanity,
         FateSanity,
+        MirrorSanity,
+        FishSanity,
+        TroveSanity,
         DeathLink,
         DeathLinkAmnesty,
     ]),
@@ -721,8 +787,13 @@ hades_option_groups = [
 hades_option_presets: Dict[str, Dict[str, Any]] = {
     "Easy": {
         "score_rewards_amount": 100,
+        "abilitysanity": "vanilla_abilities",
+        "initial_ability": "starting_attack",
         "hidden_aspectsanity": False,
         "fatesanity": False,
+        "mirrorsanity": False,
+        "fishsanity": 0,
+        "trovesanity": False,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 2,
         "lasting_consequences_pact_amount": 1,
@@ -756,8 +827,13 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
     },
     "Normal": {
         "score_rewards_amount": 100,
+        "abilitysanity": "random_abilities_default",
+        "initial_ability": "starting_attack",
         "hidden_aspectsanity": True,
         "fatesanity": False,
+        "mirrorsanity": True,
+        "fishsanity": 1,
+        "trovesanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 3,
         "lasting_consequences_pact_amount": 2,
@@ -789,8 +865,13 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
     },
     "Hard": {
         "score_rewards_amount": 100,
+        "abilitysanity": "random_abilities_weapon_based",
+        "initial_ability": "starting_attack",
         "hidden_aspectsanity": True,
         "fatesanity": True,
+        "mirrorsanity": True,
+        "fishsanity": 1,
+        "trovesanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 5,
         "lasting_consequences_pact_amount": 4,

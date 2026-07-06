@@ -1,6 +1,6 @@
 # Polycosmos
 Polycosmos is a mod for the game Hades, which gives it integration with Archipelago Multiworld. Right now Polycosmos is in version: 
-0.15.1. This readme is updated up to 0.13.2, and up to that version it possesses the features detailed below:
+0.16.0. This readme is updated up to 0.16.0, and up to that version it possesses the features detailed below:
 
 Modes for heat:
 - Reverse Heat: Start the game with high pacts of punishments. Pact of punishment reductions are items in the item pool.
@@ -15,6 +15,8 @@ on the next room, biome or run.
 
 - Weaponsanity: weapons can be randomized as items in the multiworld. Buying them counts as a location check.
 
+- Abilitysanity: basic controls (attacks, specials, dash, cast, and call) can be randomized as items in the multiworld.
+
 - Hidden Aspects: hidden aspects can be randomized as items in the multiworld, needing to get those before being able to buy them on Hades. Helps make them more balanced.
 
 - Keepsakesanity: keepsakes can randomized as items in the multiworld. Getting them count as a location check.
@@ -22,6 +24,12 @@ on the next room, biome or run.
 - Storesanity: all important items from the store can be randomized in the multiworld. Buying them from the store counts as a location check.
 
 - FateSanity: The majority of the fated list can be used as a location for the multiworld. Completing them and cashing them grants the reward behind them.
+
+- MirrorSanity: all mirror upgrade levels can be randomized as items in the multiworld. Buying them counts as a location check.
+
+- FishSanity: Catching each fish for the first time counts as a location check.
+
+- TroveSanity: Completing troves in each underworld region, and under time constraints (60s, 45s, 30s, 15s) counts as location checks.
 
 - Helpers: Get items that increase your max HP or help you get rarer boons.
 
@@ -38,10 +46,15 @@ Settings:
 - Number of Pact of Punishments: tweak how high each pact of punishment starts, and so how many of these items are in the pool.
 - Value of filler items: tweak how much currency each filler item gives you. Can be used to turn off filler items
 - Number of locations behind the scoring system in the score-based mode.
+- Abilitysanity: Basic controls are shuffled into the item pool. Can either include attack and special as generic items, or split the control for each weapon.
+- InitialAbility: If abiilitysanity is on, can choose whether to start with attacks unlocked or specials.
 - Keepsakesanity: Keepsakes are shuffled into the item pool, and giving the first nectar to each NPC becomes a location. Excludes Hades and Persephone. NPCs can be befriended after obtaining their corresponding item and location check as normal.
 - Storesanity: Important store items are shuffled into the item pool, and buying them from the store becomes location instead. The store slots have logic to them, you can see below the details.
 - Weaponsanity: Weapons can be shuffled into the item pool, buying them from the store becomes a location.
 - FateSanity: Fated lists are location for the AP world.
+- MirrorSanity: All mirror upgrade levels are shuffled into the item pool, and buying them counts as a location instead.
+- Fishsanity: Catching each fish for the first time is a location for the AP world. Can disable surface fish from the pool.
+- TroveSanity:  Opening troves counts as locations for the AP world. Checks sent for each underworld location's first trove, completing 5-10 total, and completing troves at speeds from 15s-60s. 
 
 Victory conditions tweaks:
 - Minimum number of victories against Hades before finishing a run counts as victory.
@@ -61,6 +74,7 @@ Quality of Life:
 - All aspects of weapons can be bought once you unlock the weapon (except for the hidden ones if those are in the item pool).
 - Automatic hint system for items that are seen in store and fated list.
 - Missing nectar checks can be seen from the Codex.
+- Keepsakes level up 3x as fast. No more cabinet full of unused level 1 keepsakes!
 - Codex will tell you if you have used a weapon to beat Hades or not.
 - Can choose to automatically collect all locations from a weapon once Hades is defeated.
 
@@ -102,6 +116,8 @@ DoesBoKnow for proposing the multiworld and providing tons of resources and test
 
 The AP discord and all the people in the Hades subthread have pitched in with ideas and helped keep me motivated. That includes but is not limited to, Flore for proposing the “reversed heat” idea (which was simple enough to start implementing almost right away, which made this much more bearable) and Sylvris for helping add proper APWorld support. Also thanks to all the testers for providing information about the bugs they encountered. I could 
 have not made this without you.
+
+Thanks to ColgateSupreme for the ability, mirror, fishing, and infernal trove randomization features.
 
 Thanks to HauntyHogeez for the amazing custom title screen and the custom icon for the client. And Ael for actually implementing the custom title screen into the mod.
 
@@ -238,6 +254,10 @@ The following are the fates included in the Archipelago with their name as they 
 - The Codex tells you which NPCs still have a check behind giving them nectar.
 
 - To progress Patroclus dialogue and give him a nectar you need to check his entry on the Codex after meeting him.
+
+- In FishSanity, the fishing rod is required to be available before fishing checks are required.
+
+- In FateSanity, all god boon and daedalus hammer-related fates are expected to be available after all abilities have been received.
 
 # How this mod works
 
