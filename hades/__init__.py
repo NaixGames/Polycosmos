@@ -102,33 +102,33 @@ class HadesWorld(World):
                 pool.append(item)
 
         # Fill ability items
-        if self.options.abilitysanity.value == 1:
+        if self.options.abilitysanity.value == 0:
             for name, (data, category) in item_table_abilities.items():
                 item = HadesItem(name, self.player)
                 if category == "shared":
                     pool.append(item)
                 elif category == "attack":
-                    if self.options.initial_ability.value == 1:
+                    if self.options.initial_ability.value == 0:
                         self.multiworld.push_precollected(item)
                     else:
                         pool.append(item)
                 elif category == "special":
-                    if self.options.initial_ability.value == 2:
+                    if self.options.initial_ability.value == 1:
                         self.multiworld.push_precollected(item)
                     else:
                         pool.append(item)
-        elif self.options.abilitysanity.value == 2:
+        elif self.options.abilitysanity.value == 1:
             for name, (data, category) in item_table_abilities.items():
                 item = HadesItem(name, self.player)
                 if category == "shared":
                     pool.append(item)
                 elif category == "generic_attack":
-                    if self.options.initial_ability.value == 1:
+                    if self.options.initial_ability.value == 0:
                         self.multiworld.push_precollected(item)
                     else:
                         pool.append(item)
                 elif category == "generic_special":
-                    if self.options.initial_ability.value == 2:
+                    if self.options.initial_ability.value == 1:
                         self.multiworld.push_precollected(item)
                     else:
                         pool.append(item)

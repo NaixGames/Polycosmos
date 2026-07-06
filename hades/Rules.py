@@ -97,7 +97,7 @@ class HadesLogic(LogicMixin):
         #For any attack or any special, checks if there is a pair of weapon unlocked and its attack/special
         if ability.startswith("Any "):
                 move = ability[4:] #Cut off the "Any " part
-                if option.abilitysanity.value == 2:
+                if option.abilitysanity.value == 1:
                         return self.has(move,player)
                 if option.weaponsanity:
                         return any(
@@ -113,11 +113,11 @@ class HadesLogic(LogicMixin):
         #For a specific attack or special, see if the player can access it
         
         if ability.endswith(" Attack"):
-                if option.abilitysanity.value == 2:
+                if option.abilitysanity.value == 1:
                         return self.has("Attack", player)
                 return self.has(ability, player)
         if ability.endswith(" Special"):
-                if option.abilitysanity.value == 2:
+                if option.abilitysanity.value == 1:
                         return self.has("Special", player)
                 return self.has(ability, player)
         return False
@@ -129,7 +129,7 @@ class HadesLogic(LogicMixin):
                 count += 1
         if self._has_ability("Call", player, options):
                 count += 1
-        if options.abilitysanity.value == 2:
+        if options.abilitysanity.value == 1:
                 if self.has("Attack", player) and self.has("Special", player):
                         count += 1
         else:
@@ -448,7 +448,7 @@ def set_fates_rules(world: "HadesWorld", player: int, location_table : dict, opt
                         state.has("Gun Weapon Unlock Item", player) or options.initial_weapon == 5)
         
     #rules that depend on abilitysanity:
-    if options.abilitysanity.value != 3:
+    if options.abilitysanity.value != 2:
         add_rule(world.get_location("Goddess Of Wisdom" + subfix, player), lambda state: \
                 state._can_access_all_boons(player, options))
         add_rule(world.get_location("God Of The Heavens" + subfix, player), lambda state: \
