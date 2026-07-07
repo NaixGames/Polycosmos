@@ -1,9 +1,11 @@
 from typing import TYPE_CHECKING
 from BaseClasses import Item
+import math
 from .Items import item_table_pacts, item_table_keepsake, items_table_fates_completion
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 from .Locations import location_weapons_subfixes
+from .Data import mirror_upgrades, mirror_ri_requirements
 
 if TYPE_CHECKING:
     from . import HadesWorld
@@ -88,7 +90,7 @@ class HadesLogic(LogicMixin):
 
     def _has_fishing_rod(self, player: int, option) -> bool:
         if not option.storesanity:
-            return True
+            return self._has_defeated_boss("Lernie Victory", player, option)
         return self.has("Fishing Rod Item", player)
 
     def _has_ability(self, ability: str, player: int, option) -> bool:
@@ -161,6 +163,24 @@ class HadesLogic(LogicMixin):
         if not option.mirrorsanity:
             return True
         return self.has("Greater Reflex Level", player) and self.has("Ruthless Reflex Level", player) and self.has("Stubborn Defiance Level", player) 
+
+    def _can_reach_mirror_rank(self, current_rank, max_rank, player: int, options) -> bool:
+        quarter = math.floor(max_rank * 0.25)
+        half = math.floor(max_rank * 0.50)
+        three_quarters = math.floor(max_rank * 0.75)
+
+        if max_rank <= 3: 
+                return True
+        if current_rank <= quarter:
+                return True 
+        if current_rank <= half:
+                return self._has_defeated_boss("Meg Victory", player, options)
+        if current_rank <= three_quarters:
+                return self._has_defeated_boss("Lernie Victory", player, options)
+        if current_rank < max_rank:
+                return self._has_defeated_boss("Bros Victory", player, options)
+        return self._has_defeated_boss("Hades Victory", player, options)
+
         
     def _has_unlocked_troves(self, player: int, option) -> bool:
         if not option.storesanity:
@@ -693,7 +713,22 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
     add_rule(world.get_location("Beat Hades " + weaponSubfix, player), lambda state: \
             state._total_heat_level(player, min(number_items, 35), options) and \
             state._has_enough_weapons(player, options, 6))
-    
+
+def set_mirror_rules(world: "HadesWorld", player: int, options) -> None:
+    for upgrade in mirror_upgrades:
+        required_ri = mirror_ri_requirements.get(upgrade.name, 0)
+        total_ri = int(options.routine_inspection_pact_amount.value)
+        required_ri = min(required_ri, total_ri)
+
+        for level in range(1, upgrade.max_level + 1):
+                location_name = f"Mirror {upgrade.name} - Level {level}"
+                add_rule(world.get_location(location_name, player), lambda state, lvl=level, max_lvl=upgrade.max_level: \
+                        state._can_reach_mirror_rank(lvl, max_lvl, player, options))
+                if required_ri > 0:
+                        add_rule(world.get_location(location_name, player), lambda state, ri=required_ri: \
+                                state._has_enough_routine_inspection(player, ri, options))
+
+
 def set_fishing_rules(world: "HadesWorld", player: int, options) -> None:
 
     # Rod required for everything
