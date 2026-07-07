@@ -74,10 +74,10 @@ class AbilitySanity(Choice):
     (2) Default will include all attacks and specials together as one item each. (3) Vanilla will not randomize abilities.
     """
     display_name = "AbilitySanity"
-    option_random_abilities_weapon_based = 1
-    option_random_abilities_default = 2
-    option_vanilla_abilities = 3
-    default = 1
+    option_random_abilities_weapon_based = 0
+    option_random_abilities_default = 1
+    option_vanilla_abilities = 2
+    default = 0
 
 class InitialAbility(Choice):
     """
@@ -85,9 +85,9 @@ class InitialAbility(Choice):
     If you chose vanilla AbilitySanity settings above, this does nothing.
     """
     display_name = "InitialAbility"
-    option_starting_attack = 1
-    option_starting_special = 2
-    default = 1
+    option_starting_attack = 0
+    option_starting_special = 1
+    default = 0
 
 class HiddenAspectSanity(DefaultOnToggle):
     """

@@ -32,3 +32,33 @@ mirror_upgrades = [
     MirrorUpgradeData("Gods' Legacy", 10),
     MirrorUpgradeData("Fated Persuasion", 4),
 ]
+#Routine inspection level categories
+mirror_ri_requirements = {
+    "Fated Authority": 1,
+    "Fated Persuasion": 1,
+    "Gods' Pride": 1,
+    "Gods' Legacy": 1,
+    "Olympian Favor": 1,
+    "Dark Foresight": 1,
+
+    "Privileged Status": 2,
+    "Family Favorite": 2,
+    "Thick Skin": 2,
+    "High Confidence": 2,
+    "Deep Pockets": 2,
+    "Golden Touch": 2,
+
+    "Infernal Soul": 3,
+    "Stygian Soul": 3,
+    "Boiling Blood": 3,
+    "Abyssal Blood": 3,
+    "Greater Reflex": 3,
+    "Ruthless Reflex": 3,
+
+    "Death Defiance": 4,
+    "Stubborn Defiance": 4,
+    "Chthonic Vitality": 4,
+    "Dark Regeneration": 4,
+    "Shadow Presence": 4,
+    "Fiery Presence": 4,
+}
