@@ -234,7 +234,7 @@ item_table_abilities: Dict[str, tuple[ItemData, str]] = {
 item_table_mirror: Dict[str, ItemData] = {}
 next_id = hades_base_item_id + 102
 
-TOTAL_MIRROR_ITEMS = 150
+TOTAL_MIRROR_ITEMS = 159
 
 for upgrade in mirror_upgrades:
     item_table_mirror[f"{upgrade.name} Level"] = ItemData(next_id, True)
