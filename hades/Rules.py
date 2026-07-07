@@ -294,6 +294,8 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
     set_fates_rules(world, player, location_table, options, " Event")
     if options.fishsanity:
         set_fishing_rules(world, player, options)
+    if options.mirrorsanity:
+        set_mirror_rules(world, player, options)
 
     if options.keepsakesanity and options.storesanity:
         add_rule(world.get_location("Orpheus Keepsake", player), lambda state: \
@@ -720,7 +722,7 @@ def set_mirror_rules(world: "HadesWorld", player: int, options) -> None:
         total_ri = int(options.routine_inspection_pact_amount.value)
         required_ri = min(required_ri, total_ri)
 
-        for level in range(1, upgrade.max_level + 1):
+        for level in range(1, upgrade.max_level):
                 location_name = f"Mirror {upgrade.name} - Level {level}"
                 add_rule(world.get_location(location_name, player), lambda state, lvl=level, max_lvl=upgrade.max_level: \
                         state._can_reach_mirror_rank(lvl, max_lvl, player, options))
