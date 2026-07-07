@@ -722,7 +722,7 @@ def set_mirror_rules(world: "HadesWorld", player: int, options) -> None:
         total_ri = int(options.routine_inspection_pact_amount.value)
         required_ri = min(required_ri, total_ri)
 
-        for level in range(1, upgrade.max_level):
+        for level in range(1, upgrade.max_level + 1):
                 location_name = f"Mirror {upgrade.name} - Level {level}"
                 add_rule(world.get_location(location_name, player), lambda state, lvl=level, max_lvl=upgrade.max_level: \
                         state._can_reach_mirror_rank(lvl, max_lvl, player, options))
