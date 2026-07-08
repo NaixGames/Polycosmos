@@ -395,6 +395,18 @@ ModUtil.Path.Wrap("HandleDeath", function( baseFunc, currentRun, killer, killing
 	return baseFunc(currentRun, killer, killingUnitWeapon)
 end)
 
+------------ On loading house of hades or starting new run, send message to server
+--loading deatharea should also handle the weird edge case of receiving credits
+OnAnyLoad{ "DeathArea",
+	function( triggerArgs )
+        StyxScribe.Send(styx_scribe_send_prefix.."On House")
+    end
+}
+--deathloop.lua line 271
+ModUtil.Path.Wrap("StartOver", function( baseFunc )
+    StyxScribe.Send(styx_scribe_send_prefix.."On Run")
+    return baseFunc()
+end)
 ------------ On connection error, send warning to player to reconnect
 
 function PolycosmosEvents.ConnectionError( message )
