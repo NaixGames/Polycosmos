@@ -25,6 +25,11 @@ local config = {
 	-- speed up keepsake upgrades to reasonably level them within an archipelago session
 	FasterKeepsakeLevels = true,
 
+	-- turn on a chamber number display in the top corner during runs (credits to Museus and Ellomenop for initial script)
+	ShowChamberNumber = true,
+
+	-- allow quick resets by pressing assist+use+shout+reload (credits to Museus and Ellomenop for initial script)
+	QuickRestart = true,
 	
 }
 
@@ -165,4 +170,161 @@ ModUtil.Path.Wrap("UnlockNextMetaUpgradePanel", function(baseFunc, screen, butto
   OpenMetaUpgradeMenu()
 end, PolycosmosQoL)
 
+-- Show the chamber depth you've reached in the top-right of your screen
+if config.ShowChamberNumber then
+	-- Scripts/RoomManager.lua : 1874
+	ModUtil.Path.Wrap("StartRoom", function ( baseFunc, currentRun, currentRoom )
+		ShowDepthCounter()
+		baseFunc(currentRun, currentRoom)
+	end)
 
+	-- Scripts/UIScripts.lua : 145
+	ModUtil.Path.Wrap("ShowCombatUI", function ( baseFunc, flag )
+		ShowDepthCounter()
+		baseFunc(flag)
+	end)
+
+	-- Make sure Hiding Depth Counter doesn't actually do anything
+	ModUtil.Path.Wrap("HideDepthCounter", function ( baseFunc )
+		return
+	end)
+end
+
+-- QuickRestart setup below here
+function PolycosmosQoL.CanReset()
+    -- QuickRestart must be Enabled
+    if not config.QuickRestart then return false end
+
+    -- Short delay to handle edge cases
+    wait(0.1)
+
+    -- Zag must not be in the House
+    if ModUtil.Path.Get("CurrentDeathAreaRoom") then return false end
+
+    -- Zag must not be frozen
+    if not IsEmpty( CurrentRun.Hero.FreezeInputKeys ) then return false end
+
+    -- Combat UI must be visible
+    if not (ShowingCombatUI or false) then return false end
+
+    -- We can't be LastStand-ing
+    if PolycosmosQoL.LastStanding then return false end
+
+    -- We can't be QuickRestart-ing
+    if PolycosmosQoL.UsedQuickRestart then return false end
+
+    -- We can't be mid-trial god selection
+    if PolycosmosQoL.MidDevotion then return false end
+
+    -- If we're in a Thanatos Room, enemies must have already spawned
+    if (CurrentRun ~= nil and CurrentRun.CurrentRoom ~= nil and
+            CurrentRun.CurrentRoom.Encounter ~= nil and
+            CurrentRun.CurrentRoom.Encounter.ThanatosId ~= nil
+            and GetActiveEnemyCount() == 0) then
+        return false
+    end
+
+    return true
+end
+
+function PolycosmosQoL.ResetRun(triggerArgs)
+    if not PolycosmosQoL.CanReset() then
+        ModUtil.Hades.PrintOverhead("Can't reset now!", 2)
+        return
+    end
+
+    PolycosmosQoL.UsedQuickRestart = true
+    AddInputBlock({ Name = "QuickRestart" })
+
+    wait(0.1)
+
+    Kill( CurrentRun.Hero, triggerArgs )
+end
+
+OnControlPressed{ "Assist Use Shout Reload",
+    function(triggerArgs)
+        if config.QuickRestart then
+            if IsControlDown({ Name = "Assist" })
+                    and IsControlDown({ Name = "Use" })
+                    and IsControlDown({ Name = "Shout" })
+                    and IsControlDown({ Name = "Reload" }) then
+                PolycosmosQoL.ResetRun(triggerArgs)
+            end
+        end
+    end
+}
+
+OnAnyLoad{ "RoomPreRun",
+    function ( triggerArgs )
+        if PolycosmosQoL.UsedQuickRestart then
+            thread( PlayVoiceLines, GlobalVoiceLines.EnteredDeathAreaVoiceLines )
+            PolycosmosQoL.UsedQuickRestart = false
+
+            RemoveLastAwardTrait()
+            UnequipWeaponUpgrade()
+            RemoveLastAssistTrait()
+
+            -- Reset Starting Keepsake
+            GameState.LastAwardTrait = GameState.QuickRestartStartingKeepsake or GameState.LastAwardTrait
+        end
+    end
+}
+
+ModUtil.Path.Wrap("HandleDeath", function(baseFunc, currentRun, killer, killingUnitWeapon)
+    if PolycosmosQoL.UsedQuickRestart then
+        RemoveInputBlock({ Name = "QuickRestart" })
+    end
+    
+    return baseFunc(currentRun, killer, killingUnitWeapon)
+end)
+
+ModUtil.Path.Context.Wrap("HandleDeath", function ()
+    ModUtil.Path.Wrap("LoadMap", function(baseFunc, argTable)
+        if PolycosmosQoL.UsedQuickRestart then
+            argTable.Name = "RoomPreRun"
+
+            if GameState.QuickRestartStartingKeepsake then
+              GameState.LastAwardTrait = GameState.QuickRestartStartingKeepsake
+            end
+        end
+
+        baseFunc(argTable)
+        
+        --In some cases IsDead will be set to false by DoPatches() causing the "mirror bug"
+        CurrentRun.Hero.IsDead = true
+    end)
+end)
+
+ModUtil.Path.Wrap("WindowDropEntrance", function( baseFunc, ... )
+    local val = baseFunc(...)
+    -- Get starting keepsake
+    GameState.QuickRestartStartingKeepsake = GameState.LastAwardTrait
+    return val
+end)
+
+ModUtil.Path.Wrap("PlayerLastStandPresentationStart", function( baseFunc, ... )
+    PolycosmosQoL.LastStanding = true
+    return baseFunc( ... )
+end)
+
+ModUtil.Path.Wrap("PlayerLastStandPresentationEnd", function( baseFunc, ... )
+    local val = baseFunc( ... )
+    PolycosmosQoL.LastStanding = false
+    return val
+end)
+
+ModUtil.Path.Wrap("StartDevotionTestPresentation", function( baseFunc, ... )
+    PolycosmosQoL.MidDevotion = true
+    baseFunc(...)
+    PolycosmosQoL.MidDevotion = false
+end)
+
+-- Remove starting cutscene on a restart
+ModUtil.Path.Wrap("ShowRunIntro", function( baseFunc )
+
+    if PolycosmosQoL and PolycosmosQoL.UsedQuickRestart then
+        return
+    end
+
+    baseFunc()
+end)
