@@ -367,17 +367,19 @@ class HadesContext(CommonContext):
 
     # -------------methods for notifying tracker--------------------------------
 
-    async def on_run_status_notification(self):
-        message = [{"cmd": "Bounce", "tags": ["OnRunStarted"],
-                    "data": {"player": self.slot}}]
+    async def on_run_status_notification(self, message : str):
+        message = [{"cmd": "Bounce", 
+                    "slots": [self.slot],
+                    "data": {"Current Room": "OnRunStarted"}}]
 
         if self.server and self.server.socket:
             await self.send_msgs(message)
 
 
-    async def on_house_of_hades_notification(self):
-        message = [{"cmd": "Bounce", "tags": ["OnHouseOfHades"],
-                    "data": {"player": self.slot}}]
+    async def on_house_of_hades_notification(self, message : str):
+        message = [{"cmd": "Bounce", 
+                    "slots": [self.slot],
+                    "data": {"Current Room": "OnHouseOfHades"}}]
 
         if self.server and self.server.socket:
             await self.send_msgs(message)
