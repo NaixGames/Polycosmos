@@ -89,10 +89,12 @@ class HadesLogic(LogicMixin):
 
     def _has_fishing_rod(self, player: int, option) -> bool:
         if not option.storesanity:
-            return self._has_defeated_boss("Lernie Victory", player, option)
+            return self._has_defeated_boss("Bros Victory", player, option)
         return self.has("Fishing Rod Item", player)
 
     def _has_ability(self, ability: str, player: int, option) -> bool:
+        if option.abilitysanity.value == 2:
+            return True
         if ability == "Dash" or ability == "Cast" or ability == "Call":
             return self.has(ability, player)
         #For any attack or any special, checks if there is a pair of weapon unlocked and its attack/special
