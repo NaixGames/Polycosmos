@@ -83,7 +83,7 @@ def create_regions(ctx, location_database : dict) -> None:
         underworldExits += ["Store Gemstones Entrance"]
         underworldExits += ["Store Diamonds Entrance"]
     
-    if ctx.options.mirrorsanity:  
+    if ctx.options.mirrorsanity:
         underworldExits += ["Mirror Entrance"]
 
     if ctx.options.fishsanity.value > 0:
