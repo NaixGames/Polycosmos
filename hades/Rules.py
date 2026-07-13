@@ -753,7 +753,7 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
 
 def set_mirror_rules(world: "HadesWorld", player: int, options) -> None:
     for upgrade in mirror_upgrades:
-        required_ri = mirror_ri_requirements.get(upgrade.name, 0)
+        required_ri = 5 - mirror_ri_requirements.get(upgrade.name, 0)
         total_ri = int(options.routine_inspection_pact_amount.value)
         required_ri = min(required_ri, total_ri)
 
