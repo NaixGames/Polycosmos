@@ -312,5 +312,6 @@ CreateNoSpecialTrait("NoSpecialSwordTrait", "SwordParry")
 CreateNoSpecialTrait("NoSpecialBowTrait", "BowSplitShot")
 CreateNoSpecialTrait("NoSpecialSpearTrait", "SpearWeaponThrow")
 CreateNoSpecialTrait("NoSpecialShieldTrait", "ShieldThrow")
-CreateNoSpecialTrait("NoSpecialFistTrait", "FistWeaponSpecial")
+--the fist is a unique case, as it uses handling similar to basic attack for its dash special, so we process it like the basic attacks 
+CreateNoAttackTrait("NoSpecialFistTrait", "FistWeaponSpecial")
 CreateNoSpecialTrait("NoSpecialGunTrait", "GunGrenadeToss")

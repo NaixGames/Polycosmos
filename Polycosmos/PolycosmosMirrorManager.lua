@@ -216,9 +216,6 @@ function PolycosmosMirrorManager.UpdateMirrorLevels()
         end
         if selectedUpgrade == internalName then
             GameState.MetaUpgrades[internalName] = upgradeLevel
-            if CurrentRun ~= nil then
-                CurrentRun.MetaUpgradeCache[internalName] = upgradeLevel
-            end 
         else
             GameState.MetaUpgradeState[internalName] = upgradeLevel
         end
@@ -269,7 +266,11 @@ end
 
 function PolycosmosMirrorManager.GetNextLocationData(upgradeName)
     local nextLevel = PolycosmosMirrorManager.GetChecksPurchased(upgradeName) + 1
-    return PolycosmosMirrorManager.MirrorUpgradeLocations[upgradeName..nextLevel]
+	local data = PolycosmosMirrorManager.MirrorUpgradeLocations[upgradeName..nextLevel]
+    if data and locationToItemMapping[data.ClientLocation] then
+		return data
+	end
+	return nil
 end
 
 function PolycosmosMirrorManager.GetMirrorCost(upgradeName)
