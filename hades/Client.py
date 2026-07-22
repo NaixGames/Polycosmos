@@ -396,7 +396,7 @@ def launch_hades():
     subsume.Launch(True, None)
 
 
-def launch():
+def launch(*launch_args):
     async def main(args):
         ctx = HadesContext(args.connect, args.password)
         ctx.server_task = Utils.async_start(server_loop(ctx), name="server loop")
@@ -453,7 +453,7 @@ def launch():
     thr = threading.Thread(target=launch_hades, args=(), kwargs={})
     thr.start()
     parser = get_base_parser()
-    args = parser.parse_args()
+    args = parser.parse_args(launch_args)
     colorama.init()
     asyncio.run(main(args))
     colorama.deinit()
