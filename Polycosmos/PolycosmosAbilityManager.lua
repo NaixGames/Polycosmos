@@ -97,6 +97,23 @@ local function NormalizeRequiredFalseTraits(TraitData)
 
 end
 
+ModUtil.Path.Wrap("PickupWeaponKit", function(baseFunc, weaponKit)
+    baseFunc(weaponKit)
+    -- switching weapons in the courtyard can cause abilities to remporarily unlock. we refresh the blocking traits to fix that
+    local weaponData = weaponTraits[weaponKit.Name]
+    if weaponData then
+        if HeroHasTrait(weaponData.Special) then
+            RemoveAbilityTrait(weaponData.Special)
+            AddTraitToHero({ TraitName = weaponData.Special })
+        end
+        if HeroHasTrait(weaponData.Attack) then
+            RemoveAbilityTrait(weaponData.Attack)
+            AddTraitToHero({ TraitName = weaponData.Attack })
+        end
+    end
+    return
+end)
+
 ModUtil.WrapBaseFunction("StartRoomPresentation", function(baseFunc, currentRun, currentRoom, metaPointsAwarded)
 
     baseFunc(currentRun, currentRoom, metaPointsAwarded)
@@ -187,7 +204,7 @@ ModUtil.WrapBaseFunction("SetupHeroObject", function(baseFunc, currentRun, apply
                 NormalizeRequiredFalseTraits(traitData)
                 AddReq(weaponTraits[equippedWeapon].Special)
             end
-			if string.find(traitName, "Ranged") or string.find(traitName, "Cast") or (traitName == "ChaosBlessingAmmoTrait" or traitName == "ChaosCurseAmmoUseDelayTrait") then
+			if string.find(traitName, "Ranged") or string.find(traitName, "Cast") or (traitName == "ChaosBlessingAmmoTrait" or traitName == "ChaosCurseAmmoUseDelayTrait" or traitName == "ZeroAmmoBonusTrait") then
 				NormalizeRequiredFalseTraits(traitData)
 				AddReq("NoCastTrait")
 			end
