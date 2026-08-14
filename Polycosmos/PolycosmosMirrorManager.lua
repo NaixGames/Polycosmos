@@ -215,9 +215,21 @@ function PolycosmosMirrorManager.UpdateMirrorLevels()
             GameState.MetaUpgradesSelected[mirrorIndex] = internalName
         end
         if selectedUpgrade == internalName then
-            GameState.MetaUpgrades[internalName] = upgradeLevel
+			if internalName == "RareBoonDropMetaUpgrade" then
+				GameState.MetaUpgrades[internalName] = 4 * upgradeLevel
+			elseif internalName == "EpicBoonDropMetaUpgrade" then
+            	GameState.MetaUpgrades[internalName] = 2 * upgradeLevel
+			else
+				GameState.MetaUpgrades[internalName] = upgradeLevel
+			end
         else
-            GameState.MetaUpgradeState[internalName] = upgradeLevel
+            if internalName == "RareBoonDropMetaUpgrade" then
+				GameState.MetaUpgradeState[internalName] = 4 * upgradeLevel
+			elseif internalName == "EpicBoonDropMetaUpgrade" then
+				GameState.MetaUpgradeState[internalName] = 2 * upgradeLevel
+			else
+				GameState.MetaUpgradeState[internalName] = upgradeLevel
+			end
         end
     end
     PolycosmosMirrorManager.UpdateHeroStatsFromMirror()

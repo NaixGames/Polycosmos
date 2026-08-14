@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 from BaseClasses import Item
 import math
-from .Items import item_table_pacts, item_table_keepsake, items_table_fates_completion, TOTAL_MIRROR_ITEMS
+from .Items import item_table_pacts, item_table_keepsake, items_table_fates_completion
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 from .Locations import location_weapons_subfixes
-from .Data import mirror_upgrades, mirror_ri_requirements
+from .Data import MirrorUpgradeData, mirror_upgrades, mirror_ri_requirements, mirror_upgrade_items
 
 if TYPE_CHECKING:
     from . import HadesWorld
@@ -163,25 +163,11 @@ class HadesLogic(LogicMixin):
     def _has_all_mirror_talents(self, player: int, option) -> bool:
         if not option.mirrorsanity:
             return True
-        return self.has("Greater Reflex Level", player) and self.has("Ruthless Reflex Level", player) and self.has("Stubborn Defiance Level", player) 
-
-    def _can_reach_mirror_rank(self, current_rank, max_rank, player: int, options) -> bool:
-        quarter = math.floor(max_rank * 0.25)
-        half = math.floor(max_rank * 0.50)
-        three_quarters = math.floor(max_rank * 0.75)
-
-        if max_rank <= 3: 
-                return True
-        if current_rank <= quarter:
-                return True 
-        if current_rank <= half:
-                return self._has_defeated_boss("Meg Victory", player, options)
-        if current_rank <= three_quarters:
-                return self._has_defeated_boss("Lernie Victory", player, options)
-        if current_rank < max_rank:
-                return self._has_defeated_boss("Bros Victory", player, options)
-        return self._has_defeated_boss("Hades Victory", player, options)
-
+        elif not option.heat_system.value == 2:
+            return self.has("Greater Reflex Level", player) and self.has("Ruthless Reflex Level", player) and self.has("Stubborn Defiance Level", player) 
+        else:
+             # ADD A CATCH FOR ROUTINE INSPECTION LEVELS, BUT NEEDS TO BE ELSEWHERE FIRST OR A FALSE WILL BREAK EVERYTHING
+             return True
         
     def _has_unlocked_troves(self, player: int, option) -> bool:
         if not option.storesanity:
@@ -243,15 +229,14 @@ class HadesLogic(LogicMixin):
         else:
             return self.has("Hades Victory", player) and self._has_enough_weapons(player, options, amount)
 
-    def _has_enough_mirror_levels(self, amount: int, player: int, options) -> None:
+    def _has_enough_mirror_levels(self, tier: int, player: int, options) -> bool:
         if not options.mirrorsanity:
             return True
-        
-        counter = 0
-        for upgrade in mirror_upgrades:
-            counter += self.count(f"{upgrade.name} Level", player)
-
-        return counter >= amount
+        for upgrade in mirror_upgrade_items:
+             if (is_mirror_upgrade_enabled(upgrade, options)) and (5 - mirror_ri_requirements.get(upgrade.name, 0) <= tier):
+                if self.count(f"{upgrade.name} Level", player) < upgrade.max_level:
+                        return False
+        return True
 
 # -----------
 
@@ -281,27 +266,27 @@ def set_rules(world: "HadesWorld", player: int, number_items: int, location_tabl
                     state._has_enough_weapons(player, options, 2) and \
                     state.has("Dash", player) and \
                     state._has_attack_special_pairs(player, options, 1) and \
-                    state._has_enough_mirror_levels(math.floor(TOTAL_MIRROR_ITEMS/4), player, options))
+                    state._has_enough_mirror_levels(1, player, options))
         add_rule(world.get_entrance("Exit Asphodel", player), lambda state: state.has("Lernie Victory", player) and  \
                     state._total_heat_level(player, min(math.floor(number_items / 2), 20), options) and \
                     state._has_enough_routine_inspection(player, total_routine_inspection - 1, options) and  \
                     state._has_enough_weapons(player, options, 3) and \
                     state._has_required_ability_progression(player, options, 2) and \
                     state._has_attack_special_pairs(player, options, 2) and \
-                    state._has_enough_mirror_levels(math.floor(TOTAL_MIRROR_ITEMS/2), player, options))
+                    state._has_enough_mirror_levels(2, player, options))
         add_rule(world.get_entrance("Exit Elysium", player), lambda state: state.has("Bros Victory", player) and  \
                     state._total_heat_level(player, min(math.floor(number_items * 3 / 4), 30), options) and  \
                     state._has_enough_routine_inspection(player, total_routine_inspection, options) and  \
                     state._has_enough_weapons(player, options, 5) and \
                     state._has_required_ability_progression(player, options, 3) and \
                     state._has_attack_special_pairs(player, options, 3) and \
-                    state._has_enough_mirror_levels(math.floor(3*TOTAL_MIRROR_ITEMS/4), player, options))
+                    state._has_enough_mirror_levels(3, player, options))
         add_rule(world.get_location("Beat Hades", player), lambda state: \
                     state._total_heat_level(player, min(number_items, 35), options) and \
                     state._has_enough_weapons(player, options, 6) and \
                     state._has_required_ability_progression(player, options, 4) and \
                     state._has_attack_special_pairs(player, options, 4) and \
-                    state._has_enough_mirror_levels(TOTAL_MIRROR_ITEMS, player, options))
+                    state._has_enough_mirror_levels(4, player, options))
     
 
     forbid_important_items_on_late_styx(world, player, options)
@@ -735,7 +720,7 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
             state._has_enough_weapons(player, options, 2) and \
             state.has("Dash", player) and \
             state._has_attack_special_pairs(player, options, 1) and \
-            state._has_enough_mirror_levels(math.floor(TOTAL_MIRROR_ITEMS/4), player, options))
+            state._has_enough_mirror_levels(1, player, options))
     add_rule(world.get_entrance("Exit Asphodel " + weaponSubfix, player), lambda state: \
             state.has("Lernie Victory " + weaponSubfix, player) and \
             state._total_heat_level(player, min(math.floor(number_items / 2), 20), options) and \
@@ -743,7 +728,7 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
             state._has_enough_weapons(player, options, 3) and \
             state._has_required_ability_progression(player, options, 2) and \
             state._has_attack_special_pairs(player, options, 2) and \
-            state._has_enough_mirror_levels(math.floor(TOTAL_MIRROR_ITEMS/2), player, options))
+            state._has_enough_mirror_levels(2, player, options))
     add_rule(world.get_entrance("Exit Elysium " + weaponSubfix, player), lambda state: \
             state.has("Bros Victory " + weaponSubfix, player)  and \
             state._total_heat_level(player, min(math.floor(number_items * 3 / 4), 30), options) and \
@@ -751,13 +736,13 @@ def set_weapon_region_rules(world: "HadesWorld", player: int, number_items: int,
             state._has_enough_weapons(player, options, 5) and \
             state._has_required_ability_progression(player, options, 3) and \
             state._has_attack_special_pairs(player, options, 3) and \
-            state._has_enough_mirror_levels(math.floor(3*TOTAL_MIRROR_ITEMS/4), player, options))
+            state._has_enough_mirror_levels(3, player, options))
     add_rule(world.get_location("Beat Hades " + weaponSubfix, player), lambda state: \
             state._total_heat_level(player, min(number_items, 35), options) and \
             state._has_enough_weapons(player, options, 6) and \
             state._has_required_ability_progression(player, options, 4) and \
             state._has_attack_special_pairs(player, options, 4) and \
-            state._has_enough_mirror_levels(TOTAL_MIRROR_ITEMS, player, options))
+            state._has_enough_mirror_levels(4, player, options))
 
 def set_mirror_rules(world: "HadesWorld", player: int, options) -> None:
     for upgrade in mirror_upgrades:
@@ -765,21 +750,33 @@ def set_mirror_rules(world: "HadesWorld", player: int, options) -> None:
         total_ri = int(options.routine_inspection_pact_amount.value)
         required_ri = min(required_ri, total_ri)
 
-        for level in range(1, upgrade.max_level + 1):
-                location_name = f"Mirror {upgrade.name} - Level {level}"
-
-                # in the minimal heat/routine inspection case, we removed some locations and want to make sure they're no longer counted
-                try:
+        if is_mirror_upgrade_enabled(upgrade, options):
+                for level in range(1, upgrade.max_level + 1):
+                        location_name = f"Mirror {upgrade.name} - Level {level}"
                         location = world.get_location(location_name, player)
-                except KeyError:
-                        continue
 
+                        # Make sure the player has enough routine inspections to access the mirror upgrade
+                        if required_ri > 0:
+                                add_rule(location, lambda state, ri=required_ri: \
+                                        state._has_enough_routine_inspection(player, ri, options))
+                        # All tier 1 upgrades are pre-meg, tier 2 upgrades are pre-lernie, and tier 3 upgrades are pre-bros. Tier 4 upgrades are post-bros (styx).
+                        if mirror_ri_requirements.get(upgrade.name, 0) == 3:
+                                add_rule(location, lambda state: \
+                                        state._has_defeated_boss("Meg Victory", player, options))
+                        elif mirror_ri_requirements.get(upgrade.name, 0) == 2:
+                                add_rule(location, lambda state: \
+                                        state._has_defeated_boss("Lernie Victory", player, options))
+                        elif mirror_ri_requirements.get(upgrade.name, 0) == 1:
+                                add_rule(location, lambda state: \
+                                        state._has_defeated_boss("Bros Victory", player, options))
 
-                add_rule(world.get_location(location_name, player), lambda state, lvl=level, max_lvl=upgrade.max_level: \
-                        state._can_reach_mirror_rank(lvl, max_lvl, player, options))
-                if required_ri > 0:
-                        add_rule(world.get_location(location_name, player), lambda state, ri=required_ri: \
-                                state._has_enough_routine_inspection(player, ri, options))
+def is_mirror_upgrade_enabled(upgrade, options) -> bool:
+     tier = mirror_ri_requirements.get(upgrade.name, 0)
+     if options.heat_system.value == 2:
+          routine_inspection = options.routine_inspection_pact_amount.value
+          if routine_inspection >= tier:
+               return False
+     return True
                         
 
 
