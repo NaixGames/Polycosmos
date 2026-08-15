@@ -129,8 +129,8 @@ class HadesContext(CommonContext):
             # What should be done in a connection package
             self.hades_slot_data = args["slot_data"]
             if not (self.hades_slot_data["version_check"] == self.polycosmos_version):
-                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] \
-                            + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
+                stringError = "WORLD GENERATED WITH POLYCOSMOS APWORLD v" + self.hades_slot_data["version_check"] \
+                            + " AND THIS CLIENT IS USING VERSION " + self.polycosmos_version + "\n"
                 stringError += "THESE ARE NOT COMPATIBLE"
                 raise Exception(stringError)
             
@@ -230,6 +230,7 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["hidden_aspectsanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["mirrorsanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["fishsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["legendaryfish"]) + "-"
         hades_settings_string += str(self.hades_slot_data["trovesanity"]) + "-"
         hades_settings_string += str(self.polycosmos_version) + "-"
         hades_settings_string += str(self.hades_slot_data["automatic_rooms_finish_on_hades_defeat"]) + "-"

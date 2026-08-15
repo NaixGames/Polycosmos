@@ -71,6 +71,7 @@ def create_regions(ctx, location_database : dict) -> None:
         location_table_fates, location_table_fates_events, location_table_mirror_1, location_table_mirror_2, \
         location_table_mirror_3, location_table_mirror_4, location_weapons_subfixes, \
         location_table_fish, location_table_surface_fish, location_table_troves
+    from .Data import fish_rarities
 
     # create correct underworld exit
     underworldExits = []
@@ -169,9 +170,15 @@ def create_regions(ctx, location_database : dict) -> None:
                                              mirror_locations,
                                              ["Exit Mirror"])]
     # Ensure fishing table is appropriate for settings before we set locations
-    all_fish_locations = dict(location_table_fish)
+    if ctx.options.legendaryfish.value == 1:
+        all_fish_locations = dict(location_table_fish)
+    else:
+        all_fish_locations = {location: value for location, value in location_table_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"}
     if ctx.options.fishsanity.value == 2:
-        all_fish_locations.update(location_table_surface_fish)
+        if ctx.options.legendaryfish.value == 1:
+            all_fish_locations.update(location_table_surface_fish)
+        else:
+            all_fish_locations.update({location: value for location, value in location_table_surface_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"})
     if ctx.options.fishsanity.value > 0:
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Fishing Locations",
                                              [location for location in all_fish_locations],

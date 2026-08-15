@@ -185,6 +185,12 @@ Hades:
     default: 0
     full: 0
     
+  legendaryfish:
+    # Control whether legendary fish are included as locations.
+    # If FishSanity is set to off, this setting has no effect.
+    'false': 50
+    'true': 0
+    
   trovesanity:
     # Adds locations for completing Infernal Troves in each region of the
     # Underworld, as well as bonus locations for fast Trove clears. (15s, 30s, 45s, 60s)

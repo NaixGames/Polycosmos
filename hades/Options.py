@@ -140,6 +140,13 @@ class FishSanity(Choice):
     option_full = 2
     default = 0
 
+class LegendaryFish(Toggle):
+    """
+    Control whether legendary fish are included as locations.
+    If FishSanity is set to off, this setting has no effect.
+    """
+    display_name = "LegendaryFish"
+
 class TroveSanity(DefaultOnToggle):
     """
     Adds locations for opening infernal troves in each Underworld region and completing them at
@@ -659,6 +666,7 @@ class HadesOptions(PerGameCommonOptions):
     fatesanity: FateSanity
     mirrorsanity: MirrorSanity
     fishsanity: FishSanity
+    legendaryfish: LegendaryFish
     trovesanity: TroveSanity
     hades_defeats_needed: HadesDefeatsNeeded
     weapons_clears_needed: WeaponsClearsNeeded
@@ -724,6 +732,7 @@ hades_option_groups = [
         FateSanity,
         MirrorSanity,
         FishSanity,
+        LegendaryFish,
         TroveSanity,
         DeathLink,
         DeathLinkAmnesty,
@@ -796,6 +805,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "fatesanity": False,
         "mirrorsanity": False,
         "fishsanity": 0,
+        "legendaryfish": False,
         "trovesanity": False,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 2,
@@ -836,6 +846,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "fatesanity": False,
         "mirrorsanity": True,
         "fishsanity": 1,
+        "legendaryfish": False,
         "trovesanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 3,
@@ -874,6 +885,7 @@ hades_option_presets: Dict[str, Dict[str, Any]] = {
         "fatesanity": True,
         "mirrorsanity": True,
         "fishsanity": 1,
+        "legendaryfish": True,
         "trovesanity": True,
         "heat_system": "reverse_heat",
         "hard_labor_pact_amount": 5,

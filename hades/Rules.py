@@ -5,7 +5,7 @@ from .Items import item_table_pacts, item_table_keepsake, items_table_fates_comp
 from worlds.AutoWorld import LogicMixin
 from worlds.generic.Rules import set_rule, add_rule, add_item_rule
 from .Locations import location_weapons_subfixes
-from .Data import MirrorUpgradeData, mirror_upgrades, mirror_ri_requirements, mirror_upgrade_items
+from .Data import mirror_upgrades, mirror_ri_requirements, mirror_upgrade_items, fish_rarities
 
 if TYPE_CHECKING:
     from . import HadesWorld
@@ -159,7 +159,8 @@ class HadesLogic(LogicMixin):
     def _can_access_all_boons(self, player: int, option) -> bool:
         return (self._has_all_basic_moves(player, option) and self._has_ability("Call", player, option))
 
-    #Only a few mirror upgrades have one level. The rest will not be locked behind one location, but we need to check these and enforce them.
+    # Only a few mirror upgrades have one level. The rest will not be locked behind one location, but we need to check these and enforce them.
+    # For the Dark Reflections quest, this is applied below in set_fates_rules()
     def _has_all_mirror_talents(self, player: int, option) -> bool:
         if not option.mirrorsanity:
             return True
@@ -233,6 +234,7 @@ class HadesLogic(LogicMixin):
         if not options.mirrorsanity:
             return True
         for upgrade in mirror_upgrade_items:
+             # Make sure it's not permanently RI-gated, and then check all upgrades in the specified tier's RI chunk (e.g. all that require X RI pact levels)
              if (is_mirror_upgrade_enabled(upgrade, options)) and (5 - mirror_ri_requirements.get(upgrade.name, 0) <= tier):
                 if self.count(f"{upgrade.name} Level", player) < upgrade.max_level:
                         return False
@@ -808,33 +810,39 @@ def set_fishing_rules(world: "HadesWorld", player: int, options) -> None:
     ])
 
     for location in fish_locations:
+        if options.legendaryfish.value == 0 and fish_rarities[location.removeprefix("Catch ")] == "Legendary":
+             continue
         add_rule(world.get_location(location, player), lambda state: state._has_fishing_rod(player, options))
 
     add_rule(world.get_location("Catch Slavug", player), lambda state: \
             state._has_defeated_boss("Meg Victory", player, options))
     add_rule(world.get_location("Catch Chrustacean", player), lambda state: \
             state._has_defeated_boss("Meg Victory", player, options))
-    add_rule(world.get_location("Catch Flameater", player), lambda state: \
-            state._has_defeated_boss("Meg Victory", player, options))
+    if options.legendaryfish.value == 1:
+        add_rule(world.get_location("Catch Flameater", player), lambda state: \
+                state._has_defeated_boss("Meg Victory", player, options))
     add_rule(world.get_location("Catch Chlam", player), lambda state: \
             state._has_defeated_boss("Lernie Victory", player, options))
     add_rule(world.get_location("Catch Charp", player), lambda state: \
             state._has_defeated_boss("Lernie Victory", player, options))
-    add_rule(world.get_location("Catch Seamare", player), lambda state: \
-            state._has_defeated_boss("Lernie Victory", player, options))
+    if options.legendaryfish.value == 1:
+        add_rule(world.get_location("Catch Seamare", player), lambda state: \
+                state._has_defeated_boss("Lernie Victory", player, options))
     add_rule(world.get_location("Catch Gupp", player), lambda state: \
             state._has_defeated_boss("Bros Victory", player, options))
     add_rule(world.get_location("Catch Scuffer", player), lambda state: \
             state._has_defeated_boss("Bros Victory", player, options))
-    add_rule(world.get_location("Catch Stonewhal", player), lambda state: \
-            state._has_defeated_boss("Bros Victory", player, options))
+    if options.legendaryfish.value == 1:
+        add_rule(world.get_location("Catch Stonewhal", player), lambda state: \
+                state._has_defeated_boss("Bros Victory", player, options))
     if options.fishsanity.value == 2:
         add_rule(world.get_location("Catch Trout", player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
         add_rule(world.get_location("Catch Bass", player), lambda state: \
                 state._has_defeated_boss("Hades Victory", player, options))
-        add_rule(world.get_location("Catch Sturgeon", player), lambda state: \
-                state._has_defeated_boss("Hades Victory", player, options))
+        if options.legendaryfish.value == 1:
+                add_rule(world.get_location("Catch Sturgeon", player), lambda state: \
+                        state._has_defeated_boss("Hades Victory", player, options))
 
 
 def forbid_important_items_on_late_styx(world: "HadesWorld", player: int, options) -> None:

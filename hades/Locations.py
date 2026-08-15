@@ -1,5 +1,5 @@
 from BaseClasses import Location
-from .Data import mirror_upgrades, mirror_ri_requirements
+from .Data import mirror_upgrades, mirror_ri_requirements, fish_rarities
 
 
 hades_base_location_id = 1
@@ -383,9 +383,15 @@ def setup_location_table_with_settings(options) -> None:
             total_table.update(location_table_mirror_1)
 
     if options.fishsanity.value >= 1:
-        total_table.update(location_table_fish)
+        if options.legendaryfish.value == 1:
+            total_table.update(location_table_fish)
+        else:
+            total_table.update({location: value for location, value in location_table_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"})
     if options.fishsanity.value == 2:
-        total_table.update(location_table_surface_fish)
+        if options.legendaryfish.value == 1:
+            total_table.update(location_table_surface_fish)
+        else:
+            total_table.update({location: value for location, value in location_table_surface_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"})
 
     if options.trovesanity.value == 1:
         total_table.update(location_table_troves)

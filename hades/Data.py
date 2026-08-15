@@ -89,3 +89,25 @@ mirror_ri_requirements = {
     "Shadow Presence": 4,
     "Fiery Presence": 4,
 }
+
+# Store fish rarities so we can optionally exclude legendaries
+fish_rarities = {
+    "Hellfish": "Common",
+    "Knucklehead": "Rare",
+    "Scyllascion": "Legendary",
+    "Slavug": "Common",
+    "Chrustacean": "Rare",
+    "Flameater": "Legendary",
+    "Chlam": "Common",
+    "Charp": "Rare",
+    "Seamare": "Legendary",
+    "Gupp": "Common",
+    "Scuffer": "Rare",
+    "Stonewhal": "Legendary",
+    "Mati": "Common",
+    "Projelly": "Rare",
+    "Voidskate": "Legendary",
+    "Trout": "Common",
+    "Bass": "Rare",
+    "Sturgeon": "Legendary",
+}
