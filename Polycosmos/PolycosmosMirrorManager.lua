@@ -349,6 +349,7 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 	local capApplies = (GetNumMetaUpgrades( "MetaPointCapShrineUpgrade" ) > 0 and screen.ResourceName == "MetaPoints")
 	local pointCap = 0
 	local currentPoints = 0
+	local isMaxInvestment = (PolycosmosMirrorManager.GetNextLocationData(upgradeData.Name) == nil)
 
     if screen.ResourceName == "ShrinePoints" then
 		return baseFunc(screen, button)
@@ -363,7 +364,7 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 		if upgradeData.GameStateRequirements and not IsGameStateEligible( CurrentRun, upgradeData.GameStateRequirements ) then
 			thread( InCombatTextArgs, { Text = "ShrineGameStateIneglible", TargetId = CurrentRun.Hero.ObjectId, SkipRise = false, SkipFlash = false, Duration = 1.25, Group = "Combat_Menu_Overlay", Cooldown = 3 } )
 			thread( CannotAffordMetaUpgradePresentation, button.NextCostId )
-		elseif upgradeData.NextCost == nil then
+		elseif upgradeData.NextCost == nil or isMaxInvestment then
 			-- Maxed out
 			thread( MetaUpgradeAtMaxPresentation, button.NextCostId )
 		elseif capApplies and currentPoints + upgradeData.NextCost > pointCap then
@@ -403,7 +404,7 @@ ModUtil.Path.Wrap("HandleMetaUpgradeInput", function(baseFunc, screen, button)
 			local nextMirrorLevel = PolycosmosMirrorManager.GetChecksPurchased(upgradeData.Name) + 1
 			local mirrorText = "- Level "..nextMirrorLevel
 
-			if not PolycosmosMirrorManager.GetNextLocationData(upgradeData.Name) then
+			if not nextLocationData then
 				mirrorText = "- MAX"
 				FinalMetaUpgradePresentation(button, upgradeData.Name)
 			end
@@ -537,8 +538,8 @@ ModUtil.Path.Wrap("CreateMetaUpgradeEntry", function(baseFunc, args)
 		CreateTextBox({
 			Id = components[metaUpgradeNextCostKey].Id, Text = tostring(upgradeData.NextCost),
 			TooltipKey = upgradeData.TotalTooltip, TooltipData = {Amount = totalStatChange },
-			FontSize = 26,
-			OffsetX = args.Screen.UpgradeCostX, OffsetY = -30,
+			FontSize = 22,
+			OffsetX = args.Screen.UpgradeCostX+60, OffsetY = -30,
 			Color = Color.DarknessPoint,
 			Font = "AlegreyaSansSCMedium",
 			ShadowBlur = 0, ShadowColor = {96,96,96,255}, ShadowOffset={0, 1},
@@ -608,9 +609,12 @@ ModUtil.Path.Wrap("CreateMetaUpgradeEntry", function(baseFunc, args)
 	})
 
 	if not args.Screen.ReadOnly then
+		local oldOffsetX = args.Screen.RightArrowOffsetX
+		args.Screen.RightArrowOffsetX = (oldOffsetX or LevelUpUI.RightArrowOffsetX) + 60
 		if args.Locked then
 			local button = CreateArrowButton( k, { Screen = args.Screen, Data = upgradeData, IsIncrease = true, IsEnabled = false, Locked = true })
 			CreateTooltipTarget( args.Screen, k, upgradeData, { Locked = true } )
+			args.Screen.RightArrowOffsetX = oldOffsetX
 		else
 			local button = CreateArrowButton( k, { Screen = args.Screen, Data = upgradeData, IsIncrease = true, IsEnabled = true })
 			button.ResourceName = args.Screen.ResourceName
@@ -666,6 +670,7 @@ ModUtil.Path.Wrap("CreateMetaUpgradeEntry", function(baseFunc, args)
 			else
 				CreateTooltipTarget( args.Screen, k, upgradeData )
 			end
+			args.Screen.RightArrowOffsetX = oldOffsetX
 		end
 	end
 	--after creating an entry, send a hint for the location
@@ -705,12 +710,15 @@ ModUtil.Path.Wrap("UpdateButtonStates", function(baseFunc, screen)
 	for i, component in pairs( components ) do
 		if component.HandleType == "Add" then
 			local isEnabled = IsMetaUpgradeValid ( screen, component, currentPoints, capApplies, pointCap )
+			local oldOffsetX = screen.RightArrowOffsetX
 			if component.LastEnabled ~= isEnabled then
+				screen.RightArrowOffsetX = (oldOffsetX or LevelUpUI.RightArrowOffsetX) + 60
 				local button = CreateArrowButton( component.ParentIndex, { Screen = screen, Data = component.Data, IsIncrease = true, IsEnabled = isEnabled } )
 				button.ResourceName = screen.ResourceName
+				
 			end
 			if not isEnabled then
-				if component.Data.NextCost ~= nil then
+				if (component.Data.NextCost ~= nil) and (PolycosmosMirrorManager.GetNextLocationData(component.Data.Name) ~= nil) then
 					local text = "MetaUpgradeMenu_InvalidCost"
 					local color = Color.MetaUpgradePointsInvalid
 					if capApplies and ( currentPoints + component.Data.NextCost ) > pointCap then
@@ -722,9 +730,14 @@ ModUtil.Path.Wrap("UpdateButtonStates", function(baseFunc, screen)
 					ModifyTextBox({ Id = component.NextCostId, Text = "MetaUpgradeMenu_Maxed", ColorTarget = Color.MetaUpgradePointsInvalid })
 				end
 			else
-				local icon = "{!Icons.MetaPoint_Small}"
-				ModifyTextBox({ Id = component.NextCostId, Text = component.Data.NextCost..icon, ColorTarget = Color.White, ColorDuration = 0.0, ShadowAlpha = 1})
+				if (component.Data.NextCost ~= nil) and (PolycosmosMirrorManager.GetNextLocationData(component.Data.Name) ~= nil) then
+					local icon = "{!Icons.MetaPoint_Small}"
+					ModifyTextBox({ Id = component.NextCostId, Text = component.Data.NextCost..icon, ColorTarget = Color.White, ColorDuration = 0.0, ShadowAlpha = 1})
+				else
+					ModifyTextBox({ Id = component.NextCostId, Text = "MetaUpgradeMenu_Maxed", ColorTarget = Color.MetaUpgradePointsInvalid })
+				end
 			end
+			screen.RightArrowOffsetX = oldOffsetX
 		elseif component.HandleType == "Unlock" then
 			local isEnabled = HasResource( component.Data.ResourceName, component.Data.UnlockCost )
 			if component.LastEnabled ~= isEnabled then
