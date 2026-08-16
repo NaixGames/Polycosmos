@@ -539,6 +539,7 @@ function PolycosmosEvents.SaveClientData( message )
 
     print("Parsed array to string. Length is "..#array_settings) --This should be 44
 
+    GameState.TrovesCompleted = {}
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
     GameState.ClientFillerValues = {}
@@ -643,6 +644,10 @@ function PolycosmosEvents.SetUpGameWithData()
 
     if (GameState.HadesVictory ~= nil and GameState.HadesVictory ~= "") then
         StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..GameState.HadesVictory)
+    end
+
+    if (GameState.TrovesCompleted ~= nil and GameState.TrovesCompleted ~= {}) then
+        StyxScribe.Send(styx_scribe_send_prefix.."Troves Completed-"..GameState.TrovesCompleted)
     end
 
     if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0 and CurrentRun ~= nil) then
