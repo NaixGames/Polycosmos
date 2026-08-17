@@ -130,7 +130,7 @@ class HadesContext(CommonContext):
             # What should be done in a connection package
             self.hades_slot_data = args["slot_data"]
             if not (self.hades_slot_data["version_check"] == self.polycosmos_version):
-                stringError = "WORLD GENERATED WITH POLYCOSMOS APWORLD v" + self.hades_slot_data["version_check"] \
+                stringError = "WORLD GENERATED WITH APWORLD v" + self.hades_slot_data["version_check"] \
                             + " AND THIS CLIENT IS USING VERSION " + self.polycosmos_version + "\n"
                 stringError += "THESE ARE NOT COMPATIBLE"
                 raise Exception(stringError)
