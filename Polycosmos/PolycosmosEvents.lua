@@ -41,6 +41,8 @@ last_room_completed=0
 --- variables for deathlink checks
 
 is_greece_death = false
+in_house_of_hades = false 
+-- this is needed to consume a received deathlink if you are in the house so once you clear room 2 it doesnt instantly kill you
 
 --variable for avoid racing problems
 
@@ -358,7 +360,7 @@ end)
 ------------ On deathlink, kill Zag
 
 function PolycosmosEvents.KillPlayer( message )
-    if (CurrentRun == nil or CurrentRun.Hero == nil) then
+    if (CurrentRun == nil or CurrentRun.Hero == nil or in_house_of_hades) then
         PolycosmosMessages.PrintToPlayer("Deathlink avoided ... for now.")
         return
     end
@@ -399,11 +401,13 @@ end)
 --loading deatharea should also handle the weird edge case of receiving credits
 OnAnyLoad{ "DeathArea",
 	function( triggerArgs )
+        in_house_of_hades = true
         StyxScribe.Send(styx_scribe_send_prefix.."On House")
     end
 }
 --deathloop.lua line 271
 ModUtil.Path.Wrap("StartOver", function( baseFunc )
+    in_house_of_hades = false
     StyxScribe.Send(styx_scribe_send_prefix.."On Run")
     return baseFunc()
 end)
