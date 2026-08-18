@@ -1,7 +1,7 @@
 ModUtil.Mod.Register("PolycosmosFishingManager")
 
 local FishNames = 
-    {
+{
     Fish_Tartarus_Common_01 = "Hellfish",
     Fish_Tartarus_Rare_01 = "Knucklehead",
     Fish_Tartarus_Legendary_01 = "Scyllascion",
@@ -20,16 +20,26 @@ local FishNames =
     Fish_Surface_Common_01 = "Trout",
     Fish_Surface_Rare_01 = "Bass",
     Fish_Surface_Legendary_01 = "Sturgeon"
-    }
+}
 local SurfaceFish = 
-    {
+{
     Fish_Surface_Common_01 = true,
     Fish_Surface_Rare_01 = true,
     Fish_Surface_Legendary_01 = true
-    }
+}
+local LegendaryFish = 
+{
+    Fish_Tartarus_Legendary_01 = true,
+    Fish_Asphodel_Legendary_01 = true,
+    Fish_Elysium_Legendary_01 = true,
+    Fish_Styx_Legendary_01 = true,
+    Fish_Chaos_Legendary_01 = true,
+    Fish_Surface_Legendary_01 = true
+}
 
 ModUtil.Path.Wrap("RecordFish", function(baseFunc, fishName)
     local fishSanity = GameState.ClientGameSettings["FishSanity"]
+    local legendaryFish = GameState.ClientGameSettings["LegendaryFish"]
     if fishSanity == 0 then
         return baseFunc(fishName)
     end
@@ -40,6 +50,9 @@ ModUtil.Path.Wrap("RecordFish", function(baseFunc, fishName)
         return 
     end
     if SurfaceFish[fishName] and fishSanity ~= 2 then
+        return
+    end
+    if LegendaryFish[fishName] and not legendaryFish then
         return
     end
     PolycosmosEvents.ProcessLocationCheck("Catch "..FishNames[fishName], true)

@@ -1,5 +1,5 @@
 from BaseClasses import Location
-from .Data import mirror_upgrades, mirror_ri_requirements
+from .Data import mirror_upgrades, mirror_ri_requirements, fish_rarities
 
 
 hades_base_location_id = 1
@@ -247,22 +247,29 @@ location_table_troves = {
 def mirror_upgrade_accessible(upgrade_name: str, routine_inspection: int) -> bool:
     return routine_inspection < (5 - mirror_ri_requirements[upgrade_name])
 
-location_table_mirror = {}
-def build_mirror_locations(start_id: int) -> dict:
+location_table_mirror_1 = {}
+location_table_mirror_2 = {}
+location_table_mirror_3 = {}
+location_table_mirror_4 = {}
+def build_mirror_locations(ri_tier: int, start_id: int) -> dict:
     locations = {}
     current_id = start_id
     
     for upgrade in mirror_upgrades:
-        for level in range(1, upgrade.max_level + 1):
-            locations[
-                f"Mirror {upgrade.name} - Level {level}"
-            ] = current_id
+        if mirror_ri_requirements.get(upgrade.name, 0) == 5 - ri_tier:
+            for level in range(1, upgrade.max_level + 1):
+                locations[
+                    f"Mirror {upgrade.name} - Level {level}"
+                ] = current_id
 
-            current_id += 1
+                current_id += 1
 
     return locations
 
-location_table_mirror = build_mirror_locations(max_number_room_checks + 134)
+location_table_mirror_1 = build_mirror_locations(1, max_number_room_checks + 134)
+location_table_mirror_2 = build_mirror_locations(2, max_number_room_checks + 134 + len(location_table_mirror_1))
+location_table_mirror_3 = build_mirror_locations(3, max_number_room_checks + 134 + len(location_table_mirror_1) + len(location_table_mirror_2))
+location_table_mirror_4 = build_mirror_locations(4, max_number_room_checks + 134 + len(location_table_mirror_1) + len(location_table_mirror_2) + len(location_table_mirror_3))
 # ----------------------
 
 location_weapons_subfixes = [
@@ -292,7 +299,10 @@ def give_all_locations_table() -> dict:
         **location_store_diamonds,
         **location_table_fates,
         **location_table_fates_events,
-        **location_table_mirror,
+        **location_table_mirror_1,
+        **location_table_mirror_2,
+        **location_table_mirror_3,
+        **location_table_mirror_4,
         **location_table_fish,
         **location_table_surface_fish,
         **location_table_troves,
@@ -360,19 +370,28 @@ def setup_location_table_with_settings(options) -> None:
 
     if options.mirrorsanity.value == 1:
         routine_inspection = 0
+        # If on minimal heat, we'll just skip filling whichever mirror locations are permanently inaccessible.
         if options.heat_system.value == 2:
             routine_inspection = options.routine_inspection_pact_amount.value
-
-        for location_name, location_id in location_table_mirror.items():
-            mirror_name = location_name[len("Mirror "):].split(" - Level ")[0]
-
-            if mirror_upgrade_accessible(mirror_name, routine_inspection):
-                total_table[location_name] = location_id
+        if routine_inspection < 1:
+            total_table.update(location_table_mirror_4)
+        if routine_inspection < 2:
+            total_table.update(location_table_mirror_3)
+        if routine_inspection < 3:
+            total_table.update(location_table_mirror_2)
+        if routine_inspection < 4:
+            total_table.update(location_table_mirror_1)
 
     if options.fishsanity.value >= 1:
-        total_table.update(location_table_fish)
+        if options.legendaryfish.value == 1:
+            total_table.update(location_table_fish)
+        else:
+            total_table.update({location: value for location, value in location_table_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"})
     if options.fishsanity.value == 2:
-        total_table.update(location_table_surface_fish)
+        if options.legendaryfish.value == 1:
+            total_table.update(location_table_surface_fish)
+        else:
+            total_table.update({location: value for location, value in location_table_surface_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"})
 
     if options.trovesanity.value == 1:
         total_table.update(location_table_troves)
@@ -539,7 +558,7 @@ group_keepsakes = {"keepsakes": location_keepsakes.keys()}
 group_weapons = {"weapons": location_weapons.keys()}
 group_contractor_gemstones = {"contractor_gems": location_store_gemstones.keys()}
 group_contractor_diamonds = {"contractor_diamonds": location_store_diamonds.keys()}
-group_mirror = {"mirror": location_table_mirror.keys()}
+group_mirror = {"mirror": {name for table in [location_table_mirror_1, location_table_mirror_2, location_table_mirror_3, location_table_mirror_4] for name in table.keys()}}
 group_fish = {"fish": location_table_fish.keys()}
 group_surface_fish = {"surface fish": location_table_surface_fish.keys()}
 group_troves = {"troves": location_table_troves.keys()}

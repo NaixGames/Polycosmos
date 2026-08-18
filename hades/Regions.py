@@ -68,8 +68,10 @@ def create_regions(ctx, location_database : dict) -> None:
     from .Locations import location_table_tartarus, location_table_asphodel, location_table_elysium, \
         location_table_styx, location_table_styx_late, location_keepsakes, location_weapons, \
         should_ignore_weapon_location, location_store_gemstones, location_store_diamonds, \
-        location_table_fates, location_table_fates_events, location_table_mirror, location_weapons_subfixes, \
+        location_table_fates, location_table_fates_events, location_table_mirror_1, location_table_mirror_2, \
+        location_table_mirror_3, location_table_mirror_4, location_weapons_subfixes, \
         location_table_fish, location_table_surface_fish, location_table_troves
+    from .Data import fish_rarities
 
     # create correct underworld exit
     underworldExits = []
@@ -149,15 +151,34 @@ def create_regions(ctx, location_database : dict) -> None:
     ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Fated List", 
                                              [location for location in fates_location], ["Exit Fated List"])] 
     
+    # Ensure mirror table is appropriate for settings before we set locations
+    routine_inspection = 0
+    all_mirror_locations = dict()
+    if ctx.options.heat_system == 2:
+        routine_inspection = ctx.options.routine_inspection_pact_amount
+    if routine_inspection < 1:
+        all_mirror_locations.update(location_table_mirror_4)
+    if routine_inspection < 2:
+        all_mirror_locations.update(location_table_mirror_3)
+    if routine_inspection < 3:
+        all_mirror_locations.update(location_table_mirror_2)
+    if routine_inspection < 4:
+        all_mirror_locations.update(location_table_mirror_1)
     if ctx.options.mirrorsanity:
-        mirror_locations = [location for location in location_table_mirror if location in location_database]
+        mirror_locations = [location for location in all_mirror_locations]
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Mirror Locations",
                                              mirror_locations,
                                              ["Exit Mirror"])]
     # Ensure fishing table is appropriate for settings before we set locations
-    all_fish_locations = dict(location_table_fish)
+    if ctx.options.legendaryfish.value == 1:
+        all_fish_locations = dict(location_table_fish)
+    else:
+        all_fish_locations = {location: value for location, value in location_table_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"}
     if ctx.options.fishsanity.value == 2:
-        all_fish_locations.update(location_table_surface_fish)
+        if ctx.options.legendaryfish.value == 1:
+            all_fish_locations.update(location_table_surface_fish)
+        else:
+            all_fish_locations.update({location: value for location, value in location_table_surface_fish.items() if fish_rarities[location.removeprefix("Catch ")] != "Legendary"})
     if ctx.options.fishsanity.value > 0:
         ctx.multiworld.regions += [create_region(ctx.multiworld, ctx.player, location_database, "Fishing Locations",
                                              [location for location in all_fish_locations],

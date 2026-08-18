@@ -39,7 +39,7 @@ ModUtil.Path.Wrap("EndChallengeEncounter", function(baseFunc, challengeEncounter
 
     --Track how many troves have been opened in each region so we can send checks (easy to expand here for multiple troves in a region or more thresholds for total)
     local troveRegion = CurrentRun.CurrentRoom.ChallengeEncounterName
-    local trovesChecked = PolycosmosInfernalTroveManager.TrovesChecked[troveRegion]
+    local trovesChecked = GameState.TrovesCompleted[troveRegion]
     local troveLocationName = troveRegion:gsub("TimeChallenge", "First Infernal Trove: ")
     local totalCount = 0
 
@@ -47,9 +47,9 @@ ModUtil.Path.Wrap("EndChallengeEncounter", function(baseFunc, challengeEncounter
         PolycosmosEvents.ProcessLocationCheck(troveLocationName, true)
     end
     trovesChecked = trovesChecked or 0
-    PolycosmosInfernalTroveManager.TrovesChecked[troveRegion] = trovesChecked + 1
+    GameState.TrovesCompleted[troveRegion] = trovesChecked + 1
 
-    for _, count in pairs(PolycosmosInfernalTroveManager.TrovesChecked) do
+    for _, count in pairs(GameState.TrovesCompleted) do
         totalCount = totalCount + count
     end
     if totalCount == 5 then
@@ -57,6 +57,9 @@ ModUtil.Path.Wrap("EndChallengeEncounter", function(baseFunc, challengeEncounter
     elseif totalCount == 10 then
         PolycosmosEvents.ProcessLocationCheck("10 Infernal Troves", true)
     end
+
+    -- report completed troves through styxscribe so tracker can access them
+    StyxScribe.Send(styx_scribe_send_prefix.."Troves Completed-"..totalCount)
     return baseFunc(challengeEncounter)
 
 end)

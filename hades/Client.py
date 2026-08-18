@@ -89,6 +89,7 @@ class HadesContext(CommonContext):
         
         subsume.AddHook(self.on_run_status_notification, styx_scribe_recieve_prefix + "On Run", "HadesClient")
         subsume.AddHook(self.on_house_of_hades_notification, styx_scribe_recieve_prefix + "On House", "HadesClient")
+        subsume.AddHook(self.trove_completed_notification,  styx_scribe_recieve_prefix + "Troves Completed-", "HadesClient")
 
     async def server_auth(self, password_requested: bool = False) -> None:
         # This is called to autentificate with the server.
@@ -129,8 +130,8 @@ class HadesContext(CommonContext):
             # What should be done in a connection package
             self.hades_slot_data = args["slot_data"]
             if not (self.hades_slot_data["version_check"] == self.polycosmos_version):
-                stringError = "WORLD GENERATED WITH POLYCOSMOS " + self.hades_slot_data["version_check"] \
-                            + " AND CLIENT USING POLYCOSMOS " + self.polycosmos_version + "\n"
+                stringError = "WORLD GENERATED WITH APWORLD v" + self.hades_slot_data["version_check"] \
+                            + " AND THIS CLIENT IS USING VERSION " + self.polycosmos_version + "\n"
                 stringError += "THESE ARE NOT COMPATIBLE"
                 raise Exception(stringError)
             
@@ -230,6 +231,7 @@ class HadesContext(CommonContext):
         hades_settings_string += str(self.hades_slot_data["hidden_aspectsanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["mirrorsanity"]) + "-"
         hades_settings_string += str(self.hades_slot_data["fishsanity"]) + "-"
+        hades_settings_string += str(self.hades_slot_data["legendaryfish"]) + "-"
         hades_settings_string += str(self.hades_slot_data["trovesanity"]) + "-"
         hades_settings_string += str(self.polycosmos_version) + "-"
         hades_settings_string += str(self.hades_slot_data["automatic_rooms_finish_on_hades_defeat"]) + "-"
@@ -380,6 +382,15 @@ class HadesContext(CommonContext):
         message = [{"cmd": "Bounce", 
                     "slots": [self.slot],
                     "data": {"Current Room": "OnHouseOfHades"}}]
+
+        if self.server and self.server.socket:
+            await self.send_msgs(message)
+
+    async def trove_completed_notification(self, total_count : str):
+        message = [{"cmd": "Set",
+                    "key": "TrovesCompleted",
+                    "default": 0,
+                    "operations": {"operation": "replace", "value": int(total_count)}}]
 
         if self.server and self.server.socket:
             await self.send_msgs(message)

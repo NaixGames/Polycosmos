@@ -539,6 +539,7 @@ function PolycosmosEvents.SaveClientData( message )
 
     print("Parsed array to string. Length is "..#array_settings) --This should be 44
 
+    GameState.TrovesCompleted = {}
     GameState.HeatSettings = {}
     GameState.ClientGameSettings = {}
     GameState.ClientFillerValues = {}
@@ -586,14 +587,15 @@ function PolycosmosEvents.SaveClientData( message )
     GameState.ClientGameSettings["HiddenAspectSanity"] = tonumber(array_settings[35])
     GameState.ClientGameSettings["MirrorSanity"] = tonumber(array_settings[36])
     GameState.ClientGameSettings["FishSanity"] = tonumber(array_settings[37])
-    GameState.ClientGameSettings["TroveSanity"] = tostring(array_settings[38])
-    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[39])
-    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[40])
+    GameState.ClientGameSettings["LegendaryFish"] = tonumber(array_settings[38])
+    GameState.ClientGameSettings["TroveSanity"] = tostring(array_settings[39])
+    GameState.ClientGameSettings["PolycosmosVersion"] = tostring(array_settings[40])
+    GameState.ClientGameSettings["AutomaticRoomsFinishOnHadesDefeat"] = tonumber(array_settings[41])
 
-    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[41])
-    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[42])
-    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[43])
-    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[44])
+    GameState.ClientGameSettings["HadesDefeatsNeeded"] = tonumber(array_settings[42])
+    GameState.ClientGameSettings["WeaponsClearsNeeded"] = tonumber(array_settings[43])
+    GameState.ClientGameSettings["KeepsakesNeeded"] = tonumber(array_settings[44])
+    GameState.ClientGameSettings["FatesNeeded"] = tonumber(array_settings[45])
 
 
     GameState.ClientDataIsLoaded = true
@@ -642,6 +644,10 @@ function PolycosmosEvents.SetUpGameWithData()
 
     if (GameState.HadesVictory ~= nil and GameState.HadesVictory ~= "") then
         StyxScribe.Send(styx_scribe_send_prefix.."Hades defeated"..GameState.HadesVictory)
+    end
+
+    if (GameState.TrovesCompleted ~= nil and GameState.TrovesCompleted ~= {}) then
+        StyxScribe.Send(styx_scribe_send_prefix.."Troves Completed-"..GameState.TrovesCompleted)
     end
 
     if (GameState.MetaUpgrades["BiomeSpeedShrineUpgrade"] == 0 and CurrentRun ~= nil) then

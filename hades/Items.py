@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple, Optional
 
 from BaseClasses import Item, ItemClassification
-from .Data import mirror_upgrades
+from .Data import mirror_upgrade_items, mirror_ri_requirements
 
 
 class ItemData(NamedTuple):
@@ -231,13 +231,21 @@ item_table_abilities: Dict[str, tuple[ItemData, str]] = {
     "Special": (ItemData(hades_base_item_id + 101, True), "generic_special"),
 }
 
-item_table_mirror: Dict[str, ItemData] = {}
+item_table_mirror_1: Dict[str, ItemData] = {}
+item_table_mirror_2: Dict[str, ItemData] = {}
+item_table_mirror_3: Dict[str, ItemData] = {}
+item_table_mirror_4: Dict[str, ItemData] = {}
 next_id = hades_base_item_id + 102
 
-TOTAL_MIRROR_ITEMS = 159
-
-for upgrade in mirror_upgrades:
-    item_table_mirror[f"{upgrade.name} Level"] = ItemData(next_id, True)
+for upgrade in mirror_upgrade_items:
+    if mirror_ri_requirements.get(upgrade.name, 0) == 4:
+        item_table_mirror_1[f"{upgrade.name} Level"] = ItemData(next_id, True)
+    elif mirror_ri_requirements.get(upgrade.name, 0) == 3:
+        item_table_mirror_2[f"{upgrade.name} Level"] = ItemData(next_id, True)
+    elif mirror_ri_requirements.get(upgrade.name, 0) == 2:
+        item_table_mirror_3[f"{upgrade.name} Level"] = ItemData(next_id, True)
+    elif mirror_ri_requirements.get(upgrade.name, 0) == 1:
+        item_table_mirror_4[f"{upgrade.name} Level"] = ItemData(next_id, True)
     next_id += 1
 
 def create_trap_pool():
@@ -416,7 +424,10 @@ item_table = {
     **item_table_hidden_aspects,
     **item_table_traps,
     **item_table_helpers,
-    **item_table_mirror,
+    **item_table_mirror_1,
+    **item_table_mirror_2,
+    **item_table_mirror_3,
+    **item_table_mirror_4,
     **{name: data for name, (data, category) in item_table_abilities.items()}
 }
 
@@ -427,7 +438,7 @@ group_weapons = {"weapons": item_table_weapons.keys()}
 group_aspects = {"aspects": item_table_hidden_aspects.keys()}
 group_keepsakes = {"keepsakes": item_table_keepsake.keys()}
 group_abilities = {"abilities": item_table_abilities.keys()}
-group_mirror = {"mirror": item_table_mirror.keys()}
+group_mirror = {"mirror": {name for table in [item_table_mirror_1, item_table_mirror_2, item_table_mirror_3, item_table_mirror_4] for name in table.keys()}}
 
 item_name_groups = {
     **group_pacts,
