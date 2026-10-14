@@ -16,9 +16,9 @@ from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import icon_paths, Component, components, Type, launch_subprocess
 from Utils import local_path
 
-def launch_client():
+def launch_client(*args):
     from .Client import launch
-    launch_subprocess(launch, "HadesClient")
+    launch_subprocess(launch, "HadesClient", args=args)
 
 
 icon_paths['hades_icon'] = f"ap:{__name__}/icons/hades_icon.png"
