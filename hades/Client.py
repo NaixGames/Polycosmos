@@ -165,11 +165,8 @@ class HadesContext(CommonContext):
                 self.create_location_to_item_dictionary(args["locations"])
                 return
             super().on_package(cmd, args)
-        
-        if cmd == "Bounced":
-            if "tags" in args:
-                if "DeathLink" in args["tags"]:
-                    self.on_deathlink(args["data"])
+        # Bounced DeathLinks are dispatched to on_deathlink by CommonClient, which also drops the
+        # copy of our own DeathLink that the server bounces back to us.
 
     def send_items(self) -> None:
         payload_message = ",".join(self.item_names.lookup_in_game(item.item) for item in self.items_received)

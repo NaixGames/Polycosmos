@@ -371,10 +371,10 @@ StyxScribe.AddHook( PolycosmosEvents.KillPlayer, styx_scribe_recieve_prefix.."De
 
 ------------ On death, send deathlink to players
 
-local deathlink_flag = false
-
-function PolycosmosEvents.SetDeathlinkFlag(val)
-    deathlink_flag = val
+--Marks live on the run, which StartNewRun replaces, so they never need clearing and a
+--leftover mark can never swallow a death in a later run.
+function PolycosmosEvents.MarkDeathlinkDeath()
+    CurrentRun.PolycosmosDeathlinkDeath = true
 end
 
 function PolycosmosEvents.SendDeathlink()
@@ -386,12 +386,16 @@ function PolycosmosEvents.SendDeathlink()
 end
 
 
+--PolycosmosQoL Context.Wraps HandleDeath, which makes ModUtil run this wrap twice per death,
+--the second call nested inside the first's baseFunc. So decide once per run (a run ends in
+--exactly one death) and never reset state before baseFunc, or the nested call sends again.
 ModUtil.Path.Wrap("HandleDeath", function( baseFunc, currentRun, killer, killingUnitWeapon )
-
-    if not deathlink_flag and not PolycosmosQoL.UsedQuickRestart then
-        PolycosmosEvents.SendDeathlink()
+    if not currentRun.PolycosmosDeathHandled then
+        currentRun.PolycosmosDeathHandled = true
+        if not currentRun.PolycosmosDeathlinkDeath and not PolycosmosQoL.UsedQuickRestart then
+            PolycosmosEvents.SendDeathlink()
+        end
     end
-    deathlink_flag = false
 	return baseFunc(currentRun, killer, killingUnitWeapon)
 end)
 

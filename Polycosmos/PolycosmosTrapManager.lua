@@ -30,10 +30,8 @@ function PolycosmosTrapManager.GiveTrapItem(item)
         if PolycosmosTrapManager.ShouldAvoidTriggerTraps() then
             GameState.TrapLedger["DeathPunishment"] = 1
         else
-            PolycosmosEvents.SetDeathlinkFlag(true)
             GameState.TrapLedger["DeathPunishment"] = 0
             PolycosmosTrapManager.ProcessDeathTrap()
-            PolycosmosEvents.SetDeathlinkFlag(false)
         end
         --Only allowing one deathtrap to avoid traps accumulating in short time. Also, annoying if they are too many.
 
@@ -46,12 +44,17 @@ function PolycosmosTrapManager.FlushTrapItems()
 end
 
 function PolycosmosTrapManager.ProcessDeathTrap()
+    --Zag is already dead or dying: that death decides on its own whether it sends a deathlink.
+    if CurrentRun.Hero ~= nil and CurrentRun.Hero.IsDead then
+        return true
+    end
     PolycosmosMessages.PrintToPlayer("Deathlink received!")
     if HasLastStand(CurrentRun.Hero) then
         CurrentRun.Hero.Health = 0
         CheckLastStand(CurrentRun.Hero, { })
         return false
     else
+        PolycosmosEvents.MarkDeathlinkDeath()
         Kill(CurrentRun.Hero, { }, { })
         return true
     end
@@ -102,10 +105,8 @@ function PolycosmosTrapManager.ProcessTrapItems()
     end
 
     if (GameState.TrapLedger["DeathPunishment"] > 0) then
-        PolycosmosEvents.SetDeathlinkFlag(true)
         GameState.TrapLedger["DeathPunishment"] = 0
         killedPlayer = PolycosmosTrapManager.ProcessDeathTrap()
-        PolycosmosEvents.SetDeathlinkFlag(false)
         if (killedPlayer) then
             return
         end
